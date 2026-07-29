@@ -1,0 +1,270 @@
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { CheckCircle2, RotateCcw, ShieldCheck, XCircle } from 'lucide-react'
+import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { AppShell } from '../components/AppShell'
+import { ProtectedGate } from '../components/ProtectedGate'
+import { getSupabaseBrowserClient } from '../lib/supabase'
+import type { SessionUser } from '../lib/types'
+
+export const Route = createFileRoute(
+  '/evaluacion/$enrollmentId/$quizId',
+)({
+  component: EvaluationPage,
+})
+
+type AttemptQuestion = {
+  id: string
+  prompt: string
+  type: 'single_choice' | 'multiple_choice'
+  options: Array<{ id: string; text: string }>
+}
+
+type Attempt = {
+  attemptId: string
+  attemptNumber: number
+  title: string
+  currentStreak: number
+  requiredStreak: number
+  questions: AttemptQuestion[]
+}
+
+type AttemptResult = {
+  scorePercent: number
+  isPerfect: boolean
+  perfectStreak: number
+  requiredStreak: number
+  evaluationCompleted: boolean
+}
+
+function EvaluationPage() {
+  const { enrollmentId, quizId } = Route.useParams()
+  return (
+    <ProtectedGate>
+      {(user) => (
+        <Evaluation
+          user={user}
+          enrollmentId={enrollmentId}
+          quizId={quizId}
+        />
+      )}
+    </ProtectedGate>
+  )
+}
+
+function Evaluation({
+  user,
+  enrollmentId,
+  quizId,
+}: {
+  user: SessionUser
+  enrollmentId: string
+  quizId: string
+}) {
+  const [attempt, setAttempt] = useState<Attempt | null>(null)
+  const [answers, setAnswers] = useState<Record<string, string[]>>({})
+  const [result, setResult] = useState<AttemptResult | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+
+  const loadAttempt = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    setResult(null)
+    setAnswers({})
+    const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
+
+    const { data, error: startError } = await supabase.rpc(
+      'start_quiz_attempt',
+      {
+        p_quiz_id: quizId,
+        p_enrollment_id: enrollmentId,
+      },
+    )
+    if (startError || !data) {
+      setError(
+        'La evaluación no está disponible o todavía debes completar la lección.',
+      )
+    } else {
+      setAttempt(data as Attempt)
+    }
+    setLoading(false)
+  }, [enrollmentId, quizId])
+
+  useEffect(() => {
+    void loadAttempt()
+  }, [loadAttempt])
+
+  function updateAnswer(
+    question: AttemptQuestion,
+    optionId: string,
+    checked: boolean,
+  ) {
+    setAnswers((current) => {
+      if (question.type === 'single_choice') {
+        return { ...current, [question.id]: [optionId] }
+      }
+      const existing = current[question.id] ?? []
+      return {
+        ...current,
+        [question.id]: checked
+          ? [...new Set([...existing, optionId])]
+          : existing.filter((id) => id !== optionId),
+      }
+    })
+  }
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!attempt) return
+    const unanswered = attempt.questions.some(
+      (question) => !(answers[question.id]?.length),
+    )
+    if (unanswered) {
+      setError('Responde todas las preguntas antes de enviar el intento.')
+      return
+    }
+
+    setSubmitting(true)
+    setError('')
+    const { data, error: submitError } =
+      (await getSupabaseBrowserClient()?.rpc('submit_quiz_attempt', {
+        p_attempt_id: attempt.attemptId,
+        p_answers: attempt.questions.map((question) => ({
+          question_id: question.id,
+          selected_option_ids: answers[question.id] ?? [],
+        })),
+      })) ?? {}
+    setSubmitting(false)
+
+    if (submitError || !data) {
+      setError('No se ha podido corregir el intento. Inténtalo de nuevo.')
+      return
+    }
+    setResult(data as AttemptResult)
+  }
+
+  return (
+    <AppShell user={user} title="Evaluación">
+      <div className="dashboard-heading">
+        <div>
+          <span className="eyebrow">Evaluación</span>
+          <h1>{attempt?.title || 'Comprueba tus conocimientos'}</h1>
+          <p>
+            Necesitas una puntuación perfecta tres veces consecutivas, salvo que
+            el curso indique otra configuración.
+          </p>
+        </div>
+        <Link
+          className="button button--outline"
+          to="/campus/$enrollmentId"
+          params={{ enrollmentId }}
+        >
+          Volver al curso
+        </Link>
+      </div>
+
+      {error ? <div className="alert alert--error">{error}</div> : null}
+      {loading ? (
+        <section className="panel" style={{ marginTop: 18 }}>
+          <p className="muted">Preparando preguntas…</p>
+        </section>
+      ) : result ? (
+        <section className="panel" style={{ maxWidth: 760, marginTop: 18 }}>
+          <div
+            className={result.isPerfect ? 'alert alert--success' : 'alert alert--error'}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {result.isPerfect ? <CheckCircle2 /> : <XCircle />}
+              <strong>
+                {result.isPerfect
+                  ? 'Intento perfecto'
+                  : 'La racha vuelve a cero'}
+              </strong>
+            </div>
+          </div>
+          <div className="stats-grid" style={{ marginTop: 24 }}>
+            <article className="stat-card">
+              <span className="stat-card__label">Resultado</span>
+              <span className="stat-card__value">{result.scorePercent}%</span>
+            </article>
+            <article className="stat-card">
+              <span className="stat-card__label">Racha</span>
+              <span className="stat-card__value">
+                {result.perfectStreak}/{result.requiredStreak}
+              </span>
+            </article>
+          </div>
+          {result.evaluationCompleted ? (
+            <Link
+              className="button button--primary"
+              to="/campus/$enrollmentId"
+              params={{ enrollmentId }}
+            >
+              <ShieldCheck size={18} /> Continuar formación
+            </Link>
+          ) : (
+            <button
+              className="button button--primary"
+              onClick={() => void loadAttempt()}
+              type="button"
+            >
+              <RotateCcw size={18} /> Realizar otro intento
+            </button>
+          )}
+        </section>
+      ) : attempt ? (
+        <form className="form-grid" style={{ marginTop: 18 }} onSubmit={submit}>
+          <div className="alert alert--info">
+            Intento {attempt.attemptNumber} · Racha actual:{' '}
+            {attempt.currentStreak}/{attempt.requiredStreak}
+          </div>
+          {attempt.questions.map((question, index) => (
+            <fieldset className="panel" key={question.id}>
+              <legend style={{ paddingInline: 8, fontWeight: 700 }}>
+                {index + 1}. {question.prompt}
+              </legend>
+              <div className="form-grid" style={{ marginTop: 16 }}>
+                {question.options.map((option) => {
+                  const selected = answers[question.id]?.includes(option.id)
+                  return (
+                    <label
+                      className="checkbox"
+                      key={option.id}
+                      style={{
+                        border: '1px solid var(--line)',
+                        borderRadius: 9,
+                        padding: 14,
+                        background: selected ? 'var(--orange-soft)' : 'white',
+                      }}
+                    >
+                      <input
+                        type={
+                          question.type === 'single_choice' ? 'radio' : 'checkbox'
+                        }
+                        name={`question-${question.id}`}
+                        checked={Boolean(selected)}
+                        onChange={(event) =>
+                          updateAnswer(question, option.id, event.target.checked)
+                        }
+                      />
+                      <span>{option.text}</span>
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+          ))}
+          <button
+            className="button button--primary"
+            disabled={submitting}
+            type="submit"
+          >
+            {submitting ? 'Corrigiendo…' : 'Enviar respuestas'}
+          </button>
+        </form>
+      ) : null}
+    </AppShell>
+  )
+}
