@@ -17,12 +17,12 @@ export const Route = createRootRoute({
       },
       {
         title:
-          'InmínerCampus | Formación técnica y preventiva con trazabilidad',
+          'InmínerCampus | Formación Preventiva Oficial en seguridad minera',
       },
       {
         name: 'description',
         content:
-          'Plataforma de formación de Inmíner Ingeniería, S.L. para profesionales, trabajadores y empresas.',
+          'Formación Preventiva Oficial de Inmíner Ingeniería, S.L.: ITC 02.1.02 para puestos mineros e ITC 02.0.02 frente al polvo y la sílice.',
       },
       { name: 'theme-color', content: '#E97824' },
     ],

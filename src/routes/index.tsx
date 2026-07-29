@@ -19,13 +19,14 @@ function HomePage() {
       <section className="hero">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">Formación técnica especializada</span>
+            <span className="eyebrow">Formación Preventiva Oficial en seguridad minera</span>
             <h1>
               Conocimiento que se convierte en <span>seguridad.</span>
             </h1>
             <p className="hero__copy">
-              Formación preventiva y técnica para profesionales y empresas, con
-              contenidos estructurados, evaluación rigurosa y trazabilidad real.
+              Formación por puesto de trabajo conforme a la ITC 02.1.02 y
+              formación específica frente al polvo y la sílice conforme a la
+              ITC 02.0.02, con evaluación, trazabilidad y práctica cuando proceda.
             </p>
             <div className="hero__actions">
               <Link className="button button--primary" to="/catalogo">
@@ -38,11 +39,11 @@ function HomePage() {
           </div>
           <div className="hero__panel" aria-label="Ejemplo de curso">
             <article className="hero-course">
-              <span className="hero-course__tag">Programa técnico</span>
-              <h2>Formación preventiva para entornos mineros e industriales</h2>
+              <span className="hero-course__tag">ITC y programa identificados</span>
+              <h2>Formación oficial, sin expresiones ambiguas</h2>
               <p>
-                Teoría online trazable, evaluación y prácticas presenciales
-                cuando el programa lo requiera.
+                No ofrecemos un “carné online”: cada ficha diferencia formación
+                inicial, reciclaje, teoría y requisitos presenciales.
               </p>
               <div className="hero-course__meta">
                 <span>5 o 20 horas</span>

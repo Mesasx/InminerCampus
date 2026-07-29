@@ -125,6 +125,86 @@ h3 {
   color: var(--muted);
 }
 
+.instructor {
+  display: grid;
+  grid-template-columns: minmax(240px, 380px) 1fr;
+  gap: 56px;
+  align-items: center;
+  margin-top: 56px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.instructor__portrait {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.instructor__portrait img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.instructor__role {
+  color: var(--orange-strong);
+  font-weight: 700;
+}
+
+.credential-list {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.credential-list span,
+.official-intro,
+.legal-panel p {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.credential-list svg,
+.legal-panel svg {
+  flex: 0 0 auto;
+  color: var(--orange);
+}
+
+.official-intro {
+  margin-bottom: 32px;
+  padding: 26px;
+  border-left: 4px solid var(--orange);
+  background: var(--orange-soft);
+}
+
+.official-intro svg {
+  flex: 0 0 auto;
+  color: var(--orange-strong);
+}
+
+.legal-panel {
+  margin-top: 32px;
+}
+
+.legal-note {
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 760px) {
+  .instructor {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 34px;
+    padding: 20px;
+  }
+}
+
 .public-header {
   position: sticky;
   z-index: 50;

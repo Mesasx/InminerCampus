@@ -20,6 +20,7 @@ import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as DudasRouteImport } from './routes/dudas'
 import { Route as EmpresaRouteImport } from './routes/empresa'
 import { Route as EmpresasRouteImport } from './routes/empresas'
+import { Route as FormacionPreventivaOficialRouteImport } from './routes/formacion-preventiva-oficial'
 import { Route as MisCursosRouteImport } from './routes/mis-cursos'
 import { Route as NuevaContrasenaRouteImport } from './routes/nueva-contrasena'
 import { Route as PerfilRouteImport } from './routes/perfil'
@@ -100,6 +101,12 @@ const EmpresasRoute = EmpresasRouteImport.update({
   path: '/empresas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FormacionPreventivaOficialRoute =
+  FormacionPreventivaOficialRouteImport.update({
+    id: '/formacion-preventiva-oficial',
+    path: '/formacion-preventiva-oficial',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const MisCursosRoute = MisCursosRouteImport.update({
   id: '/mis-cursos',
   path: '/mis-cursos',
@@ -236,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/dudas': typeof DudasRouteWithChildren
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
+  '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -273,6 +281,7 @@ export interface FileRoutesByTo {
   '/dudas': typeof DudasRouteWithChildren
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
+  '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -311,6 +320,7 @@ export interface FileRoutesById {
   '/dudas': typeof DudasRouteWithChildren
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
+  '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/empresas'
+    | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -387,6 +398,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/empresas'
+    | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -424,6 +436,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/empresas'
+    | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -462,6 +475,7 @@ export interface RootRouteChildren {
   DudasRoute: typeof DudasRouteWithChildren
   EmpresaRoute: typeof EmpresaRouteWithChildren
   EmpresasRoute: typeof EmpresasRoute
+  FormacionPreventivaOficialRoute: typeof FormacionPreventivaOficialRoute
   MisCursosRoute: typeof MisCursosRoute
   NuevaContrasenaRoute: typeof NuevaContrasenaRoute
   PerfilRoute: typeof PerfilRoute
@@ -558,6 +572,13 @@ declare module '@tanstack/react-router' {
       path: '/empresas'
       fullPath: '/empresas'
       preLoaderRoute: typeof EmpresasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formacion-preventiva-oficial': {
+      id: '/formacion-preventiva-oficial'
+      path: '/formacion-preventiva-oficial'
+      fullPath: '/formacion-preventiva-oficial'
+      preLoaderRoute: typeof FormacionPreventivaOficialRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mis-cursos': {
@@ -802,6 +823,7 @@ const rootRouteChildren: RootRouteChildren = {
   DudasRoute: DudasRouteWithChildren,
   EmpresaRoute: EmpresaRouteWithChildren,
   EmpresasRoute: EmpresasRoute,
+  FormacionPreventivaOficialRoute: FormacionPreventivaOficialRoute,
   MisCursosRoute: MisCursosRoute,
   NuevaContrasenaRoute: NuevaContrasenaRoute,
   PerfilRoute: PerfilRoute,

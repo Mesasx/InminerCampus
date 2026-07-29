@@ -4,6 +4,7 @@ import { Logo } from './Logo'
 
 const navItems = [
   { to: '/catalogo' as const, label: 'Cursos' },
+  { to: '/formacion-preventiva-oficial' as const, label: 'Formación oficial' },
   { to: '/empresas' as const, label: 'Para empresas' },
   { to: '/como-funciona' as const, label: 'Cómo funciona' },
   { to: '/sobre-nosotros' as const, label: 'Sobre nosotros' },

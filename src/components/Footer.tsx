@@ -16,6 +16,7 @@ export function Footer() {
           <div className="footer__links">
             <strong>Plataforma</strong>
             <Link to="/catalogo">Catálogo</Link>
+            <Link to="/formacion-preventiva-oficial">Formación Preventiva Oficial</Link>
             <Link to="/empresas">Formación para empresas</Link>
             <Link to="/verificar-certificado">Verificar certificado</Link>
             <Link to="/contacto">Contacto</Link>

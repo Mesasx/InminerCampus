@@ -89,7 +89,7 @@ export const Route = createFileRoute('/api/checkout')({
         const { data: version, error: versionError } = await supabase
           .from('course_versions')
           .select(
-            'id, price_net, tax_rate, currency, status, courses!inner(title, slug, status)',
+            'id, price_net, tax_rate, currency, stripe_price_id, status, courses!inner(title, slug, status)',
           )
           .eq('id', body.courseVersionId)
           .eq('status', 'published')
@@ -174,17 +174,21 @@ export const Route = createFileRoute('/api/checkout')({
               line_items: [
                 {
                   quantity: body.quantity,
-                  price_data: {
-                    currency: currency.toLowerCase(),
-                    unit_amount: Math.round(unitNet * 100),
-                    tax_behavior: 'exclusive',
-                    product_data: {
-                      name: course.title,
-                      metadata: {
-                        course_version_id: version.id,
-                      },
-                    },
-                  },
+                  ...(version.stripe_price_id
+                    ? { price: version.stripe_price_id }
+                    : {
+                        price_data: {
+                          currency: currency.toLowerCase(),
+                          unit_amount: Math.round(unitNet * 100),
+                          tax_behavior: 'exclusive' as const,
+                          product_data: {
+                            name: course.title,
+                            metadata: {
+                              course_version_id: version.id,
+                            },
+                          },
+                        },
+                      }),
                 },
               ],
               automatic_tax: { enabled: true },

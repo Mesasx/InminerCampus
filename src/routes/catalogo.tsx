@@ -88,8 +88,8 @@ function CatalogPage() {
           <span className="eyebrow">Catálogo formativo</span>
           <h1>Formación técnica para avanzar con seguridad.</h1>
           <p>
-            Consulta los programas disponibles. La modalidad y las prácticas
-            obligatorias se indican de forma transparente en cada curso.
+            Consulta los programas disponibles. Cada ficha identifica la ITC,
+            la especificación técnica, la modalidad y las prácticas aplicables.
           </p>
         </div>
       </header>
