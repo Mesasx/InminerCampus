@@ -9,6 +9,8 @@ export type CourseModality = 'online' | 'in_person' | 'hybrid'
 
 export interface PublicCourse {
   id: string
+  versionId: string
+  versionNumber: number
   slug: string
   title: string
   short_description: string | null

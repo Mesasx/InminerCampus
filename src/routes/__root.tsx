@@ -26,7 +26,26 @@ export const Route = createRootRoute({
       },
       { name: 'theme-color', content: '#E97824' },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'stylesheet', href: appCss },
+      {
+        rel: 'icon',
+        type: 'image/jpeg',
+        sizes: '32x32',
+        href: 'https://inminer.es/wp-content/uploads/2023/05/cropped-LOGO-INMINER-32x32.jpg',
+      },
+      {
+        rel: 'icon',
+        type: 'image/jpeg',
+        sizes: '192x192',
+        href: 'https://inminer.es/wp-content/uploads/2023/05/cropped-LOGO-INMINER-192x192.jpg',
+      },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: 'https://inminer.es/wp-content/uploads/2023/05/cropped-LOGO-INMINER-180x180.jpg',
+      },
+    ],
   }),
   notFoundComponent: () => (
     <RootDocument>

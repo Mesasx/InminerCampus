@@ -194,7 +194,7 @@ export const Route = createFileRoute('/api/checkout')({
               automatic_tax: { enabled: true },
               invoice_creation: { enabled: true },
               success_url: `${appUrl}/pago/confirmado?session_id={CHECKOUT_SESSION_ID}`,
-              cancel_url: `${appUrl}/cursos/${course.slug}`,
+              cancel_url: `${appUrl}/cursos/${course.slug}?version=${encodeURIComponent(version.id)}`,
               metadata: {
                 purchase_id: purchase.id,
                 buyer_user_id: user.id,

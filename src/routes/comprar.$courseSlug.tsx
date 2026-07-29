@@ -8,6 +8,14 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
 export const Route = createFileRoute('/comprar/$courseSlug')({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { version?: string } => ({
+    version:
+      typeof search.version === 'string' && search.version.trim()
+        ? search.version
+        : undefined,
+  }),
   component: CheckoutPage,
 })
 
@@ -22,9 +30,16 @@ type CheckoutCourse = {
 
 function CheckoutPage() {
   const { courseSlug } = Route.useParams()
+  const { version } = Route.useSearch()
   return (
     <ProtectedGate>
-      {(user) => <Checkout user={user} courseSlug={courseSlug} />}
+      {(user) => (
+        <Checkout
+          user={user}
+          courseSlug={courseSlug}
+          versionId={version}
+        />
+      )}
     </ProtectedGate>
   )
 }
@@ -32,9 +47,11 @@ function CheckoutPage() {
 function Checkout({
   user,
   courseSlug,
+  versionId,
 }: {
   user: SessionUser
   courseSlug: string
+  versionId?: string
 }) {
   const [course, setCourse] = useState<CheckoutCourse | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,8 +60,11 @@ function Checkout({
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
-    if (!supabase) return
-    void supabase
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+    let query = supabase
       .from('course_versions')
       .select(
         'id, duration_hours, price_net, currency, tax_rate, courses!inner(title, slug)',
@@ -52,6 +72,10 @@ function Checkout({
       .eq('status', 'published')
       .eq('courses.slug', courseSlug)
       .eq('courses.status', 'published')
+    if (versionId) {
+      query = query.eq('id', versionId)
+    }
+    void query
       .order('version_number', { ascending: false })
       .limit(1)
       .maybeSingle()
@@ -76,7 +100,7 @@ function Checkout({
         }
         setLoading(false)
       })
-  }, [courseSlug])
+  }, [courseSlug, versionId])
 
   async function beginCheckout() {
     if (!course) return

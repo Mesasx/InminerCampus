@@ -8,6 +8,14 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
 export const Route = createFileRoute('/comprar-empresa/$courseSlug')({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { version?: string } => ({
+    version:
+      typeof search.version === 'string' && search.version.trim()
+        ? search.version
+        : undefined,
+  }),
   component: CompanyCheckoutPage,
 })
 
@@ -25,9 +33,16 @@ type Organization = {
 
 function CompanyCheckoutPage() {
   const { courseSlug } = Route.useParams()
+  const { version } = Route.useSearch()
   return (
     <ProtectedGate roles={['responsable_empresa', 'superadministrador']}>
-      {(user) => <CompanyCheckout user={user} courseSlug={courseSlug} />}
+      {(user) => (
+        <CompanyCheckout
+          user={user}
+          courseSlug={courseSlug}
+          versionId={version}
+        />
+      )}
     </ProtectedGate>
   )
 }
@@ -35,9 +50,11 @@ function CompanyCheckoutPage() {
 function CompanyCheckout({
   user,
   courseSlug,
+  versionId,
 }: {
   user: SessionUser
   courseSlug: string
+  versionId?: string
 }) {
   const [course, setCourse] = useState<CompanyCourse | null>(null)
   const [organizations, setOrganizations] = useState<Organization[]>([])
@@ -49,15 +66,19 @@ function CompanyCheckout({
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
+    let versionQuery = supabase
+      .from('course_versions')
+      .select(
+        'id, price_net, currency, courses!inner(title, slug, status)',
+      )
+      .eq('status', 'published')
+      .eq('courses.slug', courseSlug)
+      .eq('courses.status', 'published')
+    if (versionId) {
+      versionQuery = versionQuery.eq('id', versionId)
+    }
     void Promise.all([
-      supabase
-        .from('course_versions')
-        .select(
-          'id, price_net, currency, courses!inner(title, slug, status)',
-        )
-        .eq('status', 'published')
-        .eq('courses.slug', courseSlug)
-        .eq('courses.status', 'published')
+      versionQuery
         .order('version_number', { ascending: false })
         .limit(1)
         .maybeSingle(),
@@ -89,7 +110,7 @@ function CompanyCheckout({
       setOrganizations(orgs)
       setOrganizationId(orgs[0]?.id ?? '')
     })
-  }, [courseSlug, user.id])
+  }, [courseSlug, user.id, versionId])
 
   const total = useMemo(
     () => (course ? course.price * quantity : 0),

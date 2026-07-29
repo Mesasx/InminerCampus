@@ -11,8 +11,31 @@ import { formatCurrency, modalityLabel } from '../lib/format'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export const Route = createFileRoute('/cursos/$courseSlug')({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { version?: string } => ({
+    version:
+      typeof search.version === 'string' && search.version.trim()
+        ? search.version
+        : undefined,
+  }),
   component: CourseDetailPage,
 })
+
+type CourseVersion = {
+  id: string
+  version_number: number
+  duration_hours: number
+  modality: string
+  objectives: string[]
+  target_audience: string[]
+  requirements: string[]
+  syllabus_summary: string
+  practice_required: boolean
+  price_net: number | null
+  tax_rate: number
+  currency: string
+}
 
 type CourseDetail = {
   id: string
@@ -21,23 +44,13 @@ type CourseDetail = {
   short_description: string
   description: string
   specialty: string
-  version: {
-    id: string
-    duration_hours: number
-    modality: string
-    objectives: string[]
-    target_audience: string[]
-    requirements: string[]
-    syllabus_summary: string
-    practice_required: boolean
-    price_net: number | null
-    tax_rate: number
-    currency: string
-  }
+  versions: CourseVersion[]
+  version: CourseVersion
 }
 
 function CourseDetailPage() {
   const { courseSlug } = Route.useParams()
+  const { version: requestedVersionId } = Route.useSearch()
   const [course, setCourse] = useState<CourseDetail | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -63,15 +76,27 @@ function CourseDetailPage() {
           referencedTable: 'course_versions',
           ascending: false,
         })
-        .limit(1, { referencedTable: 'course_versions' })
         .maybeSingle()
 
       if (!active) return
       if (data) {
-        const raw = data as unknown as Omit<CourseDetail, 'version'> & {
-          course_versions: CourseDetail['version'][]
+        const raw = data as unknown as Omit<
+          CourseDetail,
+          'version' | 'versions'
+        > & {
+          course_versions: CourseVersion[]
         }
-        setCourse({ ...raw, version: raw.course_versions[0] })
+        const selectedVersion =
+          raw.course_versions.find(
+            (version) => version.id === requestedVersionId,
+          ) ?? raw.course_versions[0]
+        if (selectedVersion) {
+          setCourse({
+            ...raw,
+            versions: raw.course_versions,
+            version: selectedVersion,
+          })
+        }
       }
       setLoading(false)
     }
@@ -80,7 +105,7 @@ function CourseDetailPage() {
     return () => {
       active = false
     }
-  }, [courseSlug])
+  }, [courseSlug, requestedVersionId])
 
   if (loading) {
     return (
@@ -127,13 +152,7 @@ function CourseDetailPage() {
       </header>
       <section className="section">
         <div
-          className="container"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0,1fr) 350px',
-            gap: 56,
-            alignItems: 'start',
-          }}
+          className="container course-detail-layout"
         >
           <article>
             <h2>Sobre esta formación</h2>
@@ -162,8 +181,34 @@ function CourseDetailPage() {
               </>
             ) : null}
           </article>
-          <aside className="panel" style={{ position: 'sticky', top: 110 }}>
+          <aside className="panel course-detail-aside">
             <div className="form-grid">
+              {course.versions.length > 1 ? (
+                <div className="offering-selector">
+                  <span className="offering-selector__label">
+                    Elige la duración
+                  </span>
+                  <div className="offering-selector__options">
+                    {course.versions.map((option) => (
+                      <Link
+                        aria-current={
+                          option.id === version.id ? 'true' : undefined
+                        }
+                        className="offering-option"
+                        key={option.id}
+                        params={{ courseSlug }}
+                        search={{ version: option.id }}
+                        to="/cursos/$courseSlug"
+                      >
+                        <span>{option.duration_hours} horas</span>
+                        <strong>
+                          {formatCurrency(option.price_net, option.currency)}
+                        </strong>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <span className="status status--orange">
                 {modalityLabel(version.modality)}
               </span>
@@ -196,6 +241,7 @@ function CourseDetailPage() {
                 className="button button--primary button--wide"
                 to="/comprar/$courseSlug"
                 params={{ courseSlug }}
+                search={{ version: version.id }}
               >
                 Matricularme
               </Link>
@@ -203,6 +249,7 @@ function CourseDetailPage() {
                 className="button button--outline button--wide"
                 to="/comprar-empresa/$courseSlug"
                 params={{ courseSlug }}
+                search={{ version: version.id }}
               >
                 Comprar para empresa
               </Link>

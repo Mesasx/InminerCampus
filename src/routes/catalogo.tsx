@@ -11,6 +11,8 @@ export const Route = createFileRoute('/catalogo')({
 })
 
 type VersionRow = {
+  id: string
+  version_number: number
   duration_hours: 5 | 20
   modality: CourseModality
   price_net: number | string | null
@@ -43,7 +45,7 @@ function CatalogPage() {
       const { data } = await supabase
         .from('course_versions')
         .select(
-          'duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path)',
+          'id, version_number, duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path)',
         )
         .eq('status', 'published')
         .eq('courses.status', 'published')
@@ -52,6 +54,8 @@ function CatalogPage() {
       if (!active) return
       const mapped = ((data ?? []) as unknown as VersionRow[]).map((row) => ({
         ...row.courses,
+        versionId: row.id,
+        versionNumber: row.version_number,
         duration_hours: row.duration_hours,
         modality: row.modality,
         price_net:
@@ -145,7 +149,7 @@ function CatalogPage() {
           ) : filtered.length ? (
             <div className="course-grid">
               {filtered.map((course) => (
-                <article className="course-card" key={course.id}>
+                <article className="course-card" key={course.versionId}>
                   <div className="course-card__visual">
                     <span className="course-card__hours">
                       {course.duration_hours} h
@@ -163,6 +167,7 @@ function CatalogPage() {
                         className="text-link"
                         to="/cursos/$courseSlug"
                         params={{ courseSlug: course.slug }}
+                        search={{ version: course.versionId }}
                       >
                         Ver curso →
                       </Link>
