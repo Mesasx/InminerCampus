@@ -129,8 +129,16 @@ function CourseContent({
       setModules(
         ((moduleRows ?? []) as unknown as Module[]).map((module) => ({
           ...module,
-          lessons: module.lessons.map((lesson) => ({
+          lessons: (module.lessons ?? []).map((lesson) => ({
             ...lesson,
+            lesson_audio_segments: (lesson.lesson_audio_segments ?? []).map(
+              (segment) => ({
+                ...segment,
+                lesson_segment_slides:
+                  segment.lesson_segment_slides ?? [],
+              }),
+            ),
+            quizzes: lesson.quizzes ?? [],
             progress: progressMap.get(lesson.id),
           })),
         })),
@@ -149,13 +157,15 @@ function CourseContent({
       modules.reduce(
         (totals, module) => {
           module.lessons.forEach((lesson) => {
-            totals.audioBlocks += lesson.lesson_audio_segments.length
-            totals.slides += lesson.lesson_audio_segments.reduce(
+            const segments = lesson.lesson_audio_segments ?? []
+            const quizzes = lesson.quizzes ?? []
+            totals.audioBlocks += segments.length
+            totals.slides += segments.reduce(
               (count, segment) =>
-                count + segment.lesson_segment_slides.length,
+                count + (segment.lesson_segment_slides ?? []).length,
               0,
             )
-            totals.tests += lesson.quizzes.filter((quiz) => quiz.active).length
+            totals.tests += quizzes.filter((quiz) => quiz.active).length
           })
           return totals
         },
@@ -169,7 +179,7 @@ function CourseContent({
       modules
         .flatMap((module) => module.lessons)
         .flatMap((lesson) =>
-          lesson.quizzes
+          (lesson.quizzes ?? [])
             .filter((quiz) => quiz.active)
             .map((quiz) => ({ lesson, quiz })),
         )[0],
@@ -266,9 +276,11 @@ function CourseContent({
                         : Circle
                   const LessonIcon =
                     lesson.kind === 'document' ? FileText : PlayCircle
-                  const slideCount = lesson.lesson_audio_segments.reduce(
+                  const segments = lesson.lesson_audio_segments ?? []
+                  const quizzes = lesson.quizzes ?? []
+                  const slideCount = segments.reduce(
                     (count, segment) =>
-                      count + segment.lesson_segment_slides.length,
+                      count + (segment.lesson_segment_slides ?? []).length,
                     0,
                   )
                   const statusLabel = isAdministrator
@@ -294,13 +306,13 @@ function CourseContent({
                             <span>{lesson.duration_minutes} min</span>
                             <span>
                               <Headphones size={14} />{' '}
-                              {lesson.lesson_audio_segments.length} audios
+                              {segments.length} audios
                             </span>
                             <span>
                               <Presentation size={14} /> {slideCount}{' '}
                               diapositivas
                             </span>
-                            {lesson.quizzes.length ? (
+                            {quizzes.length ? (
                               <span>
                                 <ShieldCheck size={14} /> Tipo test
                               </span>
@@ -324,9 +336,9 @@ function CourseContent({
                           </button>
                         )}
                       </div>
-                      {lesson.lesson_audio_segments.length ? (
+                      {segments.length ? (
                         <div className="course-lesson-card__outline">
-                          {[...lesson.lesson_audio_segments]
+                          {[...segments]
                             .sort((a, b) => a.position - b.position)
                             .map((segment) => (
                               <span key={segment.id}>
