@@ -19,6 +19,26 @@ export const Route = createFileRoute('/campus/$enrollmentId/')({
   component: CampusCoursePage,
 })
 
+type SegmentSlide = {
+  id: string
+}
+
+type LessonAudioSegment = {
+  id: string
+  position: number
+  title: string
+  published: boolean
+  lesson_segment_slides: SegmentSlide[]
+}
+
+type LessonQuiz = {
+  id: string
+  title: string
+  question_count: number
+  passing_percent: number
+  active: boolean
+}
+
 type Lesson = {
   id: string
   title: string
@@ -26,20 +46,8 @@ type Lesson = {
   position: number
   duration_minutes: number
   kind: string
-  lesson_audio_segments: Array<{
-    id: string
-    position: number
-    title: string
-    published: boolean
-    lesson_segment_slides: Array<{ id: string }>
-  }>
-  quizzes: Array<{
-    id: string
-    title: string
-    question_count: number
-    passing_percent: number
-    active: boolean
-  }>
+  lesson_audio_segments: LessonAudioSegment[]
+  quizzes: LessonQuiz[]
   progress?: {
     status: string
     max_video_position_seconds: number
@@ -52,6 +60,29 @@ type Module = {
   description: string
   position: number
   lessons: Lesson[]
+}
+
+type Relation<T> = T | T[] | null
+
+type LessonAudioSegmentRow = Omit<
+  LessonAudioSegment,
+  'lesson_segment_slides'
+> & {
+  lesson_segment_slides: Relation<SegmentSlide>
+}
+
+type LessonRow = Omit<Lesson, 'lesson_audio_segments' | 'quizzes'> & {
+  lesson_audio_segments: Relation<LessonAudioSegmentRow>
+  quizzes: Relation<LessonQuiz>
+}
+
+type ModuleRow = Omit<Module, 'lessons'> & {
+  lessons: Relation<LessonRow>
+}
+
+function relationArray<T>(value: Relation<T> | undefined): T[] {
+  if (Array.isArray(value)) return value
+  return value == null ? [] : [value]
 }
 
 function CampusCoursePage() {
@@ -127,18 +158,21 @@ function CourseContent({
       )
       setCourseTitle(typedEnrollment.course_versions.courses.title)
       setModules(
-        ((moduleRows ?? []) as unknown as Module[]).map((module) => ({
+        ((moduleRows ?? []) as unknown as ModuleRow[]).map((module) => ({
           ...module,
-          lessons: (module.lessons ?? []).map((lesson) => ({
+          lessons: relationArray(module.lessons).map((lesson) => ({
             ...lesson,
-            lesson_audio_segments: (lesson.lesson_audio_segments ?? []).map(
+            lesson_audio_segments: relationArray(
+              lesson.lesson_audio_segments,
+            ).map(
               (segment) => ({
                 ...segment,
-                lesson_segment_slides:
-                  segment.lesson_segment_slides ?? [],
+                lesson_segment_slides: relationArray(
+                  segment.lesson_segment_slides,
+                ),
               }),
             ),
-            quizzes: lesson.quizzes ?? [],
+            quizzes: relationArray(lesson.quizzes),
             progress: progressMap.get(lesson.id),
           })),
         })),
@@ -157,12 +191,12 @@ function CourseContent({
       modules.reduce(
         (totals, module) => {
           module.lessons.forEach((lesson) => {
-            const segments = lesson.lesson_audio_segments ?? []
-            const quizzes = lesson.quizzes ?? []
+            const segments = relationArray(lesson.lesson_audio_segments)
+            const quizzes = relationArray(lesson.quizzes)
             totals.audioBlocks += segments.length
             totals.slides += segments.reduce(
               (count, segment) =>
-                count + (segment.lesson_segment_slides ?? []).length,
+                count + relationArray(segment.lesson_segment_slides).length,
               0,
             )
             totals.tests += quizzes.filter((quiz) => quiz.active).length
@@ -179,7 +213,7 @@ function CourseContent({
       modules
         .flatMap((module) => module.lessons)
         .flatMap((lesson) =>
-          (lesson.quizzes ?? [])
+          relationArray(lesson.quizzes)
             .filter((quiz) => quiz.active)
             .map((quiz) => ({ lesson, quiz })),
         )[0],
@@ -276,11 +310,14 @@ function CourseContent({
                         : Circle
                   const LessonIcon =
                     lesson.kind === 'document' ? FileText : PlayCircle
-                  const segments = lesson.lesson_audio_segments ?? []
-                  const quizzes = lesson.quizzes ?? []
+                  const segments = relationArray(
+                    lesson.lesson_audio_segments,
+                  )
+                  const quizzes = relationArray(lesson.quizzes)
                   const slideCount = segments.reduce(
                     (count, segment) =>
-                      count + (segment.lesson_segment_slides ?? []).length,
+                      count +
+                      relationArray(segment.lesson_segment_slides).length,
                     0,
                   )
                   const statusLabel = isAdministrator
