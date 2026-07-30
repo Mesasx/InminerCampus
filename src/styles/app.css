@@ -1367,6 +1367,33 @@ h3 {
   font-weight: 700;
 }
 
+.app-topbar__context {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 13px;
+}
+
+.app-topbar__back {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.app-topbar__back:hover {
+  border-color: rgba(233, 120, 36, 0.46);
+  background: var(--orange-soft);
+  color: var(--orange-strong);
+  transform: translateX(-2px);
+}
+
 .app-content {
   width: min(1220px, calc(100% - 68px));
   margin-inline: auto;
@@ -1491,6 +1518,143 @@ h3 {
 
 .app-course p {
   margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.course-content-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.course-content-summary article {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: white;
+  box-shadow: var(--shadow-soft);
+  color: var(--orange-strong);
+}
+
+.course-content-summary strong {
+  color: var(--ink);
+  font-size: 1.45rem;
+}
+
+.course-content-summary span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.course-assessment-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-color: rgba(233, 120, 36, 0.28);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(233, 120, 36, 0.13), transparent 34%),
+    white;
+}
+
+.course-assessment-card h2 {
+  margin: 8px 0;
+}
+
+.course-assessment-card p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.course-lesson-list {
+  display: grid;
+  gap: 16px;
+}
+
+.course-lesson-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: white;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 190ms ease,
+    box-shadow 190ms ease,
+    border-color 190ms ease;
+}
+
+.course-lesson-card:hover {
+  border-color: rgba(233, 120, 36, 0.34);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.course-lesson-card__main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.course-lesson-card__copy > p {
+  margin: 5px 0 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.course-lesson-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.course-lesson-card__meta span,
+.course-lesson-card__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: var(--surface-soft);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.course-lesson-card__status {
+  margin-top: 9px;
+  background: var(--orange-soft);
+  color: var(--orange-strong);
+}
+
+.course-lesson-card__outline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  border-top: 1px solid var(--line);
+  background: var(--line);
+}
+
+.course-lesson-card__outline span {
+  padding: 12px;
+  background: #fbfbf8;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.course-lesson-card__pending {
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding: 13px 20px;
+  background: var(--surface-soft);
   color: var(--muted);
   font-size: 0.84rem;
 }
@@ -2310,6 +2474,27 @@ button.admin-list__item {
   .admin-three-column {
     grid-template-columns: 1fr;
   }
+
+  .course-content-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .course-assessment-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .course-lesson-card__main {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .course-lesson-card__main > .button {
+    grid-column: 1 / -1;
+  }
+
+  .course-lesson-card__outline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 680px) {
@@ -2354,7 +2539,19 @@ button.admin-list__item {
   }
 
   .app-topbar {
+    min-height: 62px;
+    padding: 0 14px;
+  }
+
+  .app-topbar > .muted {
     display: none;
+  }
+
+  .app-topbar__title {
+    overflow: hidden;
+    max-width: calc(100vw - 110px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .app-content {
@@ -2369,6 +2566,10 @@ button.admin-list__item {
   .app-course .progress,
   .app-course .button {
     grid-column: 1 / -1;
+  }
+
+  .course-lesson-card__outline {
+    grid-template-columns: 1fr;
   }
 
   .footer__grid {

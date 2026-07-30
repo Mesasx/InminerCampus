@@ -1,11 +1,23 @@
 import { Link } from '@tanstack/react-router'
+import type { MouseEventHandler } from 'react'
 
 const officialLogoUrl =
   'https://inminer.es/wp-content/uploads/2023/03/logo-inminer-2.png'
 
-export function Logo({ inverse = false }: { inverse?: boolean }) {
+export function Logo({
+  inverse = false,
+  onClick,
+}: {
+  inverse?: boolean
+  onClick?: MouseEventHandler<HTMLAnchorElement>
+}) {
   return (
-    <Link className="brand" to="/" aria-label="InmínerCampus, ir al inicio">
+    <Link
+      className="brand"
+      to="/"
+      aria-label="InmínerCampus, ir al inicio"
+      onClick={onClick}
+    >
       <img
         className="brand__image"
         src={officialLogoUrl}

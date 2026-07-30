@@ -1,5 +1,6 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import {
+  ArrowLeft,
   Award,
   BookOpen,
   CircleHelp,
@@ -60,6 +61,8 @@ export function AppShell({
   children: ReactNode
 }) {
   const navigate = useNavigate()
+  const location = useLocation()
+  const isInsideCourse = /^\/campus\/[^/]+/.test(location.pathname)
   const isAdministrator = user.roles.some((role) =>
     ['administrador', 'superadministrador'].includes(role),
   )
@@ -82,7 +85,36 @@ export function AppShell({
             ]
           : studentNav
 
+  function confirmCourseExit() {
+    return (
+      !isInsideCourse ||
+      window.confirm(
+        'Vas a salir del curso. Tu progreso guardado se conservará. ¿Quieres salir?',
+      )
+    )
+  }
+
+  async function goBack() {
+    const lessonMatch = location.pathname.match(
+      /^\/campus\/([^/]+)\/leccion\/[^/]+/,
+    )
+    if (lessonMatch) {
+      await navigate({
+        to: '/campus/$enrollmentId',
+        params: { enrollmentId: lessonMatch[1] },
+      })
+      return
+    }
+    if (isInsideCourse) {
+      if (!confirmCourseExit()) return
+      await navigate({ to: '/mis-cursos' })
+      return
+    }
+    window.history.back()
+  }
+
   async function signOut() {
+    if (!confirmCourseExit()) return
     await getSupabaseBrowserClient()?.auth.signOut()
     await navigate({ to: '/', replace: true })
   }
@@ -90,10 +122,20 @@ export function AppShell({
   return (
     <div className="app-layout page-enter">
       <aside className="app-sidebar">
-        <Logo />
+        <Logo
+          onClick={(event) => {
+            if (!confirmCourseExit()) event.preventDefault()
+          }}
+        />
         <nav className="app-nav" aria-label="Navegación del campus">
           {nav.map(({ href, label, icon: Icon }) => (
-            <Link to={href} key={href}>
+            <Link
+              to={href}
+              key={href}
+              onClick={(event) => {
+                if (!confirmCourseExit()) event.preventDefault()
+              }}
+            >
               <Icon size={18} />
               {label}
             </Link>
@@ -107,7 +149,17 @@ export function AppShell({
       </aside>
       <div className="app-main">
         <header className="app-topbar">
-          <span className="app-topbar__title">{title}</span>
+          <div className="app-topbar__context">
+            <button
+              aria-label="Volver atrás"
+              className="app-topbar__back"
+              onClick={goBack}
+              type="button"
+            >
+              <ArrowLeft size={19} />
+            </button>
+            <span className="app-topbar__title">{title}</span>
+          </div>
           <span className="muted">
             {user.firstName || user.email}
           </span>

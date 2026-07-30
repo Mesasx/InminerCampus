@@ -3,10 +3,13 @@ import {
   CheckCircle2,
   Circle,
   FileText,
+  Headphones,
   LockKeyhole,
+  Presentation,
   PlayCircle,
+  ShieldCheck,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
@@ -23,6 +26,20 @@ type Lesson = {
   position: number
   duration_minutes: number
   kind: string
+  lesson_audio_segments: Array<{
+    id: string
+    position: number
+    title: string
+    published: boolean
+    lesson_segment_slides: Array<{ id: string }>
+  }>
+  quizzes: Array<{
+    id: string
+    title: string
+    question_count: number
+    passing_percent: number
+    active: boolean
+  }>
   progress?: {
     status: string
     max_video_position_seconds: number
@@ -57,6 +74,9 @@ function CourseContent({
   const [modules, setModules] = useState<Module[]>([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const isAdministrator = user.roles.some((role) =>
+    ['administrador', 'superadministrador'].includes(role),
+  )
 
   useEffect(() => {
     let active = true
@@ -89,7 +109,7 @@ function CourseContent({
         supabase
           .from('course_modules')
           .select(
-            'id, title, description, position, lessons(id, title, summary, position, duration_minutes, kind, active)',
+            'id, title, description, position, lessons(id, title, summary, position, duration_minutes, kind, active, lesson_audio_segments(id, position, title, published, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, active))',
           )
           .eq('course_version_id', typedEnrollment.course_version_id)
           .eq('lessons.active', true)
@@ -124,6 +144,38 @@ function CourseContent({
     }
   }, [enrollmentId, user.id])
 
+  const courseTotals = useMemo(
+    () =>
+      modules.reduce(
+        (totals, module) => {
+          module.lessons.forEach((lesson) => {
+            totals.audioBlocks += lesson.lesson_audio_segments.length
+            totals.slides += lesson.lesson_audio_segments.reduce(
+              (count, segment) =>
+                count + segment.lesson_segment_slides.length,
+              0,
+            )
+            totals.tests += lesson.quizzes.filter((quiz) => quiz.active).length
+          })
+          return totals
+        },
+        { audioBlocks: 0, slides: 0, tests: 0 },
+      ),
+    [modules],
+  )
+
+  const finalAssessment = useMemo(
+    () =>
+      modules
+        .flatMap((module) => module.lessons)
+        .flatMap((lesson) =>
+          lesson.quizzes
+            .filter((quiz) => quiz.active)
+            .map((quiz) => ({ lesson, quiz })),
+        )[0],
+    [modules],
+  )
+
   return (
     <AppShell user={user} title={courseTitle || 'Curso'}>
       <div className="dashboard-heading">
@@ -148,6 +200,49 @@ function CourseContent({
         </section>
       ) : modules.length ? (
         <div className="form-grid">
+          <section className="course-content-summary">
+            <article>
+              <Headphones size={21} />
+              <strong>{courseTotals.audioBlocks}</strong>
+              <span>bloques de audio</span>
+            </article>
+            <article>
+              <Presentation size={21} />
+              <strong>{courseTotals.slides}</strong>
+              <span>diapositivas</span>
+            </article>
+            <article>
+              <ShieldCheck size={21} />
+              <strong>{courseTotals.tests}</strong>
+              <span>test final</span>
+            </article>
+          </section>
+
+          {finalAssessment ? (
+            <section className="panel course-assessment-card">
+              <div>
+                <span className="eyebrow">Evaluación incluida</span>
+                <h2>{finalAssessment.quiz.title}</h2>
+                <p>
+                  Test de {finalAssessment.quiz.question_count} preguntas
+                  aleatorias. Se habilita al completar los audios anteriores.
+                </p>
+              </div>
+              {isAdministrator ? (
+                <Link
+                  className="button button--outline"
+                  to="/admin/evaluaciones"
+                >
+                  Revisar preguntas
+                </Link>
+              ) : (
+                <span className="status">
+                  Bloqueado hasta completar el curso
+                </span>
+              )}
+            </section>
+          ) : null}
+
           {modules.map((module) => (
             <section className="panel" key={module.id}>
               <div className="panel__header">
@@ -156,11 +251,13 @@ function CourseContent({
                     Módulo {module.position}
                   </span>
                   <h2 style={{ marginTop: 12 }}>{module.title}</h2>
+                  {module.description ? <p>{module.description}</p> : null}
                 </div>
               </div>
-              <div className="app-course-list">
+              <div className="course-lesson-list">
                 {module.lessons.map((lesson) => {
                   const status = lesson.progress?.status ?? 'locked'
+                  const canOpen = isAdministrator || status !== 'locked'
                   const StatusIcon =
                     status === 'completed'
                       ? CheckCircle2
@@ -169,40 +266,79 @@ function CourseContent({
                         : Circle
                   const LessonIcon =
                     lesson.kind === 'document' ? FileText : PlayCircle
+                  const slideCount = lesson.lesson_audio_segments.reduce(
+                    (count, segment) =>
+                      count + segment.lesson_segment_slides.length,
+                    0,
+                  )
+                  const statusLabel = isAdministrator
+                    ? 'Vista previa administrativa'
+                    : status === 'completed'
+                      ? 'Completada'
+                      : status === 'available'
+                        ? 'Disponible'
+                        : status === 'in_progress'
+                          ? 'En curso'
+                          : 'Bloqueada'
 
                   return (
-                    <article className="app-course" key={lesson.id}>
-                      <span className="app-course__number">
-                        <LessonIcon size={20} />
-                      </span>
-                      <div>
-                        <h3>{lesson.title}</h3>
-                        <p>
-                          {lesson.duration_minutes} min ·{' '}
-                          <StatusIcon size={13} style={{ display: 'inline' }} />{' '}
-                          {status}
-                        </p>
+                    <article className="course-lesson-card" key={lesson.id}>
+                      <div className="course-lesson-card__main">
+                        <span className="app-course__number">
+                          <LessonIcon size={20} />
+                        </span>
+                        <div className="course-lesson-card__copy">
+                          <h3>{lesson.title}</h3>
+                          <p>{lesson.summary}</p>
+                          <div className="course-lesson-card__meta">
+                            <span>{lesson.duration_minutes} min</span>
+                            <span>
+                              <Headphones size={14} />{' '}
+                              {lesson.lesson_audio_segments.length} audios
+                            </span>
+                            <span>
+                              <Presentation size={14} /> {slideCount}{' '}
+                              diapositivas
+                            </span>
+                            {lesson.quizzes.length ? (
+                              <span>
+                                <ShieldCheck size={14} /> Tipo test
+                              </span>
+                            ) : null}
+                          </div>
+                          <span className="course-lesson-card__status">
+                            <StatusIcon size={14} /> {statusLabel}
+                          </span>
+                        </div>
+                        {canOpen ? (
+                          <Link
+                            className="button button--outline"
+                            to="/campus/$enrollmentId/leccion/$lessonId"
+                            params={{ enrollmentId, lessonId: lesson.id }}
+                          >
+                            Ver contenido
+                          </Link>
+                        ) : (
+                          <button className="button button--outline" disabled>
+                            Bloqueada
+                          </button>
+                        )}
                       </div>
-                      <div className="progress">
-                        <div
-                          className="progress__bar"
-                          style={{
-                            width: status === 'completed' ? '100%' : '0%',
-                          }}
-                        />
-                      </div>
-                      {status === 'locked' ? (
-                        <button className="button button--outline" disabled>
-                          Bloqueada
-                        </button>
+                      {lesson.lesson_audio_segments.length ? (
+                        <div className="course-lesson-card__outline">
+                          {[...lesson.lesson_audio_segments]
+                            .sort((a, b) => a.position - b.position)
+                            .map((segment) => (
+                              <span key={segment.id}>
+                                {segment.position}. {segment.title}
+                              </span>
+                            ))}
+                        </div>
                       ) : (
-                        <Link
-                          className="button button--outline"
-                          to="/campus/$enrollmentId/leccion/$lessonId"
-                          params={{ enrollmentId, lessonId: lesson.id }}
-                        >
-                          Abrir
-                        </Link>
+                        <p className="course-lesson-card__pending">
+                          El contenido se mostrará cuando el administrador
+                          publique las grabaciones.
+                        </p>
                       )}
                     </article>
                   )
