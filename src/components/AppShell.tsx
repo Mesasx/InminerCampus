@@ -37,6 +37,11 @@ const adminNav = [
   { href: '/admin/usuarios', label: 'Usuarios', icon: UserRound },
   { href: '/admin/evaluaciones', label: 'Evaluaciones', icon: ShieldCheck },
   { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
+  {
+    href: '/admin/facturacion',
+    label: 'Pagos y facturación',
+    icon: ReceiptText,
+  },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquareText },
   { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
 ] as const

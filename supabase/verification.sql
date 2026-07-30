@@ -43,7 +43,7 @@ select
   ) as public_can_verify_certificate,
   has_function_privilege(
     'authenticated',
-    'public.fulfill_stripe_checkout(text,text,boolean,uuid,text,text,text,text,numeric,numeric,numeric)',
+    'public.fulfill_stripe_checkout_v2(text,text,boolean,uuid,text,text,text,text,numeric,numeric,numeric,timestamptz)',
     'EXECUTE'
   ) as browser_can_fulfill_purchase;
 

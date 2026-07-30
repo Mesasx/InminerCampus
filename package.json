@@ -6,8 +6,9 @@
     "dev": "vite dev",
     "build": "vite build",
     "start": "node .output/server/index.mjs",
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run build"
+    "check": "npm run test && npm run typecheck && npm run build"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.4.1",

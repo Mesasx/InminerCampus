@@ -32,11 +32,14 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
 import { Route as AdminEvaluacionesRouteImport } from './routes/admin.evaluaciones'
+import { Route as AdminFacturacionRouteImport } from './routes/admin.facturacion'
 import { Route as AdminMensajesRouteImport } from './routes/admin.mensajes'
 import { Route as AdminPracticasRouteImport } from './routes/admin.practicas'
 import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
+import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
+import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api.stripe-webhook'
 import { Route as CampusEnrollmentIdRouteImport } from './routes/campus.$enrollmentId'
 import { Route as ComprarEmpresaCourseSlugRouteImport } from './routes/comprar-empresa.$courseSlug'
@@ -171,6 +174,11 @@ const AdminEvaluacionesRoute = AdminEvaluacionesRouteImport.update({
   path: '/evaluaciones',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFacturacionRoute = AdminFacturacionRouteImport.update({
+  id: '/facturacion',
+  path: '/facturacion',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMensajesRoute = AdminMensajesRouteImport.update({
   id: '/mensajes',
   path: '/mensajes',
@@ -186,6 +194,11 @@ const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
   path: '/usuarios',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiAdminBillingRoute = ApiAdminBillingRouteImport.update({
+  id: '/api/admin-billing',
+  path: '/api/admin-billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
   id: '/api/checkout',
   path: '/api/checkout',
@@ -194,6 +207,11 @@ const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
 const ApiCompanyAccessCodesRoute = ApiCompanyAccessCodesRouteImport.update({
   id: '/api/company-access-codes',
   path: '/api/company-access-codes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentStatusRoute = ApiPaymentStatusRouteImport.update({
+  id: '/api/payment-status',
+  path: '/api/payment-status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiStripeWebhookRoute = ApiStripeWebhookRouteImport.update({
@@ -308,11 +326,14 @@ export interface FileRoutesByFullPath {
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/facturacion': typeof AdminFacturacionRoute
   '/admin/mensajes': typeof AdminMensajesRoute
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
+  '/api/admin-billing': typeof ApiAdminBillingRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
@@ -351,11 +372,14 @@ export interface FileRoutesByTo {
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/facturacion': typeof AdminFacturacionRoute
   '/admin/mensajes': typeof AdminMensajesRoute
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
+  '/api/admin-billing': typeof ApiAdminBillingRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
   '/comprar/$courseSlug': typeof ComprarCourseSlugRoute
@@ -398,11 +422,14 @@ export interface FileRoutesById {
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/facturacion': typeof AdminFacturacionRoute
   '/admin/mensajes': typeof AdminMensajesRoute
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
+  '/api/admin-billing': typeof ApiAdminBillingRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
@@ -447,11 +474,14 @@ export interface FileRouteTypes {
     | '/admin/$adminSection'
     | '/admin/cursos'
     | '/admin/evaluaciones'
+    | '/admin/facturacion'
     | '/admin/mensajes'
     | '/admin/practicas'
     | '/admin/usuarios'
+    | '/api/admin-billing'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
     | '/comprar-empresa/$courseSlug'
@@ -490,11 +520,14 @@ export interface FileRouteTypes {
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/evaluaciones'
+    | '/admin/facturacion'
     | '/admin/mensajes'
     | '/admin/practicas'
     | '/admin/usuarios'
+    | '/api/admin-billing'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/comprar-empresa/$courseSlug'
     | '/comprar/$courseSlug'
@@ -536,11 +569,14 @@ export interface FileRouteTypes {
     | '/admin/$adminSection'
     | '/admin/cursos'
     | '/admin/evaluaciones'
+    | '/admin/facturacion'
     | '/admin/mensajes'
     | '/admin/practicas'
     | '/admin/usuarios'
+    | '/api/admin-billing'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
     | '/comprar-empresa/$courseSlug'
@@ -581,8 +617,10 @@ export interface RootRouteChildren {
   RegistroRoute: typeof RegistroRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
+  ApiAdminBillingRoute: typeof ApiAdminBillingRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
+  ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
   CampusEnrollmentIdRoute: typeof CampusEnrollmentIdRouteWithChildren
   ComprarEmpresaCourseSlugRoute: typeof ComprarEmpresaCourseSlugRoute
@@ -756,6 +794,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEvaluacionesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/facturacion': {
+      id: '/admin/facturacion'
+      path: '/facturacion'
+      fullPath: '/admin/facturacion'
+      preLoaderRoute: typeof AdminFacturacionRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/mensajes': {
       id: '/admin/mensajes'
       path: '/mensajes'
@@ -777,6 +822,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsuariosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/admin-billing': {
+      id: '/api/admin-billing'
+      path: '/api/admin-billing'
+      fullPath: '/api/admin-billing'
+      preLoaderRoute: typeof ApiAdminBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/checkout': {
       id: '/api/checkout'
       path: '/api/checkout'
@@ -789,6 +841,13 @@ declare module '@tanstack/react-router' {
       path: '/api/company-access-codes'
       fullPath: '/api/company-access-codes'
       preLoaderRoute: typeof ApiCompanyAccessCodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payment-status': {
+      id: '/api/payment-status'
+      path: '/api/payment-status'
+      fullPath: '/api/payment-status'
+      preLoaderRoute: typeof ApiPaymentStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/stripe-webhook': {
@@ -931,6 +990,7 @@ interface AdminRouteChildren {
   AdminAdminSectionRoute: typeof AdminAdminSectionRoute
   AdminCursosRoute: typeof AdminCursosRouteWithChildren
   AdminEvaluacionesRoute: typeof AdminEvaluacionesRoute
+  AdminFacturacionRoute: typeof AdminFacturacionRoute
   AdminMensajesRoute: typeof AdminMensajesRoute
   AdminPracticasRoute: typeof AdminPracticasRoute
   AdminUsuariosRoute: typeof AdminUsuariosRoute
@@ -941,6 +1001,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminSectionRoute: AdminAdminSectionRoute,
   AdminCursosRoute: AdminCursosRouteWithChildren,
   AdminEvaluacionesRoute: AdminEvaluacionesRoute,
+  AdminFacturacionRoute: AdminFacturacionRoute,
   AdminMensajesRoute: AdminMensajesRoute,
   AdminPracticasRoute: AdminPracticasRoute,
   AdminUsuariosRoute: AdminUsuariosRoute,
@@ -1010,8 +1071,10 @@ const rootRouteChildren: RootRouteChildren = {
   RegistroRoute: RegistroRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
+  ApiAdminBillingRoute: ApiAdminBillingRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
+  ApiPaymentStatusRoute: ApiPaymentStatusRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,
   CampusEnrollmentIdRoute: CampusEnrollmentIdRouteWithChildren,
   ComprarEmpresaCourseSlugRoute: ComprarEmpresaCourseSlugRoute,
