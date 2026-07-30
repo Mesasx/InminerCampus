@@ -3,10 +3,12 @@ import {
   Award,
   BookOpen,
   CircleHelp,
+  ClipboardCheck,
   KeyRound,
   LayoutDashboard,
   LogOut,
   ReceiptText,
+  MessageSquareText,
   Settings,
   ShieldCheck,
   UsersRound,
@@ -33,6 +35,8 @@ const adminNav = [
   { href: '/admin/cursos', label: 'Cursos', icon: BookOpen },
   { href: '/admin/usuarios', label: 'Usuarios', icon: UserRound },
   { href: '/admin/evaluaciones', label: 'Evaluaciones', icon: ShieldCheck },
+  { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
+  { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquareText },
   { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
 ]
 

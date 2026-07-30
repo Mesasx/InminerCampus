@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { AdminCourseContentEditor } from '../components/AdminCourseContentEditor'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
@@ -25,6 +26,7 @@ type Version = {
   modality: string
   status: string
   price_net: number | null
+  published_at: string | null
 }
 
 function CourseEditorPage() {
@@ -48,6 +50,7 @@ function CourseEditor({
   const [duration, setDuration] = useState<'5' | '20'>('5')
   const [modality, setModality] = useState('hybrid')
   const [price, setPrice] = useState('')
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
   const [message, setMessage] = useState('')
 
   const load = useCallback(async () => {
@@ -64,13 +67,19 @@ function CourseEditor({
       supabase
         .from('course_versions')
         .select(
-          'id, version_number, duration_hours, modality, status, price_net',
+          'id, version_number, duration_hours, modality, status, price_net, published_at',
         )
         .eq('course_id', courseId)
         .order('version_number', { ascending: false }),
     ])
     setCourse(courseRow as Course | null)
-    setVersions((versionRows ?? []) as Version[])
+    const nextVersions = (versionRows ?? []) as Version[]
+    setVersions(nextVersions)
+    setSelectedVersionId((current) =>
+      current && nextVersions.some((version) => version.id === current)
+        ? current
+        : nextVersions[0]?.id ?? null,
+    )
   }, [courseId])
 
   useEffect(() => {
@@ -88,6 +97,7 @@ function CourseEditor({
           short_description: course.short_description.trim(),
           description: course.description.trim(),
           specialty: course.specialty.trim(),
+          status: course.status,
         })
         .eq('id', course.id)) ?? {}
     setMessage(error ? 'No se ha podido guardar.' : 'Curso actualizado.')
@@ -112,6 +122,28 @@ function CourseEditor({
       setPrice('')
       await load()
     }
+  }
+
+  async function setVersionStatus(version: Version, status: string) {
+    const { error } =
+      (await getSupabaseBrowserClient()
+        ?.from('course_versions')
+        .update({
+          status,
+          published_at:
+            status === 'published'
+              ? version.published_at ?? new Date().toISOString()
+              : version.published_at,
+        })
+        .eq('id', version.id)) ?? {}
+    setMessage(
+      error
+        ? 'No se ha podido cambiar el estado de la versión.'
+        : status === 'published'
+          ? 'Versión publicada y disponible para su uso.'
+          : 'Estado de la versión actualizado.',
+    )
+    if (!error) await load()
   }
 
   return (
@@ -190,6 +222,20 @@ function CourseEditor({
                   }
                 />
               </div>
+              <div className="field">
+                <label htmlFor="edit-status">Estado del curso</label>
+                <select
+                  id="edit-status"
+                  value={course.status}
+                  onChange={(event) =>
+                    setCourse({ ...course, status: event.target.value })
+                  }
+                >
+                  <option value="draft">Borrador</option>
+                  <option value="published">Publicado</option>
+                  <option value="archived">Archivado</option>
+                </select>
+              </div>
               <button className="button button--primary" type="submit">
                 Guardar curso
               </button>
@@ -202,12 +248,45 @@ function CourseEditor({
               </div>
               <div className="form-grid">
                 {versions.map((version) => (
-                  <article className="stat-card" key={version.id}>
+                  <article
+                    className={
+                      selectedVersionId === version.id
+                        ? 'stat-card is-selected'
+                        : 'stat-card'
+                    }
+                    key={version.id}
+                  >
                     <strong>Versión {version.version_number}</strong>
                     <p className="muted" style={{ margin: '7px 0 0' }}>
                       {version.duration_hours} h · {version.modality} ·{' '}
                       {version.status}
                     </p>
+                    <div className="content-editor__actions">
+                      <button
+                        className="button button--outline"
+                        onClick={() => setSelectedVersionId(version.id)}
+                        type="button"
+                      >
+                        Editar contenido
+                      </button>
+                      {version.status === 'published' ? (
+                        <button
+                          className="button button--ghost"
+                          onClick={() => setVersionStatus(version, 'draft')}
+                          type="button"
+                        >
+                          Pasar a borrador
+                        </button>
+                      ) : (
+                        <button
+                          className="button button--primary"
+                          onClick={() => setVersionStatus(version, 'published')}
+                          type="button"
+                        >
+                          Publicar
+                        </button>
+                      )}
+                    </div>
                   </article>
                 ))}
               </div>
@@ -266,6 +345,13 @@ function CourseEditor({
           <p>Curso no encontrado o sin permisos.</p>
         </section>
       )}
+      {selectedVersionId ? (
+        <AdminCourseContentEditor
+          key={selectedVersionId}
+          onNotice={setMessage}
+          versionId={selectedVersionId}
+        />
+      ) : null}
     </AppShell>
   )
 }

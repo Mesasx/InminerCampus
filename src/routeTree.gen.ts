@@ -30,6 +30,10 @@ import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
+import { Route as AdminEvaluacionesRouteImport } from './routes/admin.evaluaciones'
+import { Route as AdminMensajesRouteImport } from './routes/admin.mensajes'
+import { Route as AdminPracticasRouteImport } from './routes/admin.practicas'
+import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api.stripe-webhook'
@@ -152,6 +156,26 @@ const AdminCursosRoute = AdminCursosRouteImport.update({
   path: '/cursos',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEvaluacionesRoute = AdminEvaluacionesRouteImport.update({
+  id: '/evaluaciones',
+  path: '/evaluaciones',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMensajesRoute = AdminMensajesRouteImport.update({
+  id: '/mensajes',
+  path: '/mensajes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPracticasRoute = AdminPracticasRouteImport.update({
+  id: '/practicas',
+  path: '/practicas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
+  id: '/usuarios',
+  path: '/usuarios',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
   id: '/api/checkout',
   path: '/api/checkout',
@@ -253,6 +277,10 @@ export interface FileRoutesByFullPath {
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
+  '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/mensajes': typeof AdminMensajesRoute
+  '/admin/practicas': typeof AdminPracticasRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -291,6 +319,10 @@ export interface FileRoutesByTo {
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
+  '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/mensajes': typeof AdminMensajesRoute
+  '/admin/practicas': typeof AdminPracticasRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -330,6 +362,10 @@ export interface FileRoutesById {
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
+  '/admin/evaluaciones': typeof AdminEvaluacionesRoute
+  '/admin/mensajes': typeof AdminMensajesRoute
+  '/admin/practicas': typeof AdminPracticasRoute
+  '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -370,6 +406,10 @@ export interface FileRouteTypes {
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/cursos'
+    | '/admin/evaluaciones'
+    | '/admin/mensajes'
+    | '/admin/practicas'
+    | '/admin/usuarios'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/stripe-webhook'
@@ -408,6 +448,10 @@ export interface FileRouteTypes {
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/cursos'
+    | '/admin/evaluaciones'
+    | '/admin/mensajes'
+    | '/admin/practicas'
+    | '/admin/usuarios'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/stripe-webhook'
@@ -446,6 +490,10 @@ export interface FileRouteTypes {
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/cursos'
+    | '/admin/evaluaciones'
+    | '/admin/mensajes'
+    | '/admin/practicas'
+    | '/admin/usuarios'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/stripe-webhook'
@@ -644,6 +692,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCursosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/evaluaciones': {
+      id: '/admin/evaluaciones'
+      path: '/evaluaciones'
+      fullPath: '/admin/evaluaciones'
+      preLoaderRoute: typeof AdminEvaluacionesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/mensajes': {
+      id: '/admin/mensajes'
+      path: '/mensajes'
+      fullPath: '/admin/mensajes'
+      preLoaderRoute: typeof AdminMensajesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/practicas': {
+      id: '/admin/practicas'
+      path: '/practicas'
+      fullPath: '/admin/practicas'
+      preLoaderRoute: typeof AdminPracticasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/usuarios': {
+      id: '/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AdminUsuariosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/checkout': {
       id: '/api/checkout'
       path: '/api/checkout'
@@ -767,11 +843,19 @@ const AdminCursosRouteWithChildren = AdminCursosRoute._addFileChildren(
 interface AdminRouteChildren {
   AdminAdminSectionRoute: typeof AdminAdminSectionRoute
   AdminCursosRoute: typeof AdminCursosRouteWithChildren
+  AdminEvaluacionesRoute: typeof AdminEvaluacionesRoute
+  AdminMensajesRoute: typeof AdminMensajesRoute
+  AdminPracticasRoute: typeof AdminPracticasRoute
+  AdminUsuariosRoute: typeof AdminUsuariosRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminSectionRoute: AdminAdminSectionRoute,
   AdminCursosRoute: AdminCursosRouteWithChildren,
+  AdminEvaluacionesRoute: AdminEvaluacionesRoute,
+  AdminMensajesRoute: AdminMensajesRoute,
+  AdminPracticasRoute: AdminPracticasRoute,
+  AdminUsuariosRoute: AdminUsuariosRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

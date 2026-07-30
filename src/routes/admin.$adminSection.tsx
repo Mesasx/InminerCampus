@@ -22,6 +22,11 @@ const sections: Record<string, { title: string; description: string }> = {
     description:
       'Sesiones presenciales, asistencia, evidencias y validación del formador.',
   },
+  mensajes: {
+    title: 'Mensajes',
+    description:
+      'Bandeja de entrada para consultas de alumnos y seguimiento de respuestas.',
+  },
   configuracion: {
     title: 'Configuración',
     description:
@@ -47,14 +52,15 @@ function AdminSectionPage() {
               <p>{section.description}</p>
             </div>
           </div>
-          <section className="empty-state">
-            <div>
-              <h2>Estructura preparada</h2>
-              <p>
-                Este módulo utilizará las tablas y permisos ya creados. Su
-                interfaz operativa se completará junto con el contenido real.
-              </p>
+          <section className="panel">
+            <div className="panel__header">
+              <h2>Configuración de la plataforma</h2>
             </div>
+            <p className="muted">
+              Los precios, versiones, publicación, temario y contenido se
+              administran desde cada curso. Los textos legales se mantienen
+              versionados para conservar la trazabilidad de cada consentimiento.
+            </p>
           </section>
         </AppShell>
       )}
