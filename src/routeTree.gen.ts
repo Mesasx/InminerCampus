@@ -28,6 +28,7 @@ import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-cont
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
 import { Route as AdminEvaluacionesRouteImport } from './routes/admin.evaluaciones'
@@ -41,12 +42,16 @@ import { Route as CampusEnrollmentIdRouteImport } from './routes/campus.$enrollm
 import { Route as ComprarEmpresaCourseSlugRouteImport } from './routes/comprar-empresa.$courseSlug'
 import { Route as ComprarCourseSlugRouteImport } from './routes/comprar.$courseSlug'
 import { Route as CursosCourseSlugRouteImport } from './routes/cursos.$courseSlug'
+import { Route as DudasIndexRouteImport } from './routes/dudas.index'
 import { Route as DudasThreadIdRouteImport } from './routes/dudas.$threadId'
+import { Route as EmpresaIndexRouteImport } from './routes/empresa.index'
 import { Route as EmpresaCompanySectionRouteImport } from './routes/empresa.$companySection'
 import { Route as EmpresaCodigosRouteImport } from './routes/empresa.codigos'
 import { Route as LegalLegalSlugRouteImport } from './routes/legal.$legalSlug'
 import { Route as PagoConfirmadoRouteImport } from './routes/pago.confirmado'
+import { Route as AdminCursosIndexRouteImport } from './routes/admin.cursos.index'
 import { Route as AdminCursosCourseIdRouteImport } from './routes/admin.cursos.$courseId'
+import { Route as CampusEnrollmentIdIndexRouteImport } from './routes/campus.$enrollmentId.index'
 import { Route as EvaluacionEnrollmentIdQuizIdRouteImport } from './routes/evaluacion.$enrollmentId.$quizId'
 import { Route as CampusEnrollmentIdLeccionLessonIdRouteImport } from './routes/campus.$enrollmentId.leccion.$lessonId'
 
@@ -146,6 +151,11 @@ const VerificarCertificadoRoute = VerificarCertificadoRouteImport.update({
   path: '/verificar-certificado',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminSectionRoute = AdminAdminSectionRouteImport.update({
   id: '/$adminSection',
   path: '/$adminSection',
@@ -212,10 +222,20 @@ const CursosCourseSlugRoute = CursosCourseSlugRouteImport.update({
   path: '/cursos/$courseSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DudasIndexRoute = DudasIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DudasRoute,
+} as any)
 const DudasThreadIdRoute = DudasThreadIdRouteImport.update({
   id: '/$threadId',
   path: '/$threadId',
   getParentRoute: () => DudasRoute,
+} as any)
+const EmpresaIndexRoute = EmpresaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmpresaRoute,
 } as any)
 const EmpresaCompanySectionRoute = EmpresaCompanySectionRouteImport.update({
   id: '/$companySection',
@@ -237,10 +257,20 @@ const PagoConfirmadoRoute = PagoConfirmadoRouteImport.update({
   path: '/pago/confirmado',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCursosIndexRoute = AdminCursosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminCursosRoute,
+} as any)
 const AdminCursosCourseIdRoute = AdminCursosCourseIdRouteImport.update({
   id: '/$courseId',
   path: '/$courseId',
   getParentRoute: () => AdminCursosRoute,
+} as any)
+const CampusEnrollmentIdIndexRoute = CampusEnrollmentIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CampusEnrollmentIdRoute,
 } as any)
 const EvaluacionEnrollmentIdQuizIdRoute =
   EvaluacionEnrollmentIdQuizIdRouteImport.update({
@@ -293,21 +323,23 @@ export interface FileRoutesByFullPath {
   '/empresa/codigos': typeof EmpresaCodigosRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dudas/': typeof DudasIndexRoute
+  '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
+  '/admin/cursos/': typeof AdminCursosIndexRoute
+  '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
-  '/admin': typeof AdminRouteWithChildren
   '/canjear-codigo': typeof CanjearCodigoRoute
   '/catalogo': typeof CatalogoRoute
   '/certificados': typeof CertificadosRoute
   '/como-funciona': typeof ComoFuncionaRoute
   '/contacto': typeof ContactoRoute
-  '/dudas': typeof DudasRouteWithChildren
-  '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
@@ -318,7 +350,6 @@ export interface FileRoutesByTo {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
-  '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
   '/admin/mensajes': typeof AdminMensajesRoute
   '/admin/practicas': typeof AdminPracticasRoute
@@ -326,7 +357,6 @@ export interface FileRoutesByTo {
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
-  '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
   '/comprar/$courseSlug': typeof ComprarCourseSlugRoute
   '/cursos/$courseSlug': typeof CursosCourseSlugRoute
@@ -335,8 +365,13 @@ export interface FileRoutesByTo {
   '/empresa/codigos': typeof EmpresaCodigosRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
+  '/admin': typeof AdminIndexRoute
+  '/dudas': typeof DudasIndexRoute
+  '/empresa': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
+  '/admin/cursos': typeof AdminCursosIndexRoute
+  '/campus/$enrollmentId': typeof CampusEnrollmentIdIndexRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
 }
 export interface FileRoutesById {
@@ -378,8 +413,13 @@ export interface FileRoutesById {
   '/empresa/codigos': typeof EmpresaCodigosRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dudas/': typeof DudasIndexRoute
+  '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
+  '/admin/cursos/': typeof AdminCursosIndexRoute
+  '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
 }
 export interface FileRouteTypes {
@@ -422,21 +462,23 @@ export interface FileRouteTypes {
     | '/empresa/codigos'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
+    | '/admin/'
+    | '/dudas/'
+    | '/empresa/'
     | '/admin/cursos/$courseId'
     | '/evaluacion/$enrollmentId/$quizId'
+    | '/admin/cursos/'
+    | '/campus/$enrollmentId/'
     | '/campus/$enrollmentId/leccion/$lessonId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/acceso'
-    | '/admin'
     | '/canjear-codigo'
     | '/catalogo'
     | '/certificados'
     | '/como-funciona'
     | '/contacto'
-    | '/dudas'
-    | '/empresa'
     | '/empresas'
     | '/formacion-preventiva-oficial'
     | '/mis-cursos'
@@ -447,7 +489,6 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
-    | '/admin/cursos'
     | '/admin/evaluaciones'
     | '/admin/mensajes'
     | '/admin/practicas'
@@ -455,7 +496,6 @@ export interface FileRouteTypes {
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/stripe-webhook'
-    | '/campus/$enrollmentId'
     | '/comprar-empresa/$courseSlug'
     | '/comprar/$courseSlug'
     | '/cursos/$courseSlug'
@@ -464,8 +504,13 @@ export interface FileRouteTypes {
     | '/empresa/codigos'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
+    | '/admin'
+    | '/dudas'
+    | '/empresa'
     | '/admin/cursos/$courseId'
     | '/evaluacion/$enrollmentId/$quizId'
+    | '/admin/cursos'
+    | '/campus/$enrollmentId'
     | '/campus/$enrollmentId/leccion/$lessonId'
   id:
     | '__root__'
@@ -506,8 +551,13 @@ export interface FileRouteTypes {
     | '/empresa/codigos'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
+    | '/admin/'
+    | '/dudas/'
+    | '/empresa/'
     | '/admin/cursos/$courseId'
     | '/evaluacion/$enrollmentId/$quizId'
+    | '/admin/cursos/'
+    | '/campus/$enrollmentId/'
     | '/campus/$enrollmentId/leccion/$lessonId'
   fileRoutesById: FileRoutesById
 }
@@ -678,6 +728,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerificarCertificadoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/$adminSection': {
       id: '/admin/$adminSection'
       path: '/$adminSection'
@@ -769,12 +826,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CursosCourseSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dudas/': {
+      id: '/dudas/'
+      path: '/'
+      fullPath: '/dudas/'
+      preLoaderRoute: typeof DudasIndexRouteImport
+      parentRoute: typeof DudasRoute
+    }
     '/dudas/$threadId': {
       id: '/dudas/$threadId'
       path: '/$threadId'
       fullPath: '/dudas/$threadId'
       preLoaderRoute: typeof DudasThreadIdRouteImport
       parentRoute: typeof DudasRoute
+    }
+    '/empresa/': {
+      id: '/empresa/'
+      path: '/'
+      fullPath: '/empresa/'
+      preLoaderRoute: typeof EmpresaIndexRouteImport
+      parentRoute: typeof EmpresaRoute
     }
     '/empresa/$companySection': {
       id: '/empresa/$companySection'
@@ -804,12 +875,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagoConfirmadoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/cursos/': {
+      id: '/admin/cursos/'
+      path: '/'
+      fullPath: '/admin/cursos/'
+      preLoaderRoute: typeof AdminCursosIndexRouteImport
+      parentRoute: typeof AdminCursosRoute
+    }
     '/admin/cursos/$courseId': {
       id: '/admin/cursos/$courseId'
       path: '/$courseId'
       fullPath: '/admin/cursos/$courseId'
       preLoaderRoute: typeof AdminCursosCourseIdRouteImport
       parentRoute: typeof AdminCursosRoute
+    }
+    '/campus/$enrollmentId/': {
+      id: '/campus/$enrollmentId/'
+      path: '/'
+      fullPath: '/campus/$enrollmentId/'
+      preLoaderRoute: typeof CampusEnrollmentIdIndexRouteImport
+      parentRoute: typeof CampusEnrollmentIdRoute
     }
     '/evaluacion/$enrollmentId/$quizId': {
       id: '/evaluacion/$enrollmentId/$quizId'
@@ -830,10 +915,12 @@ declare module '@tanstack/react-router' {
 
 interface AdminCursosRouteChildren {
   AdminCursosCourseIdRoute: typeof AdminCursosCourseIdRoute
+  AdminCursosIndexRoute: typeof AdminCursosIndexRoute
 }
 
 const AdminCursosRouteChildren: AdminCursosRouteChildren = {
   AdminCursosCourseIdRoute: AdminCursosCourseIdRoute,
+  AdminCursosIndexRoute: AdminCursosIndexRoute,
 }
 
 const AdminCursosRouteWithChildren = AdminCursosRoute._addFileChildren(
@@ -847,6 +934,7 @@ interface AdminRouteChildren {
   AdminMensajesRoute: typeof AdminMensajesRoute
   AdminPracticasRoute: typeof AdminPracticasRoute
   AdminUsuariosRoute: typeof AdminUsuariosRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -856,16 +944,19 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMensajesRoute: AdminMensajesRoute,
   AdminPracticasRoute: AdminPracticasRoute,
   AdminUsuariosRoute: AdminUsuariosRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface DudasRouteChildren {
   DudasThreadIdRoute: typeof DudasThreadIdRoute
+  DudasIndexRoute: typeof DudasIndexRoute
 }
 
 const DudasRouteChildren: DudasRouteChildren = {
   DudasThreadIdRoute: DudasThreadIdRoute,
+  DudasIndexRoute: DudasIndexRoute,
 }
 
 const DudasRouteWithChildren = DudasRoute._addFileChildren(DudasRouteChildren)
@@ -873,21 +964,25 @@ const DudasRouteWithChildren = DudasRoute._addFileChildren(DudasRouteChildren)
 interface EmpresaRouteChildren {
   EmpresaCompanySectionRoute: typeof EmpresaCompanySectionRoute
   EmpresaCodigosRoute: typeof EmpresaCodigosRoute
+  EmpresaIndexRoute: typeof EmpresaIndexRoute
 }
 
 const EmpresaRouteChildren: EmpresaRouteChildren = {
   EmpresaCompanySectionRoute: EmpresaCompanySectionRoute,
   EmpresaCodigosRoute: EmpresaCodigosRoute,
+  EmpresaIndexRoute: EmpresaIndexRoute,
 }
 
 const EmpresaRouteWithChildren =
   EmpresaRoute._addFileChildren(EmpresaRouteChildren)
 
 interface CampusEnrollmentIdRouteChildren {
+  CampusEnrollmentIdIndexRoute: typeof CampusEnrollmentIdIndexRoute
   CampusEnrollmentIdLeccionLessonIdRoute: typeof CampusEnrollmentIdLeccionLessonIdRoute
 }
 
 const CampusEnrollmentIdRouteChildren: CampusEnrollmentIdRouteChildren = {
+  CampusEnrollmentIdIndexRoute: CampusEnrollmentIdIndexRoute,
   CampusEnrollmentIdLeccionLessonIdRoute:
     CampusEnrollmentIdLeccionLessonIdRoute,
 }

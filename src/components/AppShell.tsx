@@ -28,7 +28,7 @@ const studentNav = [
   { href: '/certificados', label: 'Certificados', icon: Award },
   { href: '/dudas', label: 'Dudas', icon: CircleHelp },
   { href: '/perfil', label: 'Perfil', icon: UserRound },
-]
+] as const
 
 const adminNav = [
   { href: '/admin', label: 'Resumen', icon: LayoutDashboard },
@@ -38,7 +38,7 @@ const adminNav = [
   { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquareText },
   { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
-]
+] as const
 
 const companyNav = [
   { href: '/empresa', label: 'Resumen', icon: LayoutDashboard },
@@ -46,7 +46,7 @@ const companyNav = [
   { href: '/empresa/trabajadores', label: 'Trabajadores', icon: UsersRound },
   { href: '/empresa/codigos', label: 'Códigos', icon: KeyRound },
   { href: '/empresa/facturacion', label: 'Facturación', icon: ReceiptText },
-]
+] as const
 
 export function AppShell({
   user,
@@ -93,10 +93,10 @@ export function AppShell({
         <Logo />
         <nav className="app-nav" aria-label="Navegación del campus">
           {nav.map(({ href, label, icon: Icon }) => (
-            <a href={href} key={href}>
+            <Link to={href} key={href}>
               <Icon size={18} />
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="app-sidebar__bottom">

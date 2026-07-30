@@ -64,12 +64,28 @@ function Lesson({
   const [segments, setSegments] = useState<LessonAudioSegment[]>([])
   const [audioCompleted, setAudioCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
+  const isAdministrator = user.roles.some((role) =>
+    ['administrador', 'superadministrador'].includes(role),
+  )
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
 
     void (async () => {
+      let segmentRequest = supabase
+        .from('lesson_audio_segments')
+        .select(
+          'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url), lesson_audio_progress(max_position_seconds, completed_at)',
+        )
+        .eq('lesson_id', lessonId)
+        .eq('lesson_audio_progress.enrollment_id', enrollmentId)
+        .order('position', { ascending: true })
+
+      if (!isAdministrator) {
+        segmentRequest = segmentRequest.eq('published', true)
+      }
+
       const [
         { data: lessonRow },
         { data: progress },
@@ -88,18 +104,13 @@ function Lesson({
           .eq('enrollment_id', enrollmentId)
           .eq('lesson_id', lessonId)
           .maybeSingle(),
-        supabase
-          .from('lesson_audio_segments')
-          .select(
-            'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url), lesson_audio_progress(max_position_seconds, completed_at)',
-          )
-          .eq('lesson_id', lessonId)
-          .eq('published', true)
-          .eq('lesson_audio_progress.enrollment_id', enrollmentId)
-          .order('position', { ascending: true }),
+        segmentRequest,
       ])
 
-      if (lessonRow && progress && progress.status !== 'locked') {
+      if (
+        lessonRow &&
+        (isAdministrator || (progress && progress.status !== 'locked'))
+      ) {
         const row = lessonRow as unknown as {
           id: string
           title: string
@@ -117,23 +128,27 @@ function Lesson({
           duration_minutes: row.duration_minutes,
           resources: row.lesson_resources,
           quizId: row.quizzes[0]?.id ?? null,
-          progressStatus: progress.status,
+          progressStatus: progress?.status ?? 'available',
         })
 
         const resolved = await resolveSegments(
           supabase,
           segmentRows ?? [],
         )
-        setSegments(resolved.filter((segment) => Boolean(segment.audioUrl)))
+        setSegments(
+          isAdministrator
+            ? resolved
+            : resolved.filter((segment) => Boolean(segment.audioUrl)),
+        )
         setAudioCompleted(
           resolved.length > 0
             ? resolved.every((segment) => segment.completed)
-            : progress.status === 'completed',
+            : progress?.status === 'completed',
         )
       }
       setLoading(false)
     })()
-  }, [enrollmentId, lessonId])
+  }, [enrollmentId, isAdministrator, lessonId])
 
   return (
     <AppShell user={user} title={lesson?.title || 'Lección'}>
@@ -161,6 +176,7 @@ function Lesson({
             enrollmentId={enrollmentId}
             initialSegments={segments}
             onLessonProgress={() => setAudioCompleted(true)}
+            previewMode={isAdministrator}
           />
           {lesson.resources.length ? (
             <section className="panel">

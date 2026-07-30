@@ -70,12 +70,14 @@ export function AudioLessonPlayer({
   progress: sourceProgress,
   initialSegments,
   onLessonProgress,
+  previewMode = false,
 }: {
   enrollmentId: string
   segments?: AudioSegment[]
   progress?: AudioProgress[]
   initialSegments?: LessonAudioSegment[]
   onLessonProgress?: () => void
+  previewMode?: boolean
 }) {
   const segments = useMemo<AudioSegment[]>(
     () =>
@@ -186,7 +188,7 @@ export function AudioLessonPlayer({
   }, [activeSegment?.id])
 
   async function reportProgress(position: number, completed = false) {
-    if (!activeSegment) return
+    if (!activeSegment || previewMode) return
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
     const { data, error } = await supabase.rpc('record_audio_segment_progress', {
@@ -225,7 +227,9 @@ export function AudioLessonPlayer({
     const candidate = segments[index]
     if (!candidate) return
     const allowed =
-      index <= firstIncompleteIndex || segmentState[candidate.id]?.completed
+      previewMode ||
+      index <= firstIncompleteIndex ||
+      segmentState[candidate.id]?.completed
     if (!allowed) {
       setNotice('Completa el audio anterior antes de abrir este bloque.')
       return
@@ -280,7 +284,8 @@ export function AudioLessonPlayer({
       <div className="audio-lesson__steps" aria-label="Bloques de la lección">
         {segments.map((segment, index) => {
           const state = segmentState[segment.id]
-          const locked = index > firstIncompleteIndex && !state?.completed
+          const locked =
+            !previewMode && index > firstIncompleteIndex && !state?.completed
           return (
             <button
               aria-current={index === activeIndex ? 'step' : undefined}
@@ -313,9 +318,22 @@ export function AudioLessonPlayer({
             <h2>{activeSegment.title}</h2>
           </div>
           <span className="status">
-            {activeState.completed ? 'Escuchado' : 'En curso'}
+            {previewMode
+              ? sources[activeSegment.id]
+                ? 'Vista previa'
+                : 'Audio pendiente'
+              : activeState.completed
+                ? 'Escuchado'
+                : 'En curso'}
           </span>
         </div>
+
+        {previewMode ? (
+          <div className="alert alert--info">
+            Vista previa administrativa: puedes revisar los cinco guiones y sus
+            diapositivas aunque todavía no exista una grabación.
+          </div>
+        ) : null}
 
         <audio
           onEnded={() => {
@@ -374,6 +392,13 @@ export function AudioLessonPlayer({
           <span>{formatTime(activeSegment.duration_seconds)}</span>
         </div>
         {notice ? <p className="audio-player__notice">{notice}</p> : null}
+
+        {previewMode && activeSegment.narration_text ? (
+          <div className="audio-player__script">
+            <span className="eyebrow">Guion del audio</span>
+            <p>{activeSegment.narration_text}</p>
+          </div>
+        ) : null}
       </article>
 
       <section className="lesson-slides">
@@ -409,7 +434,8 @@ export function AudioLessonPlayer({
         <button
           className="button button--primary"
           disabled={
-            activeIndex >= segments.length - 1 || !activeState.completed
+            activeIndex >= segments.length - 1 ||
+            (!previewMode && !activeState.completed)
           }
           onClick={() => selectSegment(activeIndex + 1)}
           type="button"
