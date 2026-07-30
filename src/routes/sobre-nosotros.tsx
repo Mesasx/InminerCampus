@@ -90,9 +90,9 @@ function AboutPage() {
         <div className="instructor__portrait">
           <img
             alt="Pedro Mesas Riballo, director de Ingeniería de INMÍNER"
-            height="1200"
-            src="/images/pedro-mesas-riballo.webp"
-            width="1200"
+            height="1254"
+            src="/images/pedro-mesas-riballo.jpg"
+            width="1254"
           />
           <span className="instructor__portrait-caption">
             Director de Ingeniería · INMÍNER

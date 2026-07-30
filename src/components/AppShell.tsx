@@ -56,8 +56,27 @@ export function AppShell({
   children: ReactNode
 }) {
   const navigate = useNavigate()
+  const isAdministrator = user.roles.some((role) =>
+    ['administrador', 'superadministrador'].includes(role),
+  )
   const nav =
-    mode === 'admin' ? adminNav : mode === 'company' ? companyNav : studentNav
+    mode === 'admin'
+      ? [
+          ...adminNav,
+          { href: '/mis-cursos', label: 'Ir a mis cursos', icon: BookOpen },
+        ]
+      : mode === 'company'
+        ? companyNav
+        : isAdministrator
+          ? [
+              ...studentNav,
+              {
+                href: '/admin',
+                label: 'Administración',
+                icon: ShieldCheck,
+              },
+            ]
+          : studentNav
 
   async function signOut() {
     await getSupabaseBrowserClient()?.auth.signOut()

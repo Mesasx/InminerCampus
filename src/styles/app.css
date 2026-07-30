@@ -146,6 +146,7 @@ h3 {
 
 .instructor__portrait {
   position: relative;
+  aspect-ratio: 1;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: var(--shadow);
@@ -153,8 +154,9 @@ h3 {
 
 .instructor__portrait img {
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
+  object-position: center 28%;
 }
 
 .instructor__portrait-caption {

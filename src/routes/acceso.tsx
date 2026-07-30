@@ -36,7 +36,10 @@ function LoginPage() {
     }
 
     setLoading(true)
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
       password,
       options: captchaToken ? { captchaToken } : undefined,
@@ -54,7 +57,26 @@ function LoginPage() {
       return
     }
 
-    await navigate({ to: '/mis-cursos', replace: true })
+    if (!user) {
+      setError(
+        'La sesión se ha iniciado sin un usuario válido. Inténtalo de nuevo.',
+      )
+      return
+    }
+
+    const { data: roles } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+
+    const isAdministrator = (roles ?? []).some(({ role }) =>
+      ['administrador', 'superadministrador'].includes(role),
+    )
+
+    await navigate({
+      to: isAdministrator ? '/admin' : '/mis-cursos',
+      replace: true,
+    })
   }
 
   return (
