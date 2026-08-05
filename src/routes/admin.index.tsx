@@ -51,7 +51,7 @@ function AdminDashboard({ user }: { user: SessionUser }) {
     if (!supabase) return
 
     const count = (table: string) =>
-      supabase.from(table).select('*', { count: 'exact', head: true })
+      supabase.from(table).select('id', { count: 'exact', head: true })
 
     void Promise.all([
       count('profiles'),

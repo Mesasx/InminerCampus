@@ -23,6 +23,7 @@ type Resource = {
   storage_path: string | null
   external_url: string | null
   downloadable: boolean
+  resolvedUrl: string
 }
 
 type LessonData = {
@@ -32,7 +33,12 @@ type LessonData = {
   kind: string
   duration_minutes: number
   resources: Resource[]
-  quizId: string | null
+  quiz: {
+    id: string
+    questionCount: number
+    requiredPerfectRounds: number
+    completionMode: 'consecutive_perfect' | 'cumulative_perfect'
+  } | null
   progressStatus: string
 }
 
@@ -76,7 +82,7 @@ function Lesson({
       let segmentRequest = supabase
         .from('lesson_audio_segments')
         .select(
-          'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url), lesson_audio_progress(max_position_seconds, completed_at)',
+          'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
         )
         .eq('lesson_id', lessonId)
         .eq('lesson_audio_progress.enrollment_id', enrollmentId)
@@ -94,7 +100,7 @@ function Lesson({
         supabase
           .from('lessons')
           .select(
-            'id, title, summary, kind, duration_minutes, lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id)',
+            'id, title, summary, kind, duration_minutes, lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode)',
           )
           .eq('id', lessonId)
           .maybeSingle(),
@@ -118,23 +124,35 @@ function Lesson({
           kind: string
           duration_minutes: number
           lesson_resources: Resource[]
-          quizzes: Array<{ id: string }>
+          quizzes: Array<{
+            id: string
+            question_count: number
+            required_perfect_streak: number
+            completion_mode: 'consecutive_perfect' | 'cumulative_perfect'
+          }>
         }
+        const [resolvedResources, resolved] = await Promise.all([
+          resolveResources(supabase, row.lesson_resources),
+          resolveSegments(supabase, segmentRows ?? []),
+        ])
         setLesson({
           id: row.id,
           title: row.title,
           summary: row.summary,
           kind: row.kind,
           duration_minutes: row.duration_minutes,
-          resources: row.lesson_resources,
-          quizId: row.quizzes[0]?.id ?? null,
+          resources: resolvedResources,
+          quiz: row.quizzes[0]
+            ? {
+                id: row.quizzes[0].id,
+                questionCount: row.quizzes[0].question_count,
+                requiredPerfectRounds: row.quizzes[0].required_perfect_streak,
+                completionMode: row.quizzes[0].completion_mode,
+              }
+            : null,
           progressStatus: progress?.status ?? 'available',
         })
 
-        const resolved = await resolveSegments(
-          supabase,
-          segmentRows ?? [],
-        )
         setSegments(
           isAdministrator
             ? resolved
@@ -181,7 +199,7 @@ function Lesson({
           {lesson.resources.length ? (
             <section className="panel">
               <div className="panel__header">
-                <h2>Materiales</h2>
+                <h2>Materiales y documentos del bloque</h2>
               </div>
               <div className="app-course-list">
                 {lesson.resources.map((resource) => (
@@ -196,10 +214,11 @@ function Lesson({
                     <span className="status">
                       {resource.downloadable ? 'Descargable' : 'Consulta'}
                     </span>
-                    {resource.external_url ? (
+                    {resource.resolvedUrl ? (
                       <a
                         className="button button--outline"
-                        href={resource.external_url}
+                        download={resource.downloadable ? '' : undefined}
+                        href={resource.resolvedUrl}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -215,7 +234,7 @@ function Lesson({
               </div>
             </section>
           ) : null}
-          {lesson.quizId && audioCompleted ? (
+          {lesson.quiz && audioCompleted ? (
             <section className="panel">
               <div className="panel__header">
                 <div>
@@ -225,25 +244,28 @@ function Lesson({
                 <ShieldCheck color="var(--orange)" size={28} />
               </div>
               <p className="muted">
-                La siguiente lección se desbloqueará al cumplir la racha
-                perfecta configurada para este test.
+                Responde {lesson.quiz.questionCount} preguntas. Necesitas completar{' '}
+                {lesson.quiz.requiredPerfectRounds} rondas perfectas
+                {lesson.quiz.completionMode === 'cumulative_perfect'
+                  ? '; si fallas, conservas las ya conseguidas.'
+                  : ' consecutivas.'}
               </p>
               <Link
                 className="button button--primary"
                 to="/evaluacion/$enrollmentId/$quizId"
-                params={{ enrollmentId, quizId: lesson.quizId }}
+                params={{ enrollmentId, quizId: lesson.quiz.id }}
               >
                 Abrir evaluación
               </Link>
             </section>
-          ) : lesson.quizId ? (
+          ) : lesson.quiz ? (
             <section className="panel">
               <div className="panel__header">
                 <h2>Evaluación bloqueada</h2>
                 <ShieldCheck color="var(--orange)" size={28} />
               </div>
               <p className="muted">
-                Completa los cinco audios en orden para abrir la evaluación.
+                Completa las diez partes de audio en orden para abrir la evaluación.
               </p>
             </section>
           ) : null}
@@ -276,6 +298,15 @@ async function resolveSegments(
       body: string
       image_storage_path: string | null
       image_external_url: string | null
+      source_label: string | null
+      source_page: string | null
+      alt_text: string | null
+    }>
+    lesson_segment_notes: Array<{
+      summary: string
+      key_points: string[]
+      source_label: string
+      source_pages: string
     }>
     lesson_audio_progress: Array<{
       max_position_seconds: number
@@ -309,6 +340,9 @@ async function resolveSegments(
               title: slide.title,
               body: slide.body,
               imageUrl,
+              sourceLabel: slide.source_label,
+              sourcePage: slide.source_page,
+              altText: slide.alt_text ?? slide.title,
             }
           }),
       )
@@ -322,8 +356,34 @@ async function resolveSegments(
         durationSeconds: segment.duration_seconds,
         maxPositionSeconds: segmentProgress?.max_position_seconds ?? 0,
         completed: Boolean(segmentProgress?.completed_at),
+        note: segment.lesson_segment_notes?.[0]
+          ? {
+              summary: segment.lesson_segment_notes[0].summary,
+              keyPoints: segment.lesson_segment_notes[0].key_points,
+              sourceLabel: segment.lesson_segment_notes[0].source_label,
+              sourcePages: segment.lesson_segment_notes[0].source_pages,
+            }
+          : null,
         slides,
       }
+    }),
+  )
+}
+
+async function resolveResources(
+  supabase: NonNullable<ReturnType<typeof getSupabaseBrowserClient>>,
+  resources: Resource[],
+): Promise<Resource[]> {
+  return Promise.all(
+    resources.map(async (resource) => {
+      if (resource.external_url) {
+        return { ...resource, resolvedUrl: resource.external_url }
+      }
+      if (!resource.storage_path) return { ...resource, resolvedUrl: '' }
+      const { data } = await supabase.storage
+        .from('course-materials')
+        .createSignedUrl(resource.storage_path, 3600)
+      return { ...resource, resolvedUrl: data?.signedUrl ?? '' }
     }),
   )
 }

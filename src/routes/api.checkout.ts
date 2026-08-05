@@ -233,7 +233,6 @@ export const Route = createFileRoute('/api/checkout')({
             }),
             getOrCreateStripeTaxRate({
               countryCode: body.billing.countryCode,
-              idempotencyKey,
               stripe,
               taxRateBasisPoints,
             }),
@@ -437,12 +436,10 @@ async function getOrCreateStripeCustomer({
 
 async function getOrCreateStripeTaxRate({
   countryCode,
-  idempotencyKey,
   stripe,
   taxRateBasisPoints,
 }: {
   countryCode: string
-  idempotencyKey: string
   stripe: Stripe
   taxRateBasisPoints: number
 }): Promise<Stripe.TaxRate> {
@@ -468,6 +465,6 @@ async function getOrCreateStripeTaxRate({
         inminer_tax_rate_basis_points: marker,
       },
     },
-    { idempotencyKey: `${idempotencyKey}:tax-rate:${country}:${marker}` },
+    { idempotencyKey: `inminer-tax-rate:${country}:${marker}` },
   )
 }

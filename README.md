@@ -66,6 +66,11 @@ en orden. La migración
 - funciones de servicio para reclamar/completar avisos sin envíos duplicados;
 - permisos económicos de solo lectura para clientes autenticados.
 
+Si la migración anterior ya se aplicó, ejecute después
+`202607300010_billing_permissions_hardening.sql`: sustituye el permiso de
+lectura de tabla por una lista de columnas segura y mantiene fuera del navegador
+las notas internas, errores de correo e identificadores operativos.
+
 No aplique esta migración directamente en producción sin revisar antes el diff,
 hacer copia de seguridad y ejecutarla en un entorno de prueba. Después ejecute
 `supabase/verification.sql`.

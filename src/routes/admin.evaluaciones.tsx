@@ -71,7 +71,7 @@ function AdminAssessments({ user }: { user: SessionUser }) {
   const [quizLessonId, setQuizLessonId] = useState('')
   const [quizBankId, setQuizBankId] = useState('')
   const [quizTitle, setQuizTitle] = useState('')
-  const [quizCount, setQuizCount] = useState(5)
+  const [quizCount, setQuizCount] = useState(10)
   const [notice, setNotice] = useState('')
 
   const load = useCallback(async () => {
@@ -207,6 +207,7 @@ function AdminAssessments({ user }: { user: SessionUser }) {
         question_count: quizCount,
         passing_percent: 100,
         required_perfect_streak: 3,
+        completion_mode: 'cumulative_perfect',
         randomize_questions: true,
         randomize_options: true,
         minimum_retry_seconds: 0,
@@ -452,6 +453,10 @@ function AdminAssessments({ user }: { user: SessionUser }) {
             <button className="button button--primary" type="submit">
               Publicar evaluación
             </button>
+            <p className="muted">
+              La prueba exigirá 100% de aciertos en 3 rondas perfectas
+              acumulativas.
+            </p>
           </form>
           <div className="mini-list">
             {quizzes
