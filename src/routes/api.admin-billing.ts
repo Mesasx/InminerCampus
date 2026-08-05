@@ -166,6 +166,23 @@ export const Route = createFileRoute('/api/admin-billing')({
           )
         }
         const now = new Date().toISOString()
+        const { data: currentPurchase } = await administrator.supabase
+          .from('purchases')
+          .select('id, invoice_status')
+          .eq('id', action.purchaseId)
+          .maybeSingle()
+        if (!currentPurchase) {
+          return Response.json(
+            { error: 'No se ha encontrado el pago.' },
+            { status: 404 },
+          )
+        }
+        if (currentPurchase.invoice_status === 'refunded') {
+          return Response.json(
+            { error: 'Una factura reembolsada no puede modificarse.' },
+            { status: 409 },
+          )
+        }
         const update = {
           invoice_status: action.invoiceStatus,
           invoice_number: action.invoiceNumber || null,
@@ -175,12 +192,14 @@ export const Route = createFileRoute('/api/admin-billing')({
           invoice_sent_at:
             action.invoiceStatus === 'invoice_sent' ? now : null,
         }
-        const { error } = await administrator.supabase
+        const { data: updatedPurchase, error } = await administrator.supabase
           .from('purchases')
           .update(update)
           .eq('id', action.purchaseId)
           .in('status', ['paid', 'refunded', 'partially_refunded'])
-        if (error) {
+          .select('id')
+          .maybeSingle()
+        if (error || !updatedPurchase) {
           return Response.json(
             { error: 'No se ha podido actualizar la factura.' },
             { status: 500 },

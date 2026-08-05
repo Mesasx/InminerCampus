@@ -25,6 +25,9 @@ type Attempt = {
   title: string
   currentStreak: number
   requiredStreak: number
+  currentPerfectRounds?: number
+  requiredPerfectRounds?: number
+  completionMode?: 'consecutive_perfect' | 'cumulative_perfect'
   questions: AttemptQuestion[]
 }
 
@@ -33,6 +36,10 @@ type AttemptResult = {
   isPerfect: boolean
   perfectStreak: number
   requiredStreak: number
+  perfectRounds?: number
+  requiredPerfectRounds?: number
+  completionMode?: 'consecutive_perfect' | 'cumulative_perfect'
+  reviewParts?: Array<{ position: number; title: string }>
   evaluationCompleted: boolean
 }
 
@@ -152,8 +159,9 @@ function Evaluation({
           <span className="eyebrow">Evaluación</span>
           <h1>{attempt?.title || 'Comprueba tus conocimientos'}</h1>
           <p>
-            Necesitas una puntuación perfecta tres veces consecutivas, salvo que
-            el curso indique otra configuración.
+            {attempt?.completionMode === 'consecutive_perfect'
+              ? 'Necesitas completar las rondas perfectas de forma consecutiva.'
+              : 'Cada ronda incluye una pregunta por cada parte del Bloque 1. Necesitas acertarlas todas en 3 rondas; las rondas perfectas se acumulan.'}
           </p>
         </div>
         <Link
@@ -180,7 +188,9 @@ function Evaluation({
               <strong>
                 {result.isPerfect
                   ? 'Intento perfecto'
-                  : 'La racha vuelve a cero'}
+                  : result.completionMode === 'consecutive_perfect'
+                    ? 'La racha vuelve a cero'
+                    : 'Repasa las partes indicadas y vuelve a intentarlo'}
               </strong>
             </div>
           </div>
@@ -190,12 +200,37 @@ function Evaluation({
               <span className="stat-card__value">{result.scorePercent}%</span>
             </article>
             <article className="stat-card">
-              <span className="stat-card__label">Racha</span>
+              <span className="stat-card__label">
+                {result.completionMode === 'consecutive_perfect'
+                  ? 'Racha perfecta'
+                  : 'Rondas perfectas'}
+              </span>
               <span className="stat-card__value">
-                {result.perfectStreak}/{result.requiredStreak}
+                {result.completionMode === 'consecutive_perfect'
+                  ? result.perfectStreak
+                  : (result.perfectRounds ?? result.perfectStreak)}
+                /{result.requiredPerfectRounds ?? result.requiredStreak}
               </span>
             </article>
           </div>
+          {!result.isPerfect && result.reviewParts?.length ? (
+            <div className="evaluation-review">
+              <h2>Partes que conviene repasar</h2>
+              <ul>
+                {result.reviewParts.map((part) => (
+                  <li key={part.position}>
+                    <strong>Parte 1.{part.position}</strong> · {part.title}
+                  </li>
+                ))}
+              </ul>
+              <p className="muted">
+                Por seguridad académica no mostramos la respuesta correcta.
+                {result.completionMode === 'consecutive_perfect'
+                  ? 'Necesitas iniciar una nueva racha perfecta.'
+                  : 'Tus rondas perfectas anteriores se conservan.'}
+              </p>
+            </div>
+          ) : null}
           {result.evaluationCompleted ? (
             <Link
               className="button button--primary"
@@ -217,8 +252,15 @@ function Evaluation({
       ) : attempt ? (
         <form className="form-grid" style={{ marginTop: 18 }} onSubmit={submit}>
           <div className="alert alert--info">
-            Intento {attempt.attemptNumber} · Racha actual:{' '}
-            {attempt.currentStreak}/{attempt.requiredStreak}
+            Ronda {attempt.attemptNumber} ·{' '}
+            {attempt.completionMode === 'consecutive_perfect'
+              ? 'Racha perfecta'
+              : 'Rondas perfectas'}:{' '}
+            {attempt.completionMode === 'consecutive_perfect'
+              ? attempt.currentStreak
+              : (attempt.currentPerfectRounds ?? attempt.currentStreak)}
+            /
+            {attempt.requiredPerfectRounds ?? attempt.requiredStreak}
           </div>
           {attempt.questions.map((question, index) => (
             <fieldset className="panel" key={question.id}>

@@ -1860,6 +1860,34 @@ h3 {
   gap: 10px;
 }
 
+.audio-lesson__progress {
+  display: grid;
+  grid-template-columns: minmax(210px, auto) minmax(220px, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding-block: 18px;
+}
+
+.audio-lesson__progress strong {
+  display: block;
+  margin-top: 3px;
+}
+
+.audio-lesson__progress-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-soft);
+}
+
+.audio-lesson__progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--orange), #f5a45f);
+  transition: width 240ms ease;
+}
+
 .audio-step {
   min-width: 0;
   border: 1px solid var(--line);
@@ -2036,6 +2064,85 @@ h3 {
   background: var(--orange);
   color: white;
   font-weight: 800;
+}
+
+.lesson-slide__toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lesson-slide__source,
+.lesson-notes__source {
+  display: block;
+  margin-top: 18px;
+  color: var(--muted);
+}
+
+.lesson-notes p,
+.lesson-notes li {
+  line-height: 1.7;
+}
+
+.lesson-notes ul,
+.evaluation-review ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 22px;
+}
+
+.lesson-slide-modal {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: rgba(12, 25, 40, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.lesson-slide-modal__close {
+  position: fixed;
+  z-index: 1;
+  top: 24px;
+  right: 24px;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.lesson-slide--expanded {
+  width: min(960px, 100%);
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  padding: clamp(28px, 6vw, 72px);
+}
+
+.lesson-slide--expanded:hover {
+  transform: none;
+}
+
+.lesson-slide--expanded h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.lesson-slide--expanded p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.75;
+}
+
+.evaluation-review {
+  margin: 8px 0 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
 }
 
 .lesson-slide p {
@@ -2617,9 +2724,12 @@ button.admin-list__item {
 }
 
 @media (max-width: 900px) {
-  .audio-lesson__steps,
   .content-editor__create {
     grid-template-columns: 1fr;
+  }
+
+  .audio-lesson__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .audio-step strong {
@@ -2839,6 +2949,20 @@ button.admin-list__item {
   .lesson-slides__grid,
   .slide-editor__form {
     grid-template-columns: 1fr;
+  }
+
+  .audio-lesson__progress,
+  .audio-lesson__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-slide-modal {
+    padding: 14px;
+  }
+
+  .lesson-slide-modal__close {
+    top: 18px;
+    right: 18px;
   }
 
   .slide-editor__item {

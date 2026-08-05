@@ -55,7 +55,7 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
         const count = (table: string, column = 'organization_id') =>
           supabase
             .from(table)
-            .select('*', { count: 'exact', head: true })
+            .select('id', { count: 'exact', head: true })
             .eq(column, row.organization_id)
 
         const [purchases, codes, enrollments, items] = await Promise.all([

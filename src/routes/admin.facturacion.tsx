@@ -443,6 +443,7 @@ function BillingDetail({
   onSave: () => void
 }) {
   const item = purchase.purchase_items[0]
+  const invoiceLocked = purchase.invoice_status === 'refunded'
   return (
     <>
       <div className="panel__header">
@@ -549,6 +550,7 @@ function BillingDetail({
           <div className="field">
             <label htmlFor="invoice-status">Estado de factura</label>
             <select
+              disabled={invoiceLocked}
               id="invoice-status"
               value={invoiceStatus}
               onChange={(event) =>
@@ -558,11 +560,13 @@ function BillingDetail({
               <option value="pending_invoice">Pendiente</option>
               <option value="invoiced">Emitida</option>
               <option value="invoice_sent">Enviada</option>
+              <option value="refunded">Reembolsada</option>
             </select>
           </div>
           <div className="field">
             <label htmlFor="invoice-number">Número de factura</label>
             <input
+              disabled={invoiceLocked}
               id="invoice-number"
               maxLength={120}
               placeholder="Ej. 2026-0042"
@@ -576,6 +580,7 @@ function BillingDetail({
         <div className="field">
           <label htmlFor="billing-admin-notes">Notas internas</label>
           <textarea
+            disabled={invoiceLocked}
             id="billing-admin-notes"
             maxLength={5_000}
             value={adminNotes}
@@ -584,11 +589,12 @@ function BillingDetail({
         </div>
         <button
           className="button button--primary"
-          disabled={saving}
+          disabled={saving || invoiceLocked}
           onClick={onSave}
           type="button"
         >
-          <ReceiptText size={17} /> Guardar facturación
+          <ReceiptText size={17} />{' '}
+          {invoiceLocked ? 'Factura reembolsada' : 'Guardar facturación'}
         </button>
       </div>
 

@@ -36,6 +36,8 @@ type LessonQuiz = {
   title: string
   question_count: number
   passing_percent: number
+  required_perfect_streak: number
+  completion_mode: 'consecutive_perfect' | 'cumulative_perfect'
   active: boolean
 }
 
@@ -140,7 +142,7 @@ function CourseContent({
         supabase
           .from('course_modules')
           .select(
-            'id, title, description, position, lessons(id, title, summary, position, duration_minutes, kind, active, lesson_audio_segments(id, position, title, published, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, active))',
+            'id, title, description, position, lessons(id, title, summary, position, duration_minutes, kind, active, lesson_audio_segments(id, position, title, published, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, required_perfect_streak, completion_mode, active))',
           )
           .eq('course_version_id', typedEnrollment.course_version_id)
           .eq('lessons.active', true)
@@ -248,7 +250,7 @@ function CourseContent({
             <article>
               <Headphones size={21} />
               <strong>{courseTotals.audioBlocks}</strong>
-              <span>bloques de audio</span>
+              <span>partes de audio</span>
             </article>
             <article>
               <Presentation size={21} />
@@ -258,7 +260,7 @@ function CourseContent({
             <article>
               <ShieldCheck size={21} />
               <strong>{courseTotals.tests}</strong>
-              <span>test final</span>
+              <span>evaluaciones</span>
             </article>
           </section>
 
@@ -268,8 +270,13 @@ function CourseContent({
                 <span className="eyebrow">Evaluación incluida</span>
                 <h2>{finalAssessment.quiz.title}</h2>
                 <p>
-                  Test de {finalAssessment.quiz.question_count} preguntas
-                  aleatorias. Se habilita al completar los audios anteriores.
+                  Test de {finalAssessment.quiz.question_count} preguntas al 100%.
+                  Necesitas {finalAssessment.quiz.required_perfect_streak} rondas
+                  perfectas
+                  {finalAssessment.quiz.completion_mode === 'cumulative_perfect'
+                    ? ' acumulativas.'
+                    : ' consecutivas.'}{' '}
+                  Se habilita al completar los audios anteriores.
                 </p>
               </div>
               {isAdministrator ? (
@@ -281,7 +288,7 @@ function CourseContent({
                 </Link>
               ) : (
                 <span className="status">
-                  Bloqueado hasta completar el curso
+                  Bloqueado hasta completar los audios
                 </span>
               )}
             </section>

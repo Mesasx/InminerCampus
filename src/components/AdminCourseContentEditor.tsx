@@ -166,27 +166,27 @@ export function AdminCourseContentEditor({
     }
     setLessonTitle('')
     setSelectedLessonId(data.id)
-    onNotice('Lección creada. Ya puedes preparar sus cinco bloques.')
+    onNotice('Lección creada. Ya puedes preparar sus diez partes.')
     await load()
   }
 
-  async function createFiveSegments() {
+  async function createTenSegments() {
     if (!selectedLesson) return
     const occupied = new Set(
       selectedLesson.lesson_audio_segments.map((segment) => segment.position),
     )
-    const rows = [1, 2, 3, 4, 5]
+    const rows = Array.from({ length: 10 }, (_, index) => index + 1)
       .filter((position) => !occupied.has(position))
       .map((position) => ({
         lesson_id: selectedLesson.id,
         position,
-        title: `Bloque ${position}`,
+        title: `Parte ${position}`,
         narration_text: '',
         duration_seconds: 120,
         published: false,
       }))
     if (!rows.length) {
-      onNotice('Esta lección ya tiene sus cinco bloques.')
+      onNotice('Esta lección ya tiene sus diez partes.')
       return
     }
     const { error } =
@@ -196,7 +196,7 @@ export function AdminCourseContentEditor({
     onNotice(
       error
         ? 'No se ha podido crear la estructura de audio.'
-        : 'Estructura de cinco bloques creada como borrador.',
+        : 'Estructura de diez partes creada como borrador.',
     )
     if (!error) await load()
   }
@@ -234,9 +234,9 @@ export function AdminCourseContentEditor({
         ? segment.published &&
           !segment.audio_storage_path &&
           !segment.audio_external_url
-          ? 'Añade un audio antes de publicar el bloque.'
-          : 'No se ha podido guardar el bloque.'
-        : `Bloque ${segment.position} guardado.`,
+          ? 'Añade un audio antes de publicar la parte.'
+          : 'No se ha podido guardar la parte.'
+        : `Parte ${segment.position} guardada.`,
     )
     if (!error) await load()
   }
@@ -458,14 +458,14 @@ export function AdminCourseContentEditor({
                 </div>
                 <button
                   className="button button--primary"
-                  onClick={createFiveSegments}
+                  onClick={createTenSegments}
                   type="button"
                 >
-                  <FileAudio size={18} /> Preparar 5 bloques
+                  <FileAudio size={18} /> Preparar 10 partes
                 </button>
               </div>
               <p className="muted">
-                Cada bloque dura aproximadamente dos minutos. Solo se puede
+                Cada parte contiene un audio secuencial. Solo se puede
                 publicar cuando tenga un archivo o una URL de audio.
               </p>
               <div className="audio-segment-editor">
@@ -488,7 +488,7 @@ export function AdminCourseContentEditor({
                       <div className="form-grid">
                         <div className="field">
                           <label htmlFor={`segment-title-${segment.id}`}>
-                            Título del bloque
+                            Título de la parte
                           </label>
                           <input
                             id={`segment-title-${segment.id}`}
@@ -584,7 +584,7 @@ export function AdminCourseContentEditor({
                             onClick={() => saveSegment(segment)}
                             type="button"
                           >
-                            <Save size={17} /> Guardar bloque
+                            <Save size={17} /> Guardar parte
                           </button>
                         </div>
                       </div>
