@@ -16,7 +16,7 @@ test('cada audio del bloque 1 tiene contenido visual detallado', async () => {
 
   assert.equal(audioRows.length, 10)
   assert.match(sql, /source_slide_two/)
-  assert.match(sql, /segment_id,\n\s+3::smallint/)
+  assert.match(sql, /segment_id,\r?\n\s+3::smallint/)
   assert.match(sql, /Presentación de Cursos Pedro en Google Drive/)
 })
 
