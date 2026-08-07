@@ -4,7 +4,17 @@ import {
   hasAvailableLessonContent,
   hasAvailableModuleContent,
   isPublishedAudioSegment,
+  relationArray,
 } from '../src/lib/course-content.ts'
+
+test('normaliza relaciones opcionales de Supabase', () => {
+  const quiz = { id: 'quiz-1' }
+
+  assert.deepEqual(relationArray(null), [])
+  assert.deepEqual(relationArray(undefined), [])
+  assert.deepEqual(relationArray(quiz), [quiz])
+  assert.deepEqual(relationArray([quiz]), [quiz])
+})
 
 test('solo considera disponibles las partes publicadas que tienen audio', () => {
   assert.equal(
