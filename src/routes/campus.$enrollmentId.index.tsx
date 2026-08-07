@@ -14,6 +14,8 @@ import {
   hasAvailableLessonContent,
   hasAvailableModuleContent,
   isPublishedAudioSegment,
+  relationArray,
+  type Relation,
 } from '../lib/course-content'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
@@ -67,8 +69,6 @@ type Module = {
   lessons: Lesson[]
 }
 
-type Relation<T> = T | T[] | null
-
 type LessonAudioSegmentRow = Omit<
   LessonAudioSegment,
   'lesson_segment_slides'
@@ -83,11 +83,6 @@ type LessonRow = Omit<Lesson, 'lesson_audio_segments' | 'quizzes'> & {
 
 type ModuleRow = Omit<Module, 'lessons'> & {
   lessons: Relation<LessonRow>
-}
-
-function relationArray<T>(value: Relation<T> | undefined): T[] {
-  if (Array.isArray(value)) return value
-  return value == null ? [] : [value]
 }
 
 function CampusCoursePage() {

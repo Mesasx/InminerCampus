@@ -4,6 +4,13 @@ export type AudioAvailability = {
   audio_external_url: string | null
 }
 
+export type Relation<T> = T | T[] | null
+
+export function relationArray<T>(value: Relation<T> | undefined): T[] {
+  if (Array.isArray(value)) return value
+  return value == null ? [] : [value]
+}
+
 export function isPublishedAudioSegment(
   segment: AudioAvailability,
 ): boolean {
