@@ -2024,7 +2024,7 @@ h3 {
 
 .lesson-slides__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -2049,9 +2049,11 @@ h3 {
 
 .lesson-slide img {
   width: calc(100% + 56px);
-  max-height: 260px;
+  aspect-ratio: 16 / 9;
   margin: -28px -28px 24px;
-  object-fit: cover;
+  border-bottom: 1px solid var(--line);
+  background: white;
+  object-fit: contain;
 }
 
 .lesson-slide__number {
@@ -2120,10 +2122,17 @@ h3 {
 }
 
 .lesson-slide--expanded {
-  width: min(960px, 100%);
+  width: min(1200px, 100%);
   max-height: calc(100vh - 64px);
   overflow: auto;
-  padding: clamp(28px, 6vw, 72px);
+  padding: 48px;
+}
+
+.lesson-slide--expanded img {
+  width: calc(100% + 96px);
+  max-height: none;
+  margin: -48px -48px 40px;
+  object-fit: contain;
 }
 
 .lesson-slide--expanded:hover {
@@ -2963,6 +2972,15 @@ button.admin-list__item {
   .lesson-slide-modal__close {
     top: 18px;
     right: 18px;
+  }
+
+  .lesson-slide--expanded {
+    padding: 24px;
+  }
+
+  .lesson-slide--expanded img {
+    width: calc(100% + 48px);
+    margin: -24px -24px 24px;
   }
 
   .slide-editor__item {
