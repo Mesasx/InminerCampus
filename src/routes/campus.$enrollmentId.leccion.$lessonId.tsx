@@ -30,8 +30,6 @@ type LessonData = {
   id: string
   title: string
   summary: string
-  kind: string
-  duration_minutes: number
   resources: Resource[]
   quiz: {
     id: string
@@ -39,7 +37,6 @@ type LessonData = {
     requiredPerfectRounds: number
     completionMode: 'consecutive_perfect' | 'cumulative_perfect'
   } | null
-  progressStatus: string
 }
 
 function LessonPage() {
@@ -79,18 +76,15 @@ function Lesson({
     if (!supabase) return
 
     void (async () => {
-      let segmentRequest = supabase
+      const segmentRequest = supabase
         .from('lesson_audio_segments')
         .select(
           'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
         )
         .eq('lesson_id', lessonId)
         .eq('lesson_audio_progress.enrollment_id', enrollmentId)
+        .eq('published', true)
         .order('position', { ascending: true })
-
-      if (!isAdministrator) {
-        segmentRequest = segmentRequest.eq('published', true)
-      }
 
       const [
         { data: lessonRow },
@@ -100,7 +94,7 @@ function Lesson({
         supabase
           .from('lessons')
           .select(
-            'id, title, summary, kind, duration_minutes, lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode)',
+            'id, title, lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode)',
           )
           .eq('id', lessonId)
           .maybeSingle(),
@@ -120,9 +114,6 @@ function Lesson({
         const row = lessonRow as unknown as {
           id: string
           title: string
-          summary: string
-          kind: string
-          duration_minutes: number
           lesson_resources: Resource[]
           quizzes: Array<{
             id: string
@@ -135,12 +126,17 @@ function Lesson({
           resolveResources(supabase, row.lesson_resources),
           resolveSegments(supabase, segmentRows ?? []),
         ])
+        const playableSegments = resolved.filter((segment) =>
+          Boolean(segment.audioUrl),
+        )
+        if (!playableSegments.length) {
+          setLoading(false)
+          return
+        }
         setLesson({
           id: row.id,
           title: row.title,
-          summary: row.summary,
-          kind: row.kind,
-          duration_minutes: row.duration_minutes,
+          summary: `Contenido disponible en ${playableSegments.length} partes de audio.`,
           resources: resolvedResources,
           quiz: row.quizzes[0]
             ? {
@@ -150,17 +146,12 @@ function Lesson({
                 completionMode: row.quizzes[0].completion_mode,
               }
             : null,
-          progressStatus: progress?.status ?? 'available',
         })
 
-        setSegments(
-          isAdministrator
-            ? resolved
-            : resolved.filter((segment) => Boolean(segment.audioUrl)),
-        )
+        setSegments(playableSegments)
         setAudioCompleted(
-          resolved.length > 0
-            ? resolved.every((segment) => segment.completed)
+          playableSegments.length > 0
+            ? playableSegments.every((segment) => segment.completed)
             : progress?.status === 'completed',
         )
       }
@@ -172,7 +163,7 @@ function Lesson({
     <AppShell user={user} title={lesson?.title || 'Lección'}>
       <div className="dashboard-heading">
         <div>
-          <span className="eyebrow">Lección</span>
+          <span className="eyebrow">Bloque</span>
           <h1>{lesson?.title || 'Contenido'}</h1>
           <p>{lesson?.summary}</p>
         </div>
