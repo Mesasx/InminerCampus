@@ -2,16 +2,19 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   CheckCircle2,
   Circle,
-  FileText,
   Headphones,
   LockKeyhole,
   Presentation,
-  PlayCircle,
   ShieldCheck,
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
+import {
+  hasAvailableLessonContent,
+  hasAvailableModuleContent,
+  isPublishedAudioSegment,
+} from '../lib/course-content'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
@@ -28,6 +31,9 @@ type LessonAudioSegment = {
   position: number
   title: string
   published: boolean
+  audio_storage_path: string | null
+  audio_external_url: string | null
+  duration_seconds: number
   lesson_segment_slides: SegmentSlide[]
 }
 
@@ -44,10 +50,7 @@ type LessonQuiz = {
 type Lesson = {
   id: string
   title: string
-  summary: string
   position: number
-  duration_minutes: number
-  kind: string
   lesson_audio_segments: LessonAudioSegment[]
   quizzes: LessonQuiz[]
   progress?: {
@@ -142,7 +145,7 @@ function CourseContent({
         supabase
           .from('course_modules')
           .select(
-            'id, title, description, position, lessons(id, title, summary, position, duration_minutes, kind, active, lesson_audio_segments(id, position, title, published, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, required_perfect_streak, completion_mode, active))',
+            'id, title, description, position, lessons(id, title, position, active, lesson_audio_segments(id, position, title, published, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, required_perfect_streak, completion_mode, active))',
           )
           .eq('course_version_id', typedEnrollment.course_version_id)
           .eq('lessons.active', true)
@@ -160,24 +163,30 @@ function CourseContent({
       )
       setCourseTitle(typedEnrollment.course_versions.courses.title)
       setModules(
-        ((moduleRows ?? []) as unknown as ModuleRow[]).map((module) => ({
-          ...module,
-          lessons: relationArray(module.lessons).map((lesson) => ({
-            ...lesson,
-            lesson_audio_segments: relationArray(
-              lesson.lesson_audio_segments,
-            ).map(
-              (segment) => ({
-                ...segment,
-                lesson_segment_slides: relationArray(
-                  segment.lesson_segment_slides,
+        ((moduleRows ?? []) as unknown as ModuleRow[])
+          .map((module) => ({
+            ...module,
+            lessons: relationArray(module.lessons)
+              .map((lesson) => ({
+                ...lesson,
+                lesson_audio_segments: relationArray(
+                  lesson.lesson_audio_segments,
+                )
+                  .filter(isPublishedAudioSegment)
+                  .map((segment) => ({
+                    ...segment,
+                    lesson_segment_slides: relationArray(
+                      segment.lesson_segment_slides,
+                    ),
+                  })),
+                quizzes: relationArray(lesson.quizzes).filter(
+                  (quiz) => quiz.active,
                 ),
-              }),
-            ),
-            quizzes: relationArray(lesson.quizzes),
-            progress: progressMap.get(lesson.id),
-          })),
-        })),
+                progress: progressMap.get(lesson.id),
+              }))
+              .filter(hasAvailableLessonContent),
+          }))
+          .filter(hasAvailableModuleContent),
       )
       setLoading(false)
     }
@@ -195,7 +204,7 @@ function CourseContent({
           module.lessons.forEach((lesson) => {
             const segments = relationArray(lesson.lesson_audio_segments)
             const quizzes = relationArray(lesson.quizzes)
-            totals.audioBlocks += segments.length
+            totals.audioParts += segments.length
             totals.slides += segments.reduce(
               (count, segment) =>
                 count + relationArray(segment.lesson_segment_slides).length,
@@ -205,7 +214,7 @@ function CourseContent({
           })
           return totals
         },
-        { audioBlocks: 0, slides: 0, tests: 0 },
+        { audioParts: 0, slides: 0, tests: 0 },
       ),
     [modules],
   )
@@ -249,7 +258,7 @@ function CourseContent({
           <section className="course-content-summary">
             <article>
               <Headphones size={21} />
-              <strong>{courseTotals.audioBlocks}</strong>
+              <strong>{courseTotals.audioParts}</strong>
               <span>partes de audio</span>
             </article>
             <article>
@@ -299,7 +308,7 @@ function CourseContent({
               <div className="panel__header">
                 <div>
                   <span className="status status--orange">
-                    Módulo {module.position}
+                    Bloque {module.position}
                   </span>
                   <h2 style={{ marginTop: 12 }}>{module.title}</h2>
                   {module.description ? <p>{module.description}</p> : null}
@@ -315,10 +324,18 @@ function CourseContent({
                       : status === 'locked'
                         ? LockKeyhole
                         : Circle
-                  const LessonIcon =
-                    lesson.kind === 'document' ? FileText : PlayCircle
                   const segments = relationArray(
                     lesson.lesson_audio_segments,
+                  )
+                  const audioMinutes = Math.max(
+                    1,
+                    Math.ceil(
+                      segments.reduce(
+                        (seconds, segment) =>
+                          seconds + segment.duration_seconds,
+                        0,
+                      ) / 60,
+                    ),
                   )
                   const quizzes = relationArray(lesson.quizzes)
                   const slideCount = segments.reduce(
@@ -341,13 +358,16 @@ function CourseContent({
                     <article className="course-lesson-card" key={lesson.id}>
                       <div className="course-lesson-card__main">
                         <span className="app-course__number">
-                          <LessonIcon size={20} />
+                          <Headphones size={20} />
                         </span>
                         <div className="course-lesson-card__copy">
                           <h3>{lesson.title}</h3>
-                          <p>{lesson.summary}</p>
+                          <p>
+                            Contenido disponible en {segments.length} partes de
+                            audio.
+                          </p>
                           <div className="course-lesson-card__meta">
-                            <span>{lesson.duration_minutes} min</span>
+                            <span>{audioMinutes} min de audio</span>
                             <span>
                               <Headphones size={14} />{' '}
                               {segments.length} audios
