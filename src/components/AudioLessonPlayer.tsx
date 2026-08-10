@@ -1,5 +1,4 @@
 import {
-  Check,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -470,150 +469,69 @@ export function AudioLessonPlayer({
 
   return (
     <section className="audio-lesson" aria-label="Lección en audio">
-      <div className="audio-lesson__progress panel">
-        <div>
-          <span className="eyebrow">Bloque {blockPosition}</span>
-          <strong>{completedParts} de {segments.length} partes completadas</strong>
-        </div>
-        <div
-          aria-label={`${overallPercent}% completado`}
-          aria-valuemax={100}
-          aria-valuemin={0}
-          aria-valuenow={overallPercent}
-          className="audio-lesson__progress-track"
-          role="progressbar"
+      <header className="panel explanation-switcher">
+        <button
+          aria-label="Explicación anterior"
+          className="explanation-switcher__arrow"
+          disabled={activeIndex === 0}
+          onClick={() => selectSegment(activeIndex - 1)}
+          type="button"
         >
-          <span style={{ width: `${overallPercent}%` }} />
-        </div>
-      </div>
-
-      <div className="audio-lesson__steps" aria-label="Partes de la lección">
-        {segments.map((segment, index) => {
-          const state = segmentState[segment.id]
-          const locked =
-            !previewMode && index > firstIncompleteIndex && !state?.completed
-          return (
-            <button
-              aria-current={index === activeIndex ? 'step' : undefined}
-              className={[
-                'audio-step',
-                index === activeIndex ? 'is-active' : '',
-                state?.completed ? 'is-complete' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              disabled={locked}
-              key={segment.id}
-              onClick={() => selectSegment(index)}
-              title={`${blockPosition}.${index + 1} · ${segment.title}`}
-              type="button"
+          <ChevronLeft size={20} />
+          <span>Anterior</span>
+        </button>
+        <div className="explanation-switcher__content">
+          <div className="explanation-switcher__meta">
+            <span className="eyebrow">Bloque {blockPosition}</span>
+            <span>{completedParts} de {segments.length} escuchadas</span>
+          </div>
+          <label className="explanation-switcher__select">
+            <span>Explicación {activeIndex + 1} de {segments.length}</span>
+            <select
+              aria-label="Cambiar explicación"
+              onChange={(event) => selectSegment(Number(event.target.value))}
+              value={activeIndex}
             >
-              <span>{state?.completed ? <Check size={16} /> : index + 1}</span>
-              <small>Parte {blockPosition}.{index + 1}</small>
-            </button>
-          )
-        })}
-      </div>
-
-      <article className="panel audio-player">
-        <div className="audio-player__heading">
-          <div>
-            <span className="eyebrow">
-              Bloque {blockPosition} · Parte {blockPosition}.{activeIndex + 1}
-            </span>
-            <h2>{activeSegment.title}</h2>
-          </div>
-          <span className="status">
-            {previewMode
-              ? sources[activeSegment.id]
-                ? 'Vista previa'
-                : 'Audio pendiente'
-              : activeState.completed
-                ? 'Escuchado'
-                : 'En curso'}
-          </span>
-        </div>
-
-        {previewMode ? (
-          <div className="alert alert--info">
-            Vista previa administrativa: puedes revisar los guiones y las
-            diapositivas aunque todavía no exista una grabación.
-          </div>
-        ) : null}
-
-        <audio
-          onEnded={() => {
-            setPlaying(false)
-            void reportProgress(activeSegment.duration_seconds, true)
-          }}
-          onLoadedMetadata={(event) => {
-            const resumeAt = activeState.completed
-              ? 0
-              : Math.min(activeState.max, Math.max(event.currentTarget.duration - 1, 0))
-            event.currentTarget.currentTime = resumeAt
-            lastReportedRef.current = resumeAt
-            setCurrentTime(resumeAt)
-          }}
-          onPause={() => setPlaying(false)}
-          onPlay={() => setPlaying(true)}
-          onRateChange={(event) => {
-            event.currentTarget.playbackRate = 1
-          }}
-          onTimeUpdate={(event) => {
-            const next = event.currentTarget.currentTime
-            setCurrentTime(next)
-            if (
-              !activeState.completed &&
-              next - lastReportedRef.current >= 4
-            ) {
-              lastReportedRef.current = next
-              void reportProgress(next)
-            }
-          }}
-          preload="metadata"
-          ref={audioRef}
-          src={sources[activeSegment.id]}
-        />
-
-        <div className="audio-player__controls">
-          <button
-            aria-label={playing ? 'Pausar' : 'Reproducir'}
-            className="audio-player__play"
-            disabled={!sources[activeSegment.id]}
-            onClick={togglePlayback}
-            type="button"
+              {segments.map((segment, index) => {
+                const completed = segmentState[segment.id]?.completed
+                const locked =
+                  !previewMode &&
+                  index > firstIncompleteIndex &&
+                  !completed
+                return (
+                  <option disabled={locked} key={segment.id} value={index}>
+                    {blockPosition}.{index + 1} · {segment.title}
+                    {completed ? ' · escuchada' : ''}
+                  </option>
+                )
+              })}
+            </select>
+          </label>
+          <div
+            aria-label={`${overallPercent}% completado`}
+            aria-valuemax={100}
+            aria-valuemin={0}
+            aria-valuenow={overallPercent}
+            className="audio-lesson__progress-track"
+            role="progressbar"
           >
-            {playing ? <Pause size={24} /> : <Play size={24} />}
-          </button>
-          <button
-            aria-label="Retroceder diez segundos"
-            className="icon-button"
-            onClick={() => handleSeek(Math.max(0, currentTime - 10))}
-            type="button"
-          >
-            <RotateCcw size={18} />
-          </button>
-          <span>{formatTime(currentTime)}</span>
-          <input
-            aria-label="Posición del audio"
-            max={activeSegment.duration_seconds}
-            min={0}
-            onChange={(event) => handleSeek(Number(event.target.value))}
-            step={1}
-            type="range"
-            value={Math.min(currentTime, activeSegment.duration_seconds)}
-          />
-          <span>{formatTime(activeSegment.duration_seconds)}</span>
-        </div>
-        {notice ? <p className="audio-player__notice">{notice}</p> : null}
-
-        {previewMode && activeSegment.narration_text ? (
-          <div className="audio-player__script">
-            <span className="eyebrow">Guion del audio</span>
-            <p>{activeSegment.narration_text}</p>
+            <span style={{ width: `${overallPercent}%` }} />
           </div>
-        ) : null}
-      </article>
+        </div>
+        <button
+          aria-label="Explicación siguiente"
+          className="explanation-switcher__arrow"
+          disabled={
+            activeIndex >= segments.length - 1 ||
+            (!previewMode && !activeState.completed)
+          }
+          onClick={() => selectSegment(activeIndex + 1)}
+          type="button"
+        >
+          <span>Siguiente</span>
+          <ChevronRight size={20} />
+        </button>
+      </header>
 
       <section className="lesson-slides" aria-label="Diapositivas del apartado">
         <div className="lesson-slides__heading">
@@ -677,6 +595,107 @@ export function AudioLessonPlayer({
           </article>
         ) : null}
       </section>
+
+      <article className="panel audio-player">
+        <div className="audio-player__heading">
+          <div className="audio-player__label">
+            <Volume2 aria-hidden="true" size={18} />
+            <div>
+              <span className="eyebrow">Audio explicativo</span>
+              <strong>Parte {blockPosition}.{activeIndex + 1}</strong>
+            </div>
+          </div>
+          <span className="status">
+            {previewMode
+              ? sources[activeSegment.id]
+                ? 'Vista previa'
+                : 'Audio pendiente'
+              : activeState.completed
+                ? 'Escuchado'
+                : 'En curso'}
+          </span>
+        </div>
+
+        <audio
+          onEnded={() => {
+            setPlaying(false)
+            void reportProgress(activeSegment.duration_seconds, true)
+          }}
+          onLoadedMetadata={(event) => {
+            const resumeAt = activeState.completed
+              ? 0
+              : Math.min(activeState.max, Math.max(event.currentTarget.duration - 1, 0))
+            event.currentTarget.currentTime = resumeAt
+            lastReportedRef.current = resumeAt
+            setCurrentTime(resumeAt)
+          }}
+          onPause={() => setPlaying(false)}
+          onPlay={() => setPlaying(true)}
+          onRateChange={(event) => {
+            event.currentTarget.playbackRate = 1
+          }}
+          onTimeUpdate={(event) => {
+            const next = event.currentTarget.currentTime
+            setCurrentTime(next)
+            if (
+              !activeState.completed &&
+              next - lastReportedRef.current >= 4
+            ) {
+              lastReportedRef.current = next
+              void reportProgress(next)
+            }
+          }}
+          preload="metadata"
+          ref={audioRef}
+          src={sources[activeSegment.id]}
+        />
+
+        <div className="audio-player__controls">
+          <button
+            aria-label={playing ? 'Pausar' : 'Reproducir'}
+            className="audio-player__play"
+            disabled={!sources[activeSegment.id]}
+            onClick={togglePlayback}
+            type="button"
+          >
+            {playing ? <Pause size={19} /> : <Play size={19} />}
+          </button>
+          <button
+            aria-label="Retroceder diez segundos"
+            className="icon-button audio-player__rewind"
+            onClick={() => handleSeek(Math.max(0, currentTime - 10))}
+            type="button"
+          >
+            <RotateCcw size={16} />
+          </button>
+          <span>{formatTime(currentTime)}</span>
+          <input
+            aria-label="Posición del audio"
+            max={activeSegment.duration_seconds}
+            min={0}
+            onChange={(event) => handleSeek(Number(event.target.value))}
+            step={1}
+            type="range"
+            value={Math.min(currentTime, activeSegment.duration_seconds)}
+          />
+          <span>{formatTime(activeSegment.duration_seconds)}</span>
+        </div>
+        {notice ? <p className="audio-player__notice">{notice}</p> : null}
+
+        {previewMode ? (
+          <div className="alert alert--info audio-player__preview">
+            Vista previa administrativa: puedes revisar los guiones y las
+            diapositivas aunque todavía no exista una grabación.
+          </div>
+        ) : null}
+
+        {previewMode && activeSegment.narration_text ? (
+          <div className="audio-player__script">
+            <span className="eyebrow">Guion del audio</span>
+            <p>{activeSegment.narration_text}</p>
+          </div>
+        ) : null}
+      </article>
 
       {activeNote ? (
         <section className="panel lesson-notes">
