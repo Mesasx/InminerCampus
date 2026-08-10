@@ -15,6 +15,10 @@ const slideDeckMigrationUrl = new URL(
   '../supabase/migrations/20260810121209_update_course_one_slide_deck_v2.sql',
   import.meta.url,
 )
+const slideAccessMigrationUrl = new URL(
+  '../supabase/migrations/20260810123511_allow_course_one_v2_slide_reads.sql',
+  import.meta.url,
+)
 const playerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
 
 type Manifest = {
@@ -159,4 +163,17 @@ test('la V2 usa rutas nuevas y solo sustituye las cien diapositivas del Curso 1'
   assert.match(sql, /course_version\.duration_hours = 5/)
   assert.match(sql, /module\.position between 1 and 5/)
   assert.doesNotMatch(sql, /lesson_audio_progress|enrollments|audio_storage_path/)
+})
+
+test('la política privada permite firmar las diapositivas V2 solo a usuarios autorizados', async () => {
+  const sql = await readFile(slideAccessMigrationUrl, 'utf8')
+
+  assert.match(sql, /bucket_id = 'course-materials'/)
+  assert.match(sql, /name like 'course-1\/5h-v2\/%'/)
+  assert.match(sql, /current_user_is_enrolled\(cv\.id\)/)
+  assert.match(sql, /cv\.status = 'published'/)
+  assert.match(sql, /'tutor'::public\.app_role/)
+  assert.match(sql, /'administrador'::public\.app_role/)
+  assert.match(sql, /'superadministrador'::public\.app_role/)
+  assert.doesNotMatch(sql, /to anon|using \(true\)/i)
 })
