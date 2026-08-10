@@ -76,13 +76,10 @@ test('las diapositivas originales 4 a 10 están disponibles en alta resolución'
   )
 })
 
-test('las diapositivas se muestran completas y en una sola columna', async () => {
+test('el visor muestra una diapositiva completa cada vez', async () => {
   const css = await readFile(stylesUrl, 'utf8')
 
-  assert.match(
-    css,
-    /\.lesson-slides__grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)/s,
-  )
-  assert.match(css, /\.lesson-slide img\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s)
-  assert.match(css, /\.lesson-slide img\s*\{[^}]*object-fit:\s*contain/s)
+  assert.match(css, /\.lesson-slide__canvas\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s)
+  assert.match(css, /\.lesson-slide__canvas img\s*\{[^}]*object-fit:\s*contain/s)
+  assert.doesNotMatch(css, /\.lesson-slides__grid\s*\{/)
 })

@@ -1,0 +1,2010 @@
+{
+  "schemaVersion": 1,
+  "courseSlug": "operador-maquinaria-arranque-carga-viales",
+  "durationHours": 5,
+  "generatedAt": "2026-08-10T08:26:40.068Z",
+  "totalAudios": 50,
+  "totalSlides": 100,
+  "audios": [
+    {
+      "part": "1.1",
+      "block": 1,
+      "position": 1,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Introducción al movimiento de tierras en explotaciones",
+      "narration": "El movimiento de tierras reúne las operaciones necesarias para modificar el terreno en una explotación. El ciclo principal comprende el arranque, la carga, el transporte y la descarga, y puede completarse con extendido, nivelación, compactación y refino.",
+      "explanation": "El movimiento de tierras reúne las operaciones necesarias para modificar el terreno en una explotación. El ciclo principal comprende el arranque, la carga, el transporte y la descarga, y puede completarse con extendido, nivelación, compactación y refino. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El movimiento de tierras reúne las operaciones necesarias para modificar el terreno en una explotación",
+        "El ciclo principal comprende el arranque, la carga, el transporte y la descarga, y puede completarse con…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, página PDF 13",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 1,
+          "title": "Introducción al movimiento de tierras en explotaciones",
+          "body": "El movimiento de tierras reúne las operaciones necesarias para modificar el terreno en una explotación. El ciclo principal comprende el arranque, la carga, el transporte y la descarga, y puede completarse con extendido, nivelación, compactación y refino.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-01-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 4",
+          "sourceSlide": 4,
+          "altText": "Explicación visual de la parte 1.1: Introducción al movimiento de tierras en explotaciones"
+        },
+        {
+          "position": 2,
+          "deckSlide": 2,
+          "title": "Aplicación segura · Introducción al movimiento de tierras en explotaciones",
+          "body": "1. El movimiento de tierras reúne las operaciones necesarias para modificar el terreno en una explotación\n2. El ciclo principal comprende el arranque, la carga, el transporte y la descarga, y puede completarse con…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-01-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 4",
+          "sourceSlide": 4,
+          "altText": "Aplicación segura de la parte 1.1: Introducción al movimiento de tierras en explotaciones"
+        }
+      ]
+    },
+    {
+      "part": "1.2",
+      "block": 1,
+      "position": 2,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "La fase de arranque: concepto y objetivos principales",
+      "narration": "El arranque es la primera fase del ciclo. Su objetivo es separar el material del macizo o del terreno natural y dejarlo en condiciones adecuadas para su carga. El método depende de la naturaleza, dureza y estado del material.",
+      "explanation": "El arranque es la primera fase del ciclo. Su objetivo es separar el material del macizo o del terreno natural y dejarlo en condiciones adecuadas para su carga. El método depende de la naturaleza, dureza y estado del material. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El arranque es la primera fase del ciclo",
+        "Su objetivo es separar el material del macizo o del terreno natural y dejarlo en condiciones adecuadas para su…",
+        "El método depende de la naturaleza, dureza y estado del material"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, página PDF 13",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 3,
+          "title": "La fase de arranque: concepto y objetivos principales",
+          "body": "El arranque es la primera fase del ciclo. Su objetivo es separar el material del macizo o del terreno natural y dejarlo en condiciones adecuadas para su carga. El método depende de la naturaleza, dureza y estado del material.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-02-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 5",
+          "sourceSlide": 5,
+          "altText": "Explicación visual de la parte 1.2: La fase de arranque: concepto y objetivos principales"
+        },
+        {
+          "position": 2,
+          "deckSlide": 4,
+          "title": "Aplicación segura · La fase de arranque: concepto y objetivos principales",
+          "body": "1. El arranque es la primera fase del ciclo\n2. Su objetivo es separar el material del macizo o del terreno natural y dejarlo en condiciones adecuadas para su…\n3. El método depende de la naturaleza, dureza y estado del material\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-02-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 5",
+          "sourceSlide": 5,
+          "altText": "Aplicación segura de la parte 1.2: La fase de arranque: concepto y objetivos principales"
+        }
+      ]
+    },
+    {
+      "part": "1.3",
+      "block": 1,
+      "position": 3,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Métodos de arranque: uso de voladuras y perforación",
+      "narration": "Cuando la roca sana presenta elevada dureza, el arranque suele requerir perforación y voladura. La operación debe planificarse para obtener la fragmentación necesaria, limitar proyecciones y vibraciones y facilitar las fases posteriores.",
+      "explanation": "Cuando la roca sana presenta elevada dureza, el arranque suele requerir perforación y voladura. La operación debe planificarse para obtener la fragmentación necesaria, limitar proyecciones y vibraciones y facilitar las fases posteriores. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Cuando la roca sana presenta elevada dureza, el arranque suele requerir perforación y voladura",
+        "La operación debe planificarse para obtener la fragmentación necesaria, limitar proyecciones y vibraciones y…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, página PDF 14",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 5,
+          "title": "Métodos de arranque: uso de voladuras y perforación",
+          "body": "Cuando la roca sana presenta elevada dureza, el arranque suele requerir perforación y voladura. La operación debe planificarse para obtener la fragmentación necesaria, limitar proyecciones y vibraciones y facilitar las fases posteriores.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-03-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 5",
+          "sourceSlide": 5,
+          "altText": "Explicación visual de la parte 1.3: Métodos de arranque: uso de voladuras y perforación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 6,
+          "title": "Aplicación segura · Métodos de arranque: uso de voladuras y perforación",
+          "body": "1. Cuando la roca sana presenta elevada dureza, el arranque suele requerir perforación y voladura\n2. La operación debe planificarse para obtener la fragmentación necesaria, limitar proyecciones y vibraciones y…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-03-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 5",
+          "sourceSlide": 5,
+          "altText": "Aplicación segura de la parte 1.3: Métodos de arranque: uso de voladuras y perforación"
+        }
+      ]
+    },
+    {
+      "part": "1.4",
+      "block": 1,
+      "position": 4,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "El arranque mecánico mediante tractor de cadenas y ripper",
+      "narration": "Los materiales ripables pueden arrancarse mecánicamente con un tractor de cadenas provisto de escarificador o ripper. La penetración de los dientes y el empuje del tractor rompen y aflojan el terreno sin recurrir a explosivos.",
+      "explanation": "Los materiales ripables pueden arrancarse mecánicamente con un tractor de cadenas provisto de escarificador o ripper. La penetración de los dientes y el empuje del tractor rompen y aflojan el terreno sin recurrir a explosivos. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Los materiales ripables pueden arrancarse mecánicamente con un tractor de cadenas provisto de escarificador o…",
+        "La penetración de los dientes y el empuje del tractor rompen y aflojan el terreno sin recurrir a explosivos",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, página PDF 14",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 7,
+          "title": "El arranque mecánico mediante tractor de cadenas y ripper",
+          "body": "Los materiales ripables pueden arrancarse mecánicamente con un tractor de cadenas provisto de escarificador o ripper. La penetración de los dientes y el empuje del tractor rompen y aflojan el terreno sin recurrir a explosivos.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-04-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 5",
+          "sourceSlide": 5,
+          "altText": "Explicación visual de la parte 1.4: El arranque mecánico mediante tractor de cadenas y ripper"
+        },
+        {
+          "position": 2,
+          "deckSlide": 8,
+          "title": "Aplicación segura · El arranque mecánico mediante tractor de cadenas y ripper",
+          "body": "1. Los materiales ripables pueden arrancarse mecánicamente con un tractor de cadenas provisto de escarificador o…\n2. La penetración de los dientes y el empuje del tractor rompen y aflojan el terreno sin recurrir a explosivos\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-04-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 10",
+          "sourceSlide": 10,
+          "altText": "Aplicación segura de la parte 1.4: El arranque mecánico mediante tractor de cadenas y ripper"
+        }
+      ]
+    },
+    {
+      "part": "1.5",
+      "block": 1,
+      "position": 5,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "La fase de carga: introducción y equipos habituales",
+      "narration": "La carga recoge el material arrancado y lo deposita en el equipo de transporte o en la instalación receptora. Entre los equipos habituales se encuentran la pala cargadora y la excavadora, seleccionadas según frente, producción y compatibilidad con el transporte.",
+      "explanation": "La carga recoge el material arrancado y lo deposita en el equipo de transporte o en la instalación receptora. Entre los equipos habituales se encuentran la pala cargadora y la excavadora, seleccionadas según frente, producción y compatibilidad con el transporte. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "La carga recoge el material arrancado y lo deposita en el equipo de transporte o en la instalación receptora",
+        "Entre los equipos habituales se encuentran la pala cargadora y la excavadora, seleccionadas según frente,…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, páginas PDF 13–14",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 9,
+          "title": "La fase de carga: introducción y equipos habituales",
+          "body": "La carga recoge el material arrancado y lo deposita en el equipo de transporte o en la instalación receptora. Entre los equipos habituales se encuentran la pala cargadora y la excavadora, seleccionadas según frente, producción y compatibilidad con el transporte.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-05-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 6",
+          "sourceSlide": 6,
+          "altText": "Explicación visual de la parte 1.5: La fase de carga: introducción y equipos habituales"
+        },
+        {
+          "position": 2,
+          "deckSlide": 10,
+          "title": "Aplicación segura · La fase de carga: introducción y equipos habituales",
+          "body": "1. La carga recoge el material arrancado y lo deposita en el equipo de transporte o en la instalación receptora\n2. Entre los equipos habituales se encuentran la pala cargadora y la excavadora, seleccionadas según frente,…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-05-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 11",
+          "sourceSlide": 11,
+          "altText": "Aplicación segura de la parte 1.5: La fase de carga: introducción y equipos habituales"
+        }
+      ]
+    },
+    {
+      "part": "1.6",
+      "block": 1,
+      "position": 6,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Características operativas de la pala cargadora sobre ruedas",
+      "narration": "La pala cargadora sobre ruedas destaca por su movilidad, rapidez de desplazamiento y versatilidad en firmes adecuados. Su rendimiento exige controlar el estado del terreno, la estabilidad, los neumáticos y la posición segura del cucharón durante la circulación.",
+      "explanation": "La pala cargadora sobre ruedas destaca por su movilidad, rapidez de desplazamiento y versatilidad en firmes adecuados. Su rendimiento exige controlar el estado del terreno, la estabilidad, los neumáticos y la posición segura del cucharón durante la circulación. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "La pala cargadora sobre ruedas destaca por su movilidad, rapidez de desplazamiento y versatilidad en firmes…",
+        "Su rendimiento exige controlar el estado del terreno, la estabilidad, los neumáticos y la posición segura del…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, páginas PDF 14–15",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 11,
+          "title": "Características operativas de la pala cargadora sobre ruedas",
+          "body": "La pala cargadora sobre ruedas destaca por su movilidad, rapidez de desplazamiento y versatilidad en firmes adecuados. Su rendimiento exige controlar el estado del terreno, la estabilidad, los neumáticos y la posición segura del cucharón durante la circulación.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-06-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 6",
+          "sourceSlide": 6,
+          "altText": "Explicación visual de la parte 1.6: Características operativas de la pala cargadora sobre ruedas"
+        },
+        {
+          "position": 2,
+          "deckSlide": 12,
+          "title": "Aplicación segura · Características operativas de la pala cargadora sobre ruedas",
+          "body": "1. La pala cargadora sobre ruedas destaca por su movilidad, rapidez de desplazamiento y versatilidad en firmes…\n2. Su rendimiento exige controlar el estado del terreno, la estabilidad, los neumáticos y la posición segura del…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-06-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 12",
+          "sourceSlide": 12,
+          "altText": "Aplicación segura de la parte 1.6: Características operativas de la pala cargadora sobre ruedas"
+        }
+      ]
+    },
+    {
+      "part": "1.7",
+      "block": 1,
+      "position": 7,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Análisis de costes y distancias en la fase de transporte",
+      "narration": "El transporte suele tener un peso decisivo en el coste del movimiento de tierras. La distancia, las diferencias de cota, el estado y pendiente de las pistas, la capacidad del equipo y los tiempos de espera determinan el rendimiento del ciclo.",
+      "explanation": "El transporte suele tener un peso decisivo en el coste del movimiento de tierras. La distancia, las diferencias de cota, el estado y pendiente de las pistas, la capacidad del equipo y los tiempos de espera determinan el rendimiento del ciclo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El transporte suele tener un peso decisivo en el coste del movimiento de tierras",
+        "La distancia, las diferencias de cota, el estado y pendiente de las pistas, la capacidad del equipo y los…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, página PDF 13",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 13,
+          "title": "Análisis de costes y distancias en la fase de transporte",
+          "body": "El transporte suele tener un peso decisivo en el coste del movimiento de tierras. La distancia, las diferencias de cota, el estado y pendiente de las pistas, la capacidad del equipo y los tiempos de espera determinan el rendimiento del ciclo.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-07-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 7",
+          "sourceSlide": 7,
+          "altText": "Explicación visual de la parte 1.7: Análisis de costes y distancias en la fase de transporte"
+        },
+        {
+          "position": 2,
+          "deckSlide": 14,
+          "title": "Aplicación segura · Análisis de costes y distancias en la fase de transporte",
+          "body": "1. El transporte suele tener un peso decisivo en el coste del movimiento de tierras\n2. La distancia, las diferencias de cota, el estado y pendiente de las pistas, la capacidad del equipo y los…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-07-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 88",
+          "sourceSlide": 88,
+          "altText": "Aplicación segura de la parte 1.7: Análisis de costes y distancias en la fase de transporte"
+        }
+      ]
+    },
+    {
+      "part": "1.8",
+      "block": 1,
+      "position": 8,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Tipos de transporte y descarga en tolva o escombrera",
+      "narration": "El material puede transportarse con volquetes, dúmperes, camiones bañera u otros sistemas continuos. La descarga puede realizarse en tolvas, acopios o escombreras y requiere una zona estable, señalizada y compatible con el equipo.",
+      "explanation": "El material puede transportarse con volquetes, dúmperes, camiones bañera u otros sistemas continuos. La descarga puede realizarse en tolvas, acopios o escombreras y requiere una zona estable, señalizada y compatible con el equipo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El material puede transportarse con volquetes, dúmperes, camiones bañera u otros sistemas continuos",
+        "La descarga puede realizarse en tolvas, acopios o escombreras y requiere una zona estable, señalizada y…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, páginas PDF 14–17",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 15,
+          "title": "Tipos de transporte y descarga en tolva o escombrera",
+          "body": "El material puede transportarse con volquetes, dúmperes, camiones bañera u otros sistemas continuos. La descarga puede realizarse en tolvas, acopios o escombreras y requiere una zona estable, señalizada y compatible con el equipo.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-08-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 8",
+          "sourceSlide": 8,
+          "altText": "Explicación visual de la parte 1.8: Tipos de transporte y descarga en tolva o escombrera"
+        },
+        {
+          "position": 2,
+          "deckSlide": 16,
+          "title": "Aplicación segura · Tipos de transporte y descarga en tolva o escombrera",
+          "body": "1. El material puede transportarse con volquetes, dúmperes, camiones bañera u otros sistemas continuos\n2. La descarga puede realizarse en tolvas, acopios o escombreras y requiere una zona estable, señalizada y…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-08-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 89",
+          "sourceSlide": 89,
+          "altText": "Aplicación segura de la parte 1.8: Tipos de transporte y descarga en tolva o escombrera"
+        }
+      ]
+    },
+    {
+      "part": "1.9",
+      "block": 1,
+      "position": 9,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Extendido, nivelación, compactación y refino",
+      "narration": "Después de la descarga pueden ser necesarias operaciones de extendido, nivelación, compactación y refino. Estas fases colocan el material con la geometría, espesor, densidad y acabado previstos en el proyecto.",
+      "explanation": "Después de la descarga pueden ser necesarias operaciones de extendido, nivelación, compactación y refino. Estas fases colocan el material con la geometría, espesor, densidad y acabado previstos en el proyecto. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Después de la descarga pueden ser necesarias operaciones de extendido, nivelación, compactación y refino",
+        "Estas fases colocan el material con la geometría, espesor, densidad y acabado previstos en el proyecto",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, páginas PDF 13 y 18–20",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 17,
+          "title": "Extendido, nivelación, compactación y refino",
+          "body": "Después de la descarga pueden ser necesarias operaciones de extendido, nivelación, compactación y refino. Estas fases colocan el material con la geometría, espesor, densidad y acabado previstos en el proyecto.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-09-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 9",
+          "sourceSlide": 9,
+          "altText": "Explicación visual de la parte 1.9: Extendido, nivelación, compactación y refino"
+        },
+        {
+          "position": 2,
+          "deckSlide": 18,
+          "title": "Aplicación segura · Extendido, nivelación, compactación y refino",
+          "body": "1. Después de la descarga pueden ser necesarias operaciones de extendido, nivelación, compactación y refino\n2. Estas fases colocan el material con la geometría, espesor, densidad y acabado previstos en el proyecto\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-09-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 11",
+          "sourceSlide": 11,
+          "altText": "Aplicación segura de la parte 1.9: Extendido, nivelación, compactación y refino"
+        }
+      ]
+    },
+    {
+      "part": "1.10",
+      "block": 1,
+      "position": 10,
+      "blockTitle": "Definición de los trabajos y fases del movimiento de tierras",
+      "title": "Sistemas mixtos: excavadora, pala y mototraílla",
+      "narration": "Los sistemas mixtos combinan varias funciones en una misma máquina. La excavadora puede arrancar y cargar, la pala puede cargar y realizar transporte corto y la mototraílla puede arrancar, cargar, transportar, descargar y extender en condiciones adecuadas.",
+      "explanation": "Los sistemas mixtos combinan varias funciones en una misma máquina. La excavadora puede arrancar y cargar, la pala puede cargar y realizar transporte corto y la mototraílla puede arrancar, cargar, transportar, descargar y extender en condiciones adecuadas. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Los sistemas mixtos combinan varias funciones en una misma máquina",
+        "La excavadora puede arrancar y cargar, la pala puede cargar y realizar transporte corto y la mototraílla puede…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro · Manual, páginas PDF 18–19",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 19,
+          "title": "Sistemas mixtos: excavadora, pala y mototraílla",
+          "body": "Los sistemas mixtos combinan varias funciones en una misma máquina. La excavadora puede arrancar y cargar, la pala puede cargar y realizar transporte corto y la mototraílla puede arrancar, cargar, transportar, descargar y extender en condiciones adecuadas.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-10-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 10",
+          "sourceSlide": 10,
+          "altText": "Explicación visual de la parte 1.10: Sistemas mixtos: excavadora, pala y mototraílla"
+        },
+        {
+          "position": 2,
+          "deckSlide": 20,
+          "title": "Aplicación segura · Sistemas mixtos: excavadora, pala y mototraílla",
+          "body": "1. Los sistemas mixtos combinan varias funciones en una misma máquina\n2. La excavadora puede arrancar y cargar, la pala puede cargar y realizar transporte corto y la mototraílla puede…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-1/slides/audio-1-10-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 11",
+          "sourceSlide": 11,
+          "altText": "Aplicación segura de la parte 1.10: Sistemas mixtos: excavadora, pala y mototraílla"
+        }
+      ]
+    },
+    {
+      "part": "2.1",
+      "block": 2,
+      "position": 1,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Preparación personal y equipos de protección",
+      "narration": "Antes de acceder a la máquina, compruebe que se encuentra en condiciones físicas y mentales adecuadas. Utilice ropa ajustada, calzado de seguridad, casco y los EPI definidos para el riesgo, sin olvidar que complementan, pero no sustituyen, las protecciones colectivas.",
+      "explanation": "Antes de acceder a la máquina, compruebe que se encuentra en condiciones físicas y mentales adecuadas. Utilice ropa ajustada, calzado de seguridad, casco y los EPI definidos para el riesgo, sin olvidar que complementan, pero no sustituyen, las protecciones colectivas. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Antes de acceder a la máquina, compruebe que se encuentra en condiciones físicas y mentales adecuadas",
+        "Utilice ropa ajustada, calzado de seguridad, casco y los EPI definidos para el riesgo, sin olvidar que…",
+        "Aplicar el manual del fabricante y las disposiciones internas"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro, diapositivas 13 y 44–46",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 21,
+          "title": "Preparación personal y equipos de protección",
+          "body": "Antes de acceder a la máquina, compruebe que se encuentra en condiciones físicas y mentales adecuadas. Utilice ropa ajustada, calzado de seguridad, casco y los EPI definidos para el riesgo, sin olvidar que complementan, pero no sustituyen, las protecciones colectivas.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-01-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 13",
+          "sourceSlide": 13,
+          "altText": "Explicación visual de la parte 2.1: Preparación personal y equipos de protección"
+        },
+        {
+          "position": 2,
+          "deckSlide": 22,
+          "title": "Aplicación segura · Preparación personal y equipos de protección",
+          "body": "1. Antes de acceder a la máquina, compruebe que se encuentra en condiciones físicas y mentales adecuadas\n2. Utilice ropa ajustada, calzado de seguridad, casco y los EPI definidos para el riesgo, sin olvidar que…\n3. Aplicar el manual del fabricante y las disposiciones internas\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-01-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 44",
+          "sourceSlide": 44,
+          "altText": "Aplicación segura de la parte 2.1: Preparación personal y equipos de protección"
+        }
+      ]
+    },
+    {
+      "part": "2.2",
+      "block": 2,
+      "position": 2,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Inspección perimetral de la máquina",
+      "narration": "La revisión diaria comienza desde el suelo y con la máquina inmovilizada. Recorra todo el perímetro buscando personas, obstáculos, daños, fugas, piezas sueltas y acumulaciones de material. Registre cualquier anomalía y valórala antes del arranque.",
+      "explanation": "La revisión diaria comienza desde el suelo y con la máquina inmovilizada. Recorra todo el perímetro buscando personas, obstáculos, daños, fugas, piezas sueltas y acumulaciones de material. Registre cualquier anomalía y valórala antes del arranque. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "La revisión diaria comienza desde el suelo y con la máquina inmovilizada",
+        "Recorra todo el perímetro buscando personas, obstáculos, daños, fugas, piezas sueltas y acumulaciones de…",
+        "Registre cualquier anomalía y valórala antes del arranque"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · Presentación Cursos Pedro, diapositivas 14 y 22",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 23,
+          "title": "Inspección perimetral de la máquina",
+          "body": "La revisión diaria comienza desde el suelo y con la máquina inmovilizada. Recorra todo el perímetro buscando personas, obstáculos, daños, fugas, piezas sueltas y acumulaciones de material. Registre cualquier anomalía y valórala antes del arranque.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-02-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 14",
+          "sourceSlide": 14,
+          "altText": "Explicación visual de la parte 2.2: Inspección perimetral de la máquina"
+        },
+        {
+          "position": 2,
+          "deckSlide": 24,
+          "title": "Aplicación segura · Inspección perimetral de la máquina",
+          "body": "1. La revisión diaria comienza desde el suelo y con la máquina inmovilizada\n2. Recorra todo el perímetro buscando personas, obstáculos, daños, fugas, piezas sueltas y acumulaciones de…\n3. Registre cualquier anomalía y valórala antes del arranque\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-02-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 22",
+          "sourceSlide": 22,
+          "altText": "Aplicación segura de la parte 2.2: Inspección perimetral de la máquina"
+        }
+      ]
+    },
+    {
+      "part": "2.3",
+      "block": 2,
+      "position": 3,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Niveles, fugas y circuitos calientes",
+      "narration": "Compruebe los niveles con la máquina en la posición indicada por el fabricante. Nunca abra en caliente el circuito de refrigeración ni busque una fuga hidráulica con la mano. Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo.",
+      "explanation": "Compruebe los niveles con la máquina en la posición indicada por el fabricante. Nunca abra en caliente el circuito de refrigeración ni busque una fuga hidráulica con la mano. Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Compruebe los niveles con la máquina en la posición indicada por el fabricante",
+        "Nunca abra en caliente el circuito de refrigeración ni busque una fuga hidráulica con la mano",
+        "Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo"
+      ],
+      "stopCriterion": "Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 25,
+          "title": "Niveles, fugas y circuitos calientes",
+          "body": "Compruebe los niveles con la máquina en la posición indicada por el fabricante. Nunca abra en caliente el circuito de refrigeración ni busque una fuga hidráulica con la mano. Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-03-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 23",
+          "sourceSlide": 23,
+          "altText": "Explicación visual de la parte 2.3: Niveles, fugas y circuitos calientes"
+        },
+        {
+          "position": 2,
+          "deckSlide": 26,
+          "title": "Aplicación segura · Niveles, fugas y circuitos calientes",
+          "body": "1. Compruebe los niveles con la máquina en la posición indicada por el fabricante\n2. Nunca abra en caliente el circuito de refrigeración ni busque una fuga hidráulica con la mano\n3. Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo\n\nCriterio de parada: Si detecta combustible, una manguera dañada o una pérdida importante, inmovilice la máquina y comuníquelo.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-03-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 24",
+          "sourceSlide": 24,
+          "altText": "Aplicación segura de la parte 2.3: Niveles, fugas y circuitos calientes"
+        }
+      ]
+    },
+    {
+      "part": "2.4",
+      "block": 2,
+      "position": 4,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Neumáticos y tren de rodaje",
+      "narration": "En palas, revise presión, cortes, desgaste, llantas y fijaciones. En máquinas de cadenas, compruebe tejas, rodillos, rueda motriz y tensión aparente. No retire piedras ni intervenga en ruedas o cadenas sin detener, asegurar y aplicar el procedimiento previsto para esa operación.",
+      "explanation": "En palas, revise presión, cortes, desgaste, llantas y fijaciones. En máquinas de cadenas, compruebe tejas, rodillos, rueda motriz y tensión aparente. No retire piedras ni intervenga en ruedas o cadenas sin detener, asegurar y aplicar el procedimiento previsto para esa operación. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "En palas, revise presión, cortes, desgaste, llantas y fijaciones",
+        "En máquinas de cadenas, compruebe tejas, rodillos, rueda motriz y tensión aparente",
+        "No retire piedras ni intervenga en ruedas o cadenas sin detener, asegurar y aplicar el procedimiento previsto…"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 27,
+          "title": "Neumáticos y tren de rodaje",
+          "body": "En palas, revise presión, cortes, desgaste, llantas y fijaciones. En máquinas de cadenas, compruebe tejas, rodillos, rueda motriz y tensión aparente. No retire piedras ni intervenga en ruedas o cadenas sin detener, asegurar y aplicar el procedimiento previsto para esa operación.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-04-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 22",
+          "sourceSlide": 22,
+          "altText": "Explicación visual de la parte 2.4: Neumáticos y tren de rodaje"
+        },
+        {
+          "position": 2,
+          "deckSlide": 28,
+          "title": "Aplicación segura · Neumáticos y tren de rodaje",
+          "body": "1. En palas, revise presión, cortes, desgaste, llantas y fijaciones\n2. En máquinas de cadenas, compruebe tejas, rodillos, rueda motriz y tensión aparente\n3. No retire piedras ni intervenga en ruedas o cadenas sin detener, asegurar y aplicar el procedimiento previsto…\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-04-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 81",
+          "sourceSlide": 81,
+          "altText": "Aplicación segura de la parte 2.4: Neumáticos y tren de rodaje"
+        }
+      ]
+    },
+    {
+      "part": "2.5",
+      "block": 2,
+      "position": 5,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Equipo de trabajo y sistema hidráulico",
+      "narration": "Inspeccione cucharón, hoja, pluma, pasadores, dientes, cilindros y latiguillos. Una fisura o una fuga puede provocar pérdida de control o caída del accesorio. Nadie debe situarse bajo un equipo elevado sin bloqueo mecánico; para revisar, apoye el equipo y descargue la presión residual.",
+      "explanation": "Inspeccione cucharón, hoja, pluma, pasadores, dientes, cilindros y latiguillos. Una fisura o una fuga puede provocar pérdida de control o caída del accesorio. Nadie debe situarse bajo un equipo elevado sin bloqueo mecánico; para revisar, apoye el equipo y descargue la presión residual. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Inspeccione cucharón, hoja, pluma, pasadores, dientes, cilindros y latiguillos",
+        "Una fisura o una fuga puede provocar pérdida de control o caída del accesorio",
+        "Nadie debe situarse bajo un equipo elevado sin bloqueo mecánico; para revisar, apoye el equipo y descargue la…"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 29,
+          "title": "Equipo de trabajo y sistema hidráulico",
+          "body": "Inspeccione cucharón, hoja, pluma, pasadores, dientes, cilindros y latiguillos. Una fisura o una fuga puede provocar pérdida de control o caída del accesorio. Nadie debe situarse bajo un equipo elevado sin bloqueo mecánico; para revisar, apoye el equipo y descargue la presión residual.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-05-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 23",
+          "sourceSlide": 23,
+          "altText": "Explicación visual de la parte 2.5: Equipo de trabajo y sistema hidráulico"
+        },
+        {
+          "position": 2,
+          "deckSlide": 30,
+          "title": "Aplicación segura · Equipo de trabajo y sistema hidráulico",
+          "body": "1. Inspeccione cucharón, hoja, pluma, pasadores, dientes, cilindros y latiguillos\n2. Una fisura o una fuga puede provocar pérdida de control o caída del accesorio\n3. Nadie debe situarse bajo un equipo elevado sin bloqueo mecánico; para revisar, apoye el equipo y descargue la…\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-05-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 81",
+          "sourceSlide": 81,
+          "altText": "Aplicación segura de la parte 2.5: Equipo de trabajo y sistema hidráulico"
+        }
+      ]
+    },
+    {
+      "part": "2.6",
+      "block": 2,
+      "position": 6,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Acceso seguro y acondicionamiento de la cabina",
+      "narration": "Suba y baje mirando hacia la máquina y manteniendo tres puntos de apoyo. Limpie peldaños y asideros, ajuste asiento y espejos, retire objetos sueltos y compruebe la salida de emergencia. Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina.",
+      "explanation": "Suba y baje mirando hacia la máquina y manteniendo tres puntos de apoyo. Limpie peldaños y asideros, ajuste asiento y espejos, retire objetos sueltos y compruebe la salida de emergencia. Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Suba y baje mirando hacia la máquina y manteniendo tres puntos de apoyo",
+        "Limpie peldaños y asideros, ajuste asiento y espejos, retire objetos sueltos y compruebe la salida de emergencia",
+        "Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina"
+      ],
+      "stopCriterion": "Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 31,
+          "title": "Acceso seguro y acondicionamiento de la cabina",
+          "body": "Suba y baje mirando hacia la máquina y manteniendo tres puntos de apoyo. Limpie peldaños y asideros, ajuste asiento y espejos, retire objetos sueltos y compruebe la salida de emergencia. Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-06-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 25",
+          "sourceSlide": 25,
+          "altText": "Explicación visual de la parte 2.6: Acceso seguro y acondicionamiento de la cabina"
+        },
+        {
+          "position": 2,
+          "deckSlide": 32,
+          "title": "Aplicación segura · Acceso seguro y acondicionamiento de la cabina",
+          "body": "1. Suba y baje mirando hacia la máquina y manteniendo tres puntos de apoyo\n2. Limpie peldaños y asideros, ajuste asiento y espejos, retire objetos sueltos y compruebe la salida de emergencia\n3. Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina\n\nCriterio de parada: Abróchese el cinturón antes de mover el equipo y no salte nunca desde la cabina.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-06-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 25",
+          "sourceSlide": 25,
+          "altText": "Aplicación segura de la parte 2.6: Acceso seguro y acondicionamiento de la cabina"
+        }
+      ]
+    },
+    {
+      "part": "2.7",
+      "block": 2,
+      "position": 7,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Comprobaciones funcionales antes de desplazarse",
+      "narration": "Después del arranque, observe el panel y pruebe frenos, dirección, bocina, alarma de retroceso, luces y mandos en una zona segura y a baja velocidad. Atienda a ruidos, vibraciones o respuestas lentas. Una alarma no se anula para continuar: se identifica la causa y se aplica el procedimiento.",
+      "explanation": "Después del arranque, observe el panel y pruebe frenos, dirección, bocina, alarma de retroceso, luces y mandos en una zona segura y a baja velocidad. Atienda a ruidos, vibraciones o respuestas lentas. Una alarma no se anula para continuar: se identifica la causa y se aplica el procedimiento. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Después del arranque, observe el panel y pruebe frenos, dirección, bocina, alarma de retroceso, luces y mandos…",
+        "Atienda a ruidos, vibraciones o respuestas lentas",
+        "Una alarma no se anula para continuar: se identifica la causa y se aplica el procedimiento"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 33,
+          "title": "Comprobaciones funcionales antes de desplazarse",
+          "body": "Después del arranque, observe el panel y pruebe frenos, dirección, bocina, alarma de retroceso, luces y mandos en una zona segura y a baja velocidad. Atienda a ruidos, vibraciones o respuestas lentas. Una alarma no se anula para continuar: se identifica la causa y se aplica el procedimiento.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-07-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 14",
+          "sourceSlide": 14,
+          "altText": "Explicación visual de la parte 2.7: Comprobaciones funcionales antes de desplazarse"
+        },
+        {
+          "position": 2,
+          "deckSlide": 34,
+          "title": "Aplicación segura · Comprobaciones funcionales antes de desplazarse",
+          "body": "1. Después del arranque, observe el panel y pruebe frenos, dirección, bocina, alarma de retroceso, luces y mandos…\n2. Atienda a ruidos, vibraciones o respuestas lentas\n3. Una alarma no se anula para continuar: se identifica la causa y se aplica el procedimiento\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-07-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 86",
+          "sourceSlide": 86,
+          "altText": "Aplicación segura de la parte 2.7: Comprobaciones funcionales antes de desplazarse"
+        }
+      ]
+    },
+    {
+      "part": "2.8",
+      "block": 2,
+      "position": 8,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Mantenimiento básico, bloqueo y consignación",
+      "narration": "Antes de una intervención, estacione en terreno firme, apoye el equipo, accione el freno, detenga el motor y controle la llave. Si existe energía eléctrica, hidráulica, neumática, mecánica o térmica, bloquee, consigne y verifique su ausencia. Nunca confíe solo en los cilindros hidráulicos.",
+      "explanation": "Antes de una intervención, estacione en terreno firme, apoye el equipo, accione el freno, detenga el motor y controle la llave. Si existe energía eléctrica, hidráulica, neumática, mecánica o térmica, bloquee, consigne y verifique su ausencia. Nunca confíe solo en los cilindros hidráulicos. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Antes de una intervención, estacione en terreno firme, apoye el equipo, accione el freno, detenga el motor y…",
+        "Si existe energía eléctrica, hidráulica, neumática, mecánica o térmica, bloquee, consigne y verifique su…",
+        "Nunca confíe solo en los cilindros hidráulicos"
+      ],
+      "stopCriterion": "Nunca confíe solo en los cilindros hidráulicos.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 35,
+          "title": "Mantenimiento básico, bloqueo y consignación",
+          "body": "Antes de una intervención, estacione en terreno firme, apoye el equipo, accione el freno, detenga el motor y controle la llave. Si existe energía eléctrica, hidráulica, neumática, mecánica o térmica, bloquee, consigne y verifique su ausencia. Nunca confíe solo en los cilindros hidráulicos.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-08-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 26",
+          "sourceSlide": 26,
+          "altText": "Explicación visual de la parte 2.8: Mantenimiento básico, bloqueo y consignación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 36,
+          "title": "Aplicación segura · Mantenimiento básico, bloqueo y consignación",
+          "body": "1. Antes de una intervención, estacione en terreno firme, apoye el equipo, accione el freno, detenga el motor y…\n2. Si existe energía eléctrica, hidráulica, neumática, mecánica o térmica, bloquee, consigne y verifique su…\n3. Nunca confíe solo en los cilindros hidráulicos\n\nCriterio de parada: Nunca confíe solo en los cilindros hidráulicos.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-08-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 39",
+          "sourceSlide": 39,
+          "altText": "Aplicación segura de la parte 2.8: Mantenimiento básico, bloqueo y consignación"
+        }
+      ]
+    },
+    {
+      "part": "2.9",
+      "block": 2,
+      "position": 9,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Cambio seguro de accesorios",
+      "narration": "Cambie cucharas u otros accesorios sobre una superficie estable, sin personas alrededor y siguiendo la secuencia del fabricante. Libere la presión antes de desconectar circuitos. Tras el montaje, verifique pasadores, conexiones e indicadores de bloqueo y haga una prueba próxima al suelo.",
+      "explanation": "Cambie cucharas u otros accesorios sobre una superficie estable, sin personas alrededor y siguiendo la secuencia del fabricante. Libere la presión antes de desconectar circuitos. Tras el montaje, verifique pasadores, conexiones e indicadores de bloqueo y haga una prueba próxima al suelo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Cambie cucharas u otros accesorios sobre una superficie estable, sin personas alrededor y siguiendo la…",
+        "Libere la presión antes de desconectar circuitos",
+        "Tras el montaje, verifique pasadores, conexiones e indicadores de bloqueo y haga una prueba próxima al suelo"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 37,
+          "title": "Cambio seguro de accesorios",
+          "body": "Cambie cucharas u otros accesorios sobre una superficie estable, sin personas alrededor y siguiendo la secuencia del fabricante. Libere la presión antes de desconectar circuitos. Tras el montaje, verifique pasadores, conexiones e indicadores de bloqueo y haga una prueba próxima al suelo.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-09-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 31",
+          "sourceSlide": 31,
+          "altText": "Explicación visual de la parte 2.9: Cambio seguro de accesorios"
+        },
+        {
+          "position": 2,
+          "deckSlide": 38,
+          "title": "Aplicación segura · Cambio seguro de accesorios",
+          "body": "1. Cambie cucharas u otros accesorios sobre una superficie estable, sin personas alrededor y siguiendo la…\n2. Libere la presión antes de desconectar circuitos\n3. Tras el montaje, verifique pasadores, conexiones e indicadores de bloqueo y haga una prueba próxima al suelo\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-09-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 32",
+          "sourceSlide": 32,
+          "altText": "Aplicación segura de la parte 2.9: Cambio seguro de accesorios"
+        }
+      ]
+    },
+    {
+      "part": "2.10",
+      "block": 2,
+      "position": 10,
+      "blockTitle": "Normas preventivas antes de comenzar el trabajo",
+      "title": "Embarque, transporte, remolcado y recuperación",
+      "narration": "El embarque y el remolcado requieren un plan, medios certificados y puntos de amarre o anclaje previstos por el fabricante. Mantenga despejada la zona de posible latigazo de cables y eslingas. Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación.",
+      "explanation": "El embarque y el remolcado requieren un plan, medios certificados y puntos de amarre o anclaje previstos por el fabricante. Mantenga despejada la zona de posible latigazo de cables y eslingas. Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El embarque y el remolcado requieren un plan, medios certificados y puntos de amarre o anclaje previstos por…",
+        "Mantenga despejada la zona de posible latigazo de cables y eslingas",
+        "Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación"
+      ],
+      "stopCriterion": "Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación.",
+      "source": "ET 2001-1-08 · 3.3.2.a · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 39,
+          "title": "Embarque, transporte, remolcado y recuperación",
+          "body": "El embarque y el remolcado requieren un plan, medios certificados y puntos de amarre o anclaje previstos por el fabricante. Mantenga despejada la zona de posible latigazo de cables y eslingas. Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-10-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 29",
+          "sourceSlide": 29,
+          "altText": "Explicación visual de la parte 2.10: Embarque, transporte, remolcado y recuperación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 40,
+          "title": "Aplicación segura · Embarque, transporte, remolcado y recuperación",
+          "body": "1. El embarque y el remolcado requieren un plan, medios certificados y puntos de amarre o anclaje previstos por…\n2. Mantenga despejada la zona de posible latigazo de cables y eslingas\n3. Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación\n\nCriterio de parada: Si la máquina está hundida, en pendiente o junto a un borde, estabilice primero la situación.",
+          "storagePath": "course-1/5h/block-2/slides/audio-2-10-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 30",
+          "sourceSlide": 30,
+          "altText": "Aplicación segura de la parte 2.10: Embarque, transporte, remolcado y recuperación"
+        }
+      ]
+    },
+    {
+      "part": "3.1",
+      "block": 3,
+      "position": 1,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Arranque, calentamiento y preparación operativa",
+      "narration": "Arranque siempre desde el puesto del operador, con los mandos neutralizados y el entorno despejado. Durante el calentamiento vigile presión de aceite, temperatura y mensajes del panel. Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar.",
+      "explanation": "Arranque siempre desde el puesto del operador, con los mandos neutralizados y el entorno despejado. Durante el calentamiento vigile presión de aceite, temperatura y mensajes del panel. Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Arranque siempre desde el puesto del operador, con los mandos neutralizados y el entorno despejado",
+        "Durante el calentamiento vigile presión de aceite, temperatura y mensajes del panel",
+        "Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar"
+      ],
+      "stopCriterion": "Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 41,
+          "title": "Arranque, calentamiento y preparación operativa",
+          "body": "Arranque siempre desde el puesto del operador, con los mandos neutralizados y el entorno despejado. Durante el calentamiento vigile presión de aceite, temperatura y mensajes del panel. Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-01-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 14",
+          "sourceSlide": 14,
+          "altText": "Explicación visual de la parte 3.1: Arranque, calentamiento y preparación operativa"
+        },
+        {
+          "position": 2,
+          "deckSlide": 42,
+          "title": "Aplicación segura · Arranque, calentamiento y preparación operativa",
+          "body": "1. Arranque siempre desde el puesto del operador, con los mandos neutralizados y el entorno despejado\n2. Durante el calentamiento vigile presión de aceite, temperatura y mensajes del panel\n3. Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar\n\nCriterio de parada: Si aparecen humo anormal, golpes o una alarma persistente, detenga la máquina e informe antes de trabajar.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-01-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 86",
+          "sourceSlide": 86,
+          "altText": "Aplicación segura de la parte 3.1: Arranque, calentamiento y preparación operativa"
+        }
+      ]
+    },
+    {
+      "part": "3.2",
+      "block": 3,
+      "position": 2,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Visibilidad, zonas ciegas y control del área",
+      "narration": "Cámaras, espejos y alarmas ayudan, pero no eliminan las zonas ciegas. Antes de moverse, observe, avise y espere. Si la maniobra necesita un señalista, manténgalo siempre visible y utilice señales acordadas. Si pierde el contacto, detenga inmediatamente la máquina.",
+      "explanation": "Cámaras, espejos y alarmas ayudan, pero no eliminan las zonas ciegas. Antes de moverse, observe, avise y espere. Si la maniobra necesita un señalista, manténgalo siempre visible y utilice señales acordadas. Si pierde el contacto, detenga inmediatamente la máquina. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Cámaras, espejos y alarmas ayudan, pero no eliminan las zonas ciegas",
+        "Antes de moverse, observe, avise y espere",
+        "Si la maniobra necesita un señalista, manténgalo siempre visible y utilice señales acordadas"
+      ],
+      "stopCriterion": "Si pierde el contacto, detenga inmediatamente la máquina.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 43,
+          "title": "Visibilidad, zonas ciegas y control del área",
+          "body": "Cámaras, espejos y alarmas ayudan, pero no eliminan las zonas ciegas. Antes de moverse, observe, avise y espere. Si la maniobra necesita un señalista, manténgalo siempre visible y utilice señales acordadas. Si pierde el contacto, detenga inmediatamente la máquina.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-02-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 83",
+          "sourceSlide": 83,
+          "altText": "Explicación visual de la parte 3.2: Visibilidad, zonas ciegas y control del área"
+        },
+        {
+          "position": 2,
+          "deckSlide": 44,
+          "title": "Aplicación segura · Visibilidad, zonas ciegas y control del área",
+          "body": "1. Cámaras, espejos y alarmas ayudan, pero no eliminan las zonas ciegas\n2. Antes de moverse, observe, avise y espere\n3. Si la maniobra necesita un señalista, manténgalo siempre visible y utilice señales acordadas\n\nCriterio de parada: Si pierde el contacto, detenga inmediatamente la máquina.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-02-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 87",
+          "sourceSlide": 87,
+          "altText": "Aplicación segura de la parte 3.2: Visibilidad, zonas ciegas y control del área"
+        }
+      ]
+    },
+    {
+      "part": "3.3",
+      "block": 3,
+      "position": 3,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Carga segura con pala cargadora",
+      "narration": "Aproxímese al acopio con el cucharón bajo y los bastidores alineados. Llene sin embestir, retroceda mirando la trayectoria y transporte la carga baja y estable. Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma uniforme.",
+      "explanation": "Aproxímese al acopio con el cucharón bajo y los bastidores alineados. Llene sin embestir, retroceda mirando la trayectoria y transporte la carga baja y estable. Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma uniforme. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Aproxímese al acopio con el cucharón bajo y los bastidores alineados",
+        "Llene sin embestir, retroceda mirando la trayectoria y transporte la carga baja y estable",
+        "Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma…"
+      ],
+      "stopCriterion": "Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma uniforme.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 45,
+          "title": "Carga segura con pala cargadora",
+          "body": "Aproxímese al acopio con el cucharón bajo y los bastidores alineados. Llene sin embestir, retroceda mirando la trayectoria y transporte la carga baja y estable. Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma uniforme.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-03-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 15",
+          "sourceSlide": 15,
+          "altText": "Explicación visual de la parte 3.3: Carga segura con pala cargadora"
+        },
+        {
+          "position": 2,
+          "deckSlide": 46,
+          "title": "Aplicación segura · Carga segura con pala cargadora",
+          "body": "1. Aproxímese al acopio con el cucharón bajo y los bastidores alineados\n2. Llene sin embestir, retroceda mirando la trayectoria y transporte la carga baja y estable\n3. Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma…\n\nCriterio de parada: Al descargar sobre un camión, no golpee la caja ni pase sobre la cabina, y distribuya el material de forma uniforme.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-03-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 16",
+          "sourceSlide": 16,
+          "altText": "Aplicación segura de la parte 3.3: Carga segura con pala cargadora"
+        }
+      ]
+    },
+    {
+      "part": "3.4",
+      "block": 3,
+      "position": 4,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Excavación y carga con excavadora hidráulica",
+      "narration": "Trabaje desde una plataforma resistente y con el radio de giro despejado. Identifique servicios enterrados y evalúe el frente o la zanja. Coloque el camión fuera de la caída de material y evite pasar la cuchara sobre su cabina. Si pierde visibilidad o comunicación, detenga el ciclo.",
+      "explanation": "Trabaje desde una plataforma resistente y con el radio de giro despejado. Identifique servicios enterrados y evalúe el frente o la zanja. Coloque el camión fuera de la caída de material y evite pasar la cuchara sobre su cabina. Si pierde visibilidad o comunicación, detenga el ciclo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Trabaje desde una plataforma resistente y con el radio de giro despejado",
+        "Identifique servicios enterrados y evalúe el frente o la zanja",
+        "Coloque el camión fuera de la caída de material y evite pasar la cuchara sobre su cabina"
+      ],
+      "stopCriterion": "Si pierde visibilidad o comunicación, detenga el ciclo.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 47,
+          "title": "Excavación y carga con excavadora hidráulica",
+          "body": "Trabaje desde una plataforma resistente y con el radio de giro despejado. Identifique servicios enterrados y evalúe el frente o la zanja. Coloque el camión fuera de la caída de material y evite pasar la cuchara sobre su cabina. Si pierde visibilidad o comunicación, detenga el ciclo.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-04-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 18",
+          "sourceSlide": 18,
+          "altText": "Explicación visual de la parte 3.4: Excavación y carga con excavadora hidráulica"
+        },
+        {
+          "position": 2,
+          "deckSlide": 48,
+          "title": "Aplicación segura · Excavación y carga con excavadora hidráulica",
+          "body": "1. Trabaje desde una plataforma resistente y con el radio de giro despejado\n2. Identifique servicios enterrados y evalúe el frente o la zanja\n3. Coloque el camión fuera de la caída de material y evite pasar la cuchara sobre su cabina\n\nCriterio de parada: Si pierde visibilidad o comunicación, detenga el ciclo.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-04-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 19",
+          "sourceSlide": 19,
+          "altText": "Aplicación segura de la parte 3.4: Excavación y carga con excavadora hidráulica"
+        }
+      ]
+    },
+    {
+      "part": "3.5",
+      "block": 3,
+      "position": 5,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Operación segura con tractor de cadenas",
+      "narration": "En pendientes, trabaje según la dirección definida por el fabricante y evite giros bruscos o desplazamientos laterales. Lleve la hoja baja y mantenga distancia a bordes y coronaciones. Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación.",
+      "explanation": "En pendientes, trabaje según la dirección definida por el fabricante y evite giros bruscos o desplazamientos laterales. Lleve la hoja baja y mantenga distancia a bordes y coronaciones. Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "En pendientes, trabaje según la dirección definida por el fabricante y evite giros bruscos o desplazamientos…",
+        "Lleve la hoja baja y mantenga distancia a bordes y coronaciones",
+        "Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación"
+      ],
+      "stopCriterion": "Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 49,
+          "title": "Operación segura con tractor de cadenas",
+          "body": "En pendientes, trabaje según la dirección definida por el fabricante y evite giros bruscos o desplazamientos laterales. Lleve la hoja baja y mantenga distancia a bordes y coronaciones. Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-05-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 16",
+          "sourceSlide": 16,
+          "altText": "Explicación visual de la parte 3.5: Operación segura con tractor de cadenas"
+        },
+        {
+          "position": 2,
+          "deckSlide": 50,
+          "title": "Aplicación segura · Operación segura con tractor de cadenas",
+          "body": "1. En pendientes, trabaje según la dirección definida por el fabricante y evite giros bruscos o desplazamientos…\n2. Lleve la hoja baja y mantenga distancia a bordes y coronaciones\n3. Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación\n\nCriterio de parada: Si aparecen vibraciones, pérdida de control o una resistencia imprevista, detenga la operación.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-05-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 17",
+          "sourceSlide": 17,
+          "altText": "Aplicación segura de la parte 3.5: Operación segura con tractor de cadenas"
+        }
+      ]
+    },
+    {
+      "part": "3.6",
+      "block": 3,
+      "position": 6,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Circulación por pistas, rampas y cruces",
+      "narration": "Adapte la velocidad a la carga, visibilidad, pendiente, firme y tráfico. Respete sentidos, prioridades y distancias de seguridad de las disposiciones internas. En rampas no circule en punto muerto y use la relación recomendada. Polvo, lluvia, barro o baches obligan a reducir la marcha.",
+      "explanation": "Adapte la velocidad a la carga, visibilidad, pendiente, firme y tráfico. Respete sentidos, prioridades y distancias de seguridad de las disposiciones internas. En rampas no circule en punto muerto y use la relación recomendada. Polvo, lluvia, barro o baches obligan a reducir la marcha. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Adapte la velocidad a la carga, visibilidad, pendiente, firme y tráfico",
+        "Respete sentidos, prioridades y distancias de seguridad de las disposiciones internas",
+        "En rampas no circule en punto muerto y use la relación recomendada"
+      ],
+      "stopCriterion": "En rampas no circule en punto muerto y use la relación recomendada.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 51,
+          "title": "Circulación por pistas, rampas y cruces",
+          "body": "Adapte la velocidad a la carga, visibilidad, pendiente, firme y tráfico. Respete sentidos, prioridades y distancias de seguridad de las disposiciones internas. En rampas no circule en punto muerto y use la relación recomendada. Polvo, lluvia, barro o baches obligan a reducir la marcha.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-06-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 88",
+          "sourceSlide": 88,
+          "altText": "Explicación visual de la parte 3.6: Circulación por pistas, rampas y cruces"
+        },
+        {
+          "position": 2,
+          "deckSlide": 52,
+          "title": "Aplicación segura · Circulación por pistas, rampas y cruces",
+          "body": "1. Adapte la velocidad a la carga, visibilidad, pendiente, firme y tráfico\n2. Respete sentidos, prioridades y distancias de seguridad de las disposiciones internas\n3. En rampas no circule en punto muerto y use la relación recomendada\n\nCriterio de parada: En rampas no circule en punto muerto y use la relación recomendada.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-06-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 91",
+          "sourceSlide": 91,
+          "altText": "Aplicación segura de la parte 3.6: Circulación por pistas, rampas y cruces"
+        }
+      ]
+    },
+    {
+      "part": "3.7",
+      "block": 3,
+      "position": 7,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Taludes, frentes, zanjas y bordes",
+      "narration": "Respete las distancias de seguridad definidas según la altura, el material, la humedad y las sobrecargas. No trabaje bajo bloques o viseras sin sanear ni socave la plataforma de la máquina. Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe.",
+      "explanation": "Respete las distancias de seguridad definidas según la altura, el material, la humedad y las sobrecargas. No trabaje bajo bloques o viseras sin sanear ni socave la plataforma de la máquina. Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Respete las distancias de seguridad definidas según la altura, el material, la humedad y las sobrecargas",
+        "No trabaje bajo bloques o viseras sin sanear ni socave la plataforma de la máquina",
+        "Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe"
+      ],
+      "stopCriterion": "Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 53,
+          "title": "Taludes, frentes, zanjas y bordes",
+          "body": "Respete las distancias de seguridad definidas según la altura, el material, la humedad y las sobrecargas. No trabaje bajo bloques o viseras sin sanear ni socave la plataforma de la máquina. Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-07-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 85",
+          "sourceSlide": 85,
+          "altText": "Explicación visual de la parte 3.7: Taludes, frentes, zanjas y bordes"
+        },
+        {
+          "position": 2,
+          "deckSlide": 54,
+          "title": "Aplicación segura · Taludes, frentes, zanjas y bordes",
+          "body": "1. Respete las distancias de seguridad definidas según la altura, el material, la humedad y las sobrecargas\n2. No trabaje bajo bloques o viseras sin sanear ni socave la plataforma de la máquina\n3. Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe\n\nCriterio de parada: Si aparecen grietas, caída de fragmentos o deformaciones, retírese e informe.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-07-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 88",
+          "sourceSlide": 88,
+          "altText": "Aplicación segura de la parte 3.7: Taludes, frentes, zanjas y bordes"
+        }
+      ]
+    },
+    {
+      "part": "3.8",
+      "block": 3,
+      "position": 8,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Descarga en camiones, tolvas y acopios",
+      "narration": "Controle la trayectoria y distribución del material durante la descarga. No sobrecargue camiones ni confíe en topes o bermas como freno. Mantenga a las personas fuera del punto de vertido. Si el material queda adherido, no dé golpes violentos: pare, aísle y aplique el procedimiento de desatasco.",
+      "explanation": "Controle la trayectoria y distribución del material durante la descarga. No sobrecargue camiones ni confíe en topes o bermas como freno. Mantenga a las personas fuera del punto de vertido. Si el material queda adherido, no dé golpes violentos: pare, aísle y aplique el procedimiento de desatasco. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Controle la trayectoria y distribución del material durante la descarga",
+        "No sobrecargue camiones ni confíe en topes o bermas como freno",
+        "Mantenga a las personas fuera del punto de vertido"
+      ],
+      "stopCriterion": "Si el material queda adherido, no dé golpes violentos: pare, aísle y aplique el procedimiento de desatasco.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 55,
+          "title": "Descarga en camiones, tolvas y acopios",
+          "body": "Controle la trayectoria y distribución del material durante la descarga. No sobrecargue camiones ni confíe en topes o bermas como freno. Mantenga a las personas fuera del punto de vertido. Si el material queda adherido, no dé golpes violentos: pare, aísle y aplique el procedimiento de desatasco.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-08-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 8",
+          "sourceSlide": 8,
+          "altText": "Explicación visual de la parte 3.8: Descarga en camiones, tolvas y acopios"
+        },
+        {
+          "position": 2,
+          "deckSlide": 56,
+          "title": "Aplicación segura · Descarga en camiones, tolvas y acopios",
+          "body": "1. Controle la trayectoria y distribución del material durante la descarga\n2. No sobrecargue camiones ni confíe en topes o bermas como freno\n3. Mantenga a las personas fuera del punto de vertido\n\nCriterio de parada: Si el material queda adherido, no dé golpes violentos: pare, aísle y aplique el procedimiento de desatasco.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-08-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 89",
+          "sourceSlide": 89,
+          "altText": "Aplicación segura de la parte 3.8: Descarga en camiones, tolvas y acopios"
+        }
+      ]
+    },
+    {
+      "part": "3.9",
+      "block": 3,
+      "position": 9,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Elevación de cargas con maquinaria",
+      "narration": "Una pala o excavadora solo puede elevar cargas si el fabricante lo permite y existe un procedimiento autorizado. Conozca el peso, el radio y la capacidad de la configuración real. Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo.",
+      "explanation": "Una pala o excavadora solo puede elevar cargas si el fabricante lo permite y existe un procedimiento autorizado. Conozca el peso, el radio y la capacidad de la configuración real. Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Una pala o excavadora solo puede elevar cargas si el fabricante lo permite y existe un procedimiento autorizado",
+        "Conozca el peso, el radio y la capacidad de la configuración real",
+        "Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo"
+      ],
+      "stopCriterion": "Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 57,
+          "title": "Elevación de cargas con maquinaria",
+          "body": "Una pala o excavadora solo puede elevar cargas si el fabricante lo permite y existe un procedimiento autorizado. Conozca el peso, el radio y la capacidad de la configuración real. Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-09-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 17",
+          "sourceSlide": 17,
+          "altText": "Explicación visual de la parte 3.9: Elevación de cargas con maquinaria"
+        },
+        {
+          "position": 2,
+          "deckSlide": 58,
+          "title": "Aplicación segura · Elevación de cargas con maquinaria",
+          "body": "1. Una pala o excavadora solo puede elevar cargas si el fabricante lo permite y existe un procedimiento autorizado\n2. Conozca el peso, el radio y la capacidad de la configuración real\n3. Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo\n\nCriterio de parada: Use puntos y accesorios certificados, desplace la carga baja y nunca permita el paso de personas debajo.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-09-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 38",
+          "sourceSlide": 38,
+          "altText": "Aplicación segura de la parte 3.9: Elevación de cargas con maquinaria"
+        }
+      ]
+    },
+    {
+      "part": "3.10",
+      "block": 3,
+      "position": 10,
+      "blockTitle": "Normas preventivas durante el trabajo",
+      "title": "Estacionamiento, parada y comunicación de incidencias",
+      "narration": "Estacione en la zona designada, sobre terreno firme, con transmisión en neutro, freno aplicado y equipo completamente apoyado. Siga el enfriamiento indicado, retire la llave y cierre la cabina. Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio.",
+      "explanation": "Estacione en la zona designada, sobre terreno firme, con transmisión en neutro, freno aplicado y equipo completamente apoyado. Siga el enfriamiento indicado, retire la llave y cierre la cabina. Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Estacione en la zona designada, sobre terreno firme, con transmisión en neutro, freno aplicado y equipo…",
+        "Siga el enfriamiento indicado, retire la llave y cierre la cabina",
+        "Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio"
+      ],
+      "stopCriterion": "Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 59,
+          "title": "Estacionamiento, parada y comunicación de incidencias",
+          "body": "Estacione en la zona designada, sobre terreno firme, con transmisión en neutro, freno aplicado y equipo completamente apoyado. Siga el enfriamiento indicado, retire la llave y cierre la cabina. Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-10-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 14",
+          "sourceSlide": 14,
+          "altText": "Explicación visual de la parte 3.10: Estacionamiento, parada y comunicación de incidencias"
+        },
+        {
+          "position": 2,
+          "deckSlide": 60,
+          "title": "Aplicación segura · Estacionamiento, parada y comunicación de incidencias",
+          "body": "1. Estacione en la zona designada, sobre terreno firme, con transmisión en neutro, freno aplicado y equipo…\n2. Siga el enfriamiento indicado, retire la llave y cierre la cabina\n3. Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio\n\nCriterio de parada: Registre y comunique fugas, alarmas o golpes; si afectan a la seguridad, deje la máquina fuera de servicio.",
+          "storagePath": "course-1/5h/block-3/slides/audio-3-10-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 89",
+          "sourceSlide": 89,
+          "altText": "Aplicación segura de la parte 3.10: Estacionamiento, parada y comunicación de incidencias"
+        }
+      ]
+    },
+    {
+      "part": "4.1",
+      "block": 4,
+      "position": 1,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Motor, refrigeración y lubricación",
+      "narration": "Vigile presión de aceite, temperatura del refrigerante, combustible e indicadores. Un sobrecalentamiento puede deberse a falta de nivel, radiadores obstruidos o una avería del ventilador. Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma.",
+      "explanation": "Vigile presión de aceite, temperatura del refrigerante, combustible e indicadores. Un sobrecalentamiento puede deberse a falta de nivel, radiadores obstruidos o una avería del ventilador. Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Vigile presión de aceite, temperatura del refrigerante, combustible e indicadores",
+        "Un sobrecalentamiento puede deberse a falta de nivel, radiadores obstruidos o una avería del ventilador",
+        "Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma"
+      ],
+      "stopCriterion": "Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 61,
+          "title": "Motor, refrigeración y lubricación",
+          "body": "Vigile presión de aceite, temperatura del refrigerante, combustible e indicadores. Un sobrecalentamiento puede deberse a falta de nivel, radiadores obstruidos o una avería del ventilador. Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-01-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 78",
+          "sourceSlide": 78,
+          "altText": "Explicación visual de la parte 4.1: Motor, refrigeración y lubricación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 62,
+          "title": "Aplicación segura · Motor, refrigeración y lubricación",
+          "body": "1. Vigile presión de aceite, temperatura del refrigerante, combustible e indicadores\n2. Un sobrecalentamiento puede deberse a falta de nivel, radiadores obstruidos o una avería del ventilador\n3. Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma\n\nCriterio de parada: Detenga y diagnostique según el manual; nunca abra el circuito en caliente ni tape una alarma.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-01-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 83",
+          "sourceSlide": 83,
+          "altText": "Aplicación segura de la parte 4.1: Motor, refrigeración y lubricación"
+        }
+      ]
+    },
+    {
+      "part": "4.2",
+      "block": 4,
+      "position": 2,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Transmisión, articulación y tracción",
+      "narration": "La transmisión lleva la potencia a ruedas o cadenas. En una pala, la articulación central crea una zona de aplastamiento que debe bloquearse antes de trabajar entre bastidores. Evite cambios bruscos, patinamientos y esfuerzos excesivos. Cualquier tirón, ruido o pérdida de tracción debe comunicarse.",
+      "explanation": "La transmisión lleva la potencia a ruedas o cadenas. En una pala, la articulación central crea una zona de aplastamiento que debe bloquearse antes de trabajar entre bastidores. Evite cambios bruscos, patinamientos y esfuerzos excesivos. Cualquier tirón, ruido o pérdida de tracción debe comunicarse. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "La transmisión lleva la potencia a ruedas o cadenas",
+        "En una pala, la articulación central crea una zona de aplastamiento que debe bloquearse antes de trabajar…",
+        "Evite cambios bruscos, patinamientos y esfuerzos excesivos"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 63,
+          "title": "Transmisión, articulación y tracción",
+          "body": "La transmisión lleva la potencia a ruedas o cadenas. En una pala, la articulación central crea una zona de aplastamiento que debe bloquearse antes de trabajar entre bastidores. Evite cambios bruscos, patinamientos y esfuerzos excesivos. Cualquier tirón, ruido o pérdida de tracción debe comunicarse.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-02-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 79",
+          "sourceSlide": 79,
+          "altText": "Explicación visual de la parte 4.2: Transmisión, articulación y tracción"
+        },
+        {
+          "position": 2,
+          "deckSlide": 64,
+          "title": "Aplicación segura · Transmisión, articulación y tracción",
+          "body": "1. La transmisión lleva la potencia a ruedas o cadenas\n2. En una pala, la articulación central crea una zona de aplastamiento que debe bloquearse antes de trabajar…\n3. Evite cambios bruscos, patinamientos y esfuerzos excesivos\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-02-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 80",
+          "sourceSlide": 80,
+          "altText": "Aplicación segura de la parte 4.2: Transmisión, articulación y tracción"
+        }
+      ]
+    },
+    {
+      "part": "4.3",
+      "block": 4,
+      "position": 3,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Sistema hidráulico y energía acumulada",
+      "narration": "El sistema hidráulico puede conservar presión incluso con el motor parado. Antes de intervenir, apoye el equipo, descargue la presión y bloquee los movimientos posibles. No busque fugas con la mano. Si aparecen movimientos espontáneos o el equipo baja sin orden, retire la máquina de servicio.",
+      "explanation": "El sistema hidráulico puede conservar presión incluso con el motor parado. Antes de intervenir, apoye el equipo, descargue la presión y bloquee los movimientos posibles. No busque fugas con la mano. Si aparecen movimientos espontáneos o el equipo baja sin orden, retire la máquina de servicio. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El sistema hidráulico puede conservar presión incluso con el motor parado",
+        "Antes de intervenir, apoye el equipo, descargue la presión y bloquee los movimientos posibles",
+        "No busque fugas con la mano"
+      ],
+      "stopCriterion": "Si aparecen movimientos espontáneos o el equipo baja sin orden, retire la máquina de servicio.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 65,
+          "title": "Sistema hidráulico y energía acumulada",
+          "body": "El sistema hidráulico puede conservar presión incluso con el motor parado. Antes de intervenir, apoye el equipo, descargue la presión y bloquee los movimientos posibles. No busque fugas con la mano. Si aparecen movimientos espontáneos o el equipo baja sin orden, retire la máquina de servicio.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-03-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 81",
+          "sourceSlide": 81,
+          "altText": "Explicación visual de la parte 4.3: Sistema hidráulico y energía acumulada"
+        },
+        {
+          "position": 2,
+          "deckSlide": 66,
+          "title": "Aplicación segura · Sistema hidráulico y energía acumulada",
+          "body": "1. El sistema hidráulico puede conservar presión incluso con el motor parado\n2. Antes de intervenir, apoye el equipo, descargue la presión y bloquee los movimientos posibles\n3. No busque fugas con la mano\n\nCriterio de parada: Si aparecen movimientos espontáneos o el equipo baja sin orden, retire la máquina de servicio.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-03-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 83",
+          "sourceSlide": 83,
+          "altText": "Aplicación segura de la parte 4.3: Sistema hidráulico y energía acumulada"
+        }
+      ]
+    },
+    {
+      "part": "4.4",
+      "block": 4,
+      "position": 4,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Equipos de trabajo, accesorios y capacidades",
+      "narration": "Cada accesorio cambia el peso, el centro de gravedad y la capacidad de la máquina. Compruebe compatibilidad, presión, caudal, retención y tabla de carga para la configuración real. No use cucharas, horquillas o martillos para funciones no previstas ni improvise puntos de izado.",
+      "explanation": "Cada accesorio cambia el peso, el centro de gravedad y la capacidad de la máquina. Compruebe compatibilidad, presión, caudal, retención y tabla de carga para la configuración real. No use cucharas, horquillas o martillos para funciones no previstas ni improvise puntos de izado. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Cada accesorio cambia el peso, el centro de gravedad y la capacidad de la máquina",
+        "Compruebe compatibilidad, presión, caudal, retención y tabla de carga para la configuración real",
+        "No use cucharas, horquillas o martillos para funciones no previstas ni improvise puntos de izado"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 67,
+          "title": "Equipos de trabajo, accesorios y capacidades",
+          "body": "Cada accesorio cambia el peso, el centro de gravedad y la capacidad de la máquina. Compruebe compatibilidad, presión, caudal, retención y tabla de carga para la configuración real. No use cucharas, horquillas o martillos para funciones no previstas ni improvise puntos de izado.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-04-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 81",
+          "sourceSlide": 81,
+          "altText": "Explicación visual de la parte 4.4: Equipos de trabajo, accesorios y capacidades"
+        },
+        {
+          "position": 2,
+          "deckSlide": 68,
+          "title": "Aplicación segura · Equipos de trabajo, accesorios y capacidades",
+          "body": "1. Cada accesorio cambia el peso, el centro de gravedad y la capacidad de la máquina\n2. Compruebe compatibilidad, presión, caudal, retención y tabla de carga para la configuración real\n3. No use cucharas, horquillas o martillos para funciones no previstas ni improvise puntos de izado\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-04-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 82",
+          "sourceSlide": 82,
+          "altText": "Aplicación segura de la parte 4.4: Equipos de trabajo, accesorios y capacidades"
+        }
+      ]
+    },
+    {
+      "part": "4.5",
+      "block": 4,
+      "position": 5,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Neumáticos, cadenas y contacto con el terreno",
+      "narration": "Neumáticos y cadenas condicionan dirección, frenado y estabilidad. Revise presión, cortes, desgaste, barro acumulado y tensión del tren de rodaje. Una máquina pesada puede hundirse aunque la superficie parezca firme; confirme la capacidad portante antes de trabajar sobre rellenos, bordes o plataformas recientes.",
+      "explanation": "Neumáticos y cadenas condicionan dirección, frenado y estabilidad. Revise presión, cortes, desgaste, barro acumulado y tensión del tren de rodaje. Una máquina pesada puede hundirse aunque la superficie parezca firme; confirme la capacidad portante antes de trabajar sobre rellenos, bordes o plataformas recientes. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Neumáticos y cadenas condicionan dirección, frenado y estabilidad",
+        "Revise presión, cortes, desgaste, barro acumulado y tensión del tren de rodaje",
+        "Una máquina pesada puede hundirse aunque la superficie parezca firme; confirme la capacidad portante antes de…"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 69,
+          "title": "Neumáticos, cadenas y contacto con el terreno",
+          "body": "Neumáticos y cadenas condicionan dirección, frenado y estabilidad. Revise presión, cortes, desgaste, barro acumulado y tensión del tren de rodaje. Una máquina pesada puede hundirse aunque la superficie parezca firme; confirme la capacidad portante antes de trabajar sobre rellenos, bordes o plataformas recientes.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-05-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 81",
+          "sourceSlide": 81,
+          "altText": "Explicación visual de la parte 4.5: Neumáticos, cadenas y contacto con el terreno"
+        },
+        {
+          "position": 2,
+          "deckSlide": 70,
+          "title": "Aplicación segura · Neumáticos, cadenas y contacto con el terreno",
+          "body": "1. Neumáticos y cadenas condicionan dirección, frenado y estabilidad\n2. Revise presión, cortes, desgaste, barro acumulado y tensión del tren de rodaje\n3. Una máquina pesada puede hundirse aunque la superficie parezca firme; confirme la capacidad portante antes de…\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-05-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 22",
+          "sourceSlide": 22,
+          "altText": "Aplicación segura de la parte 4.5: Neumáticos, cadenas y contacto con el terreno"
+        }
+      ]
+    },
+    {
+      "part": "4.6",
+      "block": 4,
+      "position": 6,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Frenos, dirección y control del movimiento",
+      "narration": "Pruebe freno de servicio, estacionamiento y sistemas de emergencia conforme al manual. La dirección de emergencia permite conservar el control, pero no continuar la producción tras una avería. Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión.",
+      "explanation": "Pruebe freno de servicio, estacionamiento y sistemas de emergencia conforme al manual. La dirección de emergencia permite conservar el control, pero no continuar la producción tras una avería. Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Pruebe freno de servicio, estacionamiento y sistemas de emergencia conforme al manual",
+        "La dirección de emergencia permite conservar el control, pero no continuar la producción tras una avería",
+        "Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión"
+      ],
+      "stopCriterion": "Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 71,
+          "title": "Frenos, dirección y control del movimiento",
+          "body": "Pruebe freno de servicio, estacionamiento y sistemas de emergencia conforme al manual. La dirección de emergencia permite conservar el control, pero no continuar la producción tras una avería. Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-06-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 80",
+          "sourceSlide": 80,
+          "altText": "Explicación visual de la parte 4.6: Frenos, dirección y control del movimiento"
+        },
+        {
+          "position": 2,
+          "deckSlide": 72,
+          "title": "Aplicación segura · Frenos, dirección y control del movimiento",
+          "body": "1. Pruebe freno de servicio, estacionamiento y sistemas de emergencia conforme al manual\n2. La dirección de emergencia permite conservar el control, pero no continuar la producción tras una avería\n3. Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión\n\nCriterio de parada: Si cambia la respuesta, aumenta el recorrido o aparece una alarma, estacione de forma segura y solicite revisión.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-06-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 84",
+          "sourceSlide": 84,
+          "altText": "Aplicación segura de la parte 4.6: Frenos, dirección y control del movimiento"
+        }
+      ]
+    },
+    {
+      "part": "4.7",
+      "block": 4,
+      "position": 7,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "ROPS, FOPS y cinturón de seguridad",
+      "narration": "Las estructuras ROPS protegen en caso de vuelco y las FOPS frente a la caída de objetos, dentro de sus condiciones de diseño. No deben perforarse, soldarse ni modificarse sin autorización. El cinturón mantiene al operador dentro del espacio protegido y debe utilizarse siempre durante el trabajo.",
+      "explanation": "Las estructuras ROPS protegen en caso de vuelco y las FOPS frente a la caída de objetos, dentro de sus condiciones de diseño. No deben perforarse, soldarse ni modificarse sin autorización. El cinturón mantiene al operador dentro del espacio protegido y debe utilizarse siempre durante el trabajo. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Las estructuras ROPS protegen en caso de vuelco y las FOPS frente a la caída de objetos, dentro de sus…",
+        "No deben perforarse, soldarse ni modificarse sin autorización",
+        "El cinturón mantiene al operador dentro del espacio protegido y debe utilizarse siempre durante el trabajo"
+      ],
+      "stopCriterion": "No deben perforarse, soldarse ni modificarse sin autorización.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 73,
+          "title": "ROPS, FOPS y cinturón de seguridad",
+          "body": "Las estructuras ROPS protegen en caso de vuelco y las FOPS frente a la caída de objetos, dentro de sus condiciones de diseño. No deben perforarse, soldarse ni modificarse sin autorización. El cinturón mantiene al operador dentro del espacio protegido y debe utilizarse siempre durante el trabajo.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-07-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 84",
+          "sourceSlide": 84,
+          "altText": "Explicación visual de la parte 4.7: ROPS, FOPS y cinturón de seguridad"
+        },
+        {
+          "position": 2,
+          "deckSlide": 74,
+          "title": "Aplicación segura · ROPS, FOPS y cinturón de seguridad",
+          "body": "1. Las estructuras ROPS protegen en caso de vuelco y las FOPS frente a la caída de objetos, dentro de sus…\n2. No deben perforarse, soldarse ni modificarse sin autorización\n3. El cinturón mantiene al operador dentro del espacio protegido y debe utilizarse siempre durante el trabajo\n\nCriterio de parada: No deben perforarse, soldarse ni modificarse sin autorización.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-07-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 40",
+          "sourceSlide": 40,
+          "altText": "Aplicación segura de la parte 4.7: ROPS, FOPS y cinturón de seguridad"
+        }
+      ]
+    },
+    {
+      "part": "4.8",
+      "block": 4,
+      "position": 8,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Bloqueos, resguardos y prevención del movimiento",
+      "narration": "Los bloqueos mecánicos evitan movimientos por gravedad, pérdida de presión o accionamiento involuntario. Los resguardos separan de correas, ventiladores y elementos giratorios. No anule ninguna protección. Antes de retirar un bloqueo, compruebe que no quedan personas, herramientas ni soportes en la zona.",
+      "explanation": "Los bloqueos mecánicos evitan movimientos por gravedad, pérdida de presión o accionamiento involuntario. Los resguardos separan de correas, ventiladores y elementos giratorios. No anule ninguna protección. Antes de retirar un bloqueo, compruebe que no quedan personas, herramientas ni soportes en la zona. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Los bloqueos mecánicos evitan movimientos por gravedad, pérdida de presión o accionamiento involuntario",
+        "Los resguardos separan de correas, ventiladores y elementos giratorios",
+        "No anule ninguna protección"
+      ],
+      "stopCriterion": "No anule ninguna protección.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 75,
+          "title": "Bloqueos, resguardos y prevención del movimiento",
+          "body": "Los bloqueos mecánicos evitan movimientos por gravedad, pérdida de presión o accionamiento involuntario. Los resguardos separan de correas, ventiladores y elementos giratorios. No anule ninguna protección. Antes de retirar un bloqueo, compruebe que no quedan personas, herramientas ni soportes en la zona.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-08-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 83",
+          "sourceSlide": 83,
+          "altText": "Explicación visual de la parte 4.8: Bloqueos, resguardos y prevención del movimiento"
+        },
+        {
+          "position": 2,
+          "deckSlide": 76,
+          "title": "Aplicación segura · Bloqueos, resguardos y prevención del movimiento",
+          "body": "1. Los bloqueos mecánicos evitan movimientos por gravedad, pérdida de presión o accionamiento involuntario\n2. Los resguardos separan de correas, ventiladores y elementos giratorios\n3. No anule ninguna protección\n\nCriterio de parada: No anule ninguna protección.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-08-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 84",
+          "sourceSlide": 84,
+          "altText": "Aplicación segura de la parte 4.8: Bloqueos, resguardos y prevención del movimiento"
+        }
+      ]
+    },
+    {
+      "part": "4.9",
+      "block": 4,
+      "position": 9,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Instrumentos, alarmas y dispositivos de aviso",
+      "narration": "Manómetros, termómetros y alarmas informan del estado de los sistemas. Conozca la lectura normal y la respuesta exigida para cada aviso. Bocina, cámara, luces y alarma de retroceso ayudan, pero no sustituyen una zona despejada. No tape indicadores ni desconecte alarmas.",
+      "explanation": "Manómetros, termómetros y alarmas informan del estado de los sistemas. Conozca la lectura normal y la respuesta exigida para cada aviso. Bocina, cámara, luces y alarma de retroceso ayudan, pero no sustituyen una zona despejada. No tape indicadores ni desconecte alarmas. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Manómetros, termómetros y alarmas informan del estado de los sistemas",
+        "Conozca la lectura normal y la respuesta exigida para cada aviso",
+        "Bocina, cámara, luces y alarma de retroceso ayudan, pero no sustituyen una zona despejada"
+      ],
+      "stopCriterion": "No tape indicadores ni desconecte alarmas.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 77,
+          "title": "Instrumentos, alarmas y dispositivos de aviso",
+          "body": "Manómetros, termómetros y alarmas informan del estado de los sistemas. Conozca la lectura normal y la respuesta exigida para cada aviso. Bocina, cámara, luces y alarma de retroceso ayudan, pero no sustituyen una zona despejada. No tape indicadores ni desconecte alarmas.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-09-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 86",
+          "sourceSlide": 86,
+          "altText": "Explicación visual de la parte 4.9: Instrumentos, alarmas y dispositivos de aviso"
+        },
+        {
+          "position": 2,
+          "deckSlide": 78,
+          "title": "Aplicación segura · Instrumentos, alarmas y dispositivos de aviso",
+          "body": "1. Manómetros, termómetros y alarmas informan del estado de los sistemas\n2. Conozca la lectura normal y la respuesta exigida para cada aviso\n3. Bocina, cámara, luces y alarma de retroceso ayudan, pero no sustituyen una zona despejada\n\nCriterio de parada: No tape indicadores ni desconecte alarmas.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-09-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 87",
+          "sourceSlide": 87,
+          "altText": "Aplicación segura de la parte 4.9: Instrumentos, alarmas y dispositivos de aviso"
+        }
+      ]
+    },
+    {
+      "part": "4.10",
+      "block": 4,
+      "position": 10,
+      "blockTitle": "Componentes de la máquina y sistemas de seguridad",
+      "title": "Manual del fabricante y adecuación al Real Decreto 1215/1997",
+      "narration": "El manual define el uso previsto, las capacidades y el mantenimiento de cada modelo. La máquina debe cumplir las disposiciones aplicables del Real Decreto 1215 de 1997 y mantener sus protecciones en buen estado. Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos.",
+      "explanation": "El manual define el uso previsto, las capacidades y el mantenimiento de cada modelo. La máquina debe cumplir las disposiciones aplicables del Real Decreto 1215 de 1997 y mantener sus protecciones en buen estado. Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El manual define el uso previsto, las capacidades y el mantenimiento de cada modelo",
+        "La máquina debe cumplir las disposiciones aplicables del Real Decreto 1215 de 1997 y mantener sus protecciones…",
+        "Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos"
+      ],
+      "stopCriterion": "Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos.",
+      "source": "ET 2001-1-08 · 3.3.3 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 79,
+          "title": "Manual del fabricante y adecuación al Real Decreto 1215/1997",
+          "body": "El manual define el uso previsto, las capacidades y el mantenimiento de cada modelo. La máquina debe cumplir las disposiciones aplicables del Real Decreto 1215 de 1997 y mantener sus protecciones en buen estado. Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-10-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 40",
+          "sourceSlide": 40,
+          "altText": "Explicación visual de la parte 4.10: Manual del fabricante y adecuación al Real Decreto 1215/1997"
+        },
+        {
+          "position": 2,
+          "deckSlide": 80,
+          "title": "Aplicación segura · Manual del fabricante y adecuación al Real Decreto 1215/1997",
+          "body": "1. El manual define el uso previsto, las capacidades y el mantenimiento de cada modelo\n2. La máquina debe cumplir las disposiciones aplicables del Real Decreto 1215 de 1997 y mantener sus protecciones…\n3. Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos\n\nCriterio de parada: Si se modifica la configuración o se añade un accesorio, deben evaluarse de nuevo los riesgos.",
+          "storagePath": "course-1/5h/block-4/slides/audio-4-10-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 41",
+          "sourceSlide": 41,
+          "altText": "Aplicación segura de la parte 4.10: Manual del fabricante y adecuación al Real Decreto 1215/1997"
+        }
+      ]
+    },
+    {
+      "part": "5.1",
+      "block": 5,
+      "position": 1,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Vigilancia de frentes, plataformas y taludes",
+      "narration": "Observe el frente, la plataforma y los taludes antes y durante el trabajo. Grietas, agua, bloques sueltos o material recién volado pueden cambiar la estabilidad. Repita la inspección después de lluvias, heladas o voladuras. Ante cualquier duda, retire la máquina fuera del alcance y solicite evaluación.",
+      "explanation": "Observe el frente, la plataforma y los taludes antes y durante el trabajo. Grietas, agua, bloques sueltos o material recién volado pueden cambiar la estabilidad. Repita la inspección después de lluvias, heladas o voladuras. Ante cualquier duda, retire la máquina fuera del alcance y solicite evaluación. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Observe el frente, la plataforma y los taludes antes y durante el trabajo",
+        "Grietas, agua, bloques sueltos o material recién volado pueden cambiar la estabilidad",
+        "Repita la inspección después de lluvias, heladas o voladuras"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.4 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 81,
+          "title": "Vigilancia de frentes, plataformas y taludes",
+          "body": "Observe el frente, la plataforma y los taludes antes y durante el trabajo. Grietas, agua, bloques sueltos o material recién volado pueden cambiar la estabilidad. Repita la inspección después de lluvias, heladas o voladuras. Ante cualquier duda, retire la máquina fuera del alcance y solicite evaluación.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-01-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 85",
+          "sourceSlide": 85,
+          "altText": "Explicación visual de la parte 5.1: Vigilancia de frentes, plataformas y taludes"
+        },
+        {
+          "position": 2,
+          "deckSlide": 82,
+          "title": "Aplicación segura · Vigilancia de frentes, plataformas y taludes",
+          "body": "1. Observe el frente, la plataforma y los taludes antes y durante el trabajo\n2. Grietas, agua, bloques sueltos o material recién volado pueden cambiar la estabilidad\n3. Repita la inspección después de lluvias, heladas o voladuras\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-01-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 88",
+          "sourceSlide": 88,
+          "altText": "Aplicación segura de la parte 5.1: Vigilancia de frentes, plataformas y taludes"
+        }
+      ]
+    },
+    {
+      "part": "5.2",
+      "block": 5,
+      "position": 2,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Pistas, bermas, drenaje y control del polvo",
+      "narration": "Las pistas deben tener anchura, firme, visibilidad y drenaje adecuados. Baches, barro y polvo reducen el control. Las bermas delimitan el borde, pero no son un freno ni garantizan su resistencia. Adapte la velocidad e informe de los deterioros; si la circulación no es segura, detenga su uso.",
+      "explanation": "Las pistas deben tener anchura, firme, visibilidad y drenaje adecuados. Baches, barro y polvo reducen el control. Las bermas delimitan el borde, pero no son un freno ni garantizan su resistencia. Adapte la velocidad e informe de los deterioros; si la circulación no es segura, detenga su uso. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Las pistas deben tener anchura, firme, visibilidad y drenaje adecuados",
+        "Baches, barro y polvo reducen el control",
+        "Las bermas delimitan el borde, pero no son un freno ni garantizan su resistencia"
+      ],
+      "stopCriterion": "Adapte la velocidad e informe de los deterioros; si la circulación no es segura, detenga su uso.",
+      "source": "ET 2001-1-08 · 3.3.4 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 83,
+          "title": "Pistas, bermas, drenaje y control del polvo",
+          "body": "Las pistas deben tener anchura, firme, visibilidad y drenaje adecuados. Baches, barro y polvo reducen el control. Las bermas delimitan el borde, pero no son un freno ni garantizan su resistencia. Adapte la velocidad e informe de los deterioros; si la circulación no es segura, detenga su uso.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-02-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 88",
+          "sourceSlide": 88,
+          "altText": "Explicación visual de la parte 5.2: Pistas, bermas, drenaje y control del polvo"
+        },
+        {
+          "position": 2,
+          "deckSlide": 84,
+          "title": "Aplicación segura · Pistas, bermas, drenaje y control del polvo",
+          "body": "1. Las pistas deben tener anchura, firme, visibilidad y drenaje adecuados\n2. Baches, barro y polvo reducen el control\n3. Las bermas delimitan el borde, pero no son un freno ni garantizan su resistencia\n\nCriterio de parada: Adapte la velocidad e informe de los deterioros; si la circulación no es segura, detenga su uso.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-02-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 89",
+          "sourceSlide": 89,
+          "altText": "Aplicación segura de la parte 5.2: Pistas, bermas, drenaje y control del polvo"
+        }
+      ]
+    },
+    {
+      "part": "5.3",
+      "block": 5,
+      "position": 3,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Interferencia entre pala cargadora y camión",
+      "narration": "El punto de espera, la entrada y la salida del camión deben estar definidos. La pala no inicia el ciclo hasta confirmar su posición, evita pasar el cucharón sobre la cabina y distribuye la carga sin golpes. Si aparece una persona o se pierde la comunicación, ambos equipos se detienen.",
+      "explanation": "El punto de espera, la entrada y la salida del camión deben estar definidos. La pala no inicia el ciclo hasta confirmar su posición, evita pasar el cucharón sobre la cabina y distribuye la carga sin golpes. Si aparece una persona o se pierde la comunicación, ambos equipos se detienen. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "El punto de espera, la entrada y la salida del camión deben estar definidos",
+        "La pala no inicia el ciclo hasta confirmar su posición, evita pasar el cucharón sobre la cabina y distribuye…",
+        "Si aparece una persona o se pierde la comunicación, ambos equipos se detienen"
+      ],
+      "stopCriterion": "Si aparece una persona o se pierde la comunicación, ambos equipos se detienen.",
+      "source": "ET 2001-1-08 · 3.3.5 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 85,
+          "title": "Interferencia entre pala cargadora y camión",
+          "body": "El punto de espera, la entrada y la salida del camión deben estar definidos. La pala no inicia el ciclo hasta confirmar su posición, evita pasar el cucharón sobre la cabina y distribuye la carga sin golpes. Si aparece una persona o se pierde la comunicación, ambos equipos se detienen.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-03-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 90",
+          "sourceSlide": 90,
+          "altText": "Explicación visual de la parte 5.3: Interferencia entre pala cargadora y camión"
+        },
+        {
+          "position": 2,
+          "deckSlide": 86,
+          "title": "Aplicación segura · Interferencia entre pala cargadora y camión",
+          "body": "1. El punto de espera, la entrada y la salida del camión deben estar definidos\n2. La pala no inicia el ciclo hasta confirmar su posición, evita pasar el cucharón sobre la cabina y distribuye…\n3. Si aparece una persona o se pierde la comunicación, ambos equipos se detienen\n\nCriterio de parada: Si aparece una persona o se pierde la comunicación, ambos equipos se detienen.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-03-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 91",
+          "sourceSlide": 91,
+          "altText": "Aplicación segura de la parte 5.3: Interferencia entre pala cargadora y camión"
+        }
+      ]
+    },
+    {
+      "part": "5.4",
+      "block": 5,
+      "position": 4,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Interferencia entre excavadora y vehículo de transporte",
+      "narration": "Coloque el vehículo fuera del radio de giro y de la posible caída de material. Reduzca el giro y evite pasar la cuchara sobre la cabina. El conductor no moverá el camión hasta recibir la señal. Una sola persona dirige la maniobra y cualquier pérdida de comunicación exige parada inmediata.",
+      "explanation": "Coloque el vehículo fuera del radio de giro y de la posible caída de material. Reduzca el giro y evite pasar la cuchara sobre la cabina. El conductor no moverá el camión hasta recibir la señal. Una sola persona dirige la maniobra y cualquier pérdida de comunicación exige parada inmediata. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Coloque el vehículo fuera del radio de giro y de la posible caída de material",
+        "Reduzca el giro y evite pasar la cuchara sobre la cabina",
+        "El conductor no moverá el camión hasta recibir la señal"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.5 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 87,
+          "title": "Interferencia entre excavadora y vehículo de transporte",
+          "body": "Coloque el vehículo fuera del radio de giro y de la posible caída de material. Reduzca el giro y evite pasar la cuchara sobre la cabina. El conductor no moverá el camión hasta recibir la señal. Una sola persona dirige la maniobra y cualquier pérdida de comunicación exige parada inmediata.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-04-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 90",
+          "sourceSlide": 90,
+          "altText": "Explicación visual de la parte 5.4: Interferencia entre excavadora y vehículo de transporte"
+        },
+        {
+          "position": 2,
+          "deckSlide": 88,
+          "title": "Aplicación segura · Interferencia entre excavadora y vehículo de transporte",
+          "body": "1. Coloque el vehículo fuera del radio de giro y de la posible caída de material\n2. Reduzca el giro y evite pasar la cuchara sobre la cabina\n3. El conductor no moverá el camión hasta recibir la señal\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-04-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 18",
+          "sourceSlide": 18,
+          "altText": "Aplicación segura de la parte 5.4: Interferencia entre excavadora y vehículo de transporte"
+        }
+      ]
+    },
+    {
+      "part": "5.5",
+      "block": 5,
+      "position": 5,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Personal de tierra, señalistas y comunicaciones",
+      "narration": "Las rutas peatonales y zonas de exclusión deben estar definidas. Para acercarse a una máquina, establezca contacto y espere la confirmación del operador. El señalista debe permanecer visible y usar señales acordadas. Si varias personas dan instrucciones o una orden es ambigua, detenga el trabajo y aclare la maniobra.",
+      "explanation": "Las rutas peatonales y zonas de exclusión deben estar definidas. Para acercarse a una máquina, establezca contacto y espere la confirmación del operador. El señalista debe permanecer visible y usar señales acordadas. Si varias personas dan instrucciones o una orden es ambigua, detenga el trabajo y aclare la maniobra. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Las rutas peatonales y zonas de exclusión deben estar definidas",
+        "Para acercarse a una máquina, establezca contacto y espere la confirmación del operador",
+        "El señalista debe permanecer visible y usar señales acordadas"
+      ],
+      "stopCriterion": "Si varias personas dan instrucciones o una orden es ambigua, detenga el trabajo y aclare la maniobra.",
+      "source": "ET 2001-1-08 · 3.3.5 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 89,
+          "title": "Personal de tierra, señalistas y comunicaciones",
+          "body": "Las rutas peatonales y zonas de exclusión deben estar definidas. Para acercarse a una máquina, establezca contacto y espere la confirmación del operador. El señalista debe permanecer visible y usar señales acordadas. Si varias personas dan instrucciones o una orden es ambigua, detenga el trabajo y aclare la maniobra.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-05-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 91",
+          "sourceSlide": 91,
+          "altText": "Explicación visual de la parte 5.5: Personal de tierra, señalistas y comunicaciones"
+        },
+        {
+          "position": 2,
+          "deckSlide": 90,
+          "title": "Aplicación segura · Personal de tierra, señalistas y comunicaciones",
+          "body": "1. Las rutas peatonales y zonas de exclusión deben estar definidas\n2. Para acercarse a una máquina, establezca contacto y espere la confirmación del operador\n3. El señalista debe permanecer visible y usar señales acordadas\n\nCriterio de parada: Si varias personas dan instrucciones o una orden es ambigua, detenga el trabajo y aclare la maniobra.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-05-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 90",
+          "sourceSlide": 90,
+          "altText": "Aplicación segura de la parte 5.5: Personal de tierra, señalistas y comunicaciones"
+        }
+      ]
+    },
+    {
+      "part": "5.6",
+      "block": 5,
+      "position": 6,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Trabajos próximos a líneas eléctricas",
+      "narration": "Una línea aérea puede producir arco sin contacto. Identifique tensión, altura y recorrido, y aplique las distancias y medidas del procedimiento específico. Considere todas las posiciones de pluma y carga. Si hay contacto, permanezca en la cabina salvo peligro inmediato y active el plan de emergencia.",
+      "explanation": "Una línea aérea puede producir arco sin contacto. Identifique tensión, altura y recorrido, y aplique las distancias y medidas del procedimiento específico. Considere todas las posiciones de pluma y carga. Si hay contacto, permanezca en la cabina salvo peligro inmediato y active el plan de emergencia. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Una línea aérea puede producir arco sin contacto",
+        "Identifique tensión, altura y recorrido, y aplique las distancias y medidas del procedimiento específico",
+        "Considere todas las posiciones de pluma y carga"
+      ],
+      "stopCriterion": "Si hay contacto, permanezca en la cabina salvo peligro inmediato y active el plan de emergencia.",
+      "source": "ET 2001-1-08 · 3.3.5 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 91,
+          "title": "Trabajos próximos a líneas eléctricas",
+          "body": "Una línea aérea puede producir arco sin contacto. Identifique tensión, altura y recorrido, y aplique las distancias y medidas del procedimiento específico. Considere todas las posiciones de pluma y carga. Si hay contacto, permanezca en la cabina salvo peligro inmediato y active el plan de emergencia.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-06-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 92",
+          "sourceSlide": 92,
+          "altText": "Explicación visual de la parte 5.6: Trabajos próximos a líneas eléctricas"
+        },
+        {
+          "position": 2,
+          "deckSlide": 92,
+          "title": "Aplicación segura · Trabajos próximos a líneas eléctricas",
+          "body": "1. Una línea aérea puede producir arco sin contacto\n2. Identifique tensión, altura y recorrido, y aplique las distancias y medidas del procedimiento específico\n3. Considere todas las posiciones de pluma y carga\n\nCriterio de parada: Si hay contacto, permanezca en la cabina salvo peligro inmediato y active el plan de emergencia.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-06-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 92",
+          "sourceSlide": 92,
+          "altText": "Aplicación segura de la parte 5.6: Trabajos próximos a líneas eléctricas"
+        }
+      ]
+    },
+    {
+      "part": "5.7",
+      "block": 5,
+      "position": 7,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Interferencias durante mantenimiento y reparación",
+      "narration": "Antes de reparar, operador y mantenimiento deben acordar quién controla la máquina, qué energías quedan aisladas y cuándo se retira cada bloqueo. Si una prueba requiere movimiento, delimite la zona y designe una persona responsable. Tras la intervención, realice una entrega e inspección funcional.",
+      "explanation": "Antes de reparar, operador y mantenimiento deben acordar quién controla la máquina, qué energías quedan aisladas y cuándo se retira cada bloqueo. Si una prueba requiere movimiento, delimite la zona y designe una persona responsable. Tras la intervención, realice una entrega e inspección funcional. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Antes de reparar, operador y mantenimiento deben acordar quién controla la máquina, qué energías quedan…",
+        "Si una prueba requiere movimiento, delimite la zona y designe una persona responsable",
+        "Tras la intervención, realice una entrega e inspección funcional"
+      ],
+      "stopCriterion": "Si una prueba requiere movimiento, delimite la zona y designe una persona responsable.",
+      "source": "ET 2001-1-08 · 3.3.5 · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 93,
+          "title": "Interferencias durante mantenimiento y reparación",
+          "body": "Antes de reparar, operador y mantenimiento deben acordar quién controla la máquina, qué energías quedan aisladas y cuándo se retira cada bloqueo. Si una prueba requiere movimiento, delimite la zona y designe una persona responsable. Tras la intervención, realice una entrega e inspección funcional.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-07-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 39",
+          "sourceSlide": 39,
+          "altText": "Explicación visual de la parte 5.7: Interferencias durante mantenimiento y reparación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 94,
+          "title": "Aplicación segura · Interferencias durante mantenimiento y reparación",
+          "body": "1. Antes de reparar, operador y mantenimiento deben acordar quién controla la máquina, qué energías quedan…\n2. Si una prueba requiere movimiento, delimite la zona y designe una persona responsable\n3. Tras la intervención, realice una entrega e inspección funcional\n\nCriterio de parada: Si una prueba requiere movimiento, delimite la zona y designe una persona responsable.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-07-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 89",
+          "sourceSlide": 89,
+          "altText": "Aplicación segura de la parte 5.7: Interferencias durante mantenimiento y reparación"
+        }
+      ]
+    },
+    {
+      "part": "5.8",
+      "block": 5,
+      "position": 8,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Incendio, primeros auxilios y conducta PAS",
+      "narration": "Ante un accidente aplique la conducta PAS: proteger, avisar y socorrer. Evite nuevas víctimas, active la emergencia con información precisa y ayude solo dentro de su formación. En un incendio incipiente use el extintor únicamente si dispone de una salida segura y no asume un riesgo adicional.",
+      "explanation": "Ante un accidente aplique la conducta PAS: proteger, avisar y socorrer. Evite nuevas víctimas, active la emergencia con información precisa y ayude solo dentro de su formación. En un incendio incipiente use el extintor únicamente si dispone de una salida segura y no asume un riesgo adicional. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Ante un accidente aplique la conducta PAS: proteger, avisar y socorrer",
+        "Evite nuevas víctimas, active la emergencia con información precisa y ayude solo dentro de su formación",
+        "En un incendio incipiente use el extintor únicamente si dispone de una salida segura y no asume un riesgo…"
+      ],
+      "stopCriterion": "Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 95,
+          "title": "Incendio, primeros auxilios y conducta PAS",
+          "body": "Ante un accidente aplique la conducta PAS: proteger, avisar y socorrer. Evite nuevas víctimas, active la emergencia con información precisa y ayude solo dentro de su formación. En un incendio incipiente use el extintor únicamente si dispone de una salida segura y no asume un riesgo adicional.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-08-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 49",
+          "sourceSlide": 49,
+          "altText": "Explicación visual de la parte 5.8: Incendio, primeros auxilios y conducta PAS"
+        },
+        {
+          "position": 2,
+          "deckSlide": 96,
+          "title": "Aplicación segura · Incendio, primeros auxilios y conducta PAS",
+          "body": "1. Ante un accidente aplique la conducta PAS: proteger, avisar y socorrer\n2. Evite nuevas víctimas, active la emergencia con información precisa y ayude solo dentro de su formación\n3. En un incendio incipiente use el extintor únicamente si dispone de una salida segura y no asume un riesgo…\n\nCriterio de parada: Detenga la operación y comunique cualquier condición que impida trabajar con seguridad.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-08-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 50",
+          "sourceSlide": 50,
+          "altText": "Aplicación segura de la parte 5.8: Incendio, primeros auxilios y conducta PAS"
+        }
+      ]
+    },
+    {
+      "part": "5.9",
+      "block": 5,
+      "position": 9,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Plan de emergencia y evacuación",
+      "narration": "Conozca las alarmas, comunicaciones, vías de evacuación y puntos de reunión. Sepa cómo dejar la máquina sin bloquear una pista y cómo informar de su ubicación. No improvise rutas por frentes o zonas de tráfico. Después de un incidente, informe y colabore para evitar que vuelva a repetirse.",
+      "explanation": "Conozca las alarmas, comunicaciones, vías de evacuación y puntos de reunión. Sepa cómo dejar la máquina sin bloquear una pista y cómo informar de su ubicación. No improvise rutas por frentes o zonas de tráfico. Después de un incidente, informe y colabore para evitar que vuelva a repetirse. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Conozca las alarmas, comunicaciones, vías de evacuación y puntos de reunión",
+        "Sepa cómo dejar la máquina sin bloquear una pista y cómo informar de su ubicación",
+        "No improvise rutas por frentes o zonas de tráfico"
+      ],
+      "stopCriterion": "No improvise rutas por frentes o zonas de tráfico.",
+      "source": "ET 2001-1-08 · 3.3.2.b · Presentación Cursos Pedro",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 97,
+          "title": "Plan de emergencia y evacuación",
+          "body": "Conozca las alarmas, comunicaciones, vías de evacuación y puntos de reunión. Sepa cómo dejar la máquina sin bloquear una pista y cómo informar de su ubicación. No improvise rutas por frentes o zonas de tráfico. Después de un incidente, informe y colabore para evitar que vuelva a repetirse.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-09-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 69",
+          "sourceSlide": 69,
+          "altText": "Explicación visual de la parte 5.9: Plan de emergencia y evacuación"
+        },
+        {
+          "position": 2,
+          "deckSlide": 98,
+          "title": "Aplicación segura · Plan de emergencia y evacuación",
+          "body": "1. Conozca las alarmas, comunicaciones, vías de evacuación y puntos de reunión\n2. Sepa cómo dejar la máquina sin bloquear una pista y cómo informar de su ubicación\n3. No improvise rutas por frentes o zonas de tráfico\n\nCriterio de parada: No improvise rutas por frentes o zonas de tráfico.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-09-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 74",
+          "sourceSlide": 74,
+          "altText": "Aplicación segura de la parte 5.9: Plan de emergencia y evacuación"
+        }
+      ]
+    },
+    {
+      "part": "5.10",
+      "block": 5,
+      "position": 10,
+      "blockTitle": "Control del entorno, interferencias, emergencias y normativa",
+      "title": "Marco normativo, derechos y obligaciones",
+      "narration": "Esta formación de actualización se encuadra en la ITC 02.1.02 y en la Especificación Técnica 2001-1-08. Para este puesto, la especificación fija una frecuencia máxima obligatoria de dos años. Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave.",
+      "explanation": "Esta formación de actualización se encuadra en la ITC 02.1.02 y en la Especificación Técnica 2001-1-08. Para este puesto, la especificación fija una frecuencia máxima obligatoria de dos años. Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave. En la aplicación práctica deben respetarse el manual del fabricante, las disposiciones internas de seguridad y el criterio de parada indicado.",
+      "keyPoints": [
+        "Esta formación de actualización se encuadra en la ITC 02.1.02 y en la Especificación Técnica 2001-1-08",
+        "Para este puesto, la especificación fija una frecuencia máxima obligatoria de dos años",
+        "Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave"
+      ],
+      "stopCriterion": "Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave.",
+      "source": "ITC 02.1.02 · ET 2001-1-08, 3.4 · BOE consolidado",
+      "slides": [
+        {
+          "position": 1,
+          "deckSlide": 99,
+          "title": "Marco normativo, derechos y obligaciones",
+          "body": "Esta formación de actualización se encuadra en la ITC 02.1.02 y en la Especificación Técnica 2001-1-08. Para este puesto, la especificación fija una frecuencia máxima obligatoria de dos años. Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-10-slide-01.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 93",
+          "sourceSlide": 93,
+          "altText": "Explicación visual de la parte 5.10: Marco normativo, derechos y obligaciones"
+        },
+        {
+          "position": 2,
+          "deckSlide": 100,
+          "title": "Aplicación segura · Marco normativo, derechos y obligaciones",
+          "body": "1. Esta formación de actualización se encuadra en la ITC 02.1.02 y en la Especificación Técnica 2001-1-08\n2. Para este puesto, la especificación fija una frecuencia máxima obligatoria de dos años\n3. Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave\n\nCriterio de parada: Respete el manual, las disposiciones internas y comunique cualquier situación de riesgo grave.",
+          "storagePath": "course-1/5h/block-5/slides/audio-5-10-slide-02.png",
+          "sourceLabel": "Presentación Cursos Pedro y desarrollo didáctico Inmíner",
+          "sourcePage": "Diapositiva original 2",
+          "sourceSlide": 2,
+          "altText": "Aplicación segura de la parte 5.10: Marco normativo, derechos y obligaciones"
+        }
+      ]
+    }
+  ]
+}
