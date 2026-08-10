@@ -31,6 +31,7 @@ type LessonData = {
   id: string
   title: string
   summary: string
+  blockPosition: number
   resources: Resource[]
   quiz: {
     id: string
@@ -51,6 +52,10 @@ type QuizRow = {
 type LessonRow = {
   id: string
   title: string
+  course_modules: Relation<{
+    position: number
+    title: string
+  }>
   lesson_resources: Relation<Resource>
   quizzes: Relation<QuizRow>
 }
@@ -112,7 +117,7 @@ function Lesson({
             supabase
               .from('lessons')
               .select(
-                'id, title, lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
+                'id, title, course_modules(position, title), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
               )
               .eq('id', lessonId)
               .maybeSingle(),
@@ -125,7 +130,7 @@ function Lesson({
             supabase
               .from('lesson_audio_segments')
               .select(
-                'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
+                'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
               )
               .eq('lesson_id', lessonId)
               .eq('lesson_audio_progress.enrollment_id', enrollmentId)
@@ -144,6 +149,7 @@ function Lesson({
           (isAdministrator || (progress && progress.status !== 'locked'))
         ) {
           const row = lessonResponse.data as unknown as LessonRow
+          const courseModule = relationArray(row.course_modules)[0]
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
           )
@@ -163,6 +169,7 @@ function Lesson({
             id: row.id,
             title: row.title,
             summary: `Contenido disponible en ${playableSegments.length} partes de audio.`,
+            blockPosition: courseModule?.position ?? 1,
             resources: resolvedResources,
             quiz: quiz
               ? {
@@ -196,6 +203,8 @@ function Lesson({
       active = false
     }
   }, [enrollmentId, isAdministrator, lessonId])
+
+  const pdfResource = lesson?.resources.find((resource) => resource.kind === 'pdf')
 
   return (
     <AppShell user={user} title={lesson?.title || 'Lección'}>
@@ -234,9 +243,19 @@ function Lesson({
       ) : lesson ? (
         <div className="form-grid">
           <AudioLessonPlayer
+            blockPosition={lesson.blockPosition}
             enrollmentId={enrollmentId}
             initialSegments={segments}
             onLessonProgress={() => setAudioCompleted(true)}
+            pdfResource={
+              pdfResource
+                ? {
+                    title: pdfResource.title,
+                    storagePath: pdfResource.storage_path,
+                    resolvedUrl: pdfResource.resolvedUrl,
+                  }
+                : null
+            }
             previewMode={isAdministrator}
           />
           {lesson.resources.length ? (
@@ -348,6 +367,7 @@ async function resolveSegments(
     lesson_segment_notes: Relation<{
       summary: string
       key_points: string[]
+      stop_criterion: string
       source_label: string
       source_pages: string
     }>
@@ -395,6 +415,7 @@ async function resolveSegments(
               title: slide.title,
               body: slide.body,
               imageUrl,
+              imageStoragePath: slide.image_storage_path,
               sourceLabel: slide.source_label,
               sourcePage: slide.source_page,
               altText: slide.alt_text ?? slide.title,
@@ -409,6 +430,7 @@ async function resolveSegments(
         title: segment.title,
         narrationText: segment.narration_text,
         audioUrl,
+        audioStoragePath: segment.audio_storage_path,
         durationSeconds: segment.duration_seconds,
         maxPositionSeconds: segmentProgress?.max_position_seconds ?? 0,
         completed: Boolean(segmentProgress?.completed_at),
@@ -416,6 +438,7 @@ async function resolveSegments(
           ? {
               summary: note.summary,
               keyPoints: note.key_points,
+              stopCriterion: note.stop_criterion,
               sourceLabel: note.source_label,
               sourcePages: note.source_pages,
             }

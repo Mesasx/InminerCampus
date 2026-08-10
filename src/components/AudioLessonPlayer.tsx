@@ -2,6 +2,8 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
+  FileText,
   Maximize2,
   Pause,
   Play,
@@ -27,6 +29,7 @@ export type LessonSlide = {
 export type LessonNote = {
   summary: string
   key_points: string[]
+  stop_criterion: string
   source_label: string
   source_pages: string
 }
@@ -55,12 +58,14 @@ export type LessonAudioSegment = {
   title: string
   narrationText: string
   audioUrl: string
+  audioStoragePath: string | null
   durationSeconds: number
   maxPositionSeconds: number
   completed: boolean
   note: {
     summary: string
     keyPoints: string[]
+    stopCriterion: string
     sourceLabel: string
     sourcePages: string
   } | null
@@ -70,10 +75,17 @@ export type LessonAudioSegment = {
     title: string
     body: string
     imageUrl: string | null
+    imageStoragePath: string | null
     sourceLabel: string | null
     sourcePage: string | null
     altText: string
   }>
+}
+
+export type CoursePdfResource = {
+  title: string
+  storagePath: string | null
+  resolvedUrl: string
 }
 
 type SegmentState = {
@@ -91,6 +103,8 @@ export function AudioLessonPlayer({
   segments: sourceSegments,
   progress: sourceProgress,
   initialSegments,
+  blockPosition = 1,
+  pdfResource = null,
   onLessonProgress,
   previewMode = false,
 }: {
@@ -98,6 +112,8 @@ export function AudioLessonPlayer({
   segments?: AudioSegment[]
   progress?: AudioProgress[]
   initialSegments?: LessonAudioSegment[]
+  blockPosition?: number
+  pdfResource?: CoursePdfResource | null
   onLessonProgress?: () => void
   previewMode?: boolean
 }) {
@@ -109,16 +125,16 @@ export function AudioLessonPlayer({
             position: segment.position,
             title: segment.title,
             narration_text: segment.narrationText,
-            audio_storage_path: null,
-            audio_external_url: segment.audioUrl,
+            audio_storage_path: segment.audioStoragePath,
+            audio_external_url: segment.audioStoragePath ? null : segment.audioUrl,
             duration_seconds: segment.durationSeconds,
             lesson_segment_slides: segment.slides.map((slide) => ({
               id: slide.id,
               position: slide.position,
               title: slide.title,
               body: slide.body,
-              image_storage_path: null,
-              image_external_url: slide.imageUrl,
+              image_storage_path: slide.imageStoragePath,
+              image_external_url: slide.imageStoragePath ? null : slide.imageUrl,
               source_label: slide.sourceLabel,
               source_page: slide.sourcePage,
               alt_text: slide.altText,
@@ -128,6 +144,7 @@ export function AudioLessonPlayer({
                   {
                     summary: segment.note.summary,
                     key_points: segment.note.keyPoints,
+                    stop_criterion: segment.note.stopCriterion,
                     source_label: segment.note.sourceLabel,
                     source_pages: segment.note.sourcePages,
                   },
@@ -149,7 +166,9 @@ export function AudioLessonPlayer({
     [initialSegments, sourceProgress],
   )
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
   const lastReportedRef = useRef(0)
+  const touchStartXRef = useRef<number | null>(null)
   const initialActiveIndex = segments.findIndex((segment) => {
     const row = progress.find((item) => item.segment_id === segment.id)
     return !row?.completed_at
@@ -161,7 +180,21 @@ export function AudioLessonPlayer({
   const [currentTime, setCurrentTime] = useState(0)
   const [notice, setNotice] = useState('')
   const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null)
-  const [sources, setSources] = useState<Record<string, string>>({})
+  const [pdfOpen, setPdfOpen] = useState(false)
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+  const [sources, setSources] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      initialSegments?.map((segment) => [segment.id, segment.audioUrl]) ?? [],
+    ),
+  )
+  const [slideSources, setSlideSources] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      initialSegments?.flatMap((segment) =>
+        segment.slides.map((slide) => [slide.id, slide.imageUrl ?? '']),
+      ) ?? [],
+    ),
+  )
+  const [pdfSource, setPdfSource] = useState(pdfResource?.resolvedUrl ?? '')
   const [segmentState, setSegmentState] = useState<Record<string, SegmentState>>(
     () =>
       Object.fromEntries(
@@ -194,26 +227,65 @@ export function AudioLessonPlayer({
     let cancelled = false
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
+    const client = supabase
 
-    void Promise.all(
-      segments.map(async (segment) => {
-        if (segment.audio_external_url) {
-          return [segment.id, segment.audio_external_url] as const
-        }
-        if (!segment.audio_storage_path) return [segment.id, ''] as const
-        const { data } = await supabase.storage
-          .from('course-materials')
-          .createSignedUrl(segment.audio_storage_path, 3600)
-        return [segment.id, data?.signedUrl ?? ''] as const
-      }),
-    ).then((entries) => {
-      if (!cancelled) setSources(Object.fromEntries(entries))
-    })
+    async function refreshSignedSources() {
+      const [audioEntries, imageEntries, resolvedPdf] = await Promise.all([
+        Promise.all(
+          segments.map(async (segment) => {
+            if (segment.audio_external_url) {
+              return [segment.id, segment.audio_external_url] as const
+            }
+            if (!segment.audio_storage_path) return [segment.id, ''] as const
+            const { data } = await client.storage
+              .from('course-materials')
+              .createSignedUrl(segment.audio_storage_path, 3600)
+            return [segment.id, data?.signedUrl ?? ''] as const
+          }),
+        ),
+        Promise.all(
+          segments.flatMap((segment) =>
+            segment.lesson_segment_slides.map(async (slide) => {
+              if (slide.image_external_url) {
+                return [slide.id, slide.image_external_url] as const
+              }
+              if (!slide.image_storage_path) return [slide.id, ''] as const
+              const { data } = await client.storage
+                .from('course-materials')
+                .createSignedUrl(slide.image_storage_path, 3600)
+              return [slide.id, data?.signedUrl ?? ''] as const
+            }),
+          ),
+        ),
+        (async () => {
+          if (!pdfResource) return ''
+          if (!pdfResource.storagePath) return pdfResource.resolvedUrl
+          const { data } = await client.storage
+            .from('course-materials')
+            .createSignedUrl(pdfResource.storagePath, 3600)
+          return data?.signedUrl ?? ''
+        })(),
+      ])
+      if (cancelled) return
+      setSources((current) => ({
+        ...current,
+        ...Object.fromEntries(audioEntries.filter(([, value]) => Boolean(value))),
+      }))
+      setSlideSources((current) => ({
+        ...current,
+        ...Object.fromEntries(imageEntries.filter(([, value]) => Boolean(value))),
+      }))
+      if (resolvedPdf) setPdfSource(resolvedPdf)
+    }
+
+    void refreshSignedSources()
+    const refreshTimer = window.setInterval(refreshSignedSources, 45 * 60 * 1000)
 
     return () => {
       cancelled = true
+      window.clearInterval(refreshTimer)
     }
-  }, [segments])
+  }, [pdfResource, segments])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -224,7 +296,43 @@ export function AudioLessonPlayer({
     setCurrentTime(0)
     setPlaying(false)
     setExpandedSlideId(null)
+    setActiveSlideIndex(0)
   }, [activeSegment?.id])
+
+  useEffect(() => {
+    const dialogOpen = Boolean(expandedSlideId || pdfOpen)
+    if (!dialogOpen) return
+    const dialog = dialogRef.current
+    const previousFocus = document.activeElement as HTMLElement | null
+    const focusable = dialog?.querySelectorAll<HTMLElement>(
+      'button:not(:disabled), a[href], iframe, [tabindex]:not([tabindex="-1"])',
+    )
+    focusable?.[0]?.focus()
+
+    function handleDialogKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setExpandedSlideId(null)
+        setPdfOpen(false)
+        return
+      }
+      if (event.key !== 'Tab' || !focusable?.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleDialogKey)
+    return () => {
+      document.removeEventListener('keydown', handleDialogKey)
+      previousFocus?.focus()
+    }
+  }, [expandedSlideId, pdfOpen])
 
   async function reportProgress(position: number, completed = false) {
     if (!activeSegment || previewMode) return
@@ -303,6 +411,31 @@ export function AudioLessonPlayer({
     setCurrentTime(nextValue)
   }
 
+  function selectSlide(index: number) {
+    if (!activeSegment) return
+    const lastIndex = activeSegment.lesson_segment_slides.length - 1
+    setActiveSlideIndex(Math.min(Math.max(index, 0), lastIndex))
+  }
+
+  function handleSlideTouchEnd(clientX: number) {
+    const startX = touchStartXRef.current
+    touchStartXRef.current = null
+    if (startX === null || Math.abs(clientX - startX) < 40) return
+    selectSlide(activeSlideIndex + (clientX < startX ? 1 : -1))
+  }
+
+  useEffect(() => {
+    function handleSlideKeys(event: KeyboardEvent) {
+      if (expandedSlideId || pdfOpen) return
+      const target = event.target as HTMLElement | null
+      if (target?.matches('input, textarea, select, button, a')) return
+      if (event.key === 'ArrowLeft') selectSlide(activeSlideIndex - 1)
+      if (event.key === 'ArrowRight') selectSlide(activeSlideIndex + 1)
+    }
+    document.addEventListener('keydown', handleSlideKeys)
+    return () => document.removeEventListener('keydown', handleSlideKeys)
+  }, [activeSlideIndex, expandedSlideId, pdfOpen])
+
   if (!segments.length) {
     return (
       <section className="panel audio-lesson audio-lesson--empty">
@@ -323,16 +456,24 @@ export function AudioLessonPlayer({
   ).length
   const overallPercent = Math.round((completedParts / segments.length) * 100)
   const activeNote = activeSegment.lesson_segment_notes?.[0]
+  const activeSlide = activeSegment.lesson_segment_slides[activeSlideIndex]
   const expandedSlide = activeSegment.lesson_segment_slides.find(
     (slide) => slide.id === expandedSlideId,
   )
+  const pdfPage = activeNote?.source_pages.match(/\d+/)?.[0]
+  const pdfLabel = pdfPage
+    ? `Ver PDF · página ${pdfPage}`
+    : 'Ver PDF · consulta general'
+  const pdfViewerUrl = pdfSource
+    ? `${pdfSource}${pdfPage ? `#page=${pdfPage}` : ''}`
+    : ''
 
   return (
     <section className="audio-lesson" aria-label="Lección en audio">
       <div className="audio-lesson__progress panel">
         <div>
-          <span className="eyebrow">Progreso del bloque</span>
-          <strong>{completedParts} de {segments.length} partes escuchadas</strong>
+          <span className="eyebrow">Bloque {blockPosition}</span>
+          <strong>{completedParts} de {segments.length} partes completadas</strong>
         </div>
         <div
           aria-label={`${overallPercent}% completado`}
@@ -364,11 +505,11 @@ export function AudioLessonPlayer({
               disabled={locked}
               key={segment.id}
               onClick={() => selectSegment(index)}
+              title={`${blockPosition}.${index + 1} · ${segment.title}`}
               type="button"
             >
               <span>{state?.completed ? <Check size={16} /> : index + 1}</span>
-              <small>Parte 1.{index + 1}</small>
-              <strong>{segment.title}</strong>
+              <small>Parte {blockPosition}.{index + 1}</small>
             </button>
           )
         })}
@@ -378,7 +519,7 @@ export function AudioLessonPlayer({
         <div className="audio-player__heading">
           <div>
             <span className="eyebrow">
-              Parte 1.{activeIndex + 1} de 1.{segments.length}
+              Bloque {blockPosition} · Parte {blockPosition}.{activeIndex + 1}
             </span>
             <h2>{activeSegment.title}</h2>
           </div>
@@ -395,7 +536,7 @@ export function AudioLessonPlayer({
 
         {previewMode ? (
           <div className="alert alert--info">
-            Vista previa administrativa: puedes revisar los diez guiones y sus
+            Vista previa administrativa: puedes revisar los guiones y las
             diapositivas aunque todavía no exista una grabación.
           </div>
         ) : null}
@@ -474,60 +615,99 @@ export function AudioLessonPlayer({
         ) : null}
       </article>
 
-      <section className="lesson-slides">
-        <div className="panel__header">
+      <section className="lesson-slides" aria-label="Diapositivas del apartado">
+        <div className="lesson-slides__heading">
           <div>
             <span className="eyebrow">Apoyo visual</span>
-            <h2>Diapositivas de este audio</h2>
+            <h2>{activeSlide?.title ?? 'Diapositiva'}</h2>
           </div>
+          <span className="lesson-slides__counter">
+            {activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}
+          </span>
         </div>
-        <div className="lesson-slides__grid">
-          {activeSegment.lesson_segment_slides.map((slide) => (
-            <article className="lesson-slide" key={slide.id}>
-              {slide.image_external_url ? (
+        {activeSlide ? (
+          <article
+            className="lesson-slide lesson-slide--stage"
+            onTouchEnd={(event) => handleSlideTouchEnd(event.changedTouches[0].clientX)}
+            onTouchStart={(event) => {
+              touchStartXRef.current = event.changedTouches[0].clientX
+            }}
+          >
+            <div className="lesson-slide__canvas">
+              {slideSources[activeSlide.id] ? (
                 <img
-                  src={slide.image_external_url}
-                  alt={slide.alt_text ?? slide.title}
+                  src={slideSources[activeSlide.id]}
+                  alt={activeSlide.alt_text ?? activeSlide.title}
                 />
-              ) : null}
-              <div className="lesson-slide__toolbar">
-                <span className="lesson-slide__number">{slide.position}</span>
-                <button
-                  aria-label={`Ampliar ${slide.title}`}
-                  className="icon-button"
-                  onClick={() => setExpandedSlideId(slide.id)}
-                  type="button"
-                >
-                  <Maximize2 size={18} />
-                </button>
-              </div>
-              <h3>{slide.title}</h3>
-              <p>{slide.body}</p>
-              {slide.source_label || slide.source_page ? (
-                <small className="lesson-slide__source">
-                  {[slide.source_label, slide.source_page].filter(Boolean).join(' · ')}
-                </small>
-              ) : null}
-            </article>
-          ))}
-        </div>
+              ) : (
+                <div className="lesson-slide__missing">Diapositiva no disponible</div>
+              )}
+            </div>
+            <div className="lesson-slide__toolbar">
+              <button
+                aria-label="Diapositiva anterior"
+                className="icon-button"
+                disabled={activeSlideIndex === 0}
+                onClick={() => selectSlide(activeSlideIndex - 1)}
+                type="button"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <span>{activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}</span>
+              <button
+                aria-label="Diapositiva siguiente"
+                className="icon-button"
+                disabled={
+                  activeSlideIndex >= activeSegment.lesson_segment_slides.length - 1
+                }
+                onClick={() => selectSlide(activeSlideIndex + 1)}
+                type="button"
+              >
+                <ChevronRight size={20} />
+              </button>
+              <button
+                aria-label={`Ver ${activeSlide.title} a pantalla completa`}
+                className="icon-button lesson-slide__fullscreen"
+                onClick={() => setExpandedSlideId(activeSlide.id)}
+                type="button"
+              >
+                <Maximize2 size={19} />
+              </button>
+            </div>
+          </article>
+        ) : null}
       </section>
 
       {activeNote ? (
         <section className="panel lesson-notes">
           <div className="panel__header">
             <div>
-              <span className="eyebrow">Apuntes de la parte 1.{activeIndex + 1}</span>
-              <h2>Ideas que debes retener</h2>
+              <span className="eyebrow">Parte {blockPosition}.{activeIndex + 1}</span>
+              <h2>Explicación y puntos esenciales</h2>
             </div>
           </div>
           <p>{activeNote.summary}</p>
           <ul>
             {activeNote.key_points.map((point) => <li key={point}>{point}</li>)}
           </ul>
+          <div className="lesson-notes__stop">
+            <strong>Criterio preventivo o de parada</strong>
+            <p>{activeNote.stop_criterion}</p>
+          </div>
           <p className="lesson-notes__source">
-            Fuente: {activeNote.source_label} · páginas {activeNote.source_pages}
+            Fuente: {activeNote.source_label}
           </p>
+          <p className="lesson-notes__source">
+            Páginas relacionadas: {activeNote.source_pages}
+          </p>
+          <button
+            className="button button--outline lesson-notes__pdf"
+            disabled={!pdfViewerUrl}
+            onClick={() => setPdfOpen(true)}
+            type="button"
+          >
+            <FileText size={18} /> {pdfLabel}
+          </button>
         </section>
       ) : null}
 
@@ -558,6 +738,7 @@ export function AudioLessonPlayer({
           aria-label={expandedSlide.title}
           aria-modal="true"
           className="lesson-slide-modal"
+          ref={dialogRef}
           role="dialog"
         >
           <button
@@ -569,21 +750,66 @@ export function AudioLessonPlayer({
             <X size={22} />
           </button>
           <article className="lesson-slide lesson-slide--expanded">
-            {expandedSlide.image_external_url ? (
+            {slideSources[expandedSlide.id] ? (
               <img
-                src={expandedSlide.image_external_url}
+                src={slideSources[expandedSlide.id]}
                 alt={expandedSlide.alt_text ?? expandedSlide.title}
               />
             ) : null}
-            <span className="eyebrow">Parte 1.{activeIndex + 1}</span>
+            <span className="eyebrow">
+              Parte {blockPosition}.{activeIndex + 1} · diapositiva {expandedSlide.position}
+            </span>
             <h2>{expandedSlide.title}</h2>
-            <p>{expandedSlide.body}</p>
             <small className="lesson-slide__source">
               {[expandedSlide.source_label, expandedSlide.source_page]
                 .filter(Boolean)
                 .join(' · ')}
             </small>
           </article>
+        </div>
+      ) : null}
+
+      {pdfOpen && pdfViewerUrl ? (
+        <div
+          aria-label="Visor del manual del curso"
+          aria-modal="true"
+          className="lesson-pdf-modal"
+          ref={dialogRef}
+          role="dialog"
+        >
+          <div className="lesson-pdf-modal__panel">
+            <div className="lesson-pdf-modal__header">
+              <div>
+                <span className="eyebrow">Manual complementario</span>
+                <h2>{pdfResource?.title ?? 'PDF del curso'}</h2>
+              </div>
+              <div className="lesson-pdf-modal__actions">
+                <a
+                  className="button button--outline"
+                  href={pdfViewerUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Abrir en otra pestaña <ExternalLink size={17} />
+                </a>
+                <button
+                  aria-label="Cerrar PDF"
+                  className="icon-button"
+                  onClick={() => setPdfOpen(false)}
+                  type="button"
+                >
+                  <X size={22} />
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={pdfViewerUrl}
+              title={pdfResource?.title ?? 'Manual del curso'}
+            />
+            <p className="muted">
+              Si el visor no carga, utiliza «Abrir en otra pestaña».
+            </p>
+          </div>
         </div>
       ) : null}
     </section>
