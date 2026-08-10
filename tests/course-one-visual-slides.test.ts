@@ -68,10 +68,18 @@ test('cada asociación de audio respeta las nueve columnas de la tabla temporal'
   assert.deepEqual(rowValueCounts, Array(10).fill(9))
 })
 
-test('las diapositivas originales 4 a 10 están disponibles en alta resolución', async () => {
+test('las diapositivas heredadas del Curso 1 ya no se exponen desde public', async () => {
   await Promise.all(
     [4, 5, 6, 7, 8, 9, 10].map((slide) =>
-      access(new URL(`source-slide-${String(slide).padStart(2, '0')}.png`, slidesRoot)),
+      assert.rejects(
+        access(
+          new URL(
+            `source-slide-${String(slide).padStart(2, '0')}.png`,
+            slidesRoot,
+          ),
+        ),
+        { code: 'ENOENT' },
+      ),
     ),
   )
 })
