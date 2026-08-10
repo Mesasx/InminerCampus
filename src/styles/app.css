@@ -1854,29 +1854,8 @@ h3 {
   gap: 18px;
 }
 
-.audio-lesson__steps {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 2px 2px 8px;
-  scrollbar-width: thin;
-}
-
-.audio-lesson__progress {
-  display: grid;
-  grid-template-columns: minmax(210px, auto) minmax(220px, 1fr);
-  align-items: center;
-  gap: 18px;
-  padding: 12px 16px;
-}
-
-.audio-lesson__progress strong {
-  display: block;
-  margin-top: 3px;
-}
-
 .audio-lesson__progress-track {
-  height: 7px;
+  height: 4px;
   overflow: hidden;
   border-radius: 999px;
   background: var(--surface-soft);
@@ -1890,85 +1869,121 @@ h3 {
   transition: width 240ms ease;
 }
 
-.audio-step {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 8px;
-  min-width: 104px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 11px 7px 7px;
-  background: var(--surface);
-  color: var(--ink);
-  text-align: left;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.audio-step:not(:disabled):hover,
-.audio-step.is-active {
-  transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--orange) 55%, var(--line));
-  box-shadow: var(--shadow);
-}
-
-.audio-step:disabled {
-  cursor: not-allowed;
-  opacity: 0.48;
-}
-
-.audio-step > span {
+.explanation-switcher {
   display: grid;
-  width: 26px;
-  height: 26px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--surface-soft);
-  font-weight: 800;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
 }
 
-.audio-step.is-active > span,
-.audio-step.is-complete > span {
-  background: var(--orange);
-  color: white;
+.explanation-switcher__content {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
 }
 
-.audio-step small {
+.explanation-switcher__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.explanation-switcher__select {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.explanation-switcher__select > span {
   color: var(--ink-soft);
+  font-size: 0.86rem;
   font-weight: 750;
+}
+
+.explanation-switcher__select select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0 34px 0 11px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.explanation-switcher__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 11px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 750;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.explanation-switcher__arrow:not(:disabled):hover {
+  transform: translateY(-1px);
+  background: var(--orange-soft);
+  color: var(--orange-strong);
+}
+
+.explanation-switcher__arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
 }
 
 .audio-player {
   display: grid;
-  grid-template-columns: minmax(230px, 0.7fr) minmax(360px, 1.3fr);
+  grid-template-columns: minmax(160px, auto) minmax(320px, 1fr);
   align-items: center;
-  gap: 14px 22px;
-  overflow: hidden;
-  padding: 10px 14px;
-  background:
-    radial-gradient(circle at top right, rgba(233, 120, 36, 0.15), transparent 35%),
-    var(--surface);
-}
-
-.audio-player__heading,
-.audio-lesson__navigation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 8px 18px;
+  padding: 9px 12px;
+  background: var(--surface);
 }
 
 .audio-player__heading {
+  display: flex;
   min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.audio-player__heading h2 {
+.audio-player__label {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+.audio-player__label > svg {
+  display: grid;
+  flex: none;
+  color: var(--orange-strong);
+}
+
+.audio-player__label strong {
+  display: block;
   overflow: hidden;
-  margin: 2px 0 0;
-  font-size: 1rem;
+  margin-top: 1px;
+  font-size: 0.86rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1976,8 +1991,11 @@ h3 {
 .audio-player__controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 52px;
+  gap: 8px;
+  min-height: 40px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .audio-player__controls input[type='range'] {
@@ -1996,11 +2014,16 @@ h3 {
 }
 
 .audio-player__play {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   background: var(--orange);
   color: white;
-  box-shadow: 0 12px 24px rgba(233, 120, 36, 0.28);
+  box-shadow: 0 7px 16px rgba(233, 120, 36, 0.22);
+}
+
+.audio-player__rewind {
+  width: 34px;
+  height: 34px;
 }
 
 .icon-button {
@@ -2014,7 +2037,20 @@ h3 {
   grid-column: 1 / -1;
   margin: 0;
   color: #9a4510;
+  font-size: 0.86rem;
   font-weight: 700;
+}
+
+.audio-player__preview {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.audio-lesson__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .audio-player__script {
@@ -2839,14 +2875,6 @@ button.admin-list__item {
     grid-template-columns: 1fr;
   }
 
-  .audio-lesson__steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .audio-step strong {
-    white-space: normal;
-  }
-
   .content-editor__layout {
     grid-template-columns: 1fr;
   }
@@ -3061,9 +3089,29 @@ button.admin-list__item {
     grid-template-columns: 1fr;
   }
 
-  .audio-lesson__progress,
-  .audio-lesson__steps {
+  .explanation-switcher {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .explanation-switcher__arrow {
+    width: 40px;
+    padding: 0;
+  }
+
+  .explanation-switcher__arrow span {
+    display: none;
+  }
+
+  .explanation-switcher__select {
     grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .explanation-switcher__meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .lesson-slide-modal,

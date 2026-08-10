@@ -11,11 +11,16 @@ const migrationUrl = new URL(
   '../supabase/migrations/202608100002_finalize_course_one_five_hours.sql',
   import.meta.url,
 )
+const slideDeckMigrationUrl = new URL(
+  '../supabase/migrations/20260810121209_update_course_one_slide_deck_v2.sql',
+  import.meta.url,
+)
 const playerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
 
 type Manifest = {
   courseSlug: string
   durationHours: number
+  slideDeck: string
   totalAudios: number
   totalSlides: number
   audios: Array<{
@@ -49,6 +54,7 @@ test('el manifiesto definitivo contiene cinco bloques, cincuenta audios y cien P
 
   assert.equal(manifest.courseSlug, 'operador-maquinaria-arranque-carga-viales')
   assert.equal(manifest.durationHours, 5)
+  assert.equal(manifest.slideDeck, 'Curso-1-V2-IMAGENES-Y-LOGO-CORREGIDO.pptx')
   assert.equal(manifest.totalAudios, 50)
   assert.equal(manifest.totalSlides, 100)
   assert.equal(manifest.audios.length, 50)
@@ -74,7 +80,7 @@ test('el manifiesto definitivo contiene cinco bloques, cincuenta audios y cien P
       assert.match(
         slide.storagePath,
         new RegExp(
-          `^course-1/5h/block-${audio.block}/slides/audio-${audio.block}-${String(audio.position).padStart(2, '0')}-slide-0[12]\\.png$`,
+          `^course-1/5h-v2/block-${audio.block}/slides/audio-${audio.block}-${String(audio.position).padStart(2, '0')}-slide-0[12]\\.png$`,
         ),
       )
       assert.ok(!paths.has(slide.storagePath), `Ruta duplicada: ${slide.storagePath}`)
@@ -137,4 +143,20 @@ test('el reproductor prioriza una diapositiva, la numeración real y el PDF prot
   assert.match(player, /45 \* 60 \* 1000/)
   assert.match(player, /Ver PDF · página/)
   assert.match(player, /rel="noopener noreferrer"/)
+  assert.match(player, /aria-label="Cambiar explicación"/)
+  assert.ok(player.indexOf('explanation-switcher') < player.indexOf('lesson-slides'))
+  assert.ok(player.indexOf('lesson-slides') < player.indexOf('panel audio-player'))
+})
+
+test('la V2 usa rutas nuevas y solo sustituye las cien diapositivas del Curso 1', async () => {
+  const sql = await readFile(slideDeckMigrationUrl, 'utf8')
+
+  assert.match(sql, /course-1\/5h-v2\/%/)
+  assert.match(sql, /uploaded_slide_count <> 100/)
+  assert.match(sql, /updated_slide_count not in \(0, 100\)/)
+  assert.match(sql, /current_slide_count <> 100/)
+  assert.match(sql, /c(?:ourse)?\.slug = 'operador-maquinaria-arranque-carga-viales'/)
+  assert.match(sql, /course_version\.duration_hours = 5/)
+  assert.match(sql, /module\.position between 1 and 5/)
+  assert.doesNotMatch(sql, /lesson_audio_progress|enrollments|audio_storage_path/)
 })
