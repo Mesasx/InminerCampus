@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { PublicLayout } from '../components/PublicLayout'
+import { isMissingCourseAccessColumnsError } from '../lib/course-access'
 import { formatCurrency, modalityLabel } from '../lib/format'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
@@ -66,7 +67,7 @@ function CourseDetailPage() {
         return
       }
 
-      const { data } = await supabase
+      const currentSchemaResult = await supabase
         .from('courses')
         .select(
           'id, slug, title, short_description, description, specialty, access_mode, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
@@ -80,12 +81,38 @@ function CourseDetailPage() {
         })
         .maybeSingle()
 
+      let data: unknown = currentSchemaResult.data
+      let error = currentSchemaResult.error
+
+      if (isMissingCourseAccessColumnsError(error)) {
+        const legacySchemaResult = await supabase
+          .from('courses')
+          .select(
+            'id, slug, title, short_description, description, specialty, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
+          )
+          .eq('slug', courseSlug)
+          .eq('status', 'published')
+          .eq('course_versions.status', 'published')
+          .order('version_number', {
+            referencedTable: 'course_versions',
+            ascending: false,
+          })
+          .maybeSingle()
+
+        data = legacySchemaResult.data
+        error = legacySchemaResult.error
+      }
+
       if (!active) return
+      if (error) {
+        console.error('No se ha podido cargar el curso.', error)
+      }
       if (data) {
         const raw = data as unknown as Omit<
           CourseDetail,
-          'version' | 'versions'
+          'access_mode' | 'version' | 'versions'
         > & {
+          access_mode?: CourseDetail['access_mode']
           course_versions: CourseVersion[]
         }
         const selectedVersion =
@@ -95,6 +122,7 @@ function CourseDetailPage() {
         if (selectedVersion) {
           setCourse({
             ...raw,
+            access_mode: raw.access_mode ?? 'purchase',
             versions: raw.course_versions,
             version: selectedVersion,
           })
@@ -234,18 +262,18 @@ function CourseDetailPage() {
               {course.access_mode === 'access_code' ? (
                 <>
                   <strong style={{ fontSize: '1.25rem' }}>
-                    Acceso restringido
+                    Acceso con invitación
                   </strong>
                   <p className="muted">
                     Esta formación no se comercializa. El acceso se obtiene
-                    únicamente con el código personal que facilita
-                    administración.
+                    únicamente con la invitación personal que facilita
+                    administración, identificada mediante un código de acceso.
                   </p>
                   <Link
                     className="button button--primary button--wide"
                     to="/canjear-codigo"
                   >
-                    Canjear mi código
+                    Canjear invitación
                   </Link>
                 </>
               ) : (

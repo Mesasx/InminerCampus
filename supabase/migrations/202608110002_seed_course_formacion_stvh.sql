@@ -33,7 +33,7 @@ begin
     'Inspección de vehículos',
     'published',
     'access_code',
-    false,
+    true,
     '/images/curso-stvh-portada.jpg'
   )
   on conflict (slug) do update set
