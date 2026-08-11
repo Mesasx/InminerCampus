@@ -37,7 +37,7 @@ function RedeemCodePage() {
                 setLoading(true)
                 const { error: redeemError } = await supabase.rpc(
                   'redeem_access_code',
-                  { p_code: code.trim().toUpperCase() },
+                  { input_code: code.trim().toUpperCase() },
                 )
                 setLoading(false)
                 if (redeemError) {
