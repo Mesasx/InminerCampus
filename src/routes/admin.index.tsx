@@ -122,6 +122,10 @@ function AdminDashboard({ user }: { user: SessionUser }) {
             <h3>Publicar formación</h3>
             <p>Gestiona cursos, versiones, módulos y lecciones.</p>
           </Link>
+          <Link className="feature-card" to="/admin/codigos">
+            <h3>Emitir códigos de acceso</h3>
+            <p>Genera códigos de un solo uso para los cursos restringidos.</p>
+          </Link>
           <Link className="feature-card" to="/admin/evaluaciones">
             <h3>Preparar evaluaciones</h3>
             <p>Crea bancos de preguntas y criterios de superación.</p>

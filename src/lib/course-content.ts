@@ -20,6 +20,17 @@ export function isPublishedAudioSegment(
   )
 }
 
+/**
+ * Un capítulo de una lección de diapositivas se publica sin fichero de audio:
+ * basta con que esté publicado y tenga al menos una diapositiva.
+ */
+export function isPublishedSlideSegment(segment: {
+  published: boolean
+  lesson_segment_slides: unknown[]
+}): boolean {
+  return segment.published && segment.lesson_segment_slides.length > 0
+}
+
 export function hasAvailableLessonContent(lesson: {
   lesson_audio_segments: unknown[]
 }): boolean {

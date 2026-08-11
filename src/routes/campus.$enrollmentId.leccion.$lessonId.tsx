@@ -5,6 +5,7 @@ import {
   AudioLessonPlayer,
   type LessonAudioSegment,
 } from '../components/AudioLessonPlayer'
+import { SlideDeckViewer, type DeckChapter } from '../components/SlideDeckViewer'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { relationArray, type Relation } from '../lib/course-content'
@@ -27,11 +28,14 @@ type Resource = {
   resolvedUrl: string
 }
 
+type ContentMode = 'audio' | 'slides'
+
 type LessonData = {
   id: string
   title: string
   summary: string
   blockPosition: number
+  contentMode: ContentMode
   resources: Resource[]
   quiz: {
     id: string
@@ -52,6 +56,7 @@ type QuizRow = {
 type LessonRow = {
   id: string
   title: string
+  content_mode: ContentMode | null
   course_modules: Relation<{
     position: number
     title: string
@@ -86,7 +91,8 @@ function Lesson({
 }) {
   const [lesson, setLesson] = useState<LessonData | null>(null)
   const [segments, setSegments] = useState<LessonAudioSegment[]>([])
-  const [audioCompleted, setAudioCompleted] = useState(false)
+  const [chapters, setChapters] = useState<DeckChapter[]>([])
+  const [contentCompleted, setContentCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const isAdministrator = user.roles.some((role) =>
@@ -101,6 +107,7 @@ function Lesson({
       setLoadError(false)
       setLesson(null)
       setSegments([])
+      setChapters([])
 
       const supabase = getSupabaseBrowserClient()
       if (!supabase) {
@@ -117,7 +124,7 @@ function Lesson({
             supabase
               .from('lessons')
               .select(
-                'id, title, course_modules(position, title), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
+                'id, title, content_mode, course_modules(position, title), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
               )
               .eq('id', lessonId)
               .maybeSingle(),
@@ -149,6 +156,7 @@ function Lesson({
           (isAdministrator || (progress && progress.status !== 'locked'))
         ) {
           const row = lessonResponse.data as unknown as LessonRow
+          const contentMode: ContentMode = row.content_mode ?? 'audio'
           const courseModule = relationArray(row.course_modules)[0]
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
@@ -159,17 +167,12 @@ function Lesson({
           ])
           if (!active) return
 
-          const playableSegments = resolved.filter((segment) =>
-            Boolean(segment.audioUrl),
-          )
-          if (!playableSegments.length) return
-
           const quiz = quizzes[0]
-          setLesson({
+          const baseLesson = {
             id: row.id,
             title: row.title,
-            summary: `Contenido disponible en ${playableSegments.length} partes de audio.`,
             blockPosition: courseModule?.position ?? 1,
+            contentMode,
             resources: resolvedResources,
             quiz: quiz
               ? {
@@ -179,10 +182,55 @@ function Lesson({
                   completionMode: quiz.completion_mode,
                 }
               : null,
-          })
+          }
 
+          if (contentMode === 'slides') {
+            const deckChapters: DeckChapter[] = resolved
+              .filter((segment) => segment.slides.length > 0)
+              .map((segment) => ({
+                id: segment.id,
+                position: segment.position,
+                title: segment.title,
+                description: segment.narrationText,
+                completed: segment.completed,
+                slidesViewed: segment.maxPositionSeconds,
+                slides: segment.slides.map((slide) => ({
+                  id: slide.id,
+                  position: slide.position,
+                  title: slide.title,
+                  body: slide.body,
+                  imageUrl: slide.imageUrl,
+                  altText: slide.altText,
+                })),
+              }))
+            if (!deckChapters.length) return
+
+            const totalSlides = deckChapters.reduce(
+              (count, item) => count + item.slides.length,
+              0,
+            )
+            setLesson({
+              ...baseLesson,
+              summary: `Presentación de ${totalSlides} diapositivas en ${deckChapters.length} capítulos.`,
+            })
+            setChapters(deckChapters)
+            setContentCompleted(
+              deckChapters.every((item) => item.completed),
+            )
+            return
+          }
+
+          const playableSegments = resolved.filter((segment) =>
+            Boolean(segment.audioUrl),
+          )
+          if (!playableSegments.length) return
+
+          setLesson({
+            ...baseLesson,
+            summary: `Contenido disponible en ${playableSegments.length} partes de audio.`,
+          })
           setSegments(playableSegments)
-          setAudioCompleted(
+          setContentCompleted(
             playableSegments.every((segment) => segment.completed),
           )
         }
@@ -205,6 +253,7 @@ function Lesson({
   }, [enrollmentId, isAdministrator, lessonId])
 
   const pdfResource = lesson?.resources.find((resource) => resource.kind === 'pdf')
+  const isSlideLesson = lesson?.contentMode === 'slides'
 
   return (
     <AppShell user={user} title={lesson?.title || 'Lección'}>
@@ -242,27 +291,40 @@ function Lesson({
         </section>
       ) : lesson ? (
         <div className="form-grid">
-          <AudioLessonPlayer
-            blockPosition={lesson.blockPosition}
-            enrollmentId={enrollmentId}
-            initialSegments={segments}
-            onLessonProgress={() => setAudioCompleted(true)}
-            pdfResource={
-              pdfResource
-                ? {
-                    title: pdfResource.title,
-                    storagePath: pdfResource.storage_path,
-                    resolvedUrl: pdfResource.resolvedUrl,
-                  }
-                : null
-            }
-            previewMode={isAdministrator}
-          />
+          {isSlideLesson ? (
+            <SlideDeckViewer
+              chapters={chapters}
+              enrollmentId={enrollmentId}
+              onDeckCompleted={() => setContentCompleted(true)}
+              previewMode={isAdministrator}
+            />
+          ) : (
+            <AudioLessonPlayer
+              blockPosition={lesson.blockPosition}
+              enrollmentId={enrollmentId}
+              initialSegments={segments}
+              onLessonProgress={() => setContentCompleted(true)}
+              pdfResource={
+                pdfResource
+                  ? {
+                      title: pdfResource.title,
+                      storagePath: pdfResource.storage_path,
+                      resolvedUrl: pdfResource.resolvedUrl,
+                    }
+                  : null
+              }
+              previewMode={isAdministrator}
+            />
+          )}
           {lesson.resources.length ? (
             <section className="panel">
               <div className="panel__header">
-                <h2>Materiales y documentos del bloque</h2>
+                <h2>Contenido para utilizar</h2>
               </div>
+              <p className="muted">
+                Documentación de partida de la formación. Puedes descargarla y
+                consultarla siempre que la necesites.
+              </p>
               <div className="app-course-list">
                 {lesson.resources.map((resource) => (
                   <article className="app-course" key={resource.id}>
@@ -284,7 +346,7 @@ function Lesson({
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Abrir
+                        {resource.downloadable ? 'Descargar' : 'Abrir'}
                       </a>
                     ) : (
                       <button className="button button--outline" disabled>
@@ -296,7 +358,7 @@ function Lesson({
               </div>
             </section>
           ) : null}
-          {lesson.quiz && audioCompleted ? (
+          {lesson.quiz && contentCompleted ? (
             <section className="panel">
               <div className="panel__header">
                 <div>
@@ -327,7 +389,9 @@ function Lesson({
                 <ShieldCheck color="var(--orange)" size={28} />
               </div>
               <p className="muted">
-                Completa las diez partes de audio en orden para abrir la evaluación.
+                {isSlideLesson
+                  ? 'Recorre todos los capítulos de la presentación para abrir la evaluación.'
+                  : 'Completa las partes de audio en orden para abrir la evaluación.'}
               </p>
             </section>
           ) : null}

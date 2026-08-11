@@ -44,6 +44,8 @@ type CourseDetail = {
   short_description: string
   description: string
   specialty: string
+  access_mode: 'purchase' | 'access_code'
+  cover_storage_path: string | null
   versions: CourseVersion[]
   version: CourseVersion
 }
@@ -67,7 +69,7 @@ function CourseDetailPage() {
       const { data } = await supabase
         .from('courses')
         .select(
-          'id, slug, title, short_description, description, specialty, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
+          'id, slug, title, short_description, description, specialty, access_mode, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
         )
         .eq('slug', courseSlug)
         .eq('status', 'published')
@@ -229,30 +231,54 @@ function CourseDetailPage() {
                 <span>Evaluación y trazabilidad del progreso</span>
               </div>
               <hr style={{ width: '100%', border: 0, borderTop: '1px solid var(--line)' }} />
-              <strong style={{ fontSize: '1.5rem' }}>
-                {formatCurrency(version.price_net, version.currency)}
-                {version.price_net !== null ? (
-                  <small className="muted" style={{ fontSize: '.75rem', marginLeft: 6 }}>
-                    + IVA
-                  </small>
-                ) : null}
-              </strong>
-              <Link
-                className="button button--primary button--wide"
-                to="/comprar/$courseSlug"
-                params={{ courseSlug }}
-                search={{ version: version.id }}
-              >
-                Matricularme
-              </Link>
-              <Link
-                className="button button--outline button--wide"
-                to="/comprar-empresa/$courseSlug"
-                params={{ courseSlug }}
-                search={{ version: version.id }}
-              >
-                Comprar para empresa
-              </Link>
+              {course.access_mode === 'access_code' ? (
+                <>
+                  <strong style={{ fontSize: '1.25rem' }}>
+                    Acceso restringido
+                  </strong>
+                  <p className="muted">
+                    Esta formación no se comercializa. El acceso se obtiene
+                    únicamente con el código personal que facilita
+                    administración.
+                  </p>
+                  <Link
+                    className="button button--primary button--wide"
+                    to="/canjear-codigo"
+                  >
+                    Canjear mi código
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <strong style={{ fontSize: '1.5rem' }}>
+                    {formatCurrency(version.price_net, version.currency)}
+                    {version.price_net !== null ? (
+                      <small
+                        className="muted"
+                        style={{ fontSize: '.75rem', marginLeft: 6 }}
+                      >
+                        + IVA
+                      </small>
+                    ) : null}
+                  </strong>
+                  <Link
+                    className="button button--primary button--wide"
+                    to="/comprar/$courseSlug"
+                    params={{ courseSlug }}
+                    search={{ version: version.id }}
+                  >
+                    Matricularme
+                  </Link>
+                  <Link
+                    className="button button--outline button--wide"
+                    to="/comprar-empresa/$courseSlug"
+                    params={{ courseSlug }}
+                    search={{ version: version.id }}
+                  >
+                    Comprar para empresa
+                  </Link>
+                </>
+              )}
             </div>
           </aside>
         </div>
