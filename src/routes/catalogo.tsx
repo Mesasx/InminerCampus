@@ -2,6 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, SlidersHorizontal } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { PublicLayout } from '../components/PublicLayout'
+import {
+  isCourseVisibleInCatalog,
+  isMissingCourseAccessColumnsError,
+} from '../lib/course-access'
 import { formatCurrency, modalityLabel } from '../lib/format'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { CourseModality, PublicCourse } from '../lib/types'
@@ -13,7 +17,7 @@ export const Route = createFileRoute('/catalogo')({
 type VersionRow = {
   id: string
   version_number: number
-  duration_hours: 5 | 20
+  duration_hours: number
   modality: CourseModality
   price_net: number | string | null
   currency: string
@@ -23,14 +27,15 @@ type VersionRow = {
     title: string
     short_description: string | null
     cover_storage_path: string | null
-    access_mode: 'purchase' | 'access_code'
-    listed: boolean
+    access_mode?: 'purchase' | 'access_code'
+    listed?: boolean
   }
 }
 
 function CatalogPage() {
   const [courses, setCourses] = useState<PublicCourse[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [duration, setDuration] = useState<'all' | '5' | '20'>('all')
   const [query, setQuery] = useState('')
 
@@ -44,28 +49,56 @@ function CatalogPage() {
         return
       }
 
-      const { data } = await supabase
+      const currentSchemaResult = await supabase
         .from('course_versions')
         .select(
           'id, version_number, duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path, access_mode, listed)',
         )
         .eq('status', 'published')
         .eq('courses.status', 'published')
-        .eq('courses.listed', true)
         .order('duration_hours')
 
+      let data: unknown = currentSchemaResult.data
+      let error = currentSchemaResult.error
+
+      if (isMissingCourseAccessColumnsError(error)) {
+        const legacySchemaResult = await supabase
+          .from('course_versions')
+          .select(
+            'id, version_number, duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path)',
+          )
+          .eq('status', 'published')
+          .eq('courses.status', 'published')
+          .order('duration_hours')
+
+        data = legacySchemaResult.data
+        error = legacySchemaResult.error
+      }
+
       if (!active) return
-      const mapped = ((data ?? []) as unknown as VersionRow[]).map((row) => ({
-        ...row.courses,
-        versionId: row.id,
-        versionNumber: row.version_number,
-        duration_hours: row.duration_hours,
-        modality: row.modality,
-        price_net:
-          row.price_net === null ? null : Number.parseFloat(String(row.price_net)),
-        currency: row.currency,
-      }))
+      if (error) {
+        console.error('No se ha podido cargar el catálogo de cursos.', error)
+        setLoadError(true)
+        setLoading(false)
+        return
+      }
+      const mapped = ((data ?? []) as unknown as VersionRow[])
+        .filter((row) => isCourseVisibleInCatalog(row.courses))
+        .map((row) => ({
+          ...row.courses,
+          access_mode: row.courses.access_mode ?? 'purchase',
+          versionId: row.id,
+          versionNumber: row.version_number,
+          duration_hours: row.duration_hours,
+          modality: row.modality,
+          price_net:
+            row.price_net === null
+              ? null
+              : Number.parseFloat(String(row.price_net)),
+          currency: row.currency,
+        }))
       setCourses(mapped)
+      setLoadError(false)
       setLoading(false)
     }
 
@@ -149,6 +182,16 @@ function CatalogPage() {
                 <p>Estamos consultando la oferta formativa disponible.</p>
               </div>
             </div>
+          ) : loadError ? (
+            <div className="empty-state" role="alert">
+              <div>
+                <div className="empty-state__icon">
+                  <BookOpen size={25} />
+                </div>
+                <h2>No se ha podido cargar el catálogo</h2>
+                <p>Actualiza la página o inténtalo de nuevo en unos minutos.</p>
+              </div>
+            </div>
           ) : filtered.length ? (
             <div className="course-grid">
               {filtered.map((course) => (
@@ -176,7 +219,7 @@ function CatalogPage() {
                     <div className="course-card__footer">
                       <span>
                         {course.access_mode === 'access_code'
-                          ? 'Acceso por código'
+                          ? 'Solo con invitación'
                           : formatCurrency(course.price_net, course.currency)}
                       </span>
                       <Link
