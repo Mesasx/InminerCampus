@@ -23,6 +23,8 @@ type VersionRow = {
     title: string
     short_description: string | null
     cover_storage_path: string | null
+    access_mode: 'purchase' | 'access_code'
+    listed: boolean
   }
 }
 
@@ -45,10 +47,11 @@ function CatalogPage() {
       const { data } = await supabase
         .from('course_versions')
         .select(
-          'id, version_number, duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path)',
+          'id, version_number, duration_hours, modality, price_net, currency, courses!inner(id, slug, title, short_description, cover_storage_path, access_mode, listed)',
         )
         .eq('status', 'published')
         .eq('courses.status', 'published')
+        .eq('courses.listed', true)
         .order('duration_hours')
 
       if (!active) return
@@ -150,7 +153,18 @@ function CatalogPage() {
             <div className="course-grid">
               {filtered.map((course) => (
                 <article className="course-card" key={course.versionId}>
-                  <div className="course-card__visual">
+                  <div
+                    className="course-card__visual"
+                    style={
+                      course.cover_storage_path?.startsWith('/')
+                        ? {
+                            backgroundImage: `url(${course.cover_storage_path})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }
+                        : undefined
+                    }
+                  >
                     <span className="course-card__hours">
                       {course.duration_hours} h
                     </span>
@@ -161,7 +175,9 @@ function CatalogPage() {
                     <p>{course.short_description}</p>
                     <div className="course-card__footer">
                       <span>
-                        {formatCurrency(course.price_net, course.currency)}
+                        {course.access_mode === 'access_code'
+                          ? 'Acceso por código'
+                          : formatCurrency(course.price_net, course.currency)}
                       </span>
                       <Link
                         className="text-link"

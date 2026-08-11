@@ -36,6 +36,7 @@ const adminNav = [
   { href: '/admin/cursos', label: 'Cursos', icon: BookOpen },
   { href: '/admin/usuarios', label: 'Usuarios', icon: UserRound },
   { href: '/admin/evaluaciones', label: 'Evaluaciones', icon: ShieldCheck },
+  { href: '/admin/codigos', label: 'Códigos de acceso', icon: KeyRound },
   { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
   {
     href: '/admin/facturacion',

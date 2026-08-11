@@ -3190,3 +3190,145 @@ button.admin-list__item {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Añadir al final de src/styles/app.css
+   Estilos del visor de diapositivas, la portada del curso, la tabla de
+   códigos de acceso y el cuerpo del contrato de confidencialidad.
+--------------------------------------------------------------------------- */
+
+.course-cover {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 22px;
+  display: block;
+}
+
+.slide-deck__stage {
+  background: var(--surface-2, #f3f5f7);
+  border: 1px solid var(--line, #e1e6ea);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.slide-deck__stage img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.slide-deck__placeholder {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.slide-deck__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.slide-deck__counter {
+  font-size: 0.85rem;
+  color: var(--muted, #5f7285);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slide-deck__chapters {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.slide-deck__chapter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line, #e1e6ea);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.slide-deck__chapter span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slide-deck__chapter small {
+  color: var(--muted, #5f7285);
+  white-space: nowrap;
+}
+
+.slide-deck__chapter--active {
+  border-color: var(--orange, #f5820b);
+  background: rgba(245, 130, 11, 0.06);
+}
+
+.slide-deck__chapter:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.access-code-result {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.access-code-result__value {
+  font-family: 'Courier New', monospace;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line, #e1e6ea);
+  white-space: nowrap;
+}
+
+.legal-body {
+  display: grid;
+  gap: 14px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 8px;
+  line-height: 1.6;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}

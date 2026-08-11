@@ -7,6 +7,8 @@ export type AppRole =
 
 export type CourseModality = 'online' | 'in_person' | 'hybrid'
 
+export type CourseAccessMode = 'purchase' | 'access_code'
+
 export interface PublicCourse {
   id: string
   versionId: string
@@ -14,9 +16,10 @@ export interface PublicCourse {
   slug: string
   title: string
   short_description: string | null
-  duration_hours: 5 | 20
+  duration_hours: number
   modality: CourseModality
   cover_storage_path: string | null
+  access_mode: CourseAccessMode
   price_net: number | null
   currency: string
 }
@@ -31,6 +34,7 @@ export interface EnrollmentCard {
     title: string
     duration_hours: number
     modality: CourseModality
+    cover_storage_path?: string | null
   }
 }
 

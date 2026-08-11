@@ -30,6 +30,7 @@ import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
+import { Route as AdminCodigosRouteImport } from './routes/admin.codigos'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
 import { Route as AdminEvaluacionesRouteImport } from './routes/admin.evaluaciones'
 import { Route as AdminFacturacionRouteImport } from './routes/admin.facturacion'
@@ -55,6 +56,7 @@ import { Route as PagoConfirmadoRouteImport } from './routes/pago.confirmado'
 import { Route as AdminCursosIndexRouteImport } from './routes/admin.cursos.index'
 import { Route as AdminCursosCourseIdRouteImport } from './routes/admin.cursos.$courseId'
 import { Route as CampusEnrollmentIdIndexRouteImport } from './routes/campus.$enrollmentId.index'
+import { Route as CampusEnrollmentIdConfidencialidadRouteImport } from './routes/campus.$enrollmentId.confidencialidad'
 import { Route as EvaluacionEnrollmentIdQuizIdRouteImport } from './routes/evaluacion.$enrollmentId.$quizId'
 import { Route as CampusEnrollmentIdLeccionLessonIdRouteImport } from './routes/campus.$enrollmentId.leccion.$lessonId'
 
@@ -162,6 +164,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminAdminSectionRoute = AdminAdminSectionRouteImport.update({
   id: '/$adminSection',
   path: '/$adminSection',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCodigosRoute = AdminCodigosRouteImport.update({
+  id: '/codigos',
+  path: '/codigos',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCursosRoute = AdminCursosRouteImport.update({
@@ -290,6 +297,12 @@ const CampusEnrollmentIdIndexRoute = CampusEnrollmentIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CampusEnrollmentIdRoute,
 } as any)
+const CampusEnrollmentIdConfidencialidadRoute =
+  CampusEnrollmentIdConfidencialidadRouteImport.update({
+    id: '/confidencialidad',
+    path: '/confidencialidad',
+    getParentRoute: () => CampusEnrollmentIdRoute,
+  } as any)
 const EvaluacionEnrollmentIdQuizIdRoute =
   EvaluacionEnrollmentIdQuizIdRouteImport.update({
     id: '/evaluacion/$enrollmentId/$quizId',
@@ -324,6 +337,7 @@ export interface FileRoutesByFullPath {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/codigos': typeof AdminCodigosRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
   '/admin/facturacion': typeof AdminFacturacionRoute
@@ -348,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
@@ -371,6 +386,7 @@ export interface FileRoutesByTo {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/codigos': typeof AdminCodigosRoute
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
   '/admin/facturacion': typeof AdminFacturacionRoute
   '/admin/mensajes': typeof AdminMensajesRoute
@@ -393,6 +409,7 @@ export interface FileRoutesByTo {
   '/dudas': typeof DudasIndexRoute
   '/empresa': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdIndexRoute
@@ -420,6 +437,7 @@ export interface FileRoutesById {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/codigos': typeof AdminCodigosRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
   '/admin/facturacion': typeof AdminFacturacionRoute
@@ -444,6 +462,7 @@ export interface FileRoutesById {
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
@@ -472,6 +491,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/codigos'
     | '/admin/cursos'
     | '/admin/evaluaciones'
     | '/admin/facturacion'
@@ -496,6 +516,7 @@ export interface FileRouteTypes {
     | '/dudas/'
     | '/empresa/'
     | '/admin/cursos/$courseId'
+    | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
@@ -519,6 +540,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/codigos'
     | '/admin/evaluaciones'
     | '/admin/facturacion'
     | '/admin/mensajes'
@@ -541,6 +563,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/admin/cursos/$courseId'
+    | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos'
     | '/campus/$enrollmentId'
@@ -567,6 +590,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/codigos'
     | '/admin/cursos'
     | '/admin/evaluaciones'
     | '/admin/facturacion'
@@ -591,6 +615,7 @@ export interface FileRouteTypes {
     | '/dudas/'
     | '/empresa/'
     | '/admin/cursos/$courseId'
+    | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
@@ -780,6 +805,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminSectionRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/codigos': {
+      id: '/admin/codigos'
+      path: '/codigos'
+      fullPath: '/admin/codigos'
+      preLoaderRoute: typeof AdminCodigosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/cursos': {
       id: '/admin/cursos'
       path: '/cursos'
@@ -955,6 +987,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampusEnrollmentIdIndexRouteImport
       parentRoute: typeof CampusEnrollmentIdRoute
     }
+    '/campus/$enrollmentId/confidencialidad': {
+      id: '/campus/$enrollmentId/confidencialidad'
+      path: '/confidencialidad'
+      fullPath: '/campus/$enrollmentId/confidencialidad'
+      preLoaderRoute: typeof CampusEnrollmentIdConfidencialidadRouteImport
+      parentRoute: typeof CampusEnrollmentIdRoute
+    }
     '/evaluacion/$enrollmentId/$quizId': {
       id: '/evaluacion/$enrollmentId/$quizId'
       path: '/evaluacion/$enrollmentId/$quizId'
@@ -988,6 +1027,7 @@ const AdminCursosRouteWithChildren = AdminCursosRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAdminSectionRoute: typeof AdminAdminSectionRoute
+  AdminCodigosRoute: typeof AdminCodigosRoute
   AdminCursosRoute: typeof AdminCursosRouteWithChildren
   AdminEvaluacionesRoute: typeof AdminEvaluacionesRoute
   AdminFacturacionRoute: typeof AdminFacturacionRoute
@@ -999,6 +1039,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminSectionRoute: AdminAdminSectionRoute,
+  AdminCodigosRoute: AdminCodigosRoute,
   AdminCursosRoute: AdminCursosRouteWithChildren,
   AdminEvaluacionesRoute: AdminEvaluacionesRoute,
   AdminFacturacionRoute: AdminFacturacionRoute,
@@ -1038,11 +1079,14 @@ const EmpresaRouteWithChildren =
   EmpresaRoute._addFileChildren(EmpresaRouteChildren)
 
 interface CampusEnrollmentIdRouteChildren {
+  CampusEnrollmentIdConfidencialidadRoute: typeof CampusEnrollmentIdConfidencialidadRoute
   CampusEnrollmentIdIndexRoute: typeof CampusEnrollmentIdIndexRoute
   CampusEnrollmentIdLeccionLessonIdRoute: typeof CampusEnrollmentIdLeccionLessonIdRoute
 }
 
 const CampusEnrollmentIdRouteChildren: CampusEnrollmentIdRouteChildren = {
+  CampusEnrollmentIdConfidencialidadRoute:
+    CampusEnrollmentIdConfidencialidadRoute,
   CampusEnrollmentIdIndexRoute: CampusEnrollmentIdIndexRoute,
   CampusEnrollmentIdLeccionLessonIdRoute:
     CampusEnrollmentIdLeccionLessonIdRoute,

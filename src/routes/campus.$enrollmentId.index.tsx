@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   CheckCircle2,
   Circle,
+  FileSignature,
   Headphones,
   LockKeyhole,
   Presentation,
@@ -14,6 +15,7 @@ import {
   hasAvailableLessonContent,
   hasAvailableModuleContent,
   isPublishedAudioSegment,
+  isPublishedSlideSegment,
   relationArray,
   type Relation,
 } from '../lib/course-content'
@@ -53,6 +55,7 @@ type Lesson = {
   id: string
   title: string
   position: number
+  content_mode: 'audio' | 'slides' | null
   lesson_audio_segments: LessonAudioSegment[]
   quizzes: LessonQuiz[]
   progress?: {
@@ -102,6 +105,8 @@ function CourseContent({
   enrollmentId: string
 }) {
   const [courseTitle, setCourseTitle] = useState('')
+  const [coverUrl, setCoverUrl] = useState<string | null>(null)
+  const [enrollmentStatus, setEnrollmentStatus] = useState('')
   const [modules, setModules] = useState<Module[]>([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
@@ -119,7 +124,7 @@ function CourseContent({
       const { data: enrollment } = await supabase
         .from('enrollments')
         .select(
-          'id, course_version_id, course_versions!inner(courses!inner(title))',
+          'id, status, course_version_id, course_versions!inner(courses!inner(title, cover_storage_path))',
         )
         .eq('id', enrollmentId)
         .eq('user_id', user.id)
@@ -133,14 +138,25 @@ function CourseContent({
       }
 
       const typedEnrollment = enrollment as unknown as {
+        status: string
         course_version_id: string
-        course_versions: { courses: { title: string } }
+        course_versions: {
+          courses: { title: string; cover_storage_path: string | null }
+        }
       }
+      setEnrollmentStatus(typedEnrollment.status)
+      setCoverUrl(
+        typedEnrollment.course_versions.courses.cover_storage_path?.startsWith(
+          '/',
+        )
+          ? typedEnrollment.course_versions.courses.cover_storage_path
+          : null,
+      )
       const [{ data: moduleRows }, { data: progressRows }] = await Promise.all([
         supabase
           .from('course_modules')
           .select(
-            'id, title, description, position, lessons(id, title, position, active, lesson_audio_segments(id, position, title, published, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, required_perfect_streak, completion_mode, active))',
+            'id, title, description, position, lessons(id, title, position, active, content_mode, lesson_audio_segments(id, position, title, published, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id)), quizzes(id, title, question_count, passing_percent, required_perfect_streak, completion_mode, active))',
           )
           .eq('course_version_id', typedEnrollment.course_version_id)
           .eq('lessons.active', true)
@@ -167,13 +183,17 @@ function CourseContent({
                 lesson_audio_segments: relationArray(
                   lesson.lesson_audio_segments,
                 )
-                  .filter(isPublishedAudioSegment)
                   .map((segment) => ({
                     ...segment,
                     lesson_segment_slides: relationArray(
                       segment.lesson_segment_slides,
                     ),
-                  })),
+                  }))
+                  .filter((segment) =>
+                    lesson.content_mode === 'slides'
+                      ? isPublishedSlideSegment(segment)
+                      : isPublishedAudioSegment(segment),
+                  ),
                 quizzes: relationArray(lesson.quizzes).filter(
                   (quiz) => quiz.active,
                 ),
@@ -228,6 +248,13 @@ function CourseContent({
 
   return (
     <AppShell user={user} title={courseTitle || 'Curso'}>
+      {coverUrl ? (
+        <img
+          alt={courseTitle}
+          className="course-cover"
+          src={coverUrl}
+        />
+      ) : null}
       <div className="dashboard-heading">
         <div>
           <span className="eyebrow">Contenido del curso</span>
@@ -235,6 +262,27 @@ function CourseContent({
           <p>Las lecciones se desbloquean en el orden definido.</p>
         </div>
       </div>
+      {['completed', 'theory_passed', 'practice_completed'].includes(
+        enrollmentStatus,
+      ) ? (
+        <section className="panel course-assessment-card">
+          <div>
+            <span className="eyebrow">Curso superado</span>
+            <h2>Firma el contrato de confidencialidad</h2>
+            <p>
+              Has completado la formación. Queda un último paso: leer y firmar
+              el contrato de confidencialidad.
+            </p>
+          </div>
+          <Link
+            className="button button--primary"
+            to="/campus/$enrollmentId/confidencialidad"
+            params={{ enrollmentId }}
+          >
+            <FileSignature size={16} /> Firmar contrato
+          </Link>
+        </section>
+      ) : null}
       {loading ? (
         <section className="panel">
           <p className="muted">Cargando contenido…</p>
@@ -254,7 +302,7 @@ function CourseContent({
             <article>
               <Headphones size={21} />
               <strong>{courseTotals.audioParts}</strong>
-              <span>partes de audio</span>
+              <span>capítulos</span>
             </article>
             <article>
               <Presentation size={21} />
@@ -280,7 +328,7 @@ function CourseContent({
                   {finalAssessment.quiz.completion_mode === 'cumulative_perfect'
                     ? ' acumulativas.'
                     : ' consecutivas.'}{' '}
-                  Se habilita al completar los audios anteriores.
+                  Se habilita al completar todo el contenido anterior.
                 </p>
               </div>
               {isAdministrator ? (
@@ -292,7 +340,7 @@ function CourseContent({
                 </Link>
               ) : (
                 <span className="status">
-                  Bloqueado hasta completar los audios
+                  Bloqueado hasta completar el contenido
                 </span>
               )}
             </section>
@@ -353,20 +401,34 @@ function CourseContent({
                     <article className="course-lesson-card" key={lesson.id}>
                       <div className="course-lesson-card__main">
                         <span className="app-course__number">
-                          <Headphones size={20} />
+                          {lesson.content_mode === 'slides' ? (
+                            <Presentation size={20} />
+                          ) : (
+                            <Headphones size={20} />
+                          )}
                         </span>
                         <div className="course-lesson-card__copy">
                           <h3>{lesson.title}</h3>
                           <p>
-                            Contenido disponible en {segments.length} partes de
-                            audio.
+                            {lesson.content_mode === 'slides'
+                              ? `Presentación de ${slideCount} diapositivas en ${segments.length} capítulos.`
+                              : `Contenido disponible en ${segments.length} partes de audio.`}
                           </p>
                           <div className="course-lesson-card__meta">
-                            <span>{audioMinutes} min de audio</span>
-                            <span>
-                              <Headphones size={14} />{' '}
-                              {segments.length} audios
-                            </span>
+                            {lesson.content_mode === 'slides' ? (
+                              <span>
+                                <Presentation size={14} /> {segments.length}{' '}
+                                capítulos
+                              </span>
+                            ) : (
+                              <>
+                                <span>{audioMinutes} min de audio</span>
+                                <span>
+                                  <Headphones size={14} />{' '}
+                                  {segments.length} audios
+                                </span>
+                              </>
+                            )}
                             <span>
                               <Presentation size={14} /> {slideCount}{' '}
                               diapositivas
@@ -407,8 +469,8 @@ function CourseContent({
                         </div>
                       ) : (
                         <p className="course-lesson-card__pending">
-                          El contenido se mostrará cuando el administrador
-                          publique las grabaciones.
+                          El contenido se mostrará cuando el administrador lo
+                          publique.
                         </p>
                       )}
                     </article>
