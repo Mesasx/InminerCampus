@@ -4,10 +4,12 @@ import { nitro } from 'nitro/vite'
 import { defineConfig } from 'vite'
 
 // Fuentes externas que carga la aplicación: tipografía de Google Fonts
-// (src/styles/app.css) y el widget de verificación Cloudflare Turnstile
-// (acceso, registro, recuperación de contraseña y canje de códigos). Todo
-// lo demás (imágenes de diapositivas, PDF de materiales, llamadas a la
-// API) sale del propio proyecto de Supabase.
+// (src/styles/app.css), el widget de verificación Cloudflare Turnstile
+// (acceso, registro, recuperación de contraseña y canje de códigos) y el
+// logotipo + favicons de Inmíner, servidos desde inminer.es en vez de
+// desde este proyecto (src/components/Logo.tsx, src/routes/__root.tsx).
+// Todo lo demás (imágenes de diapositivas, PDF de materiales, llamadas a
+// la API) sale del propio proyecto de Supabase.
 //
 // script-src necesita 'unsafe-inline': TanStack Start inyecta scripts
 // inline con el manifiesto de rutas y la barrera de streaming SSR
@@ -23,7 +25,7 @@ const contentSecurityPolicy = [
   "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: https://*.supabase.co",
+  "img-src 'self' data: https://*.supabase.co https://inminer.es",
   "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com",
   "frame-src 'self' https://*.supabase.co https://challenges.cloudflare.com",
   "object-src 'none'",
