@@ -35,6 +35,11 @@ type Props = {
   onDeckCompleted?: () => void
 }
 
+// Todas las diapositivas del campus se generan en 1600×900 (16:9). Fijar el
+// tamaño intrínseco evita el salto de layout mientras carga la imagen.
+const SLIDE_INTRINSIC_WIDTH = 1600
+const SLIDE_INTRINSIC_HEIGHT = 900
+
 /**
  * Visor de presentaciones para lecciones sin audio.
  *
@@ -98,6 +103,24 @@ export function SlideDeckViewer({
 
   const viewedCount = chapter ? (seen[chapter.id]?.size ?? 0) : 0
   const allSlidesSeen = chapter ? viewedCount >= chapter.slides.length : false
+
+  // Precarga la diapositiva anterior y la siguiente (incluida la primera
+  // del próximo capítulo) para que la navegación sea instantánea.
+  useEffect(() => {
+    if (!chapter) return
+    const candidates = [
+      chapter.slides[slideIndex - 1],
+      chapter.slides[slideIndex + 1],
+      slideIndex === chapter.slides.length - 1
+        ? state[chapterIndex + 1]?.slides[0]
+        : undefined,
+    ]
+    for (const candidate of candidates) {
+      if (!candidate?.imageUrl) continue
+      const preload = new Image()
+      preload.src = candidate.imageUrl
+    }
+  }, [chapter, chapterIndex, slideIndex, state])
 
   const persistProgress = useCallback(
     async (targetChapter: DeckChapter, slidesViewed: number) => {
@@ -202,7 +225,12 @@ export function SlideDeckViewer({
 
       <div className="slide-deck__stage">
         {slide.imageUrl ? (
-          <img alt={slide.altText || slide.title} src={slide.imageUrl} />
+          <img
+            alt={slide.altText || slide.title}
+            height={SLIDE_INTRINSIC_HEIGHT}
+            src={slide.imageUrl}
+            width={SLIDE_INTRINSIC_WIDTH}
+          />
         ) : (
           <div className="slide-deck__placeholder">
             <h3>{slide.title}</h3>

@@ -64,7 +64,11 @@ function Support({ user }: { user: SessionUser }) {
     setSubmitting(false)
 
     if (error) {
-      setMessage('No se ha podido enviar la consulta.')
+      setMessage(
+        error.message.includes('Too many support threads')
+          ? 'Has enviado demasiadas consultas seguidas. Espera un rato antes de enviar otra.'
+          : 'No se ha podido enviar la consulta.',
+      )
       return
     }
 

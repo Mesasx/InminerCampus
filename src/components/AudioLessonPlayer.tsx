@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export type LessonSlide = {
@@ -91,6 +92,11 @@ type SegmentState = {
   max: number
   completed: boolean
 }
+
+// Todas las diapositivas del campus se generan en 1600×900 (16:9). Fijar el
+// tamaño intrínseco evita el salto de layout mientras carga la imagen.
+const SLIDE_INTRINSIC_WIDTH = 1600
+const SLIDE_INTRINSIC_HEIGHT = 900
 
 function formatTime(seconds: number) {
   const safeSeconds = Math.max(0, Math.floor(seconds || 0))
@@ -229,43 +235,43 @@ export function AudioLessonPlayer({
     const client = supabase
 
     async function refreshSignedSources() {
-      const [audioEntries, imageEntries, resolvedPdf] = await Promise.all([
-        Promise.all(
-          segments.map(async (segment) => {
-            if (segment.audio_external_url) {
-              return [segment.id, segment.audio_external_url] as const
-            }
-            if (!segment.audio_storage_path) return [segment.id, ''] as const
-            const { data } = await client.storage
-              .from('course-materials')
-              .createSignedUrl(segment.audio_storage_path, 3600)
-            return [segment.id, data?.signedUrl ?? ''] as const
-          }),
+      // Una sola llamada por lotes para todos los audios, diapositivas y el
+      // PDF de esta lección. La caché compartida hace que, si nada está a
+      // punto de caducar, esta llamada no genere tráfico de red alguno.
+      const storagePaths = [
+        ...segments.map((segment) => segment.audio_storage_path),
+        ...segments.flatMap((segment) =>
+          segment.lesson_segment_slides.map((slide) => slide.image_storage_path),
         ),
-        Promise.all(
-          segments.flatMap((segment) =>
-            segment.lesson_segment_slides.map(async (slide) => {
-              if (slide.image_external_url) {
-                return [slide.id, slide.image_external_url] as const
-              }
-              if (!slide.image_storage_path) return [slide.id, ''] as const
-              const { data } = await client.storage
-                .from('course-materials')
-                .createSignedUrl(slide.image_storage_path, 3600)
-              return [slide.id, data?.signedUrl ?? ''] as const
-            }),
-          ),
-        ),
-        (async () => {
-          if (!pdfResource) return ''
-          if (!pdfResource.storagePath) return pdfResource.resolvedUrl
-          const { data } = await client.storage
-            .from('course-materials')
-            .createSignedUrl(pdfResource.storagePath, 3600)
-          return data?.signedUrl ?? ''
-        })(),
-      ])
+        pdfResource?.storagePath ?? null,
+      ]
+      const signedUrls = await resolveSignedUrls(
+        client,
+        'course-materials',
+        storagePaths,
+      )
       if (cancelled) return
+
+      const audioEntries = segments.map((segment) => {
+        const url = segment.audio_storage_path
+          ? (signedUrls[segment.audio_storage_path] ?? '')
+          : (segment.audio_external_url ?? '')
+        return [segment.id, url] as const
+      })
+      const imageEntries = segments.flatMap((segment) =>
+        segment.lesson_segment_slides.map((slide) => {
+          const url = slide.image_storage_path
+            ? (signedUrls[slide.image_storage_path] ?? '')
+            : (slide.image_external_url ?? '')
+          return [slide.id, url] as const
+        }),
+      )
+      const resolvedPdf = pdfResource
+        ? pdfResource.storagePath
+          ? (signedUrls[pdfResource.storagePath] ?? '')
+          : pdfResource.resolvedUrl
+        : ''
+
       setSources((current) => ({
         ...current,
         ...Object.fromEntries(audioEntries.filter(([, value]) => Boolean(value))),
@@ -278,7 +284,10 @@ export function AudioLessonPlayer({
     }
 
     void refreshSignedSources()
-    const refreshTimer = window.setInterval(refreshSignedSources, 45 * 60 * 1000)
+    // Se comprueba cada pocos minutos, pero la caché solo vuelve a firmar
+    // (y solo hace red) las rutas que estén a punto de caducar: renovación
+    // silenciosa, sin cortar el contenido que el alumno tiene abierto.
+    const refreshTimer = window.setInterval(refreshSignedSources, 5 * 60 * 1000)
 
     return () => {
       cancelled = true
@@ -415,6 +424,22 @@ export function AudioLessonPlayer({
     const lastIndex = activeSegment.lesson_segment_slides.length - 1
     setActiveSlideIndex(Math.min(Math.max(index, 0), lastIndex))
   }
+
+  // Precarga la diapositiva anterior y la siguiente para que el cambio de
+  // diapositiva sea instantáneo una vez que su URL firmada ya está resuelta.
+  useEffect(() => {
+    const slides = activeSegment?.lesson_segment_slides ?? []
+    const neighborIds = [
+      slides[activeSlideIndex - 1]?.id,
+      slides[activeSlideIndex + 1]?.id,
+    ]
+    for (const slideId of neighborIds) {
+      const url = slideId ? slideSources[slideId] : undefined
+      if (!url) continue
+      const preload = new Image()
+      preload.src = url
+    }
+  }, [activeSegment, activeSlideIndex, slideSources])
 
   function handleSlideTouchEnd(clientX: number) {
     const startX = touchStartXRef.current
@@ -554,8 +579,10 @@ export function AudioLessonPlayer({
             <div className="lesson-slide__canvas">
               {slideSources[activeSlide.id] ? (
                 <img
-                  src={slideSources[activeSlide.id]}
                   alt={activeSlide.alt_text ?? activeSlide.title}
+                  height={SLIDE_INTRINSIC_HEIGHT}
+                  src={slideSources[activeSlide.id]}
+                  width={SLIDE_INTRINSIC_WIDTH}
                 />
               ) : (
                 <div className="lesson-slide__missing">Diapositiva no disponible</div>
@@ -771,8 +798,10 @@ export function AudioLessonPlayer({
           <article className="lesson-slide lesson-slide--expanded">
             {slideSources[expandedSlide.id] ? (
               <img
-                src={slideSources[expandedSlide.id]}
                 alt={expandedSlide.alt_text ?? expandedSlide.title}
+                height={SLIDE_INTRINSIC_HEIGHT}
+                src={slideSources[expandedSlide.id]}
+                width={SLIDE_INTRINSIC_WIDTH}
               />
             ) : null}
             <span className="eyebrow">

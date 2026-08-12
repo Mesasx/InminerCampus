@@ -14,7 +14,6 @@ function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
-  const [requiresCaptcha, setRequiresCaptcha] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -30,7 +29,10 @@ function LoginPage() {
       return
     }
 
-    if (requiresCaptcha && appConfig.turnstileSiteKey && !captchaToken) {
+    // El captcha se exige siempre (no solo tras el primer fallo): así
+    // también frena el primer intento de un script que reintente contra
+    // este formulario, no solo los reintentos manuales.
+    if (appConfig.turnstileSiteKey && !captchaToken) {
       setError('Completa la verificación de seguridad.')
       return
     }
@@ -47,7 +49,6 @@ function LoginPage() {
     setLoading(false)
 
     if (authError) {
-      setRequiresCaptcha(true)
       setCaptchaToken('')
       setError(
         authError.message.includes('Invalid login')
@@ -116,7 +117,7 @@ function LoginPage() {
             ¿Has olvidado la contraseña?
           </Link>
         </div>
-        {requiresCaptcha && appConfig.turnstileSiteKey ? (
+        {appConfig.turnstileSiteKey ? (
           <Turnstile
             siteKey={appConfig.turnstileSiteKey}
             onSuccess={setCaptchaToken}
