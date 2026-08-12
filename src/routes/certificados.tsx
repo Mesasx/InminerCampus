@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Award, ExternalLink } from 'lucide-react'
+import { Award, Download, ExternalLink } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -14,10 +14,13 @@ type Certificate = {
   id: string
   certificate_code: string
   status: string
+  holder_name: string
   course_title: string
   duration_hours: number
+  modality: string
   completion_date: string
   issued_at: string
+  pdf_storage_path: string | null
 }
 
 function CertificatesPage() {
@@ -31,6 +34,8 @@ function CertificatesPage() {
 function Certificates({ user }: { user: SessionUser }) {
   const [certificates, setCertificates] = useState<Certificate[]>([])
   const [loading, setLoading] = useState(true)
+  const [downloadingId, setDownloadingId] = useState<string | null>(null)
+  const [downloadError, setDownloadError] = useState('')
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
@@ -38,7 +43,7 @@ function Certificates({ user }: { user: SessionUser }) {
     void supabase
       .from('certificates')
       .select(
-        'id, certificate_code, status, course_title, duration_hours, completion_date, issued_at',
+        'id, certificate_code, status, holder_name, course_title, duration_hours, modality, completion_date, issued_at, pdf_storage_path',
       )
       .eq('user_id', user.id)
       .order('issued_at', { ascending: false })
@@ -47,6 +52,47 @@ function Certificates({ user }: { user: SessionUser }) {
         setLoading(false)
       })
   }, [user.id])
+
+  async function downloadCertificate(certificate: Certificate) {
+    if (certificate.status !== 'valid') return
+    setDownloadError('')
+    setDownloadingId(certificate.id)
+
+    try {
+      const pdfData = {
+        certificateCode: certificate.certificate_code,
+        holderName: certificate.holder_name,
+        courseTitle: certificate.course_title,
+        durationHours: certificate.duration_hours,
+        modality: certificate.modality,
+        completionDate: certificate.completion_date,
+        issuedAt: certificate.issued_at,
+      }
+      const { certificateFileName, downloadCertificatePdf } = await import(
+        '../lib/certificate-pdf'
+      )
+
+      if (certificate.pdf_storage_path) {
+        const supabase = getSupabaseBrowserClient()
+        if (!supabase) throw new Error('Supabase no está configurado.')
+        const { data, error } = await supabase.storage
+          .from('certificates')
+          .createSignedUrl(certificate.pdf_storage_path, 60, {
+            download: certificateFileName(pdfData),
+          })
+        if (error) throw error
+        window.location.assign(data.signedUrl)
+      } else {
+        downloadCertificatePdf(pdfData)
+      }
+    } catch {
+      setDownloadError(
+        'No hemos podido preparar el certificado. Inténtalo de nuevo.',
+      )
+    } finally {
+      setDownloadingId(null)
+    }
+  }
 
   return (
     <AppShell user={user} title="Certificados">
@@ -58,12 +104,18 @@ function Certificates({ user }: { user: SessionUser }) {
         </div>
       </div>
       <section className="panel">
+        {downloadError ? (
+          <div className="alert alert--error">{downloadError}</div>
+        ) : null}
         {loading ? (
           <p className="muted">Cargando certificados…</p>
         ) : certificates.length ? (
           <div className="app-course-list">
             {certificates.map((certificate) => (
-              <article className="app-course" key={certificate.id}>
+              <article
+                className="app-course certificate-card"
+                key={certificate.id}
+              >
                 <span className="app-course__number">
                   <Award size={21} />
                 </span>
@@ -81,6 +133,20 @@ function Certificates({ user }: { user: SessionUser }) {
                 >
                   <ExternalLink size={17} /> Verificar
                 </Link>
+                <button
+                  className="button button--primary"
+                  disabled={
+                    certificate.status !== 'valid' ||
+                    downloadingId === certificate.id
+                  }
+                  onClick={() => void downloadCertificate(certificate)}
+                  type="button"
+                >
+                  <Download size={17} />{' '}
+                  {downloadingId === certificate.id
+                    ? 'Preparando…'
+                    : 'Descargar PDF'}
+                </button>
               </article>
             ))}
           </div>
