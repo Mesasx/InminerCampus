@@ -8,14 +8,16 @@ import {
   KeyRound,
   LayoutDashboard,
   LogOut,
-  ReceiptText,
+  Menu,
   MessageSquareText,
+  ReceiptText,
   Settings,
   ShieldCheck,
   UsersRound,
   UserRound,
+  X,
 } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 import { Logo } from './Logo'
@@ -68,6 +70,7 @@ export function AppShell({
 }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const [navigationOpen, setNavigationOpen] = useState(false)
   const isInsideCourse = /^\/campus\/[^/]+/.test(location.pathname)
   const isAdministrator = user.roles.some((role) =>
     ['administrador', 'superadministrador'].includes(role),
@@ -90,6 +93,27 @@ export function AppShell({
               },
             ]
           : studentNav
+
+  useEffect(() => {
+    setNavigationOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (!navigationOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setNavigationOpen(false)
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [navigationOpen])
 
   function confirmCourseExit() {
     return (
@@ -127,12 +151,28 @@ export function AppShell({
 
   return (
     <div className="app-layout page-enter">
-      <aside className="app-sidebar">
-        <Logo
-          onClick={(event) => {
-            if (!confirmCourseExit()) event.preventDefault()
-          }}
-        />
+      <aside
+        className={
+          navigationOpen ? 'app-sidebar app-sidebar--open' : 'app-sidebar'
+        }
+        id="campus-navigation"
+      >
+        <div className="app-sidebar__header">
+          <Logo
+            onClick={(event) => {
+              if (!confirmCourseExit()) event.preventDefault()
+              else setNavigationOpen(false)
+            }}
+          />
+          <button
+            aria-label="Cerrar menú"
+            className="app-sidebar__close"
+            onClick={() => setNavigationOpen(false)}
+            type="button"
+          >
+            <X size={21} />
+          </button>
+        </div>
         <nav className="app-nav" aria-label="Navegación del campus">
           {nav.map(({ href, label, icon: Icon }) => (
             <Link
@@ -140,6 +180,7 @@ export function AppShell({
               key={href}
               onClick={(event) => {
                 if (!confirmCourseExit()) event.preventDefault()
+                else setNavigationOpen(false)
               }}
             >
               <Icon size={18} />
@@ -148,14 +189,38 @@ export function AppShell({
           ))}
         </nav>
         <div className="app-sidebar__bottom">
+          <span className="app-sidebar__user">
+            {user.firstName || user.email}
+          </span>
           <button className="button button--ghost" type="button" onClick={signOut}>
             <LogOut size={18} /> Salir
           </button>
         </div>
       </aside>
+      <button
+        aria-label="Cerrar menú"
+        className={
+          navigationOpen
+            ? 'app-sidebar__overlay app-sidebar__overlay--visible'
+            : 'app-sidebar__overlay'
+        }
+        onClick={() => setNavigationOpen(false)}
+        tabIndex={navigationOpen ? 0 : -1}
+        type="button"
+      />
       <div className="app-main">
         <header className="app-topbar">
           <div className="app-topbar__context">
+            <button
+              aria-controls="campus-navigation"
+              aria-expanded={navigationOpen}
+              aria-label="Abrir menú"
+              className="app-topbar__menu"
+              onClick={() => setNavigationOpen(true)}
+              type="button"
+            >
+              <Menu size={21} />
+            </button>
             <button
               aria-label="Volver atrás"
               className="app-topbar__back"

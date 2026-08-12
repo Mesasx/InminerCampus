@@ -30,6 +30,9 @@ export function AuthLayout({
       </aside>
       <section className="auth-main">
         <div className="auth-card">
+          <div className="auth-mobile-brand">
+            <Logo />
+          </div>
           <h2>{title}</h2>
           <p className="auth-card__intro">{description}</p>
           {children}
