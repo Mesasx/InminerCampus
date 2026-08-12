@@ -1,3 +1,4 @@
+import { Turnstile } from '@marsidev/react-turnstile'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
@@ -10,19 +11,29 @@ export const Route = createFileRoute('/recuperar-contrasena')({
 
 function RecoverPasswordPage() {
   const [email, setEmail] = useState('')
+  const [captchaToken, setCaptchaToken] = useState('')
+  const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setError('')
     const supabase = getSupabaseBrowserClient()
+
+    if (appConfig.turnstileSiteKey && !captchaToken) {
+      setError('Completa la verificación de seguridad.')
+      return
+    }
 
     if (supabase) {
       setLoading(true)
       await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
         redirectTo: `${appConfig.appUrl}/nueva-contrasena`,
+        captchaToken: captchaToken || undefined,
       })
       setLoading(false)
+      setCaptchaToken('')
     }
 
     setMessage(
@@ -36,6 +47,7 @@ function RecoverPasswordPage() {
       description="Te enviaremos un enlace seguro para establecer una nueva contraseña."
     >
       <form className="form-grid" onSubmit={handleSubmit}>
+        {error ? <div className="alert alert--error">{error}</div> : null}
         {message ? <div className="alert alert--success">{message}</div> : null}
         <div className="field">
           <label htmlFor="recover-email">Correo electrónico</label>
@@ -48,6 +60,14 @@ function RecoverPasswordPage() {
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
+        {appConfig.turnstileSiteKey ? (
+          <Turnstile
+            siteKey={appConfig.turnstileSiteKey}
+            onSuccess={setCaptchaToken}
+            onExpire={() => setCaptchaToken('')}
+            options={{ language: 'es', theme: 'light' }}
+          />
+        ) : null}
         <button
           className="button button--primary button--wide"
           type="submit"

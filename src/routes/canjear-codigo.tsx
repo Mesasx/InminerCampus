@@ -42,7 +42,9 @@ function RedeemCodePage() {
                 setLoading(false)
                 if (redeemError) {
                   setError(
-                    'El código no es válido, ha caducado o ya se ha utilizado.',
+                    redeemError.message.includes('Demasiados intentos')
+                      ? 'Demasiados intentos de canje. Espera unos minutos antes de volver a intentarlo.'
+                      : 'El código no es válido, ha caducado o ya se ha utilizado.',
                   )
                   return
                 }

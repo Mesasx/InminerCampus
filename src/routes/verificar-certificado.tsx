@@ -37,7 +37,7 @@ function VerifyCertificatePage() {
 
     setLoading(true)
     const { data, error } = await supabase.rpc('verify_certificate', {
-      p_code: code.trim().toUpperCase(),
+      input_code: code.trim().toUpperCase(),
     })
     setLoading(false)
 

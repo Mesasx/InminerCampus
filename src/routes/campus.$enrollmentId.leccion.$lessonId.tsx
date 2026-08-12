@@ -9,6 +9,7 @@ import { SlideDeckViewer, type DeckChapter } from '../components/SlideDeckViewer
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { relationArray, type Relation } from '../lib/course-content'
+import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
@@ -161,11 +162,31 @@ function Lesson({
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
           )
-          const [resolvedResources, resolved] = await Promise.all([
-            resolveResources(supabase, relationArray(row.lesson_resources)),
-            resolveSegments(supabase, segmentResponse.data ?? []),
-          ])
+          const resources = relationArray(row.lesson_resources)
+          const segmentRows = (segmentResponse.data ??
+            []) as unknown as SegmentRow[]
+
+          // Una única llamada por lotes para todo lo que necesita esta
+          // lección (audios, diapositivas y recursos descargables), en vez
+          // de una llamada createSignedUrl por elemento.
+          const storagePaths = [
+            ...segmentRows.map((segment) => segment.audio_storage_path),
+            ...segmentRows.flatMap((segment) =>
+              relationArray(segment.lesson_segment_slides).map(
+                (slide) => slide.image_storage_path,
+              ),
+            ),
+            ...resources.map((resource) => resource.storage_path),
+          ]
+          const signedUrls = await resolveSignedUrls(
+            supabase,
+            'course-materials',
+            storagePaths,
+          )
           if (!active) return
+
+          const resolvedResources = resolveResources(resources, signedUrls)
+          const resolved = resolveSegments(segmentRows, signedUrls)
 
           const quiz = quizzes[0]
           const baseLesson = {
@@ -405,134 +426,102 @@ function Lesson({
   )
 }
 
-async function resolveSegments(
-  supabase: NonNullable<ReturnType<typeof getSupabaseBrowserClient>>,
-  rows: unknown[],
-): Promise<LessonAudioSegment[]> {
-  const segmentRows = rows as Array<{
+type SegmentRow = {
+  id: string
+  position: number
+  title: string
+  narration_text: string
+  audio_storage_path: string | null
+  audio_external_url: string | null
+  duration_seconds: number
+  lesson_segment_slides: Relation<{
     id: string
     position: number
     title: string
-    narration_text: string
-    audio_storage_path: string | null
-    audio_external_url: string | null
-    duration_seconds: number
-    lesson_segment_slides: Relation<{
-      id: string
-      position: number
-      title: string
-      body: string
-      image_storage_path: string | null
-      image_external_url: string | null
-      source_label: string | null
-      source_page: string | null
-      alt_text: string | null
-    }>
-    lesson_segment_notes: Relation<{
-      summary: string
-      key_points: string[]
-      stop_criterion: string
-      source_label: string
-      source_pages: string
-    }>
-    lesson_audio_progress: Relation<{
-      max_position_seconds: number
-      completed_at: string | null
-    }>
+    body: string
+    image_storage_path: string | null
+    image_external_url: string | null
+    source_label: string | null
+    source_page: string | null
+    alt_text: string | null
   }>
-
-  return Promise.all(
-    segmentRows.map(async (segment) => {
-      let audioUrl = segment.audio_external_url ?? ''
-      if (segment.audio_storage_path) {
-        const { data, error } = await supabase.storage
-          .from('course-materials')
-          .createSignedUrl(segment.audio_storage_path, 3600)
-        if (error) {
-          console.error('[campus:lesson] No se pudo firmar un audio', {
-            segmentId: segment.id,
-            error,
-          })
-        }
-        audioUrl = data?.signedUrl ?? ''
-      }
-      const slides = await Promise.all(
-        relationArray(segment.lesson_segment_slides)
-          .sort((a, b) => a.position - b.position)
-          .map(async (slide) => {
-            let imageUrl = slide.image_external_url
-            if (slide.image_storage_path) {
-              const { data, error } = await supabase.storage
-                .from('course-materials')
-                .createSignedUrl(slide.image_storage_path, 3600)
-              if (error) {
-                console.error(
-                  '[campus:lesson] No se pudo firmar una diapositiva',
-                  { slideId: slide.id, error },
-                )
-              }
-              imageUrl = data?.signedUrl ?? null
-            }
-            return {
-              id: slide.id,
-              position: slide.position,
-              title: slide.title,
-              body: slide.body,
-              imageUrl,
-              imageStoragePath: slide.image_storage_path,
-              sourceLabel: slide.source_label,
-              sourcePage: slide.source_page,
-              altText: slide.alt_text ?? slide.title,
-            }
-          }),
-      )
-      const segmentProgress = relationArray(segment.lesson_audio_progress)[0]
-      const note = relationArray(segment.lesson_segment_notes)[0]
-      return {
-        id: segment.id,
-        position: segment.position,
-        title: segment.title,
-        narrationText: segment.narration_text,
-        audioUrl,
-        audioStoragePath: segment.audio_storage_path,
-        durationSeconds: segment.duration_seconds,
-        maxPositionSeconds: segmentProgress?.max_position_seconds ?? 0,
-        completed: Boolean(segmentProgress?.completed_at),
-        note: note
-          ? {
-              summary: note.summary,
-              keyPoints: note.key_points,
-              stopCriterion: note.stop_criterion,
-              sourceLabel: note.source_label,
-              sourcePages: note.source_pages,
-            }
-          : null,
-        slides,
-      }
-    }),
-  )
+  lesson_segment_notes: Relation<{
+    summary: string
+    key_points: string[]
+    stop_criterion: string
+    source_label: string
+    source_pages: string
+  }>
+  lesson_audio_progress: Relation<{
+    max_position_seconds: number
+    completed_at: string | null
+  }>
 }
 
-async function resolveResources(
-  supabase: NonNullable<ReturnType<typeof getSupabaseBrowserClient>>,
+function resolveSegments(
+  segmentRows: SegmentRow[],
+  signedUrls: Record<string, string>,
+): LessonAudioSegment[] {
+  return segmentRows.map((segment) => {
+    const audioUrl = segment.audio_storage_path
+      ? (signedUrls[segment.audio_storage_path] ?? '')
+      : (segment.audio_external_url ?? '')
+    const slides = relationArray(segment.lesson_segment_slides)
+      .sort((a, b) => a.position - b.position)
+      .map((slide) => {
+        const imageUrl = slide.image_storage_path
+          ? (signedUrls[slide.image_storage_path] ?? null)
+          : slide.image_external_url
+        return {
+          id: slide.id,
+          position: slide.position,
+          title: slide.title,
+          body: slide.body,
+          imageUrl,
+          imageStoragePath: slide.image_storage_path,
+          sourceLabel: slide.source_label,
+          sourcePage: slide.source_page,
+          altText: slide.alt_text ?? slide.title,
+        }
+      })
+    const segmentProgress = relationArray(segment.lesson_audio_progress)[0]
+    const note = relationArray(segment.lesson_segment_notes)[0]
+    return {
+      id: segment.id,
+      position: segment.position,
+      title: segment.title,
+      narrationText: segment.narration_text,
+      audioUrl,
+      audioStoragePath: segment.audio_storage_path,
+      durationSeconds: segment.duration_seconds,
+      maxPositionSeconds: segmentProgress?.max_position_seconds ?? 0,
+      completed: Boolean(segmentProgress?.completed_at),
+      note: note
+        ? {
+            summary: note.summary,
+            keyPoints: note.key_points,
+            stopCriterion: note.stop_criterion,
+            sourceLabel: note.source_label,
+            sourcePages: note.source_pages,
+          }
+        : null,
+      slides,
+    }
+  })
+}
+
+function resolveResources(
   resources: Resource[],
-): Promise<Resource[]> {
-  return Promise.all(
-    resources.map(async (resource) => {
-      if (resource.external_url) {
-        return { ...resource, resolvedUrl: resource.external_url }
-      }
-      if (!resource.storage_path) return { ...resource, resolvedUrl: '' }
-      const { data, error } = await supabase.storage
-        .from('course-materials')
-        .createSignedUrl(resource.storage_path, 3600)
-      if (error) {
-        console.error('[campus:lesson] No se pudo firmar un recurso', {
-          resourceId: resource.id,
-          error,
-        })
-      }
-      return { ...resource, resolvedUrl: data?.signedUrl ?? '' }
-    }),
-  )
+  signedUrls: Record<string, string>,
+): Resource[] {
+  return resources.map((resource) => {
+    if (resource.external_url) {
+      return { ...resource, resolvedUrl: resource.external_url }
+    }
+    if (!resource.storage_path) return { ...resource, resolvedUrl: '' }
+    return {
+      ...resource,
+      resolvedUrl: signedUrls[resource.storage_path] ?? '',
+    }
+  })
 }
