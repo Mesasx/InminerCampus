@@ -34,12 +34,21 @@ test('la migración repunta las diapositivas y materiales de STVH al bucket priv
   assert.doesNotMatch(sql, /create policy/i)
 })
 
-test('las diapositivas y materiales de STVH ya no se sirven como ficheros públicos', async () => {
-  await assert.rejects(access(publicSlidesRoot), { code: 'ENOENT' })
-  await assert.rejects(access(publicMaterialsRoot), { code: 'ENOENT' })
+// Este repositorio se despliega automáticamente a producción en cada push,
+// sin esperar a que se apliquen las migraciones. Como la base de datos
+// todavía apunta a estas rutas públicas (202608120001 no se ha aplicado
+// aún en producción), los ficheros deben seguir sirviéndose desde public/
+// hasta que se despliegue en el orden documentado en el propio SQL:
+// 1) scripts/upload-stvh-private-assets.mjs, 2) aplicar la migración,
+// 3) solo entonces retirar estas dos carpetas de public/ en un PR aparte.
+test('las diapositivas y materiales de STVH siguen sirviéndose desde public/ hasta que se aplique la migración', async () => {
+  await access(new URL('slide-001.jpg', publicSlidesRoot))
+  await access(
+    new URL('formacion-stvh-diapositivas.pdf', publicMaterialsRoot),
+  )
 })
 
-test('las diapositivas y materiales de STVH siguen versionados para poder subirlos al bucket', async () => {
+test('las diapositivas y materiales de STVH también están versionados en storage-seed para poder subirlos al bucket', async () => {
   await access(new URL('slide-001.jpg', seedSlidesRoot))
   await access(new URL('slide-057.jpg', seedSlidesRoot))
   await access(
