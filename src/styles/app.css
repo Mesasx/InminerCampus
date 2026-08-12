@@ -1522,6 +1522,10 @@ h3 {
   font-size: 0.84rem;
 }
 
+.certificate-card {
+  grid-template-columns: 58px minmax(0, 1fr) auto auto auto;
+}
+
 .course-content-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3018,6 +3022,10 @@ button.admin-list__item {
 
   .app-course {
     grid-template-columns: 50px 1fr;
+  }
+
+  .certificate-card .status {
+    justify-self: start;
   }
 
   .app-course .progress,
