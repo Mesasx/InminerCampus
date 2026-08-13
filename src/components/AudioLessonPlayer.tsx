@@ -655,9 +655,9 @@ export function AudioLessonPlayer({
         </div>
 
         <audio
-          onEnded={() => {
+          onEnded={(event) => {
             setPlaying(false)
-            void reportProgress(activeSegment.duration_seconds, true)
+            void reportProgress(event.currentTarget.duration, true)
           }}
           onLoadedMetadata={(event) => {
             const resumeAt = activeState.completed
