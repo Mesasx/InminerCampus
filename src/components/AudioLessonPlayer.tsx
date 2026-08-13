@@ -104,6 +104,74 @@ function formatTime(seconds: number) {
   return `${Math.floor(safeSeconds / 60)}:${String(safeSeconds % 60).padStart(2, '0')}`
 }
 
+const detailedInformationHeadings = new Set([
+  'Objetivo',
+  'Explicación detallada',
+  'Aplicación práctica',
+  'Riesgos y errores que deben evitarse',
+  'Idea clave',
+])
+
+function DetailedSpecificInformation({ text }: { text: string }) {
+  const blocks = text
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+
+  if (blocks.length === 1) return <p>{text}</p>
+
+  return (
+    <div className="lesson-notes__content">
+      {blocks.map((block, blockIndex) => {
+        const lines = block
+          .split('\n')
+          .map((line) => line.trim())
+          .filter(Boolean)
+        const heading = lines[0]
+        const content = detailedInformationHeadings.has(heading)
+          ? lines.slice(1)
+          : lines
+
+        if (heading === 'Riesgos y errores que deben evitarse') {
+          return (
+            <section key={`${heading}-${blockIndex}`}>
+              <h3>{heading}</h3>
+              <ul>
+                {content.map((line) => (
+                  <li key={line}>{line.replace(/^[-•]\s*/, '')}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        if (heading === 'Idea clave') {
+          return (
+            <aside
+              className="lesson-notes__key"
+              key={`${heading}-${blockIndex}`}
+            >
+              <strong>{heading}</strong>
+              {content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </aside>
+          )
+        }
+
+        if (detailedInformationHeadings.has(heading)) {
+          return (
+            <section key={`${heading}-${blockIndex}`}>
+              <h3>{heading}</h3>
+              {content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            </section>
+          )
+        }
+
+        return lines.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+      })}
+    </div>
+  )
+}
+
 export function AudioLessonPlayer({
   enrollmentId,
   segments: sourceSegments,
@@ -880,7 +948,7 @@ export function AudioLessonPlayer({
               </h2>
             </div>
           </div>
-          <p>{activeSpecificText}</p>
+          <DetailedSpecificInformation text={activeSpecificText} />
           {activeSpecificPoints.length ? (
             <ul>
               {activeSpecificPoints.map((point) => <li key={point}>{point}</li>)}
