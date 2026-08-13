@@ -10,6 +10,7 @@ test('Nitro aplica cabeceras de seguridad a todas las rutas', async () => {
 
   assert.match(config, /routeRules:\s*\{\s*\r?\n\s*'\/\*\*':\s*\{\s*headers:\s*securityHeaders/)
   assert.match(config, /'Content-Security-Policy':/)
+  assert.match(config, /"media-src 'self' blob: https:\/\/\*\.supabase\.co"/)
   assert.match(config, /'Strict-Transport-Security':\s*'max-age=31536000/)
   assert.match(config, /'X-Content-Type-Options':\s*'nosniff'/)
   assert.match(config, /'X-Frame-Options':\s*'DENY'/)
