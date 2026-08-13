@@ -30,7 +30,8 @@ test('el alumno puede ver el detalle de la parte y recibe un error útil si fall
 
   assert.match(player, /\{activeSegment\.narration_text \? \(/)
   assert.doesNotMatch(player, /previewMode && activeSegment\.narration_text/)
-  assert.match(player, /Información detallada de esta parte/)
+  assert.match(player, /Transcripción del audio/)
+  assert.match(player, /Información específica de esta parte/)
   assert.match(player, /onError=\{\(\) => \{/)
   assert.match(player, /No se ha podido reproducir el audio/)
 })

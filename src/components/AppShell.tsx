@@ -236,6 +236,9 @@ export function AppShell({
           </span>
         </header>
         <main className="app-content">{children}</main>
+        <footer className="app-credit">
+          Plataforma creada por Pedro Mesas de la Fuente.
+        </footer>
       </div>
     </div>
   )

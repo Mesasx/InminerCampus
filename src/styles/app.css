@@ -2217,6 +2217,52 @@ span {
   padding: 0;
 }
 
+.app-credit {
+  padding: 18px clamp(18px, 4vw, 56px) max(18px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.lesson-slide__identity {
+  display: grid;
+  gap: 6px;
+  padding: 14px 20px 13px;
+  border-left: 5px solid var(--orange);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
+.lesson-slide__identity strong {
+  overflow: hidden;
+  font-size: clamp(0.94rem, 1.8vw, 1.15rem);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lesson-slide__identity span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: clamp(0.72rem, 1.4vw, 0.88rem);
+  font-weight: 650;
+}
+
+.lesson-slide__identity i {
+  width: 1px;
+  height: 18px;
+  background: var(--line-strong);
+}
+
+.lesson-slide__identity b {
+  color: var(--orange-deep);
+  font-size: 1.05em;
+}
+
 .lesson-slide__canvas {
   display: grid;
   width: 100%;
@@ -2257,8 +2303,16 @@ span {
   text-align: center;
 }
 
-.lesson-slide__fullscreen {
+.lesson-slide__download {
   margin-left: auto;
+}
+
+.lesson-slide__toolbar--single {
+  justify-content: flex-end;
+}
+
+.lesson-slide__toolbar--single .lesson-slide__download {
+  margin-left: 0;
 }
 
 .lesson-slide__source,
@@ -2308,35 +2362,29 @@ span {
   backdrop-filter: blur(8px);
 }
 
-.lesson-slide-modal__close {
-  position: fixed;
-  z-index: 1;
-  top: 24px;
-  right: 24px;
-  display: grid;
-  width: 46px;
-  height: 46px;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: white;
-  color: var(--ink);
-  cursor: pointer;
+.lesson-slide-modal {
+  padding: 0;
 }
 
 .lesson-slide--expanded {
   display: grid;
-  width: min(1500px, 100%);
-  max-height: calc(100vh - 48px);
-  overflow: auto;
-  padding: 12px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100vw;
+  height: 100dvh;
+  max-height: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   background: #10191e;
   color: white;
 }
 
 .lesson-slide--expanded img {
   width: 100%;
-  max-height: calc(100vh - 150px);
+  height: 100%;
+  min-height: 0;
+  max-height: none;
   margin: 0;
   object-fit: contain;
 }
@@ -2345,15 +2393,11 @@ span {
   transform: none;
 }
 
-.lesson-slide--expanded h2 {
-  margin: 6px 0 0;
-  color: white;
-  font-size: 1rem;
-}
-
-.lesson-slide--expanded .lesson-slide__source {
-  margin-top: 5px;
-  color: rgba(255, 255, 255, 0.7);
+.lesson-slide-modal__hint {
+  padding: 8px 18px max(8px, env(safe-area-inset-bottom));
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  text-align: center;
 }
 
 .lesson-pdf-modal {
@@ -3410,13 +3454,12 @@ button.admin-list__item {
       max(10px, env(safe-area-inset-bottom));
   }
 
-  .lesson-slide-modal__close {
-    top: 18px;
-    right: 18px;
+  .lesson-slide-modal {
+    padding: 0;
   }
 
   .lesson-slide--expanded {
-    padding: 8px;
+    padding: 0;
   }
 
   .lesson-slide--expanded img {

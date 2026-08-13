@@ -36,6 +36,8 @@ type LessonData = {
   title: string
   summary: string
   blockPosition: number
+  courseTitle: string
+  regulationLabel: string
   contentMode: ContentMode
   resources: Resource[]
   quiz: {
@@ -61,6 +63,13 @@ type LessonRow = {
   course_modules: Relation<{
     position: number
     title: string
+    course_versions: Relation<{
+      duration_hours: number
+      courses: Relation<{
+        title: string
+        slug: string
+      }>
+    }>
   }>
   lesson_resources: Relation<Resource>
   quizzes: Relation<QuizRow>
@@ -125,7 +134,7 @@ function Lesson({
             supabase
               .from('lessons')
               .select(
-                'id, title, content_mode, course_modules(position, title), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
+                'id, title, content_mode, course_modules(position, title, course_versions(duration_hours, courses(title, slug))), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
               )
               .eq('id', lessonId)
               .maybeSingle(),
@@ -159,6 +168,8 @@ function Lesson({
           const row = lessonResponse.data as unknown as LessonRow
           const contentMode: ContentMode = row.content_mode ?? 'audio'
           const courseModule = relationArray(row.course_modules)[0]
+          const courseVersion = relationArray(courseModule?.course_versions)[0]
+          const course = relationArray(courseVersion?.courses)[0]
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
           )
@@ -193,6 +204,8 @@ function Lesson({
             id: row.id,
             title: row.title,
             blockPosition: courseModule?.position ?? 1,
+            courseTitle: course?.title ?? 'Curso Inmíner',
+            regulationLabel: getRegulationLabel(course?.slug ?? ''),
             contentMode,
             resources: resolvedResources,
             quiz: quiz
@@ -322,6 +335,7 @@ function Lesson({
           ) : (
             <AudioLessonPlayer
               blockPosition={lesson.blockPosition}
+              courseTitle={lesson.courseTitle}
               enrollmentId={enrollmentId}
               initialSegments={segments}
               onLessonProgress={() => setContentCompleted(true)}
@@ -335,6 +349,7 @@ function Lesson({
                   : null
               }
               previewMode={isAdministrator}
+              regulationLabel={lesson.regulationLabel}
             />
           )}
           {lesson.resources.length ? (
@@ -424,6 +439,19 @@ function Lesson({
       )}
     </AppShell>
   )
+}
+
+function getRegulationLabel(courseSlug: string) {
+  if (courseSlug.includes('polvo') || courseSlug.includes('silice')) {
+    return 'ITC 02.0.02 · Orden TED/723/2021'
+  }
+  if (courseSlug.includes('transporte') || courseSlug.includes('volquete')) {
+    return 'ITC 02.1.02 · ET 2000-1-08'
+  }
+  if (courseSlug.includes('arranque') || courseSlug.includes('carga')) {
+    return 'ITC 02.1.02 · ET 2001-1-08'
+  }
+  return 'Formación preventiva minera'
 }
 
 type SegmentRow = {
