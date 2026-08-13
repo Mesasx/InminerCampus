@@ -6,20 +6,23 @@ import path from 'node:path'
 import process from 'node:process'
 
 const supabaseUrl = process.env.SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const uploadKey = process.env.SUPABASE_UPLOAD_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY
+const skipSignedVerification = process.env.COURSE_DECK_SKIP_SIGNED_VERIFICATION === '1'
+const upsertFiles = process.env.COURSE_DECK_UPSERT !== '0'
 
-if (!supabaseUrl || !serviceRoleKey) {
-  console.error('Faltan SUPABASE_URL y/o SUPABASE_SERVICE_ROLE_KEY en el entorno.')
+if (!supabaseUrl || !uploadKey) {
+  console.error('Faltan SUPABASE_URL y/o SUPABASE_UPLOAD_KEY en el entorno.')
   process.exit(1)
 }
 
-const supabase = createClient(supabaseUrl, serviceRoleKey, {
+const supabase = createClient(supabaseUrl, uploadKey, {
   auth: { persistSession: false },
 })
 
 const repositoryRoot = process.cwd()
 const bucket = 'course-materials'
 const release = process.env.COURSE_DECK_RELEASE ?? 'course-deck-20260813-v2'
+const localRoot = process.env.COURSE_DECK_LOCAL_ROOT ?? path.join('.work', 'course-slide-decks')
 const selectedDeckKeys = new Set(
   (process.env.COURSE_DECK_KEYS ?? 'course-2,course-4,course-5,course-6')
     .split(',')
@@ -34,6 +37,7 @@ const decks = [
     durationHours: 5,
     extension: 'jpg',
     contentType: 'image/jpeg',
+    slidesPerAudio: 2,
   },
   {
     key: 'course-4',
@@ -41,6 +45,7 @@ const decks = [
     durationHours: 20,
     extension: 'jpg',
     contentType: 'image/jpeg',
+    slidesPerAudio: 1,
   },
   {
     key: 'course-5',
@@ -48,6 +53,7 @@ const decks = [
     durationHours: 20,
     extension: 'jpg',
     contentType: 'image/jpeg',
+    slidesPerAudio: 2,
   },
   {
     key: 'course-6',
@@ -55,6 +61,7 @@ const decks = [
     durationHours: 20,
     extension: 'jpg',
     contentType: 'image/jpeg',
+    slidesPerAudio: 2,
   },
 ]
 
@@ -84,14 +91,14 @@ function buildFiles(deck, versionId) {
   const files = []
   for (let block = 1; block <= 5; block += 1) {
     for (let part = 1; part <= 10; part += 1) {
-      for (let slide = 1; slide <= 2; slide += 1) {
-        const page = ((block - 1) * 10 + (part - 1)) * 2 + slide
+      for (let slide = 1; slide <= deck.slidesPerAudio; slide += 1) {
+        const page =
+          ((block - 1) * 10 + (part - 1)) * deck.slidesPerAudio + slide
         const localPath = deck.localFile
           ? deck.localFile(block, part, slide, page)
           : path.join(
               repositoryRoot,
-              '.work',
-              'course-slide-decks',
+              localRoot,
               deck.key,
               `slide-${String(page).padStart(3, '0')}.jpg`,
             )
@@ -125,7 +132,7 @@ async function uploadDeck(deck) {
       const { error } = await supabase.storage.from(bucket).upload(file.remotePath, body, {
         contentType: deck.contentType,
         cacheControl: '31536000',
-        upsert: true,
+        upsert: upsertFiles,
       })
       if (error) throw new Error(`${file.remotePath}: ${error.message}`)
       uploaded += 1
@@ -136,6 +143,11 @@ async function uploadDeck(deck) {
   }
 
   await Promise.all(Array.from({ length: 6 }, () => worker()))
+
+  if (skipSignedVerification) {
+    console.log(`${deck.key}: carga completada; la verificación se realizará en servidor.`)
+    return { deck: deck.key, versionId, uploaded }
+  }
 
   const samplePaths = [files[0].remotePath, files.at(-1).remotePath]
   const { data: signedFiles, error: signedFilesError } = await supabase.storage
@@ -180,7 +192,7 @@ let totalUploaded = 0
 for (const deck of selectedDecks) {
   const result = await uploadDeck(deck)
   totalUploaded += result.uploaded
-  console.log(`${result.deck}: 100 diapositivas subidas en ${result.versionId}.`)
+  console.log(`${result.deck}: ${result.uploaded} diapositivas subidas en ${result.versionId}.`)
 }
 
 console.log(
