@@ -1,8 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import type { MouseEventHandler } from 'react'
 
-const officialLogoUrl =
-  'https://inminer.es/wp-content/uploads/2023/03/logo-inminer-2.png'
+const officialLogoUrl = '/images/inminer-logo.jpeg'
 
 export function Logo({
   inverse = false,
@@ -21,10 +20,9 @@ export function Logo({
       <img
         className="brand__image"
         src={officialLogoUrl}
-        alt="Inmíner"
-        width="112"
-        height="34"
-        style={inverse ? { filter: 'brightness(0) invert(1)' } : undefined}
+        alt="Inmíner Ingeniería"
+        width="144"
+        height="59"
       />
       <span className="brand__divider" aria-hidden="true" />
       <span
