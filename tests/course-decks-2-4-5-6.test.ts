@@ -10,9 +10,24 @@ const course2ReplacementUrl = new URL(
   '../supabase/migrations/20260813061815_replace_course_2_official_deck.sql',
   import.meta.url,
 )
+const course4AudioPlayerUrl = new URL(
+  '../supabase/migrations/20260813111500_enable_course_four_audio_player.sql',
+  import.meta.url,
+)
 const uploaderUrl = new URL('../scripts/upload-course-decks.mjs', import.meta.url)
 const exporterUrl = new URL('../scripts/export-course-decks.ps1', import.meta.url)
 const migrationsDirectoryUrl = new URL('../supabase/migrations/', import.meta.url)
+
+test('el curso 4 abre el reproductor combinado y exige sus 50 MP3', async () => {
+  const sql = await readFile(course4AudioPlayerUrl, 'utf8')
+
+  assert.match(sql, /set content_mode = 'audio'/)
+  assert.match(sql, /module\.position between 1 and 5/)
+  assert.match(sql, /object\.metadata->>'mimetype' = 'audio\/mpeg'/)
+  assert.match(sql, /audio_lesson_count <> 5/)
+  assert.match(sql, /playable_segment_count <> 50/)
+  assert.match(sql, /stored_audio_count <> 50/)
+})
 
 test('la migración enlaza dos diapositivas privadas a los 50 audios de cada curso válido', async () => {
   const sql = await readFile(migrationUrl, 'utf8')
