@@ -454,14 +454,16 @@ span {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  min-width: 188px;
+  min-width: 220px;
 }
 
 .brand__image {
-  width: 112px;
-  height: 34px;
-  object-fit: contain;
-  object-position: left center;
+  width: 144px;
+  height: 59px;
+  flex: 0 0 auto;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .brand__divider {
@@ -3042,7 +3044,8 @@ button.admin-list__item {
   }
 
   .brand__image {
-    width: 92px;
+    width: 116px;
+    height: 48px;
   }
 
   .brand {
