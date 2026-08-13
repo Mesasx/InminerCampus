@@ -2327,6 +2327,37 @@ span {
   line-height: 1.7;
 }
 
+.lesson-notes__content {
+  display: grid;
+  gap: 24px;
+}
+
+.lesson-notes__content section {
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-notes__content h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.lesson-notes__content p,
+.lesson-notes__content ul {
+  margin: 0;
+}
+
+.lesson-notes__key {
+  border-left: 4px solid var(--orange);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px;
+  background: rgba(233, 120, 36, 0.08);
+}
+
+.lesson-notes__key p {
+  margin: 5px 0 0;
+}
+
 .lesson-notes ul,
 .evaluation-review ul {
   display: grid;
