@@ -14,6 +14,14 @@ const pdfUrl = new URL(
   '../public/course-materials/arranque-20h/formacion-inicial-arranque-20h.pdf',
   import.meta.url,
 )
+const currentPdfUrl = new URL(
+  '../public/course-materials/arranque-20h/formacion-inicial-arranque-20h-actual.pdf',
+  import.meta.url,
+)
+const currentDetailsMigrationUrl = new URL(
+  '../supabase/migrations/20260813114324_current_slide_details_and_pdf.sql',
+  import.meta.url,
+)
 
 test('includes all 100 slides and the complete 20-hour arranque PDF', async () => {
   const slideFiles = (await readdir(slideDirectoryUrl))
@@ -26,6 +34,21 @@ test('includes all 100 slides and the complete 20-hour arranque PDF', async () =
 
   const pdf = await stat(pdfUrl)
   assert.ok(pdf.size > 16_000_000)
+})
+
+test('publishes the current 50-slide presentation as the downloadable PDF', async () => {
+  const [pdf, header, sql] = await Promise.all([
+    stat(currentPdfUrl),
+    readFile(currentPdfUrl).then((content) => content.subarray(0, 4).toString()),
+    readFile(currentDetailsMigrationUrl, 'utf8'),
+  ])
+
+  assert.equal(header, '%PDF')
+  assert.equal(pdf.size, 7_538_898)
+  assert.match(sql, /formacion-inicial-arranque-20h-actual\.pdf/)
+  assert.match(sql, /Cursos Pedro \(Google Drive\)/)
+  assert.match(sql, /detailed_slides <> 100/)
+  assert.match(sql, /current_pdf_resources <> 11/)
 })
 test('publishes only the 20-hour offer with 50 chapters and keeps its assessment', async () => {
   const sql = await readFile(migrationUrl, 'utf8')

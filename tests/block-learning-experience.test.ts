@@ -51,7 +51,10 @@ test('slides show and download their course, regulation, and block numbering', (
 
 test('audio transcript and unique specific information are separate sections', () => {
   assert.match(player, /Transcripción del audio/)
-  assert.match(player, /Información específica de esta parte/)
+  assert.match(player, /Información específica de la diapositiva/)
+  assert.match(player, /activeSlide\?\.body\?\.trim\(\)/)
+  assert.match(player, /activeSlide\?\.source_page\?\.match/)
+  assert.match(lessonRoute, /resource\.kind === 'presentation'/)
   assert.match(migration, /Every playable segment must have an audio transcript/)
   assert.match(migration, /Every playable segment must have approved specific information/)
   assert.match(migration, /ITC 02\.0\.02 · Orden TED\/723\/2021 · Cursos Pedro/)

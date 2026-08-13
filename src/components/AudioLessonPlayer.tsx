@@ -595,7 +595,18 @@ export function AudioLessonPlayer({
   const expandedSlide = activeSegment.lesson_segment_slides.find(
     (slide) => slide.id === expandedSlideId,
   )
-  const pdfPage = activeNote?.source_pages.match(/\d+/)?.[0]
+  const activeSpecificText = activeSlide?.body?.trim() || activeNote?.summary || ''
+  const activeSpecificPoints = (activeNote?.key_points ?? []).filter(
+    (point) => !activeSpecificText.includes(point),
+  )
+  const activeSourceLabel = activeSlide?.source_label || activeNote?.source_label
+  const activeSourcePages = [
+    activeSlide?.source_page ? `Diapositiva ${activeSlide.source_page}` : null,
+    activeNote?.source_pages,
+  ]
+    .filter(Boolean)
+    .join(' · ')
+  const pdfPage = activeSlide?.source_page?.match(/\d+/)?.[0]
   const pdfLabel = pdfPage
     ? `Ver PDF · página ${pdfPage}`
     : 'Ver PDF · consulta general'
@@ -858,28 +869,39 @@ export function AudioLessonPlayer({
         ) : null}
       </article>
 
-      {activeNote ? (
+      {activeNote || activeSlide?.body ? (
         <section className="panel lesson-notes">
           <div className="panel__header">
             <div>
               <span className="eyebrow">Parte {blockPosition}.{activeIndex + 1}</span>
-              <h2>Información específica de esta parte</h2>
+              <h2>
+                Información específica de la diapositiva {blockPosition}.
+                {activeIndex + 1}
+              </h2>
             </div>
           </div>
-          <p>{activeNote.summary}</p>
-          <ul>
-            {activeNote.key_points.map((point) => <li key={point}>{point}</li>)}
-          </ul>
-          <div className="lesson-notes__stop">
-            <strong>Criterio preventivo o de parada</strong>
-            <p>{activeNote.stop_criterion}</p>
-          </div>
-          <p className="lesson-notes__source">
-            Fuente: {activeNote.source_label}
-          </p>
-          <p className="lesson-notes__source">
-            Páginas relacionadas: {activeNote.source_pages}
-          </p>
+          <p>{activeSpecificText}</p>
+          {activeSpecificPoints.length ? (
+            <ul>
+              {activeSpecificPoints.map((point) => <li key={point}>{point}</li>)}
+            </ul>
+          ) : null}
+          {activeNote?.stop_criterion ? (
+            <div className="lesson-notes__stop">
+              <strong>Criterio preventivo o de parada</strong>
+              <p>{activeNote.stop_criterion}</p>
+            </div>
+          ) : null}
+          {activeSourceLabel ? (
+            <p className="lesson-notes__source">
+              Fuente: {activeSourceLabel}
+            </p>
+          ) : null}
+          {activeSourcePages ? (
+            <p className="lesson-notes__source">
+              Referencias relacionadas: {activeSourcePages}
+            </p>
+          ) : null}
           <button
             className="button button--outline lesson-notes__pdf"
             disabled={!pdfViewerUrl}
