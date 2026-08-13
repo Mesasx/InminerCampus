@@ -1,6 +1,7 @@
 import {
   ChevronLeft,
   ChevronRight,
+  Download,
   ExternalLink,
   FileText,
   Maximize2,
@@ -109,6 +110,8 @@ export function AudioLessonPlayer({
   progress: sourceProgress,
   initialSegments,
   blockPosition = 1,
+  courseTitle = 'Curso Inmíner',
+  regulationLabel = 'Formación preventiva',
   pdfResource = null,
   onLessonProgress,
   previewMode = false,
@@ -118,6 +121,8 @@ export function AudioLessonPlayer({
   progress?: AudioProgress[]
   initialSegments?: LessonAudioSegment[]
   blockPosition?: number
+  courseTitle?: string
+  regulationLabel?: string
   pdfResource?: CoursePdfResource | null
   onLessonProgress?: () => void
   previewMode?: boolean
@@ -436,6 +441,95 @@ export function AudioLessonPlayer({
     setActiveSlideIndex(Math.min(Math.max(index, 0), lastIndex))
   }
 
+  async function downloadCurrentSlide() {
+    if (!activeSlide) return
+    const source = slideSources[activeSlide.id]
+    if (!source) {
+      setNotice('La diapositiva actual todavía no está disponible para descargar.')
+      return
+    }
+
+    try {
+      const response = await fetch(source)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const imageBlob = await response.blob()
+      const imageUrl = URL.createObjectURL(imageBlob)
+      const image = new Image()
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve()
+        image.onerror = () => reject(new Error('No se pudo cargar la imagen'))
+        image.src = imageUrl
+      })
+
+      const width = SLIDE_INTRINSIC_WIDTH
+      const headerHeight = 150
+      const height = headerHeight + SLIDE_INTRINSIC_HEIGHT
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const context = canvas.getContext('2d')
+      if (!context) throw new Error('Canvas no disponible')
+
+      context.fillStyle = '#ffffff'
+      context.fillRect(0, 0, width, height)
+      context.fillStyle = '#ef7d00'
+      context.fillRect(0, 0, 12, headerHeight)
+      context.fillStyle = '#17202a'
+      context.font = '700 38px Arial, sans-serif'
+      context.fillText(courseTitle, 52, 62, width - 104)
+      context.fillStyle = '#4f5962'
+      context.font = '600 26px Arial, sans-serif'
+      context.fillText(regulationLabel, 52, 112, width - 260)
+      context.fillStyle = '#d4d8dc'
+      context.fillRect(width - 190, 78, 2, 36)
+      context.fillStyle = '#ef7d00'
+      context.font = '700 30px Arial, sans-serif'
+      context.fillText(`${blockPosition}.${activeIndex + 1}`, width - 158, 108)
+
+      const scale = Math.min(
+        width / image.naturalWidth,
+        SLIDE_INTRINSIC_HEIGHT / image.naturalHeight,
+      )
+      const drawWidth = image.naturalWidth * scale
+      const drawHeight = image.naturalHeight * scale
+      context.fillStyle = '#11191e'
+      context.fillRect(0, headerHeight, width, SLIDE_INTRINSIC_HEIGHT)
+      context.drawImage(
+        image,
+        (width - drawWidth) / 2,
+        headerHeight + (SLIDE_INTRINSIC_HEIGHT - drawHeight) / 2,
+        drawWidth,
+        drawHeight,
+      )
+      URL.revokeObjectURL(imageUrl)
+
+      const downloadBlob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob)
+          else reject(new Error('No se pudo generar la descarga'))
+        }, 'image/png')
+      })
+      const downloadUrl = URL.createObjectURL(downloadBlob)
+      const link = document.createElement('a')
+      const safeCourse = courseTitle
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase()
+      link.download = `${safeCourse}-${blockPosition}.${activeIndex + 1}.png`
+      link.href = downloadUrl
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(downloadUrl)
+      setNotice('Se ha descargado la diapositiva actual.')
+    } catch (error) {
+      console.error('[slide-download] No se pudo descargar la diapositiva', error)
+      setNotice('No se ha podido descargar la diapositiva. Inténtalo de nuevo.')
+    }
+  }
+
   // Precarga la diapositiva anterior y la siguiente para que el cambio de
   // diapositiva sea instantáneo una vez que su URL firmada ya está resuelta.
   useEffect(() => {
@@ -464,12 +558,18 @@ export function AudioLessonPlayer({
       if (expandedSlideId || pdfOpen) return
       const target = event.target as HTMLElement | null
       if (target?.matches('input, textarea, select, button, a')) return
-      if (event.key === 'ArrowLeft') selectSlide(activeSlideIndex - 1)
-      if (event.key === 'ArrowRight') selectSlide(activeSlideIndex + 1)
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        selectSegment(activeIndex - 1)
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        selectSegment(activeIndex + 1)
+      }
     }
     document.addEventListener('keydown', handleSlideKeys)
     return () => document.removeEventListener('keydown', handleSlideKeys)
-  }, [activeSlideIndex, expandedSlideId, pdfOpen])
+  }, [activeIndex, expandedSlideId, firstIncompleteIndex, pdfOpen, previewMode, segmentState, segments])
 
   if (!segments.length) {
     return (
@@ -575,9 +675,11 @@ export function AudioLessonPlayer({
             <span className="eyebrow">Apoyo visual</span>
             <h2>{activeSlide?.title ?? 'Diapositiva'}</h2>
           </div>
-          <span className="lesson-slides__counter">
-            {activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}
-          </span>
+          {activeSegment.lesson_segment_slides.length > 1 ? (
+            <span className="lesson-slides__counter">
+              {activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}
+            </span>
+          ) : null}
         </div>
         {activeSlide ? (
           <article
@@ -587,6 +689,11 @@ export function AudioLessonPlayer({
               touchStartXRef.current = event.changedTouches[0].clientX
             }}
           >
+            <SlideIdentity
+              courseTitle={courseTitle}
+              numbering={`${blockPosition}.${activeIndex + 1}`}
+              regulationLabel={regulationLabel}
+            />
             <div className="lesson-slide__canvas">
               {slideSources[activeSlide.id] ? (
                 <img
@@ -599,27 +706,39 @@ export function AudioLessonPlayer({
                 <div className="lesson-slide__missing">Diapositiva no disponible</div>
               )}
             </div>
-            <div className="lesson-slide__toolbar">
+            <div className={`lesson-slide__toolbar${activeSegment.lesson_segment_slides.length === 1 ? ' lesson-slide__toolbar--single' : ''}`}>
+              {activeSegment.lesson_segment_slides.length > 1 ? (
+                <>
+                  <button
+                    aria-label="Diapositiva anterior"
+                    className="icon-button"
+                    disabled={activeSlideIndex === 0}
+                    onClick={() => selectSlide(activeSlideIndex - 1)}
+                    type="button"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <span>{activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}</span>
+                  <button
+                    aria-label="Diapositiva siguiente"
+                    className="icon-button"
+                    disabled={
+                      activeSlideIndex >= activeSegment.lesson_segment_slides.length - 1
+                    }
+                    onClick={() => selectSlide(activeSlideIndex + 1)}
+                    type="button"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </>
+              ) : null}
               <button
-                aria-label="Diapositiva anterior"
-                className="icon-button"
-                disabled={activeSlideIndex === 0}
-                onClick={() => selectSlide(activeSlideIndex - 1)}
+                aria-label={`Descargar ${activeSlide.title}`}
+                className="button button--outline lesson-slide__download"
+                onClick={() => void downloadCurrentSlide()}
                 type="button"
               >
-                <ChevronLeft size={20} />
-              </button>
-              <span>{activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}</span>
-              <button
-                aria-label="Diapositiva siguiente"
-                className="icon-button"
-                disabled={
-                  activeSlideIndex >= activeSegment.lesson_segment_slides.length - 1
-                }
-                onClick={() => selectSlide(activeSlideIndex + 1)}
-                type="button"
-              >
-                <ChevronRight size={20} />
+                <Download size={17} /> Descargar diapositiva
               </button>
               <button
                 aria-label={`Ver ${activeSlide.title} a pantalla completa`}
@@ -733,7 +852,7 @@ export function AudioLessonPlayer({
 
         {activeSegment.narration_text ? (
           <div className="audio-player__script">
-            <span className="eyebrow">Información detallada de esta parte</span>
+            <span className="eyebrow">Transcripción del audio</span>
             <p>{activeSegment.narration_text}</p>
           </div>
         ) : null}
@@ -744,7 +863,7 @@ export function AudioLessonPlayer({
           <div className="panel__header">
             <div>
               <span className="eyebrow">Parte {blockPosition}.{activeIndex + 1}</span>
-              <h2>Explicación y puntos esenciales</h2>
+              <h2>Información específica de esta parte</h2>
             </div>
           </div>
           <p>{activeNote.summary}</p>
@@ -802,15 +921,12 @@ export function AudioLessonPlayer({
           ref={dialogRef}
           role="dialog"
         >
-          <button
-            aria-label="Cerrar diapositiva"
-            className="lesson-slide-modal__close"
-            onClick={() => setExpandedSlideId(null)}
-            type="button"
-          >
-            <X size={22} />
-          </button>
           <article className="lesson-slide lesson-slide--expanded">
+            <SlideIdentity
+              courseTitle={courseTitle}
+              numbering={`${blockPosition}.${activeIndex + 1}`}
+              regulationLabel={regulationLabel}
+            />
             {slideSources[expandedSlide.id] ? (
               <img
                 alt={expandedSlide.alt_text ?? expandedSlide.title}
@@ -819,15 +935,7 @@ export function AudioLessonPlayer({
                 width={SLIDE_INTRINSIC_WIDTH}
               />
             ) : null}
-            <span className="eyebrow">
-              Parte {blockPosition}.{activeIndex + 1} · diapositiva {expandedSlide.position}
-            </span>
-            <h2>{expandedSlide.title}</h2>
-            <small className="lesson-slide__source">
-              {[expandedSlide.source_label, expandedSlide.source_page]
-                .filter(Boolean)
-                .join(' · ')}
-            </small>
+            <span className="lesson-slide-modal__hint">Pulsa ESC para salir</span>
           </article>
         </div>
       ) : null}
@@ -876,5 +984,26 @@ export function AudioLessonPlayer({
         </div>
       ) : null}
     </section>
+  )
+}
+
+function SlideIdentity({
+  courseTitle,
+  numbering,
+  regulationLabel,
+}: {
+  courseTitle: string
+  numbering: string
+  regulationLabel: string
+}) {
+  return (
+    <header className="lesson-slide__identity">
+      <strong>{courseTitle}</strong>
+      <span>
+        {regulationLabel}
+        <i aria-hidden="true" />
+        <b>{numbering}</b>
+      </span>
+    </header>
   )
 }

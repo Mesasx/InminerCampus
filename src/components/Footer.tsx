@@ -45,6 +45,7 @@ export function Footer() {
             InmínerCampus es la plataforma de formación de Inmíner Ingeniería,
             S.L.
           </span>
+          <span>Plataforma creada por Pedro Mesas de la Fuente.</span>
         </div>
       </div>
     </footer>
