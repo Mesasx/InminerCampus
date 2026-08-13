@@ -4,6 +4,26 @@ import test from 'node:test'
 
 const playerPath = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
 const migrationsDirectory = new URL('../supabase/migrations/', import.meta.url)
+const courseFourDurationsPath = new URL(
+  '../supabase/migrations/20260813123000_fix_course_four_audio_durations.sql',
+  import.meta.url,
+)
+
+test('el curso 4 usa las 50 duraciones reales y finaliza con el tiempo del MP3', async () => {
+  const [player, sql] = await Promise.all([
+    readFile(playerPath, 'utf8'),
+    readFile(courseFourDurationsPath, 'utf8'),
+  ])
+  const durationRows = sql.match(/\(\d, \d{1,2}, \d{2}\)/g) ?? []
+
+  assert.equal(durationRows.length, 50)
+  assert.doesNotMatch(sql, /\(\d, \d{1,2}, 120\)/)
+  assert.match(sql, /exact_duration_count <> 50/)
+  assert.match(
+    player,
+    /reportProgress\(event\.currentTarget\.duration, true\)/,
+  )
+})
 
 test('el alumno puede ver el detalle de la parte y recibe un error útil si falla el audio', async () => {
   const player = await readFile(playerPath, 'utf8')
