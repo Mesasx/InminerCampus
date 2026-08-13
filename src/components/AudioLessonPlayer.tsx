@@ -396,10 +396,21 @@ export function AudioLessonPlayer({
   async function togglePlayback() {
     const audio = audioRef.current
     if (!audio) return
-    if (audio.paused) {
-      await audio.play()
-    } else {
-      audio.pause()
+    try {
+      if (audio.paused) {
+        await audio.play()
+        setNotice('')
+      } else {
+        audio.pause()
+      }
+    } catch (error) {
+      console.error('[audio-player] No se pudo reproducir el audio', {
+        segmentId: activeSegment?.id,
+        hasSource: Boolean(activeSegment && sources[activeSegment.id]),
+        error,
+      })
+      setPlaying(false)
+      setNotice('No se ha podido reproducir el audio. Recarga la página e inténtalo de nuevo.')
     }
   }
 
@@ -658,6 +669,10 @@ export function AudioLessonPlayer({
           }}
           onPause={() => setPlaying(false)}
           onPlay={() => setPlaying(true)}
+          onError={() => {
+            setPlaying(false)
+            setNotice('El navegador no ha podido cargar este audio. Recarga la página e inténtalo de nuevo.')
+          }}
           onRateChange={(event) => {
             event.currentTarget.playbackRate = 1
           }}
@@ -716,9 +731,9 @@ export function AudioLessonPlayer({
           </div>
         ) : null}
 
-        {previewMode && activeSegment.narration_text ? (
+        {activeSegment.narration_text ? (
           <div className="audio-player__script">
-            <span className="eyebrow">Guion del audio</span>
+            <span className="eyebrow">Información detallada de esta parte</span>
             <p>{activeSegment.narration_text}</p>
           </div>
         ) : null}
