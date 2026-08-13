@@ -32,6 +32,23 @@ const selectedDeckKeys = new Set(
 
 const decks = [
   {
+    key: 'course-1-arranque-5h',
+    slug: 'operador-maquinaria-arranque-carga-viales',
+    durationHours: 5,
+    extension: 'jpg',
+    contentType: 'image/jpeg',
+    slidesPerAudio: 1,
+    localFile(_block, _part, _slide, page) {
+      return path.join(
+        repositoryRoot,
+        '.work',
+        'course-slide-decks-course4-v3',
+        'course-4',
+        `slide-${String(page).padStart(3, '0')}.jpg`,
+      )
+    },
+  },
+  {
     key: 'course-2',
     slug: 'operador-maquinaria-transporte-camion-volquete',
     durationHours: 5,
