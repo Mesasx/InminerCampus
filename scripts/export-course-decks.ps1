@@ -16,6 +16,14 @@ if (-not $OutputRoot) {
 
 $decks = @(
   @{
+    Key = 'course-2'
+    Filename = 'Curso_2_Transporte_Camion_Volquete_Diapositivas_InminerCampus.pptx'
+  },
+  @{
+    Key = 'course-3'
+    Filename = 'Curso_3_Establecimiento_Beneficio_InminerCampus_FOTOS_GENERADAS_OPTIMIZADO.pptx'
+  },
+  @{
     Key = 'course-4'
     Filename = 'Curso_4_Maquinaria_Arranque_Carga_y_Viales_InminerCampus_MEJORADO.pptx'
   },
