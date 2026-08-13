@@ -19,27 +19,21 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 
 const repositoryRoot = process.cwd()
 const bucket = 'course-materials'
-const release = 'course-deck-20260812'
+const release = process.env.COURSE_DECK_RELEASE ?? 'course-deck-20260813-v2'
+const selectedDeckKeys = new Set(
+  (process.env.COURSE_DECK_KEYS ?? 'course-2,course-4,course-5,course-6')
+    .split(',')
+    .map((key) => key.trim())
+    .filter(Boolean),
+)
 
 const decks = [
   {
     key: 'course-2',
     slug: 'operador-maquinaria-transporte-camion-volquete',
     durationHours: 5,
-    extension: 'png',
-    contentType: 'image/png',
-    localFile(block, part, slide, _page) {
-      return path.join(
-        repositoryRoot,
-        'Contenido Cursos',
-        'Diapositivas y documentos',
-        'Curso 2',
-        'slides',
-        `block-${block}`,
-        `audio-${block}-${String(part).padStart(2, '0')}`,
-        `audio-${block}-${String(part).padStart(2, '0')}-slide-${String(slide).padStart(2, '0')}.png`,
-      )
-    },
+    extension: 'jpg',
+    contentType: 'image/jpeg',
   },
   {
     key: 'course-4',
@@ -175,9 +169,20 @@ async function uploadDeck(deck) {
   return { deck: deck.key, versionId, uploaded }
 }
 
-for (const deck of decks) {
+const selectedDecks = decks.filter((deck) => selectedDeckKeys.has(deck.key))
+if (selectedDecks.length !== selectedDeckKeys.size) {
+  const knownKeys = new Set(decks.map((deck) => deck.key))
+  const unknownKeys = [...selectedDeckKeys].filter((key) => !knownKeys.has(key))
+  throw new Error(`Cursos desconocidos en COURSE_DECK_KEYS: ${unknownKeys.join(', ')}`)
+}
+
+let totalUploaded = 0
+for (const deck of selectedDecks) {
   const result = await uploadDeck(deck)
+  totalUploaded += result.uploaded
   console.log(`${result.deck}: 100 diapositivas subidas en ${result.versionId}.`)
 }
 
-console.log('Carga completa: 400 diapositivas privadas subidas.')
+console.log(
+  `Carga completa: ${totalUploaded} diapositivas privadas subidas en ${release}.`,
+)
