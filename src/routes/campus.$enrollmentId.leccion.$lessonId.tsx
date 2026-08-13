@@ -286,7 +286,9 @@ function Lesson({
     }
   }, [enrollmentId, isAdministrator, lessonId])
 
-  const pdfResource = lesson?.resources.find((resource) => resource.kind === 'pdf')
+  const pdfResource = lesson?.resources.find(
+    (resource) => resource.kind === 'pdf' || resource.kind === 'presentation',
+  )
   const isSlideLesson = lesson?.contentMode === 'slides'
 
   return (
