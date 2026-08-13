@@ -17,7 +17,9 @@ test('las políticas públicas de catálogo dejan de mostrar cursos no listados'
     'lessons_visible',
   ]
   for (const policy of policies) {
-    const section = sql.split(`create policy ${policy}\n`)[1]
+    const section = sql.split(
+      new RegExp(`create policy ${policy}\\r?\\n`, 'i'),
+    )[1]
     assert.ok(section, `falta la política ${policy}`)
     assert.match(section.slice(0, 400), /listed/)
   }
