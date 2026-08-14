@@ -406,11 +406,13 @@ function Lesson({
                 <ShieldCheck color="var(--orange)" size={28} />
               </div>
               <p className="muted">
-                Responde {lesson.quiz.questionCount} preguntas. Necesitas completar{' '}
-                {lesson.quiz.requiredPerfectRounds} rondas perfectas
-                {lesson.quiz.completionMode === 'cumulative_perfect'
-                  ? '; si fallas, conservas las ya conseguidas.'
-                  : ' consecutivas.'}
+                {lesson.quiz.questionCount === 15
+                  ? 'Este test consta de 15 preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarlo debes acertar las 15 preguntas. El siguiente bloque se desbloqueará cuando hayas completado tres intentos perfectos; no es necesario que sean consecutivos.'
+                  : `Esta evaluación consta de ${lesson.quiz.questionCount} preguntas. Debes acertarlas todas y completar ${lesson.quiz.requiredPerfectRounds} intentos perfectos${
+                      lesson.quiz.completionMode === 'cumulative_perfect'
+                        ? '; no es necesario que sean consecutivos.'
+                        : ' consecutivos.'
+                    }`}
               </p>
               <Link
                 className="button button--primary"

@@ -107,9 +107,22 @@ function formatTime(seconds: number) {
 const detailedInformationHeadings = new Set([
   'Objetivo',
   'Explicación detallada',
+  'Explicación de base',
+  'Profundización técnica y criterio preventivo',
   'Aplicación práctica',
+  'Secuencia operativa recomendada',
+  'Caso práctico razonado',
   'Riesgos y errores que deben evitarse',
+  'Errores críticos que deben evitarse',
+  'Comprobación antes de continuar',
   'Idea clave',
+])
+
+const detailedInformationListHeadings = new Set([
+  'Secuencia operativa recomendada',
+  'Riesgos y errores que deben evitarse',
+  'Errores críticos que deben evitarse',
+  'Comprobación antes de continuar',
 ])
 
 function DetailedSpecificInformation({ text }: { text: string }) {
@@ -120,25 +133,46 @@ function DetailedSpecificInformation({ text }: { text: string }) {
 
   if (blocks.length === 1) return <p>{text}</p>
 
+  const sections: Array<{ heading: string | null; blocks: string[] }> = []
+
+  for (const block of blocks) {
+    const lines = block
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+    const heading = lines[0]
+
+    if (detailedInformationHeadings.has(heading)) {
+      sections.push({ heading, blocks: lines.slice(1) })
+      continue
+    }
+
+    const activeSection = sections.at(-1)
+    if (activeSection?.heading) {
+      activeSection.blocks.push(block)
+    } else {
+      sections.push({ heading: null, blocks: [block] })
+    }
+  }
+
   return (
     <div className="lesson-notes__content">
-      {blocks.map((block, blockIndex) => {
-        const lines = block
-          .split('\n')
-          .map((line) => line.trim())
-          .filter(Boolean)
-        const heading = lines[0]
-        const content = detailedInformationHeadings.has(heading)
-          ? lines.slice(1)
-          : lines
+      {sections.map((section, sectionIndex) => {
+        const { heading } = section
 
-        if (heading === 'Riesgos y errores que deben evitarse') {
+        if (heading && detailedInformationListHeadings.has(heading)) {
+          const items = section.blocks.flatMap((block) =>
+            block
+              .split('\n')
+              .map((line) => line.trim().replace(/^[-•]\s*/, ''))
+              .filter(Boolean),
+          )
           return (
-            <section key={`${heading}-${blockIndex}`}>
+            <section key={`${heading}-${sectionIndex}`}>
               <h3>{heading}</h3>
               <ul>
-                {content.map((line) => (
-                  <li key={line}>{line.replace(/^[-•]\s*/, '')}</li>
+                {items.map((item) => (
+                  <li key={item}>{item}</li>
                 ))}
               </ul>
             </section>
@@ -149,24 +183,30 @@ function DetailedSpecificInformation({ text }: { text: string }) {
           return (
             <aside
               className="lesson-notes__key"
-              key={`${heading}-${blockIndex}`}
+              key={`${heading}-${sectionIndex}`}
             >
               <strong>{heading}</strong>
-              {content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {section.blocks.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </aside>
           )
         }
 
-        if (detailedInformationHeadings.has(heading)) {
+        if (heading) {
           return (
-            <section key={`${heading}-${blockIndex}`}>
+            <section key={`${heading}-${sectionIndex}`}>
               <h3>{heading}</h3>
-              {content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {section.blocks.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </section>
           )
         }
 
-        return lines.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+        return section.blocks.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))
       })}
     </div>
   )
