@@ -25,10 +25,18 @@ export function PublicHeader({ editorial = false }: { editorial?: boolean }) {
   useEffect(() => {
     if (!editorial) return
 
-    const updateHeader = () => setIsScrolled(window.scrollY > 28)
-    updateHeader()
-    window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
+    const sentinel = document.getElementById('campus-hero-sentinel')
+    if (!sentinel) {
+      setIsScrolled(window.scrollY > 28)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { rootMargin: '-1px 0px 0px 0px', threshold: 0 },
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
   }, [editorial])
 
   return (
@@ -39,7 +47,13 @@ export function PublicHeader({ editorial = false }: { editorial?: boolean }) {
     >
       <div className="container public-header__inner">
         <Logo inverse={editorial} />
-        <nav className="desktop-nav" aria-label="Navegación principal">
+        <nav
+          className={`desktop-nav${
+            editorial && !isScrolled ? ' desktop-nav--hidden' : ''
+          }`}
+          aria-label="Navegación principal"
+          aria-hidden={editorial && !isScrolled}
+        >
           {items.map((item) => (
             <Link key={item.to} to={item.to} activeProps={{ 'aria-current': 'page' }}>
               {item.label}
@@ -56,20 +70,24 @@ export function PublicHeader({ editorial = false }: { editorial?: boolean }) {
             </Link>
           </div>
         ) : null}
-        <details className="mobile-menu">
+        <details
+          className={`mobile-menu${
+            editorial && !isScrolled ? ' mobile-menu--hidden' : ''
+          }`}
+        >
           <summary aria-label="Abrir menú">
             <Menu size={20} />
           </summary>
-          <nav className="mobile-menu__panel" aria-label="Navegación móvil">
-            {items.map((item) => (
-              <Link key={item.to} to={item.to}>
-                {item.label}
-              </Link>
-            ))}
-            {!editorial ? <Link to="/acceso">Acceder</Link> : null}
-            {!editorial ? <Link to="/registro">Crear cuenta</Link> : null}
-          </nav>
         </details>
+        <nav className="mobile-menu__panel" aria-label="Navegación móvil">
+          {items.map((item) => (
+            <Link key={item.to} to={item.to}>
+              {item.label}
+            </Link>
+          ))}
+          {!editorial ? <Link to="/acceso">Acceder</Link> : null}
+          {!editorial ? <Link to="/registro">Crear cuenta</Link> : null}
+        </nav>
       </div>
     </header>
   )

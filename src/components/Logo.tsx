@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import type { MouseEventHandler } from 'react'
 
-const officialLogoUrl = '/images/inminer-logo.jpeg'
+const officialLogoUrl = '/brand/inminer-logo-transparent.png'
 
 export function Logo({
   inverse = false,
@@ -22,7 +22,7 @@ export function Logo({
         src={officialLogoUrl}
         alt="Inmíner Ingeniería"
         width="144"
-        height="59"
+        height="52"
       />
       <span className="brand__divider" aria-hidden="true" />
       <span
