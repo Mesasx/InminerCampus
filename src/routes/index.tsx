@@ -1,177 +1,197 @@
+import { useEffect, useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import {
-  ArrowRight,
-  BadgeCheck,
-  Building2,
-  ClipboardCheck,
-  PlayCircle,
-  ShieldCheck,
-} from 'lucide-react'
+import { ArrowDown, ArrowRight } from 'lucide-react'
 import { PublicLayout } from '../components/PublicLayout'
+import { usePublicCourses } from '../hooks/usePublicCourses'
+import { modalityLabel } from '../lib/format'
+import type { PublicCourse } from '../lib/types'
+
+const heroImage = '/images/hero-inminer-campus.jpg'
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    links: [{ rel: 'preload', as: 'image', href: heroImage }],
+  }),
   component: HomePage,
 })
 
-function HomePage() {
+const editorialImagesBySlug: Record<string, string> = {
+  'operador-maquinaria-arranque-carga-viales':
+    '/images/campus-carousel-operacion.jpg',
+  'operador-maquinaria-transporte-camion-volquete':
+    '/images/campus-carousel-inspeccion.jpg',
+  'prevencion-polvo-silice-cristalina-respirable':
+    '/images/campus-carousel-silice.jpg',
+  'formacion-stvh': '/images/curso-stvh-portada.jpg',
+}
+
+function courseImage(course: PublicCourse) {
+  if (course.cover_storage_path?.startsWith('/')) {
+    return course.cover_storage_path
+  }
+
+  return editorialImagesBySlug[course.slug] ?? '/images/inminer-campus-hero-engineering.png'
+}
+
+function CourseEditorialSlide({
+  course,
+  index,
+  total,
+}: {
+  course: PublicCourse
+  index: number
+  total: number
+}) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.24 },
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
+  const position = String(index + 1).padStart(2, '0')
+  const count = String(total).padStart(2, '0')
+
   return (
-    <PublicLayout>
-      <section className="hero">
-        <div className="hero__stage">
-          <img
-            alt="Maquinaria de perforación minera sobre planos técnicos"
-            className="hero__engineering-visual"
-            src="/images/inminer-campus-hero-engineering.png"
-          />
-          <div className="container hero__grid">
-            <div className="hero__content">
-              <span className="eyebrow">
-                Formación Preventiva Oficial en seguridad minera
-              </span>
-              <h1 aria-label="Conocimiento que se convierte en seguridad.">
-                <span className="hero__line">Conocimiento </span>
-                <span className="hero__line">que se convierte </span>
-                <span className="hero__line">
-                  en{' '}
-                  <strong>seguridad.</strong>
-                </span>
-              </h1>
-              <p className="hero__copy">
-                Formación por puesto de trabajo conforme a la ITC 02.1.02 y
-                formación específica frente al polvo y la sílice conforme a la
-                ITC 02.0.02, con evaluación, trazabilidad y práctica cuando
-                proceda.
-              </p>
-              <div className="hero__actions">
-                <Link className="button button--primary" to="/catalogo">
-                  Explorar cursos <ArrowRight size={18} />
-                </Link>
-                <Link className="button button--outline" to="/empresas">
-                  Formación para empresas
-                </Link>
-              </div>
-            </div>
+    <section
+      className={`course-editorial${isVisible ? ' is-visible' : ''}`}
+      data-tone={index % 2 === 0 ? 'dark' : 'warm'}
+      ref={sectionRef}
+    >
+      <img
+        alt={`Imagen del curso ${course.title}`}
+        className="course-editorial__image"
+        decoding="async"
+        loading="lazy"
+        src={courseImage(course)}
+      />
+      <div className="course-editorial__shade" aria-hidden="true" />
+
+      <div className="course-editorial__meta">
+        <span aria-label={`Curso ${index + 1} de ${total}`}>
+          {position} <i>/</i> {count}
+        </span>
+        <Link to="/catalogo">Ver todos</Link>
+      </div>
+
+      <div className="course-editorial__content">
+        <p className="course-editorial__eyebrow">
+          {course.specialty ?? 'Formación técnica especializada'}
+        </p>
+        <p className="course-editorial__details">
+          {course.duration_hours} horas · {modalityLabel(course.modality)}
+        </p>
+        <h2>{course.title}</h2>
+        <p className="course-editorial__copy">
+          {course.short_description ??
+            'Formación especializada para aplicar el conocimiento técnico con seguridad y criterio profesional.'}
+        </p>
+        <Link
+          className="editorial-cta editorial-cta--solid"
+          params={{ courseSlug: course.slug }}
+          search={{ version: course.versionId }}
+          to="/cursos/$courseSlug"
+        >
+          Ver curso <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </div>
+    </section>
+  )
+}
+
+function HomePage() {
+  const { courses, loading, loadError } = usePublicCourses()
+
+  return (
+    <PublicLayout editorial>
+      <section className="campus-hero">
+        <img
+          alt="Operario de Inmíner trabajando sobre una explotación minera con maquinaria"
+          className="campus-hero__image"
+          decoding="async"
+          fetchPriority="high"
+          height="941"
+          loading="eager"
+          src={heroImage}
+          width="1672"
+        />
+        <div className="campus-hero__shade" aria-hidden="true" />
+
+        <div className="campus-hero__content">
+          <p className="campus-hero__eyebrow">
+            Formación Preventiva Oficial · ITC 02.1.02
+          </p>
+          <h1 aria-label="Formación que mueve la obra.">
+            <span>Formación</span>
+            <span>que mueve</span>
+            <span>la obra.</span>
+          </h1>
+          <p className="campus-hero__copy">
+            Maquinaria, minería, seguridad y formación preventiva especializada.
+          </p>
+          <div className="campus-hero__actions">
+            <Link className="editorial-cta editorial-cta--solid" to="/catalogo">
+              Explorar cursos <ArrowRight aria-hidden="true" size={17} />
+            </Link>
+            <Link className="editorial-cta editorial-cta--quiet" to="/mis-cursos">
+              Mis cursos <ArrowRight aria-hidden="true" size={17} />
+            </Link>
           </div>
         </div>
-        <div className="container home-journey" aria-label="Proceso formativo">
-          <article>
-            <span>01</span>
-            <div>
-              <h2>Elige tu formación</h2>
-              <p>Cursos oficiales y específicos adaptados a tu puesto.</p>
-            </div>
-          </article>
-          <article>
-            <span>02</span>
-            <div>
-              <h2>Aprende con rigor</h2>
-              <p>Contenidos claros, actualizados y orientados a la práctica.</p>
-            </div>
-          </article>
-          <article>
-            <span>03</span>
-            <div>
-              <h2>Evalúa y acredita</h2>
-              <p>Evaluación conforme a normativa y criterios oficiales.</p>
-            </div>
-          </article>
-          <article>
-            <span>04</span>
-            <div>
-              <h2>Aplica con seguridad</h2>
-              <p>
-                Conocimiento que se traduce en decisiones seguras en el trabajo.
-              </p>
-            </div>
-          </article>
-        </div>
+
+        <a className="campus-hero__scroll" href="#feed-cursos">
+          <span>Descubrir formación</span>
+          <ArrowDown aria-hidden="true" size={16} />
+        </a>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">Una plataforma rigurosa</span>
-              <h2>Formarse con claridad. Acreditarlo con confianza.</h2>
-            </div>
-            <p>
-              Cada paso formativo queda organizado y registrado, desde el acceso
-              al contenido hasta la evaluación y la validación práctica.
-            </p>
-          </div>
-          <div className="feature-grid">
-            <article className="feature-card">
-              <span className="feature-card__icon">
-                <PlayCircle size={23} />
-              </span>
-              <h3>Aprendizaje guiado</h3>
-              <p>
-                Lecciones secuenciales con vídeo, documentación técnica y
-                controles de progreso.
-              </p>
-            </article>
-            <article className="feature-card">
-              <span className="feature-card__icon">
-                <ClipboardCheck size={23} />
-              </span>
-              <h3>Evaluación exigente</h3>
-              <p>
-                Tests configurables con trazabilidad de intentos y criterios de
-                superación definidos.
-              </p>
-            </article>
-            <article className="feature-card">
-              <span className="feature-card__icon">
-                <ShieldCheck size={23} />
-              </span>
-              <h3>Evidencia verificable</h3>
-              <p>
-                Progreso, asistencia y certificados verificables cuando se
-                cumplen todos los requisitos.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--soft">
-        <div className="container">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">Dos formas de acceder</span>
-              <h2>Para profesionales y para organizaciones.</h2>
-            </div>
-          </div>
-          <div className="feature-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
-            <article className="feature-card">
-              <span className="feature-card__icon">
-                <BadgeCheck size={23} />
-              </span>
-              <h3>Acceso individual</h3>
-              <p>
-                Consulta el catálogo, matricúlate y continúa tu formación desde
-                cualquier dispositivo.
-              </p>
-              <Link className="text-link" to="/catalogo">
-                Ver catálogo →
-              </Link>
-            </article>
-            <article className="feature-card">
-              <span className="feature-card__icon">
-                <Building2 size={23} />
-              </span>
-              <h3>Formación para empresas</h3>
-              <p>
-                Compra plazas, asígnalas a trabajadores y consulta el avance
-                autorizado de tu equipo.
-              </p>
-              <Link className="text-link" to="/empresas">
-                Conocer la solución →
-              </Link>
-            </article>
-          </div>
-        </div>
-      </section>
+      <div className="course-feed" id="feed-cursos">
+        {loading ? (
+          <section className="course-feed__status" aria-live="polite">
+            <p>Catálogo Inmíner</p>
+            <h2>Preparando la formación disponible.</h2>
+          </section>
+        ) : loadError ? (
+          <section className="course-feed__status" role="alert">
+            <p>Catálogo Inmíner</p>
+            <h2>No hemos podido cargar los cursos.</h2>
+            <Link className="editorial-cta editorial-cta--solid" to="/catalogo">
+              Abrir catálogo <ArrowRight aria-hidden="true" size={17} />
+            </Link>
+          </section>
+        ) : courses.length ? (
+          courses.map((course, index) => (
+            <CourseEditorialSlide
+              course={course}
+              index={index}
+              key={course.versionId}
+              total={courses.length}
+            />
+          ))
+        ) : (
+          <section className="course-feed__status">
+            <p>Catálogo Inmíner</p>
+            <h2>Explora la formación técnica disponible.</h2>
+            <Link className="editorial-cta editorial-cta--solid" to="/catalogo">
+              Ver todos los cursos <ArrowRight aria-hidden="true" size={17} />
+            </Link>
+          </section>
+        )}
+      </div>
     </PublicLayout>
   )
 }

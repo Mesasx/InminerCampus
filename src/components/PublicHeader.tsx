@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
 import { Logo } from './Logo'
@@ -10,38 +11,63 @@ const navItems = [
   { to: '/sobre-nosotros' as const, label: 'Sobre nosotros' },
 ]
 
-export function PublicHeader() {
+const editorialNavItems = [
+  { to: '/mis-cursos' as const, label: 'Mis cursos' },
+  { to: '/catalogo' as const, label: 'Cursos' },
+  { to: '/sobre-nosotros' as const, label: 'Sobre nosotros' },
+  { to: '/perfil' as const, label: 'Mi cuenta' },
+]
+
+export function PublicHeader({ editorial = false }: { editorial?: boolean }) {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const items = editorial ? editorialNavItems : navItems
+
+  useEffect(() => {
+    if (!editorial) return
+
+    const updateHeader = () => setIsScrolled(window.scrollY > 28)
+    updateHeader()
+    window.addEventListener('scroll', updateHeader, { passive: true })
+    return () => window.removeEventListener('scroll', updateHeader)
+  }, [editorial])
+
   return (
-    <header className="public-header">
+    <header
+      className={`public-header${editorial ? ' public-header--editorial' : ''}${
+        isScrolled ? ' public-header--scrolled' : ''
+      }`}
+    >
       <div className="container public-header__inner">
-        <Logo />
+        <Logo inverse={editorial} />
         <nav className="desktop-nav" aria-label="Navegación principal">
-          {navItems.map((item) => (
+          {items.map((item) => (
             <Link key={item.to} to={item.to} activeProps={{ 'aria-current': 'page' }}>
               {item.label}
             </Link>
           ))}
         </nav>
-        <div className="header-actions">
-          <Link className="button button--ghost" to="/acceso">
-            Acceder
-          </Link>
-          <Link className="button button--primary" to="/registro">
-            Crear cuenta
-          </Link>
-        </div>
+        {!editorial ? (
+          <div className="header-actions">
+            <Link className="button button--ghost" to="/acceso">
+              Acceder
+            </Link>
+            <Link className="button button--primary" to="/registro">
+              Crear cuenta
+            </Link>
+          </div>
+        ) : null}
         <details className="mobile-menu">
           <summary aria-label="Abrir menú">
             <Menu size={20} />
           </summary>
           <nav className="mobile-menu__panel" aria-label="Navegación móvil">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <Link key={item.to} to={item.to}>
                 {item.label}
               </Link>
             ))}
-            <Link to="/acceso">Acceder</Link>
-            <Link to="/registro">Crear cuenta</Link>
+            {!editorial ? <Link to="/acceso">Acceder</Link> : null}
+            {!editorial ? <Link to="/registro">Crear cuenta</Link> : null}
           </nav>
         </details>
       </div>
