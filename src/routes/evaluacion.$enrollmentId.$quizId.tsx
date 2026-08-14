@@ -43,6 +43,24 @@ type AttemptResult = {
   evaluationCompleted: boolean
 }
 
+function getEvaluationInstructions(attempt: Attempt | null) {
+  if (!attempt) return 'Lee atentamente cada pregunta antes de responder.'
+
+  const questionCount = attempt.questions.length
+  const requiredRounds =
+    attempt.requiredPerfectRounds ?? attempt.requiredStreak
+
+  if (attempt.completionMode === 'consecutive_perfect') {
+    return `Este test consta de ${questionCount} preguntas. Para superarlo debes acertarlas todas y completar ${requiredRounds} intentos perfectos consecutivos.`
+  }
+
+  if (questionCount === 15) {
+    return 'Este test consta de 15 preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarlo debes acertar las 15 preguntas. El siguiente bloque se desbloqueará cuando hayas completado tres intentos perfectos; no es necesario que sean consecutivos.'
+  }
+
+  return `Esta evaluación consta de ${questionCount} preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarla debes acertarlas todas y completar ${requiredRounds} intentos perfectos; no es necesario que sean consecutivos.`
+}
+
 function EvaluationPage() {
   const { enrollmentId, quizId } = Route.useParams()
   return (
@@ -158,11 +176,7 @@ function Evaluation({
         <div>
           <span className="eyebrow">Evaluación</span>
           <h1>{attempt?.title || 'Comprueba tus conocimientos'}</h1>
-          <p>
-            {attempt?.completionMode === 'consecutive_perfect'
-              ? 'Necesitas completar las rondas perfectas de forma consecutiva.'
-              : 'Cada ronda incluye una pregunta por cada parte del Bloque 1. Necesitas acertarlas todas en 3 rondas; las rondas perfectas se acumulan.'}
-          </p>
+          <p>{getEvaluationInstructions(attempt)}</p>
         </div>
         <Link
           className="button button--outline"
