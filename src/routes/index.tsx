@@ -17,40 +17,73 @@ function HomePage() {
   return (
     <PublicLayout>
       <section className="hero">
-        <div className="container hero__grid">
-          <div>
-            <span className="eyebrow">Formación Preventiva Oficial en seguridad minera</span>
-            <h1>
-              Conocimiento que se convierte en <span>seguridad.</span>
-            </h1>
-            <p className="hero__copy">
-              Formación por puesto de trabajo conforme a la ITC 02.1.02 y
-              formación específica frente al polvo y la sílice conforme a la
-              ITC 02.0.02, con evaluación, trazabilidad y práctica cuando proceda.
-            </p>
-            <div className="hero__actions">
-              <Link className="button button--primary" to="/catalogo">
-                Explorar cursos <ArrowRight size={18} />
-              </Link>
-              <Link className="button button--outline" to="/empresas">
-                Formación para empresas
-              </Link>
+        <div className="hero__stage">
+          <img
+            alt="Maquinaria de perforación minera sobre planos técnicos"
+            className="hero__engineering-visual"
+            src="/images/inminer-campus-hero-engineering.png"
+          />
+          <div className="container hero__grid">
+            <div className="hero__content">
+              <span className="eyebrow">
+                Formación Preventiva Oficial en seguridad minera
+              </span>
+              <h1 aria-label="Conocimiento que se convierte en seguridad.">
+                <span className="hero__line">Conocimiento </span>
+                <span className="hero__line">que se convierte </span>
+                <span className="hero__line">
+                  en{' '}
+                  <strong>seguridad.</strong>
+                </span>
+              </h1>
+              <p className="hero__copy">
+                Formación por puesto de trabajo conforme a la ITC 02.1.02 y
+                formación específica frente al polvo y la sílice conforme a la
+                ITC 02.0.02, con evaluación, trazabilidad y práctica cuando
+                proceda.
+              </p>
+              <div className="hero__actions">
+                <Link className="button button--primary" to="/catalogo">
+                  Explorar cursos <ArrowRight size={18} />
+                </Link>
+                <Link className="button button--outline" to="/empresas">
+                  Formación para empresas
+                </Link>
+              </div>
             </div>
           </div>
-          <div className="hero__panel" aria-label="Ejemplo de curso">
-            <article className="hero-course">
-              <span className="hero-course__tag">ITC y programa identificados</span>
-              <h2>Formación oficial, sin expresiones ambiguas</h2>
+        </div>
+        <div className="container home-journey" aria-label="Proceso formativo">
+          <article>
+            <span>01</span>
+            <div>
+              <h2>Elige tu formación</h2>
+              <p>Cursos oficiales y específicos adaptados a tu puesto.</p>
+            </div>
+          </article>
+          <article>
+            <span>02</span>
+            <div>
+              <h2>Aprende con rigor</h2>
+              <p>Contenidos claros, actualizados y orientados a la práctica.</p>
+            </div>
+          </article>
+          <article>
+            <span>03</span>
+            <div>
+              <h2>Evalúa y acredita</h2>
+              <p>Evaluación conforme a normativa y criterios oficiales.</p>
+            </div>
+          </article>
+          <article>
+            <span>04</span>
+            <div>
+              <h2>Aplica con seguridad</h2>
               <p>
-                No ofrecemos un “carné online”: cada ficha diferencia formación
-                inicial, reciclaje, teoría y requisitos presenciales.
+                Conocimiento que se traduce en decisiones seguras en el trabajo.
               </p>
-              <div className="hero-course__meta">
-                <span>5 o 20 horas</span>
-                <span>Modalidad híbrida</span>
-              </div>
-            </article>
-          </div>
+            </div>
+          </article>
         </div>
       </section>
 
