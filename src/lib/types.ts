@@ -16,6 +16,7 @@ export interface PublicCourse {
   slug: string
   title: string
   short_description: string | null
+  specialty: string | null
   duration_hours: number
   modality: CourseModality
   cover_storage_path: string | null

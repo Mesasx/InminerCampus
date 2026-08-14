@@ -12,7 +12,7 @@ export function Logo({
 }) {
   return (
     <Link
-      className="brand"
+      className={inverse ? 'brand brand--inverse' : 'brand'}
       to="/"
       aria-label="InmínerCampus, ir al inicio"
       onClick={onClick}
