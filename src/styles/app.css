@@ -4451,14 +4451,14 @@ button.admin-list__item {
    sin tarjeta, sin fondo, sin background-image. Puede salirse del viewport. */
 .campus-hero__machine {
   position: absolute;
-  right: -9%;
-  bottom: -2%;
+  right: -17%;
+  bottom: -3%;
   z-index: 2;
-  width: min(128vw, 1540px);
+  width: min(105vw, 1200px);
   height: auto;
   max-width: none;
   pointer-events: none;
-  filter: drop-shadow(-26px 32px 44px rgba(44, 33, 24, 0.3));
+  filter: drop-shadow(-18px 24px 30px rgba(44, 33, 24, 0.28));
   animation: campus-machine-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -4471,7 +4471,7 @@ button.admin-list__item {
   min-height: 100svh;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 32px 96px max(40px, calc((100vw - 1600px) / 2 + 40px));
+  padding: 120px 32px 96px max(44px, calc((100vw - 1600px) / 2 + 44px));
 }
 
 .campus-hero__brand {
