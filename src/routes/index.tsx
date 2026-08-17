@@ -6,7 +6,7 @@ import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
 import { usePublicCourses } from '../hooks/usePublicCourses'
 
-const heroImage = '/images/hero-campus-cargadora.png'
+const heroImage = '/images/hero-loader.png'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -506,19 +506,12 @@ function HomePage() {
   return (
     <PublicLayout heroFull>
       <Hero
+        ctaLabel="Explorar cursos"
+        ctaTargetId="campus-formacion"
+        eyebrow="Inmíner Campus · Formación preventiva"
         image={heroImage}
-        imageAlt="Inmíner Campus · 20H · cursos oficiales para minería e industria: cargadora amarilla volcando tierra en una explotación"
-        scrollTargetId="campus-intro"
-        actions={
-          <>
-            <Link className="button button--primary" to="/catalogo">
-              Explorar cursos
-            </Link>
-            <Link className="button button--outline" to="/mis-cursos">
-              Mis cursos
-            </Link>
-          </>
-        }
+        subtitle="Cursos para minería e industria"
+        title="20H"
       />
 
       <CampusIntro />
