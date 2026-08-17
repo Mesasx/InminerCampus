@@ -50,7 +50,7 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
       className={`public-header${transparent ? ' public-header--transparent' : ' public-header--scrolled'}`}
     >
       <div className="container public-header__inner">
-        <Logo inverse={transparent} />
+        {transparent ? null : <Logo />}
         <nav className="desktop-nav" aria-label="Navegación principal">
           <Link to="/" activeProps={{ 'aria-current': 'page' }}>
             Campus
