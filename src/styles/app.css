@@ -4415,10 +4415,10 @@ button.admin-list__item {
   content: '';
   position: absolute;
   right: -12%;
-  bottom: -10%;
+  bottom: -12%;
   left: -8%;
   z-index: 1;
-  height: 24%;
+  height: 21%;
   pointer-events: none;
   background:
     radial-gradient(ellipse at 68% 72%, rgba(157, 89, 26, 0.32), transparent 35%),
@@ -4451,10 +4451,10 @@ button.admin-list__item {
    sin tarjeta, sin fondo, sin background-image. Puede salirse del viewport. */
 .campus-hero__machine {
   position: absolute;
-  right: -12%;
+  right: -13%;
   bottom: -3%;
   z-index: 2;
-  width: min(102vw, 1180px);
+  width: min(100vw, 1120px);
   height: auto;
   max-width: none;
   pointer-events: none;
