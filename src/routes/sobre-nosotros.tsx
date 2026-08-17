@@ -51,7 +51,7 @@ function AboutPage() {
     <StaticPage
       eyebrow="Sobre InmínerCampus"
       title="Ingeniería que enseña desde la experiencia."
-      description="InmínerCampus es la plataforma de formación de INMINER INGENIERÍA, S.L., una firma multidisciplinar de Ciudad Real con más de 18 años de trayectoria en minería, industria, seguridad y medio ambiente."
+      description="InmínerCampus es la plataforma de formación de INMINER INGENIERÍA, S.L., una firma multidisciplinar de Ciudad Real que trabaja en minería, industria, seguridad industrial, medioambiente y energía."
     >
       <div className="feature-grid">
         <article className="feature-card">

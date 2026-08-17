@@ -23,7 +23,6 @@ export function Footer() {
           </div>
           <div className="footer__links">
             <strong>Categorías</strong>
-            <Link to="/catalogo" search={{ categoria: 'vip' }}>VIP</Link>
             <Link to="/catalogo" search={{ categoria: 'mineria' }}>Minería</Link>
             <Link to="/catalogo" search={{ categoria: 'otros' }}>Otros</Link>
             <Link to="/formacion-preventiva-oficial">Formación Preventiva Oficial</Link>

@@ -11,16 +11,14 @@ export const Route = createFileRoute('/catalogo')({
     search: Record<string, unknown>,
   ): { categoria?: CourseCategory } => ({
     categoria:
-      search.categoria === 'vip' ||
-      search.categoria === 'mineria' ||
-      search.categoria === 'otros'
+      search.categoria === 'mineria' || search.categoria === 'otros'
         ? search.categoria
         : undefined,
   }),
   component: CatalogPage,
 })
 
-const categoryFilters: Array<CourseCategory> = ['vip', 'mineria', 'otros']
+const categoryFilters: Array<CourseCategory> = ['mineria', 'otros']
 
 function CatalogPage() {
   const { categoria } = Route.useSearch()

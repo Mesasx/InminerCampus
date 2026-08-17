@@ -609,32 +609,15 @@ span {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-width: 220px;
+  min-width: 0;
 }
 
 .brand__image {
-  width: 144px;
-  height: 52px;
+  width: auto;
+  height: 46px;
   flex: 0 0 auto;
   object-fit: contain;
   object-position: left center;
-}
-
-.brand__divider {
-  width: 1px;
-  height: 28px;
-  background: var(--line);
-}
-
-.brand__campus {
-  color: var(--ink-soft);
-  font-family: 'Manrope', sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .desktop-nav {
@@ -697,7 +680,8 @@ span {
 }
 
 .public-header--transparent .account-menu__trigger {
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--sand-50);
 }
 
 .account-menu {
@@ -705,23 +689,46 @@ span {
 }
 
 .account-menu__trigger {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  background: var(--navy);
-  color: var(--sand-50);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 5px 14px 5px 5px;
+  background: var(--paper);
+  color: var(--ink);
   cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 0.86rem;
-  font-weight: 700;
-  transition: transform 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
 }
 
 .account-menu__trigger:hover {
   transform: translateY(-2px);
+}
+
+.account-menu__avatar {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--sand-50);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.account-menu__label {
+  max-width: 120px;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .account-menu__panel {
@@ -905,10 +912,6 @@ span {
   color: var(--sand-50);
 }
 
-.category-filter--vip.category-filter--active {
-  background: var(--navy);
-}
-
 .category-filter--mineria.category-filter--active {
   background: var(--orange-strong);
 }
@@ -1043,6 +1046,14 @@ span {
   min-height: 76px;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.course-card__specialty {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
 }
 
 .course-card__footer {
@@ -1757,6 +1768,23 @@ span {
   padding-block: 46px 70px;
 }
 
+.app-shell-context {
+  display: flex;
+  width: min(1220px, calc(100% - 68px));
+  align-items: center;
+  gap: 13px;
+  margin-inline: auto;
+  padding-top: 28px;
+}
+
+.app-shell-context__title {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 .dashboard-heading {
   display: flex;
   align-items: end;
@@ -2370,9 +2398,20 @@ span {
     box-shadow: var(--shadow);
   }
 
-  .mobile-menu__panel a {
+  .mobile-menu__panel a,
+  .mobile-menu__panel button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    background: transparent;
     padding: 12px 8px;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
     font-weight: 600;
+    text-align: left;
   }
 
   .public-header__inner {
@@ -3657,17 +3696,7 @@ button.admin-list__item {
   }
 
   .brand__image {
-    width: 116px;
-    height: 42px;
-  }
-
-  .brand {
-    min-width: 0;
-  }
-
-  .brand__divider,
-  .brand__campus {
-    display: none;
+    height: 38px;
   }
 
   .mobile-menu[open] ~ .mobile-menu__panel {
@@ -4383,14 +4412,6 @@ button.admin-list__item {
   filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.45));
 }
 
-.brand--inverse .brand__divider {
-  background: rgba(255, 255, 255, 0.32);
-}
-
-.brand--inverse .brand__campus {
-  color: rgba(255, 255, 255, 0.76) !important;
-}
-
 .campus-home {
   overflow: clip;
   background: var(--sand-50);
@@ -4398,83 +4419,66 @@ button.admin-list__item {
 
 .campus-hero {
   position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
   min-height: 100vh;
   min-height: 100svh;
-  overflow: hidden;
-  background: var(--earth-dark);
-  color: var(--sand-50);
-  isolation: isolate;
+  flex-direction: column;
+  background: var(--sand-100);
 }
 
-.campus-hero--compact {
-  min-height: 62vh;
-  min-height: 62svh;
+.campus-hero__frame {
+  position: relative;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  background: var(--sand-100);
 }
 
 .campus-hero__image {
-  position: absolute;
-  z-index: -3;
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center 60%;
+  object-fit: contain;
+  object-position: center;
   animation: campus-image-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.campus-hero__shade {
-  position: absolute;
-  z-index: -2;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(44, 33, 24, 0.92) 0%, rgba(44, 33, 24, 0.7) 30%, rgba(44, 33, 24, 0.15) 56%, transparent 74%),
-    linear-gradient(0deg, rgba(20, 15, 10, 0.55) 0%, transparent 38%);
-  pointer-events: none;
-}
-
-.campus-hero__content {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: max(40px, calc((100vw - 1500px) / 2));
-  width: min(690px, 44vw);
-  padding-top: 74px;
-  transform: translateY(-46%);
-}
-
-.campus-hero__eyebrow {
-  margin-bottom: clamp(24px, 3vh, 38px);
-  color: var(--yellow);
-}
-
-.campus-hero h1 {
-  margin-bottom: clamp(30px, 4vh, 48px);
-  color: var(--sand-50);
-  font-size: clamp(4.35rem, 7.15vw, 7.65rem);
-  font-weight: 700;
-  letter-spacing: -0.075em;
-  line-height: 0.84;
-  text-transform: uppercase;
-}
-
-.campus-hero h1 span {
-  display: block;
-  overflow-wrap: normal;
-}
-
-.campus-hero__copy {
-  max-width: 500px;
-  margin-bottom: clamp(28px, 4vh, 44px);
-  color: rgba(251, 248, 242, 0.82);
-  font-size: clamp(0.96rem, 1.1vw, 1.1rem);
-  line-height: 1.7;
+@media (min-width: 760px) and (min-aspect-ratio: 4 / 3) {
+  .campus-hero__image {
+    object-fit: cover;
+    object-position: left center;
+  }
 }
 
 .campus-hero__actions {
   display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  justify-content: center;
+  gap: 14px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  padding: 22px 24px;
+  animation: campus-copy-enter 600ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+}
+
+.campus-hero__scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 250ms ease;
+}
+
+.campus-hero__scroll:hover {
+  color: var(--ink);
 }
 
 .editorial-cta {
@@ -4522,46 +4526,6 @@ button.admin-list__item {
 
 .editorial-cta:hover svg {
   transform: translateX(4px);
-}
-
-.campus-hero__eyebrow,
-.campus-hero h1,
-.campus-hero__copy,
-.campus-hero__actions,
-.campus-hero__scroll {
-  animation: campus-copy-enter 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.campus-hero h1 {
-  animation-delay: 90ms;
-}
-
-.campus-hero__copy {
-  animation-delay: 190ms;
-}
-
-.campus-hero__actions {
-  animation-delay: 280ms;
-}
-
-.campus-hero__scroll {
-  position: absolute;
-  right: max(40px, calc((100vw - 1500px) / 2));
-  bottom: 34px;
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  animation-delay: 380ms;
-  transition: color 250ms ease;
-}
-
-.campus-hero__scroll:hover {
-  color: white;
 }
 
 #campus-hero-sentinel {
@@ -4666,39 +4630,40 @@ button.admin-list__item {
   margin-top: 18px;
 }
 
-.campus-section__stat {
+.campus-section__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(32px, 5vw, 64px);
-  margin-top: clamp(40px, 5vh, 56px);
+  gap: 10px;
+  margin-top: clamp(32px, 4vh, 44px);
 }
 
-.campus-section__stat div {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.campus-section__stat strong {
-  color: var(--orange-strong);
-  font-size: clamp(2.2rem, 3.4vw, 3.1rem);
+.campus-tag {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.campus-section__stat span {
-  max-width: 220px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1.5;
-  opacity: 0.72;
+.campus-section__inner--split {
+  display: grid;
+  gap: clamp(36px, 5vw, 72px);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: start;
+}
+
+.campus-section__inner--reverse {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .campus-section__eyebrow,
 .campus-section__heading,
 .campus-section__copy,
-.campus-section__stat,
+.campus-section__tags,
 .campus-section__cta {
   opacity: 0;
   transform: translateY(24px);
@@ -4710,7 +4675,7 @@ button.admin-list__item {
 .campus-section.is-visible .campus-section__eyebrow,
 .campus-section.is-visible .campus-section__heading,
 .campus-section.is-visible .campus-section__copy,
-.campus-section.is-visible .campus-section__stat,
+.campus-section.is-visible .campus-section__tags,
 .campus-section.is-visible .campus-section__cta {
   opacity: 1;
   transform: translateY(0);
@@ -4724,7 +4689,7 @@ button.admin-list__item {
   transition-delay: 170ms;
 }
 
-.campus-section.is-visible .campus-section__stat {
+.campus-section.is-visible .campus-section__tags {
   transition-delay: 240ms;
 }
 
@@ -4752,23 +4717,31 @@ button.admin-list__item {
   background: linear-gradient(var(--sand-50), transparent);
 }
 
-.campus-section--categories {
+.campus-section--safety {
   background: var(--paper);
   color: var(--ink);
 }
 
-.campus-section--categories::before {
+.campus-section--safety::before {
   background: linear-gradient(var(--sand-100), transparent);
 }
 
-.campus-section--about {
-  background: var(--navy-soft);
-  color: var(--navy-strong);
+.campus-section--mining {
+  background: var(--sand-200);
+  color: var(--ink);
 }
 
-.campus-section--about::before {
-  height: 280px;
+.campus-section--mining::before {
   background: linear-gradient(var(--paper), transparent);
+}
+
+.campus-section--categories {
+  background: var(--sand-100);
+  color: var(--ink);
+}
+
+.campus-section--categories::before {
+  background: linear-gradient(var(--sand-200), transparent);
 }
 
 .campus-section--formation {
@@ -4779,7 +4752,45 @@ button.admin-list__item {
 
 .campus-section--formation::before {
   height: 320px;
+  background: linear-gradient(var(--sand-100), transparent);
+}
+
+.campus-section--how {
+  background: var(--sand-50);
+  color: var(--ink);
+}
+
+.campus-section--how::before {
+  background: linear-gradient(var(--sand-200), transparent);
+}
+
+.campus-section--about {
+  background: var(--navy-soft);
+  color: var(--navy-strong);
+}
+
+.campus-section--about::before {
+  height: 280px;
+  background: linear-gradient(var(--sand-50), transparent);
+}
+
+.campus-section--why {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.campus-section--why::before {
+  height: 280px;
   background: linear-gradient(var(--navy-soft), transparent);
+}
+
+.campus-section--faq {
+  background: var(--sand-100);
+  color: var(--ink);
+}
+
+.campus-section--faq::before {
+  background: linear-gradient(var(--paper), transparent);
 }
 
 .campus-section--cta {
@@ -4788,7 +4799,7 @@ button.admin-list__item {
 }
 
 .campus-section--cta::before {
-  background: linear-gradient(var(--sand-200), transparent);
+  background: linear-gradient(var(--sand-100), transparent);
 }
 
 /* CTA "quiet" sobre fondos claros: invertir el tono neutro del botón */
@@ -4867,11 +4878,135 @@ button.admin-list__item {
   opacity: 0.76;
 }
 
-/* Categorías (VIP / Minería / Otros) -------------------------------------- */
+/* Formarse con seguridad: intro + rejilla de temas ------------------------ */
+
+.campus-safety__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 32px) clamp(24px, 3vw, 40px);
+}
+
+.campus-safety__item {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.campus-safety__item h3 {
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+}
+
+.campus-safety__item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Formación para minería: texto + fotografía ------------------------------ */
+
+.campus-mining__visual {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.campus-mining__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.campus-mining__list {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.campus-mining__list li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.campus-mining__list li::before {
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  content: '';
+}
+
+/* Por qué Inmíner Campus --------------------------------------------------- */
+
+.campus-why__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: clamp(40px, 5vh, 56px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.campus-why__label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--orange-strong);
+}
+
+.campus-why__item p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.campus-why__stat {
+  max-width: 620px;
+  margin: clamp(40px, 5vh, 56px) 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.campus-why__stat strong {
+  color: var(--orange-strong);
+  font-size: 1.7rem;
+}
+
+/* Preguntas frecuentes ------------------------------------------------------ */
+
+.campus-faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 40px);
+  margin-top: clamp(40px, 5vh, 56px);
+}
+
+.campus-faq__item h3 {
+  margin-bottom: 8px;
+  font-size: 1.02rem;
+}
+
+.campus-faq__item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Categorías (Minería / Otros) --------------------------------------------- */
 
 .category-teaser-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(20px, 2.4vw, 32px);
   margin-top: clamp(40px, 5vh, 56px);
 }
@@ -4942,10 +5077,6 @@ button.admin-list__item {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   backdrop-filter: blur(6px);
-}
-
-.category-badge--vip {
-  background: rgba(23, 62, 90, 0.88);
 }
 
 .category-badge--mineria {
@@ -5202,29 +5333,7 @@ button.admin-list__item {
   gap: 14px;
 }
 
-@media (max-width: 1180px) {
-  .campus-hero__content {
-    left: 40px;
-  }
-
-  .campus-hero__scroll {
-    right: 40px;
-  }
-
-  .campus-hero h1 {
-    font-size: clamp(4rem, 7.6vw, 6.4rem);
-  }
-}
-
 @media (max-width: 980px) {
-  .campus-hero__content {
-    width: min(620px, 58vw);
-  }
-
-  .campus-hero h1 {
-    font-size: clamp(3.75rem, 8vw, 5.4rem);
-  }
-
   .campus-section {
     padding-block: clamp(76px, 11vw, 120px);
   }
@@ -5233,67 +5342,35 @@ button.admin-list__item {
     grid-template-columns: 64px 1fr;
   }
 
+  .campus-section__inner--split {
+    grid-template-columns: 1fr;
+  }
+
+  .campus-mining__visual {
+    aspect-ratio: 16 / 9;
+  }
+
+  .campus-why__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 20px;
+  }
+
   .course-slider__slide {
     flex-basis: min(84%, 720px);
   }
 }
 
 @media (max-width: 680px) {
-  .campus-hero {
-    min-height: 100svh;
-  }
-
-  .campus-hero__image {
-    object-position: 72% center;
-  }
-
-  .campus-hero__shade {
-    background:
-      linear-gradient(0deg, rgba(30, 22, 15, 0.96) 0%, rgba(30, 22, 15, 0.74) 46%, rgba(30, 22, 15, 0.14) 76%),
-      linear-gradient(90deg, rgba(30, 22, 15, 0.46) 0%, transparent 74%);
-  }
-
-  .campus-hero__content {
-    top: auto;
-    right: 18px;
-    bottom: max(78px, calc(58px + env(safe-area-inset-bottom)));
-    left: 18px;
-    width: auto;
-    padding-top: 0;
-    transform: none;
-  }
-
-  .campus-hero__eyebrow {
-    max-width: 300px;
-    margin-bottom: 18px;
-    font-size: 0.62rem;
-  }
-
-  .campus-hero h1 {
-    margin-bottom: 22px;
-    font-size: clamp(3.15rem, 15vw, 4.25rem);
-    line-height: 0.87;
-  }
-
-  .campus-hero__copy {
-    max-width: 330px;
-    margin-bottom: 24px;
-    font-size: 0.9rem;
-    line-height: 1.55;
-  }
-
   .campus-hero__actions {
     align-items: stretch;
     flex-direction: column;
-    gap: 2px;
+    gap: 10px;
+    padding: 18px;
   }
 
-  .campus-hero__actions .editorial-cta {
+  .campus-hero__actions .editorial-cta,
+  .campus-hero__actions .button {
     width: 100%;
-  }
-
-  .editorial-cta {
-    min-height: 50px;
   }
 
   .campus-hero__scroll {
@@ -5312,13 +5389,20 @@ button.admin-list__item {
     font-size: clamp(2.15rem, 9vw, 2.8rem);
   }
 
-  .campus-section__stat {
-    gap: 28px;
+  .campus-section__tags {
+    gap: 8px;
   }
 
   .campus-list__item {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+
+  .campus-safety__grid,
+  .campus-why__grid,
+  .campus-faq,
+  .category-teaser-grid {
+    grid-template-columns: 1fr;
   }
 
   .course-slider__head {
@@ -5355,15 +5439,11 @@ button.admin-list__item {
 
 @media (prefers-reduced-motion: reduce) {
   .campus-hero__image,
-  .campus-hero__eyebrow,
-  .campus-hero h1,
-  .campus-hero__copy,
   .campus-hero__actions,
-  .campus-hero__scroll,
   .campus-section__eyebrow,
   .campus-section__heading,
   .campus-section__copy,
-  .campus-section__stat,
+  .campus-section__tags,
   .campus-section__cta,
   .campus-list__item,
   .course-slider__image,
