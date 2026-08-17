@@ -6,11 +6,11 @@ import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
 import { usePublicCourses } from '../hooks/usePublicCourses'
 
-const heroImage = '/images/hero-loader.png'
+const heroMachineImage = '/assets/hero/loader-dirt.webp'
 
 export const Route = createFileRoute('/')({
   head: () => ({
-    links: [{ rel: 'preload', as: 'image', href: heroImage }],
+    links: [{ rel: 'preload', as: 'image', href: heroMachineImage }],
   }),
   component: HomePage,
 })
@@ -509,7 +509,7 @@ function HomePage() {
         ctaLabel="Explorar cursos"
         ctaTargetId="campus-formacion"
         eyebrow="Inmíner Campus · Formación preventiva"
-        image={heroImage}
+        machineImage={heroMachineImage}
         subtitle="Cursos para minería e industria"
         title="20H"
       />

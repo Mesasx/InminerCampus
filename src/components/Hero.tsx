@@ -2,14 +2,14 @@ import { ArrowDown } from 'lucide-react'
 import { Logo } from './Logo'
 
 export function Hero({
-  image,
+  machineImage,
   eyebrow,
   title,
   subtitle,
   ctaLabel,
   ctaTargetId,
 }: {
-  image: string
+  machineImage: string
   eyebrow: string
   title: string
   subtitle: string
@@ -19,19 +19,19 @@ export function Hero({
   return (
     <section className="campus-hero">
       <span aria-hidden="true" className="campus-hero__scroll-sentinel" id="campus-hero-sentinel" />
+      <div aria-hidden="true" className="campus-hero__glow" />
 
-      <div className="campus-hero__media" aria-hidden="true">
-        <img
-          alt=""
-          className="campus-hero__image"
-          decoding="async"
-          fetchPriority="high"
-          height="941"
-          loading="eager"
-          src={image}
-          width="862"
-        />
-      </div>
+      <img
+        alt=""
+        aria-hidden="true"
+        className="campus-hero__machine"
+        decoding="async"
+        fetchPriority="high"
+        height="941"
+        loading="eager"
+        src={machineImage}
+        width="1672"
+      />
 
       <div className="campus-hero__content">
         <div className="campus-hero__brand">

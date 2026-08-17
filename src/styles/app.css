@@ -4405,7 +4405,10 @@ button.admin-list__item {
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
-  background: var(--sand-100);
+  background:
+    radial-gradient(ellipse 70% 60% at 82% 26%, rgba(245, 180, 0, 0.14), transparent 62%),
+    radial-gradient(ellipse 65% 55% at 88% 84%, rgba(244, 122, 22, 0.12), transparent 65%),
+    linear-gradient(115deg, var(--sand-50) 0%, var(--sand-100) 45%, var(--sand-200) 100%);
 }
 
 .campus-hero__scroll-sentinel {
@@ -4417,25 +4420,34 @@ button.admin-list__item {
   pointer-events: none;
 }
 
-.campus-hero__media {
+/* Bruma cálida detrás de la maquinaria: nunca es la fotografía, solo luz. */
+.campus-hero__glow {
   position: absolute;
-  inset: 0 0 0 auto;
-  z-index: 0;
-  width: 58%;
+  inset: -12% -8% -12% 28%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 58% 58% at 68% 55%, rgba(244, 122, 22, 0.18), transparent 72%);
+  filter: blur(48px);
 }
 
-.campus-hero__image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  animation: campus-image-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+/* La pala cargadora es un recorte transparente independiente: capa propia,
+   sin tarjeta, sin fondo, sin background-image. Puede salirse del viewport. */
+.campus-hero__machine {
+  position: absolute;
+  right: -4%;
+  bottom: 0;
+  z-index: 2;
+  width: clamp(560px, 62vw, 1180px);
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  filter: drop-shadow(-26px 32px 44px rgba(44, 33, 24, 0.28));
+  animation: campus-machine-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .campus-hero__content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   display: flex;
   width: min(46%, 700px);
   min-height: 100vh;
@@ -4518,7 +4530,7 @@ button.admin-list__item {
   position: absolute;
   bottom: 28px;
   left: max(40px, calc((100vw - 1500px) / 2 + 40px));
-  z-index: 1;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -4606,15 +4618,15 @@ button.admin-list__item {
   transform: translateX(4px);
 }
 
-@keyframes campus-image-enter {
+@keyframes campus-machine-enter {
   from {
     opacity: 0;
-    transform: scale(1.025);
+    transform: translateX(18px);
   }
 
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0);
   }
 }
 
@@ -5406,10 +5418,15 @@ button.admin-list__item {
   .campus-hero {
     display: flex;
     flex-direction: column;
+    min-height: auto;
   }
 
   .campus-hero__scroll-sentinel {
     top: 64px;
+  }
+
+  .campus-hero__glow {
+    display: none;
   }
 
   .campus-hero__content {
@@ -5417,20 +5434,25 @@ button.admin-list__item {
     min-height: auto;
     flex: 0 0 auto;
     order: 1;
-    padding: max(108px, calc(84px + env(safe-area-inset-top))) 28px 36px;
+    padding: max(108px, calc(84px + env(safe-area-inset-top))) 28px 8px;
   }
 
   .campus-hero__count {
     font-size: clamp(5.5rem, 22vw, 8rem);
   }
 
-  .campus-hero__media {
+  .campus-hero__machine {
     position: relative;
     inset: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 1;
     order: 2;
-    width: 100%;
-    min-height: 260px;
-    flex: 1 1 auto;
+    align-self: flex-end;
+    width: min(92%, 560px);
+    max-width: 100%;
+    margin: -8px 0 28px;
+    filter: drop-shadow(-14px 18px 26px rgba(44, 33, 24, 0.24));
   }
 
   .campus-hero__scroll {
@@ -5537,7 +5559,7 @@ button.admin-list__item {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .campus-hero__image,
+  .campus-hero__machine,
   .campus-hero__brand,
   .campus-hero__eyebrow,
   .campus-hero__count,
