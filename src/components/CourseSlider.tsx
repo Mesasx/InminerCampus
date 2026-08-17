@@ -1,26 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { courseImage } from '../lib/course-image'
 import { modalityLabel } from '../lib/format'
 import type { PublicCourse } from '../lib/types'
-
-const editorialImagesBySlug: Record<string, string> = {
-  'operador-maquinaria-arranque-carga-viales':
-    '/images/campus-carousel-operacion.jpg',
-  'operador-maquinaria-transporte-camion-volquete':
-    '/images/campus-carousel-inspeccion.jpg',
-  'prevencion-polvo-silice-cristalina-respirable':
-    '/images/campus-carousel-silice.jpg',
-  'formacion-stvh': '/images/curso-stvh-portada.jpg',
-}
-
-function courseImage(course: PublicCourse) {
-  if (course.cover_storage_path?.startsWith('/')) {
-    return course.cover_storage_path
-  }
-
-  return editorialImagesBySlug[course.slug] ?? '/images/inminer-campus-hero-engineering.png'
-}
 
 function prefersReducedMotion() {
   return (

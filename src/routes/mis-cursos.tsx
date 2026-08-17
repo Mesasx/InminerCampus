@@ -2,9 +2,17 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpenCheck, Clock3, GraduationCap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
+import { ProgressBar } from '../components/ProgressBar'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { CourseModality, EnrollmentCard, SessionUser } from '../lib/types'
+
+const statusLabels: Record<string, string> = {
+  active: 'En curso',
+  completed: 'Finalizado',
+  expired: 'Caducado',
+  failed: 'No superado',
+}
 
 export const Route = createFileRoute('/mis-cursos')({
   component: MyCoursesPage,
@@ -101,6 +109,23 @@ function MyCoursesDashboard({ user }: { user: SessionUser }) {
         </Link>
       </div>
 
+      {activeCourses[0] ? (
+        <section className="continue-course">
+          <div>
+            <span className="label-industrial">Continuar formación</span>
+            <h2>{activeCourses[0].course.title}</h2>
+            <ProgressBar percent={activeCourses[0].progress_percent} />
+          </div>
+          <Link
+            className="button button--primary button--continue"
+            to="/campus/$enrollmentId"
+            params={{ enrollmentId: activeCourses[0].id }}
+          >
+            Continuar curso
+          </Link>
+        </section>
+      ) : null}
+
       <section className="stats-grid" aria-label="Resumen de formación">
         <article className="stat-card">
           <span className="stat-card__label">Cursos activos</span>
@@ -139,19 +164,11 @@ function MyCoursesDashboard({ user }: { user: SessionUser }) {
                 <div>
                   <h3>{enrollment.course.title}</h3>
                   <p>
-                    {enrollment.course.duration_hours} h · Estado:{' '}
-                    {enrollment.status}
+                    {enrollment.course.duration_hours} h ·{' '}
+                    {statusLabels[enrollment.status] ?? enrollment.status}
                   </p>
                 </div>
-                <div
-                  className="progress"
-                  aria-label={`${enrollment.progress_percent}% completado`}
-                >
-                  <div
-                    className="progress__bar"
-                    style={{ width: `${enrollment.progress_percent}%` }}
-                  />
-                </div>
+                <ProgressBar percent={enrollment.progress_percent} />
                 <Link
                   className="button button--outline"
                   to="/campus/$enrollmentId"
@@ -173,7 +190,7 @@ function MyCoursesDashboard({ user }: { user: SessionUser }) {
                 Puedes matricularte desde el catálogo o canjear el código que te
                 haya facilitado tu empresa.
               </p>
-              <div className="hero__actions" style={{ justifyContent: 'center' }}>
+              <div className="empty-state__actions">
                 <Link className="button button--primary" to="/catalogo">
                   <BookOpenCheck size={18} /> Ver catálogo
                 </Link>

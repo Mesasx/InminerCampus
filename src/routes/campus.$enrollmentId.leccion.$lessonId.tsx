@@ -295,7 +295,7 @@ function Lesson({
     <AppShell user={user} title={lesson?.title || 'Lección'}>
       <div className="dashboard-heading">
         <div>
-          <span className="eyebrow">Bloque</span>
+          <span className="label-industrial">Bloque {lesson?.blockPosition}</span>
           <h1>{lesson?.title || 'Contenido'}</h1>
           <p>{lesson?.summary}</p>
         </div>

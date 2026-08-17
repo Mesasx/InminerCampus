@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowDown, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { CourseSlider } from '../components/CourseSlider'
+import { Hero } from '../components/Hero'
 import { PublicLayout } from '../components/PublicLayout'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 import { usePublicCourses } from '../hooks/usePublicCourses'
 
 const heroImage = '/images/hero-inminer-mundo.jpg'
@@ -37,30 +38,29 @@ const whatWeDo = [
   },
 ]
 
-function useSectionReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.2 },
-    )
-
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
-
-  return { ref, isVisible }
-}
+const categories = [
+  {
+    categoria: 'vip' as const,
+    label: 'VIP',
+    title: 'Formaciones destacadas',
+    text: 'Programas premium seleccionados por su relevancia técnica y demanda del sector.',
+    image: '/images/hero-inminer-campus.jpg',
+  },
+  {
+    categoria: 'mineria' as const,
+    label: 'Minería',
+    title: 'Maquinaria y explotación',
+    text: 'Operación, carga, transporte y seguridad en trabajos mineros y viales.',
+    image: '/images/campus-carousel-operacion.jpg',
+  },
+  {
+    categoria: 'otros' as const,
+    label: 'Otros',
+    title: 'Formación industrial',
+    text: 'Programas complementarios para industria, obra y prevención general.',
+    image: '/images/campus-carousel-topografia.png',
+  },
+]
 
 function CampusIntro() {
   const { ref, isVisible } = useSectionReveal<HTMLElement>()
@@ -116,6 +116,46 @@ function WhatWeDo() {
   )
 }
 
+function CategoriesTeaser() {
+  const { ref, isVisible } = useSectionReveal<HTMLElement>()
+
+  return (
+    <section
+      className={`campus-section campus-section--categories${isVisible ? ' is-visible' : ''}`}
+      ref={ref}
+    >
+      <div className="campus-section__inner">
+        <span className="campus-section__eyebrow">Explora por categoría</span>
+        <h2 className="campus-section__heading">Encuentra tu formación.</h2>
+        <div className="category-teaser-grid">
+          {categories.map((category) => (
+            <Link
+              className="category-teaser"
+              key={category.categoria}
+              to="/catalogo"
+              search={{ categoria: category.categoria }}
+            >
+              <div className="category-teaser__visual">
+                <img alt="" loading="lazy" src={category.image} />
+                <span className={`category-badge category-badge--${category.categoria}`}>
+                  {category.label}
+                </span>
+              </div>
+              <div className="category-teaser__body">
+                <h3>{category.title}</h3>
+                <p>{category.text}</p>
+                <span className="text-link">
+                  Ver cursos <ArrowRight aria-hidden="true" size={16} />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function AboutInminer() {
   const { ref, isVisible } = useSectionReveal<HTMLElement>()
 
@@ -154,9 +194,7 @@ function FormationSection({
 
   return (
     <section
-      className={`campus-section campus-section--formation campus-section--light${
-        isVisible ? ' is-visible' : ''
-      }`}
+      className={`campus-section campus-section--formation${isVisible ? ' is-visible' : ''}`}
       id="campus-formacion"
       ref={ref}
     >
@@ -170,14 +208,12 @@ function FinalCta() {
 
   return (
     <section
-      className={`campus-section campus-section--cta campus-section--light${
-        isVisible ? ' is-visible' : ''
-      }`}
+      className={`campus-section campus-section--cta${isVisible ? ' is-visible' : ''}`}
       ref={ref}
     >
       <div className="campus-section__inner">
         <span className="campus-section__eyebrow">¿Listo para empezar?</span>
-        <h2 className="campus-section__heading">Elige tu formación y empieza hoy.</h2>
+        <h2 className="campus-section__heading">Empieza tu formación.</h2>
         <p className="campus-section__copy">
           Consulta el catálogo completo o retoma la formación en la que ya estás
           inscrito.
@@ -199,52 +235,35 @@ function HomePage() {
   const { courses, loading, loadError } = usePublicCourses()
 
   return (
-    <PublicLayout editorial>
-      <section className="campus-hero">
-        <img
-          alt="Ingeniero de Inmíner con casco corporativo inspeccionando una maqueta detallada de una explotación minera"
-          className="campus-hero__image"
-          decoding="async"
-          fetchPriority="high"
-          height="900"
-          loading="eager"
-          src={heroImage}
-          width="1600"
-        />
-        <div className="campus-hero__shade" aria-hidden="true" />
-
-        <div className="campus-hero__content">
-          <p className="campus-hero__eyebrow">
-            Formación Preventiva Oficial · ITC 02.1.02
-          </p>
-          <h1 aria-label="La formación que mueve el mundo.">
+    <PublicLayout heroFull>
+      <Hero
+        eyebrow="Formación Preventiva Oficial · ITC 02.1.02"
+        image={heroImage}
+        imageAlt="Cargadora amarilla volcando tierra en una explotación minera, con el logo de Inmíner Campus"
+        scrollTargetId="campus-formacion"
+        title={
+          <>
             <span>La formación</span>
             <span>que mueve</span>
             <span>el mundo.</span>
-          </h1>
-          <p className="campus-hero__copy">
-            Maquinaria, minería, seguridad y formación preventiva especializada.
-          </p>
-          <div className="campus-hero__actions">
+          </>
+        }
+        subtitle="Maquinaria, minería, seguridad y formación preventiva especializada."
+        actions={
+          <>
             <Link className="editorial-cta editorial-cta--solid" to="/catalogo">
               Explorar cursos <ArrowRight aria-hidden="true" size={17} />
             </Link>
             <Link className="editorial-cta editorial-cta--quiet" to="/mis-cursos">
               Mis cursos <ArrowRight aria-hidden="true" size={17} />
             </Link>
-          </div>
-        </div>
-
-        <a className="campus-hero__scroll" href="#campus-formacion">
-          <span>Descubrir formación</span>
-          <ArrowDown aria-hidden="true" size={16} />
-        </a>
-
-        <span aria-hidden="true" id="campus-hero-sentinel" />
-      </section>
+          </>
+        }
+      />
 
       <CampusIntro />
       <WhatWeDo />
+      <CategoriesTeaser />
       <AboutInminer />
       <FormationSection courses={courses} loadError={loadError} loading={loading} />
       <FinalCta />

@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { Award, BookOpen, LogOut } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -18,10 +19,21 @@ function ProfilePage() {
 }
 
 function ProfileForm({ user }: { user: SessionUser }) {
+  const navigate = useNavigate()
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
   const [message, setMessage] = useState('')
+  const initials = (
+    firstName?.[0] ||
+    user.email[0] ||
+    '?'
+  ).toUpperCase()
+
+  async function signOut() {
+    await getSupabaseBrowserClient()?.auth.signOut()
+    await navigate({ to: '/', replace: true })
+  }
 
   useEffect(() => {
     const supabase = getSupabaseBrowserClient()
@@ -61,14 +73,39 @@ function ProfileForm({ user }: { user: SessionUser }) {
 
   return (
     <AppShell user={user} title="Perfil">
-      <div className="dashboard-heading">
+      <div className="profile-header">
+        <span className="profile-header__avatar">{initials}</span>
         <div>
-          <span className="eyebrow">Datos personales</span>
-          <h1>Tu perfil.</h1>
-          <p>Actualiza únicamente la información necesaria para tu formación.</p>
+          <span className="label-industrial">Mi cuenta</span>
+          <h1>{firstName ? `${firstName} ${lastName}`.trim() : 'Tu perfil'}</h1>
+          <p>{user.email}</p>
         </div>
+        <button className="button button--outline" onClick={signOut} type="button">
+          <LogOut size={16} /> Cerrar sesión
+        </button>
       </div>
+
+      <div className="profile-links">
+        <Link className="profile-link-card" to="/mis-cursos">
+          <BookOpen size={22} />
+          <div>
+            <strong>Mis cursos</strong>
+            <span>Progreso y acceso a tu formación activa</span>
+          </div>
+        </Link>
+        <Link className="profile-link-card" to="/certificados">
+          <Award size={22} />
+          <div>
+            <strong>Certificados</strong>
+            <span>Descarga los certificados ya emitidos</span>
+          </div>
+        </Link>
+      </div>
+
       <section className="panel" style={{ maxWidth: 740 }}>
+        <div className="panel__header">
+          <h2>Datos personales</h2>
+        </div>
         <form className="form-grid" onSubmit={handleSubmit}>
           {message ? <div className="alert alert--info">{message}</div> : null}
           <div className="form-row">

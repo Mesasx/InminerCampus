@@ -3,6 +3,7 @@ dist
 .output
 .vercel
 supabase/.temp/
+.tanstack/
 .env
 .env.local
 .DS_Store

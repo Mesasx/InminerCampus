@@ -15,7 +15,7 @@ export function AuthLayout({
       <aside className="auth-side">
         <Logo inverse />
         <div className="auth-side__content">
-          <span className="eyebrow" style={{ color: '#f3aa76' }}>
+          <span className="label-industrial auth-side__eyebrow">
             Formación con rigor
           </span>
           <h1>Tu progreso, paso a paso.</h1>
@@ -24,9 +24,7 @@ export function AuthLayout({
             formación técnica organizada.
           </p>
         </div>
-        <small style={{ color: 'rgba(255,255,255,.48)', position: 'relative' }}>
-          Inmíner Ingeniería, S.L.
-        </small>
+        <small className="auth-side__credit">Inmíner Ingeniería, S.L.</small>
       </aside>
       <section className="auth-main">
         <div className="auth-card">
