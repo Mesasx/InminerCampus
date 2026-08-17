@@ -15,7 +15,7 @@ test('la portada de Campus usa la fotografía oficial, rutas reales e imagen opt
     read('src/components/CourseSlider.tsx'),
   ])
 
-  assert.match(home, /hero-loader\.png/)
+  assert.match(home, /loader-dirt\.webp/)
   assert.match(hero, /id="campus-hero-sentinel"/)
   assert.match(slider, /courses\.length/)
   assert.doesNotMatch(slider, /\b01\s*\/\s*06\b/)
@@ -97,15 +97,44 @@ test('el hero es una interfaz real: logo, textos y CTA como HTML, no una foto co
   assert.match(hero, /\{title\}/)
   assert.match(hero, /\{subtitle\}/)
   assert.match(hero, /<Logo\s*\/>/)
-  // La imagen de fondo se marca como decorativa (alt vacío): el contenido
+  // La maquinaria se marca como decorativa (alt vacío): el contenido
   // significativo lo aporta el HTML real, no la fotografía.
   assert.match(hero, /alt=""/)
   // El CTA es un enlace real con scroll suave por JS y fallback de ancla nativo.
   assert.match(hero, /scrollIntoView/)
   assert.match(hero, /behavior:\s*'smooth'/)
   assert.doesNotMatch(hero, /hero-campus-cargadora/)
-  assert.match(home, /hero-loader\.png/)
+  assert.doesNotMatch(hero, /hero-loader\.png/)
+  assert.match(home, /loader-dirt\.webp/)
   assert.doesNotMatch(home, /hero-campus-cargadora/)
+})
+
+test('la pala cargadora es una capa transparente independiente, no un banner fotográfico rectangular', async () => {
+  const [hero, styles] = await Promise.all([
+    read('src/components/Hero.tsx'),
+    read('src/styles/app.css'),
+  ])
+
+  // El recorte transparente se renderiza como <img> propio, nunca como
+  // background-image de una tarjeta o sección.
+  assert.match(hero, /className="campus-hero__machine"/)
+  assert.match(hero, /src=\{machineImage\}/)
+
+  const heroRule = styles.match(/\.campus-hero\s*\{[^}]*\}/)
+  assert.ok(heroRule, '.campus-hero debe existir')
+  // El fondo del hero se construye con gradientes CSS, nunca con la
+  // fotografía como banner.
+  assert.doesNotMatch(heroRule![0], /url\(/)
+
+  const machineRule = styles.match(/\.campus-hero__machine\s*\{[^}]*\}/)
+  assert.ok(machineRule, '.campus-hero__machine debe existir')
+  assert.match(machineRule![0], /position:\s*absolute/)
+  // Sombra de profundidad que respeta la silueta del PNG/WebP transparente,
+  // nunca una box-shadow rectangular.
+  assert.match(machineRule![0], /filter:\s*drop-shadow\(/)
+  assert.doesNotMatch(machineRule![0], /box-shadow/)
+  // Las capas decorativas nunca deben poder bloquear el CTA.
+  assert.match(machineRule![0], /pointer-events:\s*none/)
 })
 
 test('el "20H" nunca se parte carácter a carácter (regresión de overflow-wrap heredado)', async () => {
