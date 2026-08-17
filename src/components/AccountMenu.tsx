@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Award, BookOpen, LogOut, UserRound } from 'lucide-react'
+import { BookOpen, LogOut, UserRound } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
@@ -41,10 +41,14 @@ export function AccountMenu({ user }: { user: SessionUser }) {
         className="account-menu__trigger"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Mi cuenta"
         onClick={() => setOpen((value) => !value)}
       >
-        {initials}
+        <span className="account-menu__avatar" aria-hidden="true">
+          {initials}
+        </span>
+        <span className="account-menu__label">
+          {user.firstName || 'Mi cuenta'}
+        </span>
       </button>
       {open ? (
         <nav className="account-menu__panel" role="menu" aria-label="Mi cuenta">
@@ -57,11 +61,8 @@ export function AccountMenu({ user }: { user: SessionUser }) {
           <Link role="menuitem" to="/mis-cursos" onClick={() => setOpen(false)}>
             <BookOpen size={16} /> Mis cursos
           </Link>
-          <Link role="menuitem" to="/certificados" onClick={() => setOpen(false)}>
-            <Award size={16} /> Certificados
-          </Link>
           <button role="menuitem" type="button" onClick={signOut}>
-            <LogOut size={16} /> Salir
+            <LogOut size={16} /> Cerrar sesión
           </button>
         </nav>
       ) : null}

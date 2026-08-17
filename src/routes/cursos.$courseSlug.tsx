@@ -210,6 +210,34 @@ function CourseDetailPage() {
                 </p>
               </>
             ) : null}
+            {version.target_audience?.length ? (
+              <>
+                <h2 style={{ marginTop: 42 }}>A quién va dirigido</h2>
+                <ul className="muted" style={{ lineHeight: 1.8, paddingLeft: 20 }}>
+                  {version.target_audience.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+            {version.requirements?.length ? (
+              <>
+                <h2 style={{ marginTop: 42 }}>Requisitos</h2>
+                <ul className="muted" style={{ lineHeight: 1.8, paddingLeft: 20 }}>
+                  {version.requirements.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+            <h2 style={{ marginTop: 42 }}>Metodología</h2>
+            <p className="muted" style={{ lineHeight: 1.8 }}>
+              La formación se organiza en bloques dentro del Campus. Cada
+              bloque combina audio explicado, diapositivas y documentación
+              descargable cuando corresponde, y tu progreso se guarda
+              automáticamente para retomarlo cuando quieras. Al completar los
+              bloques se habilita la evaluación final del curso.
+            </p>
           </article>
           <aside className="panel course-detail-aside">
             <div className="form-grid">

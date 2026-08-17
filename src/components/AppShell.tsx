@@ -1,9 +1,7 @@
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import {
   ArrowLeft,
-  Award,
   BookOpen,
-  CircleHelp,
   ClipboardCheck,
   KeyRound,
   LayoutDashboard,
@@ -20,18 +18,11 @@ import {
 import { useEffect, useState, type ReactNode } from 'react'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { Footer } from './Footer'
 import { Logo } from './Logo'
+import { PublicHeader } from './PublicHeader'
 
 type ShellMode = 'student' | 'company' | 'admin'
-
-const studentNav = [
-  { href: '/mis-cursos', label: 'Mis cursos', icon: LayoutDashboard },
-  { href: '/catalogo', label: 'Catálogo', icon: BookOpen },
-  { href: '/canjear-codigo', label: 'Canjear código', icon: KeyRound },
-  { href: '/certificados', label: 'Certificados', icon: Award },
-  { href: '/dudas', label: 'Dudas', icon: CircleHelp },
-  { href: '/perfil', label: 'Perfil', icon: UserRound },
-] as const
 
 const adminNav = [
   { href: '/admin', label: 'Resumen', icon: LayoutDashboard },
@@ -46,15 +37,17 @@ const adminNav = [
     icon: ReceiptText,
   },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquareText },
-  { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
 ] as const
 
 const companyNav = [
   { href: '/empresa', label: 'Resumen', icon: LayoutDashboard },
-  { href: '/empresa/formacion', label: 'Formación', icon: BookOpen },
-  { href: '/empresa/trabajadores', label: 'Trabajadores', icon: UsersRound },
   { href: '/empresa/codigos', label: 'Códigos', icon: KeyRound },
-  { href: '/empresa/facturacion', label: 'Facturación', icon: ReceiptText },
+] as const
+
+const companyDynamicNav = [
+  { section: 'formacion', label: 'Formación', icon: BookOpen },
+  { section: 'trabajadores', label: 'Trabajadores', icon: UsersRound },
+  { section: 'facturacion', label: 'Facturación', icon: ReceiptText },
 ] as const
 
 export function AppShell({
@@ -72,27 +65,6 @@ export function AppShell({
   const location = useLocation()
   const [navigationOpen, setNavigationOpen] = useState(false)
   const isInsideCourse = /^\/campus\/[^/]+/.test(location.pathname)
-  const isAdministrator = user.roles.some((role) =>
-    ['administrador', 'superadministrador'].includes(role),
-  )
-  const nav =
-    mode === 'admin'
-      ? [
-          ...adminNav,
-          { href: '/mis-cursos', label: 'Ir a mis cursos', icon: BookOpen },
-        ]
-      : mode === 'company'
-        ? companyNav
-        : isAdministrator
-          ? [
-              ...studentNav,
-              {
-                href: '/admin',
-                label: 'Administración',
-                icon: ShieldCheck,
-              },
-            ]
-          : studentNav
 
   useEffect(() => {
     setNavigationOpen(false)
@@ -149,6 +121,31 @@ export function AppShell({
     await navigate({ to: '/', replace: true })
   }
 
+  if (mode === 'student') {
+    return (
+      <>
+        <PublicHeader />
+        <main className="public-main page-enter">
+          <div className="app-shell-context">
+            <button
+              aria-label="Volver atrás"
+              className="app-topbar__back"
+              onClick={goBack}
+              type="button"
+            >
+              <ArrowLeft size={19} />
+            </button>
+            <span className="app-shell-context__title">{title}</span>
+          </div>
+          <div className="app-content">{children}</div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  const nav = mode === 'admin' ? adminNav : companyNav
+
   return (
     <div className="app-layout page-enter">
       <aside
@@ -187,6 +184,45 @@ export function AppShell({
               {label}
             </Link>
           ))}
+          {mode === 'admin' ? (
+            <Link
+              to="/admin/$adminSection"
+              params={{ adminSection: 'configuracion' }}
+              onClick={(event) => {
+                if (!confirmCourseExit()) event.preventDefault()
+                else setNavigationOpen(false)
+              }}
+            >
+              <Settings size={18} />
+              Configuración
+            </Link>
+          ) : null}
+          {mode === 'company'
+            ? companyDynamicNav.map(({ section, label, icon: Icon }) => (
+                <Link
+                  to="/empresa/$companySection"
+                  params={{ companySection: section }}
+                  key={section}
+                  onClick={(event) => {
+                    if (!confirmCourseExit()) event.preventDefault()
+                    else setNavigationOpen(false)
+                  }}
+                >
+                  <Icon size={18} />
+                  {label}
+                </Link>
+              ))
+            : null}
+          <Link
+            to="/mis-cursos"
+            onClick={(event) => {
+              if (!confirmCourseExit()) event.preventDefault()
+              else setNavigationOpen(false)
+            }}
+          >
+            <BookOpen size={18} />
+            Ir a mis cursos
+          </Link>
         </nav>
         <div className="app-sidebar__bottom">
           <span className="app-sidebar__user">
@@ -231,9 +267,7 @@ export function AppShell({
             </button>
             <span className="app-topbar__title">{title}</span>
           </div>
-          <span className="muted">
-            {user.firstName || user.email}
-          </span>
+          <span className="muted">{user.firstName || user.email}</span>
         </header>
         <main className="app-content">{children}</main>
         <footer className="app-credit">

@@ -20,6 +20,9 @@ export function CourseCard({ course }: { course: PublicCourse }) {
         </span>
         <h3>{course.title}</h3>
         <p>{course.short_description}</p>
+        {course.specialty ? (
+          <span className="course-card__specialty">{course.specialty}</span>
+        ) : null}
         <div className="course-card__footer">
           <span>
             {course.access_mode === 'access_code'

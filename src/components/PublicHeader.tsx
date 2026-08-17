@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Link } from '@tanstack/react-router'
-import { Menu } from 'lucide-react'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { LogOut, Menu } from 'lucide-react'
 import { Logo } from './Logo'
 import { AccountMenu } from './AccountMenu'
 import { useCurrentUser } from '../hooks/useCurrentUser'
-
-const primaryNavItems = [
-  { to: '/' as const, label: 'Campus' },
-  { to: '/mis-cursos' as const, label: 'Mis cursos' },
-] satisfies Array<{ to: '/' | '/mis-cursos'; label: string }>
+import { getSupabaseBrowserClient } from '../lib/supabase'
 
 const categoryNavItems: Array<{
   label: string
-  categoria: 'vip' | 'mineria' | 'otros'
+  categoria: 'mineria' | 'otros'
 }> = [
-  { label: 'VIP', categoria: 'vip' },
   { label: 'Minería', categoria: 'mineria' },
   { label: 'Otros', categoria: 'otros' },
 ]
 
 export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { user } = useCurrentUser()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, loading } = useCurrentUser()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!heroFull) return
@@ -40,6 +37,12 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
     return () => observer.disconnect()
   }, [heroFull])
 
+  async function signOutFromMobile() {
+    setMobileOpen(false)
+    await getSupabaseBrowserClient()?.auth.signOut()
+    await navigate({ to: '/', replace: true })
+  }
+
   const transparent = heroFull && !isScrolled
 
   return (
@@ -49,11 +52,14 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
       <div className="container public-header__inner">
         <Logo inverse={transparent} />
         <nav className="desktop-nav" aria-label="Navegación principal">
-          {primaryNavItems.map((item) => (
-            <Link key={item.to} to={item.to} activeProps={{ 'aria-current': 'page' }}>
-              {item.label}
+          <Link to="/" activeProps={{ 'aria-current': 'page' }}>
+            Campus
+          </Link>
+          {user ? (
+            <Link to="/mis-cursos" activeProps={{ 'aria-current': 'page' }}>
+              Mis cursos
             </Link>
-          ))}
+          ) : null}
           {categoryNavItems.map((item) => (
             <Link
               key={item.categoria}
@@ -69,12 +75,12 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
           </Link>
         </nav>
         <div className="header-actions">
-          {user ? (
+          {loading ? null : user ? (
             <AccountMenu user={user} />
           ) : (
             <>
               <Link className="button button--ghost" to="/acceso">
-                Acceder
+                Iniciar sesión
               </Link>
               <Link className="button button--primary" to="/registro">
                 Crear cuenta
@@ -82,36 +88,54 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
             </>
           )}
         </div>
-        <details className="mobile-menu">
+        <details
+          className="mobile-menu"
+          open={mobileOpen}
+          onToggle={(event) => setMobileOpen(event.currentTarget.open)}
+        >
           <summary aria-label="Abrir menú">
             <Menu size={20} />
           </summary>
         </details>
         <nav className="mobile-menu__panel" aria-label="Navegación móvil">
-          {primaryNavItems.map((item) => (
-            <Link key={item.to} to={item.to}>
-              {item.label}
+          <Link to="/" onClick={() => setMobileOpen(false)}>
+            Campus
+          </Link>
+          {user ? (
+            <Link to="/mis-cursos" onClick={() => setMobileOpen(false)}>
+              Mis cursos
             </Link>
-          ))}
+          ) : null}
           {categoryNavItems.map((item) => (
             <Link
               key={item.categoria}
               to="/catalogo"
               search={{ categoria: item.categoria }}
+              onClick={() => setMobileOpen(false)}
             >
               {item.label}
             </Link>
           ))}
-          <Link to="/sobre-nosotros">Sobre nosotros</Link>
-          {user ? (
+          <Link to="/sobre-nosotros" onClick={() => setMobileOpen(false)}>
+            Sobre nosotros
+          </Link>
+          {loading ? null : user ? (
             <>
-              <Link to="/perfil">Mi cuenta</Link>
-              <Link to="/certificados">Certificados</Link>
+              <Link to="/perfil" onClick={() => setMobileOpen(false)}>
+                Mi cuenta
+              </Link>
+              <button type="button" onClick={signOutFromMobile}>
+                <LogOut size={16} /> Cerrar sesión
+              </button>
             </>
           ) : (
             <>
-              <Link to="/acceso">Acceder</Link>
-              <Link to="/registro">Crear cuenta</Link>
+              <Link to="/acceso" onClick={() => setMobileOpen(false)}>
+                Iniciar sesión
+              </Link>
+              <Link to="/registro" onClick={() => setMobileOpen(false)}>
+                Crear cuenta
+              </Link>
             </>
           )}
         </nav>

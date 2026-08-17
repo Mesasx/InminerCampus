@@ -1,39 +1,46 @@
 import type { PublicCourse } from './types'
 
-export type CourseCategory = 'vip' | 'mineria' | 'otros'
+export type CourseCategory = 'mineria' | 'otros'
 
 export const categoryLabels: Record<CourseCategory, string> = {
-  vip: 'VIP',
   mineria: 'Minería',
   otros: 'Otros',
 }
 
-const miningKeywords = [
-  'miner',
-  'mina',
-  'maquinaria',
-  'cantera',
-  'árido',
-  'arido',
-  'voladura',
-  'explotación',
-  'explotacion',
-  'cielo abierto',
-  'vial',
-]
-
 /**
  * Heurística de presentación: no existe todavía un campo de categoría en
- * `courses`, así que se aproxima por especialidad/título/modo de acceso.
- * A revisar cuando el catálogo tenga categorías reales en Supabase.
+ * `courses`, así que se aproxima por la referencia normativa (los cursos
+ * mineros de Inmíner Campus citan una ITC 02.x.02) y, en su defecto, por
+ * palabras clave del título/especialidad. A revisar cuando el catálogo
+ * tenga categorías reales en Supabase.
  */
 export function categoryOf(
-  course: Pick<PublicCourse, 'specialty' | 'title' | 'access_mode'>,
+  course: Pick<PublicCourse, 'specialty' | 'title'>,
 ): CourseCategory {
-  if (course.access_mode === 'access_code') return 'vip'
+  const haystack = `${course.specialty ?? ''} ${course.title}`.toLocaleLowerCase(
+    'es',
+  )
 
-  const haystack = `${course.specialty ?? ''} ${course.title}`.toLocaleLowerCase('es')
-  if (miningKeywords.some((keyword) => haystack.includes(keyword))) return 'mineria'
+  if (/\bitc\s*02\b/.test(haystack)) return 'mineria'
+
+  const miningKeywords = [
+    'miner',
+    'mina',
+    'maquinaria',
+    'cantera',
+    'árido',
+    'arido',
+    'voladura',
+    'explotación',
+    'explotacion',
+    'cielo abierto',
+    'vial',
+    'sílice',
+    'silice',
+  ]
+  if (miningKeywords.some((keyword) => haystack.includes(keyword))) {
+    return 'mineria'
+  }
 
   return 'otros'
 }
