@@ -580,7 +580,7 @@ export function AudioLessonPlayer({
 
       context.fillStyle = '#ffffff'
       context.fillRect(0, 0, width, height)
-      context.fillStyle = '#ef7d00'
+      context.fillStyle = '#f47a16'
       context.fillRect(0, 0, 12, headerHeight)
       context.fillStyle = '#17202a'
       context.font = '700 38px Arial, sans-serif'
@@ -590,7 +590,7 @@ export function AudioLessonPlayer({
       context.fillText(regulationLabel, 52, 112, width - 260)
       context.fillStyle = '#d4d8dc'
       context.fillRect(width - 190, 78, 2, 36)
-      context.fillStyle = '#ef7d00'
+      context.fillStyle = '#f47a16'
       context.font = '700 30px Arial, sans-serif'
       context.fillText(`${blockPosition}.${activeIndex + 1}`, width - 158, 108)
 

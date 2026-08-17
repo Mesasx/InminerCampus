@@ -174,7 +174,7 @@ function Evaluation({
     <AppShell user={user} title="Evaluación">
       <div className="dashboard-heading">
         <div>
-          <span className="eyebrow">Evaluación</span>
+          <span className="label-industrial">Evaluación</span>
           <h1>{attempt?.title || 'Comprueba tus conocimientos'}</h1>
           <p>{getEvaluationInstructions(attempt)}</p>
         </div>
@@ -277,23 +277,18 @@ function Evaluation({
             {attempt.requiredPerfectRounds ?? attempt.requiredStreak}
           </div>
           {attempt.questions.map((question, index) => (
-            <fieldset className="panel" key={question.id}>
-              <legend style={{ paddingInline: 8, fontWeight: 700 }}>
-                {index + 1}. {question.prompt}
-              </legend>
-              <div className="form-grid" style={{ marginTop: 16 }}>
+            <fieldset className="quiz-question" key={question.id}>
+              <span className="quiz-question__index label-industrial">
+                Pregunta {index + 1}/{attempt.questions.length}
+              </span>
+              <legend className="quiz-question__prompt">{question.prompt}</legend>
+              <div className="quiz-options">
                 {question.options.map((option) => {
                   const selected = answers[question.id]?.includes(option.id)
                   return (
                     <label
-                      className="checkbox"
+                      className={`quiz-option${selected ? ' quiz-option--selected' : ''}`}
                       key={option.id}
-                      style={{
-                        border: '1px solid var(--line)',
-                        borderRadius: 9,
-                        padding: 14,
-                        background: selected ? 'var(--orange-soft)' : 'white',
-                      }}
                     >
                       <input
                         type={

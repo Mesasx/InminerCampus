@@ -2,74 +2,119 @@ import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Menu } from 'lucide-react'
 import { Logo } from './Logo'
+import { AccountMenu } from './AccountMenu'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
-const navItems = [
-  { to: '/catalogo' as const, label: 'Cursos' },
-  { to: '/formacion-preventiva-oficial' as const, label: 'Formación oficial' },
-  { to: '/empresas' as const, label: 'Para empresas' },
-  { to: '/como-funciona' as const, label: 'Cómo funciona' },
-  { to: '/sobre-nosotros' as const, label: 'Sobre nosotros' },
-]
-
-const editorialNavItems = [
+const primaryNavItems = [
+  { to: '/' as const, label: 'Campus' },
   { to: '/mis-cursos' as const, label: 'Mis cursos' },
-  { to: '/catalogo' as const, label: 'Cursos' },
-  { to: '/sobre-nosotros' as const, label: 'Sobre nosotros' },
-  { to: '/perfil' as const, label: 'Mi cuenta' },
+] satisfies Array<{ to: '/' | '/mis-cursos'; label: string }>
+
+const categoryNavItems: Array<{
+  label: string
+  categoria: 'vip' | 'mineria' | 'otros'
+}> = [
+  { label: 'VIP', categoria: 'vip' },
+  { label: 'Minería', categoria: 'mineria' },
+  { label: 'Otros', categoria: 'otros' },
 ]
 
-export function PublicHeader({ editorial = false }: { editorial?: boolean }) {
+export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
-  const items = editorial ? editorialNavItems : navItems
+  const { user } = useCurrentUser()
 
   useEffect(() => {
-    if (!editorial) return
+    if (!heroFull) return
 
-    const updateHeader = () => setIsScrolled(window.scrollY > 28)
-    updateHeader()
-    window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
-  }, [editorial])
+    const sentinel = document.getElementById('campus-hero-sentinel')
+    if (!sentinel) {
+      setIsScrolled(window.scrollY > 28)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { rootMargin: '-1px 0px 0px 0px', threshold: 0 },
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [heroFull])
+
+  const transparent = heroFull && !isScrolled
 
   return (
     <header
-      className={`public-header${editorial ? ' public-header--editorial' : ''}${
-        isScrolled ? ' public-header--scrolled' : ''
-      }`}
+      className={`public-header${transparent ? ' public-header--transparent' : ' public-header--scrolled'}`}
     >
       <div className="container public-header__inner">
-        <Logo inverse={editorial} />
+        <Logo inverse={transparent} />
         <nav className="desktop-nav" aria-label="Navegación principal">
-          {items.map((item) => (
+          {primaryNavItems.map((item) => (
             <Link key={item.to} to={item.to} activeProps={{ 'aria-current': 'page' }}>
               {item.label}
             </Link>
           ))}
+          {categoryNavItems.map((item) => (
+            <Link
+              key={item.categoria}
+              to="/catalogo"
+              search={{ categoria: item.categoria }}
+              activeProps={{ 'aria-current': 'page' }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link to="/sobre-nosotros" activeProps={{ 'aria-current': 'page' }}>
+            Sobre nosotros
+          </Link>
         </nav>
-        {!editorial ? (
-          <div className="header-actions">
-            <Link className="button button--ghost" to="/acceso">
-              Acceder
-            </Link>
-            <Link className="button button--primary" to="/registro">
-              Crear cuenta
-            </Link>
-          </div>
-        ) : null}
+        <div className="header-actions">
+          {user ? (
+            <AccountMenu user={user} />
+          ) : (
+            <>
+              <Link className="button button--ghost" to="/acceso">
+                Acceder
+              </Link>
+              <Link className="button button--primary" to="/registro">
+                Crear cuenta
+              </Link>
+            </>
+          )}
+        </div>
         <details className="mobile-menu">
           <summary aria-label="Abrir menú">
             <Menu size={20} />
           </summary>
-          <nav className="mobile-menu__panel" aria-label="Navegación móvil">
-            {items.map((item) => (
-              <Link key={item.to} to={item.to}>
-                {item.label}
-              </Link>
-            ))}
-            {!editorial ? <Link to="/acceso">Acceder</Link> : null}
-            {!editorial ? <Link to="/registro">Crear cuenta</Link> : null}
-          </nav>
         </details>
+        <nav className="mobile-menu__panel" aria-label="Navegación móvil">
+          {primaryNavItems.map((item) => (
+            <Link key={item.to} to={item.to}>
+              {item.label}
+            </Link>
+          ))}
+          {categoryNavItems.map((item) => (
+            <Link
+              key={item.categoria}
+              to="/catalogo"
+              search={{ categoria: item.categoria }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link to="/sobre-nosotros">Sobre nosotros</Link>
+          {user ? (
+            <>
+              <Link to="/perfil">Mi cuenta</Link>
+              <Link to="/certificados">Certificados</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/acceso">Acceder</Link>
+              <Link to="/registro">Crear cuenta</Link>
+            </>
+          )}
+        </nav>
       </div>
     </header>
   )

@@ -15,11 +15,19 @@ export function Footer() {
           </div>
           <div className="footer__links">
             <strong>Plataforma</strong>
+            <Link to="/">Campus</Link>
             <Link to="/catalogo">Catálogo</Link>
-            <Link to="/formacion-preventiva-oficial">Formación Preventiva Oficial</Link>
-            <Link to="/empresas">Formación para empresas</Link>
-            <Link to="/verificar-certificado">Verificar certificado</Link>
+            <Link to="/mis-cursos">Mis cursos</Link>
+            <Link to="/sobre-nosotros">Sobre nosotros</Link>
             <Link to="/contacto">Contacto</Link>
+          </div>
+          <div className="footer__links">
+            <strong>Categorías</strong>
+            <Link to="/catalogo" search={{ categoria: 'vip' }}>VIP</Link>
+            <Link to="/catalogo" search={{ categoria: 'mineria' }}>Minería</Link>
+            <Link to="/catalogo" search={{ categoria: 'otros' }}>Otros</Link>
+            <Link to="/formacion-preventiva-oficial">Formación Preventiva Oficial</Link>
+            <Link to="/verificar-certificado">Verificar certificado</Link>
           </div>
           <div className="footer__links">
             <strong>Legal</strong>

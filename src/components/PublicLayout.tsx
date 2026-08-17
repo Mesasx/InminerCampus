@@ -4,15 +4,17 @@ import { PublicHeader } from './PublicHeader'
 
 export function PublicLayout({
   children,
-  editorial = false,
+  heroFull = false,
 }: {
   children: ReactNode
-  editorial?: boolean
+  heroFull?: boolean
 }) {
   return (
     <>
-      <PublicHeader editorial={editorial} />
-      <main className={editorial ? 'campus-home' : 'page-enter'}>{children}</main>
+      <PublicHeader heroFull={heroFull} />
+      <main className={heroFull ? 'public-main campus-home' : 'public-main page-enter'}>
+        {children}
+      </main>
       <Footer />
     </>
   )

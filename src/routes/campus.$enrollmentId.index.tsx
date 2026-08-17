@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { AppShell } from '../components/AppShell'
+import { ProgressBar } from '../components/ProgressBar'
 import { ProtectedGate } from '../components/ProtectedGate'
 import {
   hasAvailableLessonContent,
@@ -234,6 +235,15 @@ function CourseContent({
     [modules],
   )
 
+  const courseProgressPercent = useMemo(() => {
+    const lessons = modules.flatMap((module) => module.lessons)
+    if (!lessons.length) return 0
+    const completed = lessons.filter(
+      (lesson) => lesson.progress?.status === 'completed',
+    ).length
+    return Math.round((completed / lessons.length) * 100)
+  }, [modules])
+
   const finalAssessment = useMemo(
     () =>
       modules
@@ -257,11 +267,20 @@ function CourseContent({
       ) : null}
       <div className="dashboard-heading">
         <div>
-          <span className="eyebrow">Contenido del curso</span>
+          <span className="label-industrial">Formación Preventiva</span>
           <h1>{courseTitle || 'Tu formación'}</h1>
           <p>Las lecciones se desbloquean en el orden definido.</p>
         </div>
       </div>
+      {!loading && modules.length ? (
+        <div className="course-progress-summary">
+          <span className="label-industrial">
+            {modules.length} bloques · {courseTotals.audioParts} capítulos ·{' '}
+            {courseTotals.tests} evaluaciones
+          </span>
+          <ProgressBar label="Progreso del curso" percent={courseProgressPercent} />
+        </div>
+      ) : null}
       {['completed', 'theory_passed', 'practice_completed'].includes(
         enrollmentStatus,
       ) ? (
@@ -297,7 +316,16 @@ function CourseContent({
           </div>
         </section>
       ) : modules.length ? (
-        <div className="form-grid">
+        <div className="course-layout">
+          <nav className="course-layout__index" aria-label="Bloques del curso">
+            <span className="course-layout__index-title">Bloques</span>
+            {modules.map((module) => (
+              <a href={`#modulo-${module.id}`} key={module.id}>
+                <span>{module.position}</span> {module.title}
+              </a>
+            ))}
+          </nav>
+          <div className="course-layout__main form-grid">
           <section className="course-content-summary">
             <article>
               <Headphones size={21} />
@@ -347,7 +375,7 @@ function CourseContent({
           ) : null}
 
           {modules.map((module) => (
-            <section className="panel" key={module.id}>
+            <section className="panel" id={`modulo-${module.id}`} key={module.id}>
               <div className="panel__header">
                 <div>
                   <span className="status status--orange">
@@ -479,6 +507,7 @@ function CourseContent({
               </div>
             </section>
           ))}
+          </div>
         </div>
       ) : (
         <section className="empty-state">

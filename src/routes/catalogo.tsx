@@ -1,20 +1,36 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { BookOpen, SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
+import { CourseCard } from '../components/CourseCard'
 import { PublicLayout } from '../components/PublicLayout'
+import { categoryLabels, categoryOf, type CourseCategory } from '../lib/course-category'
 import { usePublicCourses } from '../hooks/usePublicCourses'
-import { formatCurrency, modalityLabel } from '../lib/format'
 
 export const Route = createFileRoute('/catalogo')({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { categoria?: CourseCategory } => ({
+    categoria:
+      search.categoria === 'vip' ||
+      search.categoria === 'mineria' ||
+      search.categoria === 'otros'
+        ? search.categoria
+        : undefined,
+  }),
   component: CatalogPage,
 })
 
+const categoryFilters: Array<CourseCategory> = ['vip', 'mineria', 'otros']
+
 function CatalogPage() {
+  const { categoria } = Route.useSearch()
+  const navigate = useNavigate({ from: Route.fullPath })
   const { courses, loading, loadError } = usePublicCourses()
   const [duration, setDuration] = useState<'all' | '5' | '20'>('all')
   const [query, setQuery] = useState('')
 
   const filtered = courses.filter((course) => {
+    const matchesCategory = !categoria || categoryOf(course) === categoria
     const matchesDuration =
       duration === 'all' || String(course.duration_hours) === duration
     const normalizedQuery = query.trim().toLocaleLowerCase('es')
@@ -24,7 +40,7 @@ function CatalogPage() {
       course.short_description
         ?.toLocaleLowerCase('es')
         .includes(normalizedQuery)
-    return matchesDuration && matchesQuery
+    return matchesCategory && matchesDuration && matchesQuery
   })
 
   return (
@@ -41,6 +57,28 @@ function CatalogPage() {
       </header>
       <section className="section">
         <div className="container">
+          <div className="category-filters" role="group" aria-label="Filtrar por categoría">
+            <button
+              className={`category-filter${!categoria ? ' category-filter--active' : ''}`}
+              onClick={() => navigate({ search: {} })}
+              type="button"
+            >
+              Todos
+            </button>
+            {categoryFilters.map((item) => (
+              <button
+                key={item}
+                className={`category-filter category-filter--${item}${
+                  categoria === item ? ' category-filter--active' : ''
+                }`}
+                onClick={() => navigate({ search: { categoria: item } })}
+                type="button"
+              >
+                {categoryLabels[item]}
+              </button>
+            ))}
+          </div>
+
           <div
             className="panel"
             style={{
@@ -101,44 +139,7 @@ function CatalogPage() {
           ) : filtered.length ? (
             <div className="course-grid">
               {filtered.map((course) => (
-                <article className="course-card" key={course.versionId}>
-                  <div
-                    className="course-card__visual"
-                    style={
-                      course.cover_storage_path?.startsWith('/')
-                        ? {
-                            backgroundImage: `url(${course.cover_storage_path})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                          }
-                        : undefined
-                    }
-                  >
-                    <span className="course-card__hours">
-                      {course.duration_hours} h
-                    </span>
-                    <span>{modalityLabel(course.modality)}</span>
-                  </div>
-                  <div className="course-card__body">
-                    <h3>{course.title}</h3>
-                    <p>{course.short_description}</p>
-                    <div className="course-card__footer">
-                      <span>
-                        {course.access_mode === 'access_code'
-                          ? 'Solo con invitación'
-                          : formatCurrency(course.price_net, course.currency)}
-                      </span>
-                      <Link
-                        className="text-link"
-                        to="/cursos/$courseSlug"
-                        params={{ courseSlug: course.slug }}
-                        search={{ version: course.versionId }}
-                      >
-                        Ver curso →
-                      </Link>
-                    </div>
-                  </div>
-                </article>
+                <CourseCard course={course} key={course.versionId} />
               ))}
             </div>
           ) : (
