@@ -21,6 +21,7 @@ type Certificate = {
   completion_date: string
   issued_at: string
   pdf_storage_path: string | null
+  validated_by: string | null
 }
 
 function CertificatesPage() {
@@ -43,7 +44,7 @@ function Certificates({ user }: { user: SessionUser }) {
     void supabase
       .from('certificates')
       .select(
-        'id, certificate_code, status, holder_name, course_title, duration_hours, modality, completion_date, issued_at, pdf_storage_path',
+        'id, certificate_code, status, holder_name, course_title, duration_hours, modality, completion_date, issued_at, pdf_storage_path, validated_by',
       )
       .eq('user_id', user.id)
       .order('issued_at', { ascending: false })
@@ -59,6 +60,30 @@ function Certificates({ user }: { user: SessionUser }) {
     setDownloadingId(certificate.id)
 
     try {
+      if (certificate.validated_by) {
+        // Certificados STVH: PDF personalizado a partir de la plantilla
+        // base, generado y cacheado una única vez en Supabase Storage.
+        const supabase = getSupabaseBrowserClient()
+        if (!supabase) throw new Error('Supabase no está configurado.')
+        const { data: sessionData } = await supabase.auth.getSession()
+        const accessToken = sessionData.session?.access_token
+        if (!accessToken) throw new Error('Sesión no válida.')
+
+        const response = await fetch(
+          `/api/certificado-stvh?certificateId=${encodeURIComponent(certificate.id)}`,
+          { headers: { Authorization: `Bearer ${accessToken}` } },
+        )
+        const body = (await response.json().catch(() => null)) as {
+          url?: string
+          error?: string
+        } | null
+        if (!response.ok || !body?.url) {
+          throw new Error(body?.error ?? 'No se ha podido preparar el certificado.')
+        }
+        window.location.assign(body.url)
+        return
+      }
+
       const pdfData = {
         certificateCode: certificate.certificate_code,
         holderName: certificate.holder_name,

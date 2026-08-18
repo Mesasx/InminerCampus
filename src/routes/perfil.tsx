@@ -23,6 +23,7 @@ function ProfileForm({ user }: { user: SessionUser }) {
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
+  const [dni, setDni] = useState('')
   const [message, setMessage] = useState('')
   const initials = (
     firstName?.[0] ||
@@ -40,7 +41,7 @@ function ProfileForm({ user }: { user: SessionUser }) {
     if (!supabase) return
     void supabase
       .from('profiles')
-      .select('first_name, last_name, phone')
+      .select('first_name, last_name, phone, dni')
       .eq('id', user.id)
       .maybeSingle()
       .then(({ data }) => {
@@ -48,12 +49,18 @@ function ProfileForm({ user }: { user: SessionUser }) {
         setFirstName(data.first_name)
         setLastName(data.last_name)
         setPhone(data.phone ?? '')
+        setDni(data.dni ?? '')
       })
   }, [user.id])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage('')
+    const trimmedDni = dni.trim().toUpperCase()
+    if (trimmedDni && !/^[0-9XYZ][0-9]{7}[A-Z]$/.test(trimmedDni)) {
+      setMessage('El DNI/NIE no tiene un formato válido.')
+      return
+    }
     const { error } =
       (await getSupabaseBrowserClient()
         ?.from('profiles')
@@ -61,6 +68,7 @@ function ProfileForm({ user }: { user: SessionUser }) {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
           phone: phone.trim() || null,
+          dni: trimmedDni || null,
         })
         .eq('id', user.id)) ?? {}
 
@@ -140,6 +148,18 @@ function ProfileForm({ user }: { user: SessionUser }) {
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
             />
+          </div>
+          <div className="field">
+            <label htmlFor="profile-dni">DNI / NIE</label>
+            <input
+              id="profile-dni"
+              placeholder="12345678Z"
+              value={dni}
+              onChange={(event) => setDni(event.target.value)}
+            />
+            <span className="muted">
+              Necesario para emitir certificados con tus datos personales.
+            </span>
           </div>
           <button className="button button--primary" type="submit">
             Guardar cambios

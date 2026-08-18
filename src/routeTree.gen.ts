@@ -38,6 +38,7 @@ import { Route as AdminMensajesRouteImport } from './routes/admin.mensajes'
 import { Route as AdminPracticasRouteImport } from './routes/admin.practicas'
 import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
 import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
+import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
 import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
@@ -206,6 +207,11 @@ const ApiAdminBillingRoute = ApiAdminBillingRouteImport.update({
   path: '/api/admin-billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCertificadoStvhRoute = ApiCertificadoStvhRouteImport.update({
+  id: '/api/certificado-stvh',
+  path: '/api/certificado-stvh',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
   id: '/api/checkout',
   path: '/api/checkout',
@@ -345,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -393,6 +400,7 @@ export interface FileRoutesByTo {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -445,6 +453,7 @@ export interface FileRoutesById {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -499,6 +508,7 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/payment-status'
@@ -547,6 +557,7 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/payment-status'
@@ -598,6 +609,7 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/payment-status'
@@ -643,6 +655,7 @@ export interface RootRouteChildren {
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
   ApiAdminBillingRoute: typeof ApiAdminBillingRoute
+  ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
   ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
@@ -859,6 +872,13 @@ declare module '@tanstack/react-router' {
       path: '/api/admin-billing'
       fullPath: '/api/admin-billing'
       preLoaderRoute: typeof ApiAdminBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/certificado-stvh': {
+      id: '/api/certificado-stvh'
+      path: '/api/certificado-stvh'
+      fullPath: '/api/certificado-stvh'
+      preLoaderRoute: typeof ApiCertificadoStvhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/checkout': {
@@ -1116,6 +1136,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreNosotrosRoute: SobreNosotrosRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
   ApiAdminBillingRoute: ApiAdminBillingRoute,
+  ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
   ApiPaymentStatusRoute: ApiPaymentStatusRoute,
