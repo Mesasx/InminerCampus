@@ -61,18 +61,32 @@ export const Route = createRootRoute({
       </main>
     </RootDocument>
   ),
-  errorComponent: ({ error }) => (
-    <RootDocument>
-      <main className="container section page-enter">
-        <span className="eyebrow">Se ha producido un error</span>
-        <h1>No hemos podido cargar esta página</h1>
-        <p className="muted">{error.message}</p>
-        <button className="button button--primary" onClick={() => location.reload()}>
-          Reintentar
-        </button>
-      </main>
-    </RootDocument>
-  ),
+  errorComponent: ({ error }) => {
+    const isStaleBundle = /dynamically imported module|Failed to fetch/i.test(
+      error.message,
+    )
+    return (
+      <RootDocument>
+        <main className="container section page-enter">
+          <span className="eyebrow">Se ha producido un error</span>
+          <h1>No hemos podido cargar esta página</h1>
+          <p className="muted">
+            {isStaleBundle
+              ? 'Es probable que se haya publicado una actualización de la plataforma mientras tenías esta pestaña abierta. Recarga la página para obtener la última versión.'
+              : error.message}
+          </p>
+          <button
+            className="button button--primary"
+            onClick={() => {
+              window.location.href = window.location.href
+            }}
+          >
+            Reintentar
+          </button>
+        </main>
+      </RootDocument>
+    )
+  },
   component: RootComponent,
 })
 
