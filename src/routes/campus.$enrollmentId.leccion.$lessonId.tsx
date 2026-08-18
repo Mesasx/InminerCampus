@@ -12,6 +12,7 @@ import { relationArray, type Relation } from '../lib/course-content'
 import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { useStvhActivityHeartbeat } from '../lib/use-activity-heartbeat'
 
 export const Route = createFileRoute(
   '/campus/$enrollmentId/leccion/$lessonId',
@@ -37,6 +38,7 @@ type LessonData = {
   summary: string
   blockPosition: number
   courseTitle: string
+  courseSlug: string
   regulationLabel: string
   contentMode: ContentMode
   resources: Resource[]
@@ -205,6 +207,7 @@ function Lesson({
             title: row.title,
             blockPosition: courseModule?.position ?? 1,
             courseTitle: course?.title ?? 'Curso Inmíner',
+            courseSlug: course?.slug ?? '',
             regulationLabel: getRegulationLabel(course?.slug ?? ''),
             contentMode,
             resources: resolvedResources,
@@ -285,6 +288,16 @@ function Lesson({
       active = false
     }
   }, [enrollmentId, isAdministrator, lessonId])
+
+  useStvhActivityHeartbeat(
+    enrollmentId,
+    Boolean(
+      lesson &&
+        lesson.courseSlug === 'formacion-stvh' &&
+        !isAdministrator &&
+        !contentCompleted,
+    ),
+  )
 
   const pdfResource = lesson?.resources.find(
     (resource) => resource.kind === 'pdf' || resource.kind === 'presentation',
