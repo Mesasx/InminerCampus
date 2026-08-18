@@ -25,6 +25,8 @@ function ProfileForm({ user }: { user: SessionUser }) {
   const [phone, setPhone] = useState('')
   const [dni, setDni] = useState('')
   const [message, setMessage] = useState('')
+  const [nameLocked, setNameLocked] = useState(false)
+  const [dniLocked, setDniLocked] = useState(false)
   const initials = (
     firstName?.[0] ||
     user.email[0] ||
@@ -50,6 +52,8 @@ function ProfileForm({ user }: { user: SessionUser }) {
         setLastName(data.last_name)
         setPhone(data.phone ?? '')
         setDni(data.dni ?? '')
+        setNameLocked(Boolean(data.first_name?.trim() && data.last_name?.trim()))
+        setDniLocked(Boolean(data.dni?.trim()))
       })
   }, [user.id])
 
@@ -122,18 +126,30 @@ function ProfileForm({ user }: { user: SessionUser }) {
               <input
                 id="profile-first-name"
                 required
+                disabled={nameLocked}
                 value={firstName}
                 onChange={(event) => setFirstName(event.target.value)}
               />
+              <span className="muted">
+                {nameLocked
+                  ? 'Este dato ya está guardado y no se puede modificar.'
+                  : 'No podrás cambiarlo una vez lo guardes.'}
+              </span>
             </div>
             <div className="field">
               <label htmlFor="profile-last-name">Apellidos</label>
               <input
                 id="profile-last-name"
                 required
+                disabled={nameLocked}
                 value={lastName}
                 onChange={(event) => setLastName(event.target.value)}
               />
+              <span className="muted">
+                {nameLocked
+                  ? 'Este dato ya está guardado y no se puede modificar.'
+                  : 'No podrás cambiarlo una vez lo guardes.'}
+              </span>
             </div>
           </div>
           <div className="field">
@@ -154,11 +170,14 @@ function ProfileForm({ user }: { user: SessionUser }) {
             <input
               id="profile-dni"
               placeholder="12345678Z"
+              disabled={dniLocked}
               value={dni}
               onChange={(event) => setDni(event.target.value)}
             />
             <span className="muted">
-              Necesario para emitir certificados con tus datos personales.
+              {dniLocked
+                ? 'Este dato ya está guardado y no se puede modificar.'
+                : 'Necesario para emitir certificados con tus datos personales. No podrás cambiarlo una vez lo guardes.'}
             </span>
           </div>
           <button className="button button--primary" type="submit">
