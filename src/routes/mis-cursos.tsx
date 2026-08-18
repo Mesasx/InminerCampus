@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { BookOpenCheck, Clock3, GraduationCap } from 'lucide-react'
+import {
+  BookOpenCheck,
+  CheckCircle2,
+  Clock3,
+  GraduationCap,
+  PlayCircle,
+  XCircle,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProgressBar } from '../components/ProgressBar'
@@ -8,10 +15,47 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { CourseModality, EnrollmentCard, SessionUser } from '../lib/types'
 
 const statusLabels: Record<string, string> = {
+  not_started: 'Sin empezar',
   active: 'En curso',
+  in_progress: 'En curso',
+  theory_passed: 'Teoría superada',
+  practice_pending: 'Práctica pendiente',
+  practice_completed: 'Práctica completada',
+  validation_pending: 'En validación',
   completed: 'Finalizado',
   expired: 'Caducado',
   failed: 'No superado',
+}
+
+const statusTone: Record<string, 'neutral' | 'progress' | 'success' | 'danger'> = {
+  not_started: 'neutral',
+  active: 'progress',
+  in_progress: 'progress',
+  theory_passed: 'progress',
+  practice_pending: 'progress',
+  practice_completed: 'progress',
+  validation_pending: 'progress',
+  completed: 'success',
+  expired: 'danger',
+  failed: 'danger',
+}
+
+const statusIcon: Record<'neutral' | 'progress' | 'success' | 'danger', typeof Clock3> = {
+  neutral: Clock3,
+  progress: PlayCircle,
+  success: CheckCircle2,
+  danger: XCircle,
+}
+
+function EnrollmentStatusBadge({ status }: { status: string }) {
+  const tone = statusTone[status] ?? 'neutral'
+  const label = statusLabels[status] ?? status
+  const Icon = statusIcon[tone]
+  return (
+    <span className={`enrollment-status enrollment-status--${tone}`}>
+      <Icon size={14} /> {label}
+    </span>
+  )
 }
 
 export const Route = createFileRoute('/mis-cursos')({
@@ -163,10 +207,8 @@ function MyCoursesDashboard({ user }: { user: SessionUser }) {
                 </span>
                 <div>
                   <h3>{enrollment.course.title}</h3>
-                  <p>
-                    {enrollment.course.duration_hours} h ·{' '}
-                    {statusLabels[enrollment.status] ?? enrollment.status}
-                  </p>
+                  <p>{enrollment.course.duration_hours} h de formación</p>
+                  <EnrollmentStatusBadge status={enrollment.status} />
                 </div>
                 <ProgressBar percent={enrollment.progress_percent} />
                 <Link
