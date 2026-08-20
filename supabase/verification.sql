@@ -20,7 +20,8 @@ where id in (
   'course-materials',
   'support-attachments',
   'practice-evidence',
-  'certificates'
+  'certificates',
+  'billing-documents'
 )
 order by id;
 
@@ -45,7 +46,22 @@ select
     'authenticated',
     'public.fulfill_stripe_checkout_v2(text,text,boolean,uuid,text,text,text,text,numeric,numeric,numeric,timestamptz)',
     'EXECUTE'
-  ) as browser_can_fulfill_purchase;
+  ) as browser_can_fulfill_purchase,
+  has_function_privilege(
+    'authenticated',
+    'public.claim_billing_jobs(integer)',
+    'EXECUTE'
+  ) as browser_can_claim_billing_jobs,
+  has_function_privilege(
+    'authenticated',
+    'public.claim_archive_jobs(integer)',
+    'EXECUTE'
+  ) as browser_can_claim_archive_jobs,
+  has_function_privilege(
+    'authenticated',
+    'public.retry_invoice_jobs(uuid,text)',
+    'EXECUTE'
+  ) as browser_can_retry_invoice_jobs;
 
 -- Access-code hashes must remain unreadable to browser clients.
 select has_column_privilege(

@@ -116,6 +116,9 @@ export const Route = createFileRoute('/api/checkout')({
         const currency = version.currency.toUpperCase()
         const idempotencyKey = `checkout:${user.id}:${body.checkoutRequestId}`
         const stripe = new StripeClient(stripeSecret)
+        const stripeInvoiceCreationEnabled =
+          process.env.STRIPE_INVOICE_CREATION_ENABLED?.trim().toLowerCase() !==
+          'false'
 
         const existingResult = await findExistingCheckout({
           appUrl,
@@ -201,9 +204,11 @@ export const Route = createFileRoute('/api/checkout')({
           currency,
           snapshot_version: 1,
           course_title_snapshot: course.title,
+          course_code_snapshot: course.slug,
           course_version_snapshot: version.version_number,
           modality_snapshot: version.modality,
           duration_hours_snapshot: version.duration_hours,
+          description_snapshot: `${course.title} · Versión ${version.version_number} · ${version.duration_hours} horas`,
           unit_net_cents: amounts.unitNetCents,
           line_net_cents: amounts.subtotalNetCents,
           line_tax_cents: amounts.taxAmountCents,
@@ -241,6 +246,7 @@ export const Route = createFileRoute('/api/checkout')({
           const session = await stripe.checkout.sessions.create(
             {
               mode: 'payment',
+              integration_identifier: `inminercampus_${integrationSuffix(body.checkoutRequestId)}`,
               customer: customer.id,
               client_reference_id: purchase.id,
               billing_address_collection: 'required',
@@ -265,24 +271,28 @@ export const Route = createFileRoute('/api/checkout')({
                   tax_rates: [taxRate.id],
                 },
               ],
-              invoice_creation: {
-                enabled: true,
-                invoice_data: {
-                  custom_fields: [
-                    {
-                      name: 'DNI/NIF/NIE/CIF',
-                      value: normalizeTaxIdentifier(body.billing.taxId),
+              ...(stripeInvoiceCreationEnabled
+                ? {
+                    invoice_creation: {
+                      enabled: true,
+                      invoice_data: {
+                        custom_fields: [
+                          {
+                            name: 'DNI/NIF/NIE/CIF',
+                            value: normalizeTaxIdentifier(body.billing.taxId),
+                          },
+                          {
+                            name: 'Pedido',
+                            value: orderNumber,
+                          },
+                        ],
+                        metadata: {
+                          purchase_id: purchase.id,
+                        },
+                      },
                     },
-                    {
-                      name: 'Pedido',
-                      value: orderNumber,
-                    },
-                  ],
-                  metadata: {
-                    purchase_id: purchase.id,
-                  },
-                },
-              },
+                  }
+                : {}),
               payment_intent_data: {
                 metadata: {
                   purchase_id: purchase.id,
@@ -379,6 +389,21 @@ async function findExistingCheckout({
     { error: 'La sesión de pago ha caducado. Recarga la página para crear otra.' },
     { status: 409 },
   )
+}
+
+function integrationSuffix(value: string): string {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+  let state = 2_166_136_261
+  for (const character of value) {
+    state ^= character.charCodeAt(0)
+    state = Math.imul(state, 16_777_619) >>> 0
+  }
+  let suffix = ''
+  for (let index = 0; index < 8; index += 1) {
+    state = Math.imul(state ^ (state >>> 13), 1_597_334_677) >>> 0
+    suffix += alphabet[state % alphabet.length]
+  }
+  return suffix
 }
 
 async function getOrCreateStripeCustomer({
