@@ -124,6 +124,14 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
               <Link to="/perfil" onClick={() => setMobileOpen(false)}>
                 Mi cuenta
               </Link>
+              {user.roles.some(
+                (role) =>
+                  role === 'administrador' || role === 'superadministrador',
+              ) ? (
+                <Link to="/admin" onClick={() => setMobileOpen(false)}>
+                  Panel de administración
+                </Link>
+              ) : null}
               <button type="button" onClick={signOutFromMobile}>
                 <LogOut size={16} /> Cerrar sesión
               </button>
