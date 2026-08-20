@@ -57,6 +57,34 @@ type BillingAdminRow = BillingCsvRow & {
   admin_notification_attempts: number
   admin_notification_sent_at: string | null
   admin_notification_error: string | null
+  invoices: Array<{
+    id: string
+    invoice_number: string
+    internal_invoice_reference: string
+    official_invoice_number: string | null
+    status: string
+    provider: string
+    issued_at: string | null
+    pdf_storage_path: string | null
+    email_sent_at: string | null
+    local_archive_status: string
+    local_archive_path: string | null
+    refund_requires_credit_note: boolean
+    last_error: string | null
+    billing_jobs: Array<{
+      type: string
+      status: string
+      attempt_count: number
+      next_attempt_at: string | null
+      last_error: string | null
+    }>
+    mnprogram_syncs: Array<{
+      status: string
+      attempt_count: number
+      last_error: string | null
+      synced_at: string | null
+    }>
+  }>
 }
 
 export const Route = createFileRoute('/api/admin-billing')({
@@ -79,7 +107,7 @@ export const Route = createFileRoute('/api/admin-billing')({
         const { data, error } = await administrator.supabase
           .from('purchases')
           .select(
-            'id, order_number, kind, status, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, refunded_amount_cents, currency, stripe_checkout_session_id, stripe_payment_intent_id, invoice_status, invoice_number, invoiced_at, invoice_sent_at, admin_notes, admin_notification_status, admin_notification_attempts, admin_notification_sent_at, admin_notification_error, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity)',
+            'id, order_number, kind, status, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, refunded_amount_cents, currency, stripe_checkout_session_id, stripe_payment_intent_id, invoice_status, invoice_number, invoiced_at, invoice_sent_at, admin_notes, admin_notification_status, admin_notification_attempts, admin_notification_sent_at, admin_notification_error, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity), invoices(id, invoice_number, internal_invoice_reference, official_invoice_number, status, provider, issued_at, pdf_storage_path, email_sent_at, local_archive_status, local_archive_path, refund_requires_credit_note, last_error, billing_jobs(type, status, attempt_count, next_attempt_at, last_error), mnprogram_syncs(status, attempt_count, last_error, synced_at))',
           )
           .in('status', ['paid', 'refunded', 'partially_refunded'])
           .order('paid_at', { ascending: false })
@@ -96,7 +124,7 @@ export const Route = createFileRoute('/api/admin-billing')({
           filters,
         )
         if (filters.format === 'csv') {
-          const csv = createBillingCsv(rows)
+          const csv = createBillingCsv(rows.map(toBillingCsvRow))
           const date = new Date().toISOString().slice(0, 10)
           return new Response(csv, {
             headers: {
@@ -183,6 +211,20 @@ export const Route = createFileRoute('/api/admin-billing')({
             { status: 409 },
           )
         }
+        const { data: automatedInvoice } = await administrator.supabase
+          .from('invoices')
+          .select('id')
+          .eq('purchase_id', action.purchaseId)
+          .maybeSingle()
+        if (automatedInvoice) {
+          return Response.json(
+            {
+              error:
+                'Este pedido usa la facturación automática. Reintenta la integración correspondiente en lugar de crear otra factura.',
+            },
+            { status: 409 },
+          )
+        }
         const update = {
           invoice_status: action.invoiceStatus,
           invoice_number: action.invoiceNumber || null,
@@ -228,7 +270,10 @@ function filterRows(
 ): BillingAdminRow[] {
   const search = filters.q.toLocaleLowerCase('es')
   return rows.filter((row) => {
-    if (filters.status !== 'all' && row.invoice_status !== filters.status) {
+    if (
+      filters.status !== 'all' &&
+      automatedFilterStatus(row) !== filters.status
+    ) {
       return false
     }
     if (
@@ -246,6 +291,8 @@ function filterRows(
     return [
       row.order_number,
       row.invoice_number,
+      row.invoices[0]?.official_invoice_number,
+      row.invoices[0]?.internal_invoice_reference,
       row.billing_name,
       row.billing_tax_id,
       row.billing_email,
@@ -258,4 +305,24 @@ function filterRows(
       .toLocaleLowerCase('es')
       .includes(search)
   })
+}
+
+function automatedFilterStatus(row: BillingAdminRow): string {
+  const invoice = row.invoices[0]
+  if (!invoice) return row.invoice_status
+  if (row.status === 'refunded') return 'refunded'
+  if (invoice.email_sent_at) return 'invoice_sent'
+  if (invoice.official_invoice_number) return 'invoiced'
+  return 'pending_invoice'
+}
+
+function toBillingCsvRow(row: BillingAdminRow): BillingCsvRow {
+  const invoice = row.invoices[0]
+  if (!invoice) return row
+  return {
+    ...row,
+    invoice_status: automatedFilterStatus(row),
+    invoice_number:
+      invoice.official_invoice_number ?? invoice.internal_invoice_reference,
+  }
 }

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 
@@ -51,6 +51,11 @@ function CompanySectionPage() {
                 El apartado utilizará los pedidos, miembros, matrículas y códigos
                 protegidos por la organización.
               </p>
+              {companySection === 'facturacion' ? (
+                <Link className="button button--primary" to="/facturas">
+                  Ver facturas de la organización
+                </Link>
+              ) : null}
             </div>
           </section>
         </AppShell>

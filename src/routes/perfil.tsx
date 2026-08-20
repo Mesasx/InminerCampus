@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { Award, BookOpen, LogOut } from 'lucide-react'
+import { Award, BookOpen, LogOut, ReceiptText } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -110,6 +110,13 @@ function ProfileForm({ user }: { user: SessionUser }) {
           <div>
             <strong>Certificados</strong>
             <span>Descarga los certificados ya emitidos</span>
+          </div>
+        </Link>
+        <Link className="profile-link-card" to="/facturas">
+          <ReceiptText size={22} />
+          <div>
+            <strong>Facturas</strong>
+            <span>Estado y descarga de tus facturas</span>
           </div>
         </Link>
       </div>

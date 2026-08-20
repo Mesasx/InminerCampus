@@ -20,6 +20,7 @@ import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as DudasRouteImport } from './routes/dudas'
 import { Route as EmpresaRouteImport } from './routes/empresa'
 import { Route as EmpresasRouteImport } from './routes/empresas'
+import { Route as FacturasRouteImport } from './routes/facturas'
 import { Route as FormacionPreventivaOficialRouteImport } from './routes/formacion-preventiva-oficial'
 import { Route as MisCursosRouteImport } from './routes/mis-cursos'
 import { Route as NuevaContrasenaRouteImport } from './routes/nueva-contrasena'
@@ -41,6 +42,7 @@ import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
 import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
+import { Route as ApiInvoicesRouteImport } from './routes/api.invoices'
 import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api.stripe-webhook'
 import { Route as CampusEnrollmentIdRouteImport } from './routes/campus.$enrollmentId'
@@ -56,10 +58,17 @@ import { Route as LegalLegalSlugRouteImport } from './routes/legal.$legalSlug'
 import { Route as PagoConfirmadoRouteImport } from './routes/pago.confirmado'
 import { Route as AdminCursosIndexRouteImport } from './routes/admin.cursos.index'
 import { Route as AdminCursosCourseIdRouteImport } from './routes/admin.cursos.$courseId'
+import { Route as ApiCronBillingRouteImport } from './routes/api.cron.billing'
 import { Route as CampusEnrollmentIdIndexRouteImport } from './routes/campus.$enrollmentId.index'
 import { Route as CampusEnrollmentIdConfidencialidadRouteImport } from './routes/campus.$enrollmentId.confidencialidad'
 import { Route as EvaluacionEnrollmentIdQuizIdRouteImport } from './routes/evaluacion.$enrollmentId.$quizId'
+import { Route as ApiInternalArchivePendingRouteImport } from './routes/api.internal.archive.pending'
+import { Route as ApiInvoicesInvoiceIdDownloadRouteImport } from './routes/api.invoices.$invoiceId.download'
 import { Route as CampusEnrollmentIdLeccionLessonIdRouteImport } from './routes/campus.$enrollmentId.leccion.$lessonId'
+import { Route as ApiAdminBillingRetryInvoiceIdRouteImport } from './routes/api.admin.billing.retry.$invoiceId'
+import { Route as ApiInternalArchiveInvoiceIdConfirmRouteImport } from './routes/api.internal.archive.$invoiceId.confirm'
+import { Route as ApiInternalArchiveInvoiceIdDownloadRouteImport } from './routes/api.internal.archive.$invoiceId.download'
+import { Route as ApiInternalArchiveInvoiceIdFailRouteImport } from './routes/api.internal.archive.$invoiceId.fail'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -114,6 +123,11 @@ const EmpresaRoute = EmpresaRouteImport.update({
 const EmpresasRoute = EmpresasRouteImport.update({
   id: '/empresas',
   path: '/empresas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FacturasRoute = FacturasRouteImport.update({
+  id: '/facturas',
+  path: '/facturas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FormacionPreventivaOficialRoute =
@@ -222,6 +236,11 @@ const ApiCompanyAccessCodesRoute = ApiCompanyAccessCodesRouteImport.update({
   path: '/api/company-access-codes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInvoicesRoute = ApiInvoicesRouteImport.update({
+  id: '/api/invoices',
+  path: '/api/invoices',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaymentStatusRoute = ApiPaymentStatusRouteImport.update({
   id: '/api/payment-status',
   path: '/api/payment-status',
@@ -298,6 +317,11 @@ const AdminCursosCourseIdRoute = AdminCursosCourseIdRouteImport.update({
   path: '/$courseId',
   getParentRoute: () => AdminCursosRoute,
 } as any)
+const ApiCronBillingRoute = ApiCronBillingRouteImport.update({
+  id: '/api/cron/billing',
+  path: '/api/cron/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CampusEnrollmentIdIndexRoute = CampusEnrollmentIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -315,11 +339,47 @@ const EvaluacionEnrollmentIdQuizIdRoute =
     path: '/evaluacion/$enrollmentId/$quizId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInternalArchivePendingRoute =
+  ApiInternalArchivePendingRouteImport.update({
+    id: '/api/internal/archive/pending',
+    path: '/api/internal/archive/pending',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInvoicesInvoiceIdDownloadRoute =
+  ApiInvoicesInvoiceIdDownloadRouteImport.update({
+    id: '/$invoiceId/download',
+    path: '/$invoiceId/download',
+    getParentRoute: () => ApiInvoicesRoute,
+  } as any)
 const CampusEnrollmentIdLeccionLessonIdRoute =
   CampusEnrollmentIdLeccionLessonIdRouteImport.update({
     id: '/leccion/$lessonId',
     path: '/leccion/$lessonId',
     getParentRoute: () => CampusEnrollmentIdRoute,
+  } as any)
+const ApiAdminBillingRetryInvoiceIdRoute =
+  ApiAdminBillingRetryInvoiceIdRouteImport.update({
+    id: '/api/admin/billing/retry/$invoiceId',
+    path: '/api/admin/billing/retry/$invoiceId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInternalArchiveInvoiceIdConfirmRoute =
+  ApiInternalArchiveInvoiceIdConfirmRouteImport.update({
+    id: '/api/internal/archive/$invoiceId/confirm',
+    path: '/api/internal/archive/$invoiceId/confirm',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInternalArchiveInvoiceIdDownloadRoute =
+  ApiInternalArchiveInvoiceIdDownloadRouteImport.update({
+    id: '/api/internal/archive/$invoiceId/download',
+    path: '/api/internal/archive/$invoiceId/download',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiInternalArchiveInvoiceIdFailRoute =
+  ApiInternalArchiveInvoiceIdFailRouteImport.update({
+    id: '/api/internal/archive/$invoiceId/fail',
+    path: '/api/internal/archive/$invoiceId/fail',
+    getParentRoute: () => rootRouteImport,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -334,6 +394,7 @@ export interface FileRoutesByFullPath {
   '/dudas': typeof DudasRouteWithChildren
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
+  '/facturas': typeof FacturasRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
@@ -354,6 +415,7 @@ export interface FileRoutesByFullPath {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
@@ -369,11 +431,18 @@ export interface FileRoutesByFullPath {
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
+  '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
+  '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
+  '/api/admin/billing/retry/$invoiceId': typeof ApiAdminBillingRetryInvoiceIdRoute
+  '/api/internal/archive/$invoiceId/confirm': typeof ApiInternalArchiveInvoiceIdConfirmRoute
+  '/api/internal/archive/$invoiceId/download': typeof ApiInternalArchiveInvoiceIdDownloadRoute
+  '/api/internal/archive/$invoiceId/fail': typeof ApiInternalArchiveInvoiceIdFailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -384,6 +453,7 @@ export interface FileRoutesByTo {
   '/como-funciona': typeof ComoFuncionaRoute
   '/contacto': typeof ContactoRoute
   '/empresas': typeof EmpresasRoute
+  '/facturas': typeof FacturasRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
@@ -403,6 +473,7 @@ export interface FileRoutesByTo {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
@@ -417,11 +488,18 @@ export interface FileRoutesByTo {
   '/dudas': typeof DudasIndexRoute
   '/empresa': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdIndexRoute
+  '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
+  '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
+  '/api/admin/billing/retry/$invoiceId': typeof ApiAdminBillingRetryInvoiceIdRoute
+  '/api/internal/archive/$invoiceId/confirm': typeof ApiInternalArchiveInvoiceIdConfirmRoute
+  '/api/internal/archive/$invoiceId/download': typeof ApiInternalArchiveInvoiceIdDownloadRoute
+  '/api/internal/archive/$invoiceId/fail': typeof ApiInternalArchiveInvoiceIdFailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -436,6 +514,7 @@ export interface FileRoutesById {
   '/dudas': typeof DudasRouteWithChildren
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
+  '/facturas': typeof FacturasRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
@@ -456,6 +535,7 @@ export interface FileRoutesById {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
@@ -471,11 +551,18 @@ export interface FileRoutesById {
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
+  '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
+  '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
+  '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
+  '/api/admin/billing/retry/$invoiceId': typeof ApiAdminBillingRetryInvoiceIdRoute
+  '/api/internal/archive/$invoiceId/confirm': typeof ApiInternalArchiveInvoiceIdConfirmRoute
+  '/api/internal/archive/$invoiceId/download': typeof ApiInternalArchiveInvoiceIdDownloadRoute
+  '/api/internal/archive/$invoiceId/fail': typeof ApiInternalArchiveInvoiceIdFailRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -491,6 +578,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/empresas'
+    | '/facturas'
     | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
@@ -511,6 +599,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
@@ -526,11 +615,18 @@ export interface FileRouteTypes {
     | '/dudas/'
     | '/empresa/'
     | '/admin/cursos/$courseId'
+    | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
+    | '/api/internal/archive/pending'
+    | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
+    | '/api/admin/billing/retry/$invoiceId'
+    | '/api/internal/archive/$invoiceId/confirm'
+    | '/api/internal/archive/$invoiceId/download'
+    | '/api/internal/archive/$invoiceId/fail'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -541,6 +637,7 @@ export interface FileRouteTypes {
     | '/como-funciona'
     | '/contacto'
     | '/empresas'
+    | '/facturas'
     | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
@@ -560,6 +657,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/comprar-empresa/$courseSlug'
@@ -574,11 +672,18 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/admin/cursos/$courseId'
+    | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos'
     | '/campus/$enrollmentId'
+    | '/api/internal/archive/pending'
+    | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
+    | '/api/admin/billing/retry/$invoiceId'
+    | '/api/internal/archive/$invoiceId/confirm'
+    | '/api/internal/archive/$invoiceId/download'
+    | '/api/internal/archive/$invoiceId/fail'
   id:
     | '__root__'
     | '/'
@@ -592,6 +697,7 @@ export interface FileRouteTypes {
     | '/dudas'
     | '/empresa'
     | '/empresas'
+    | '/facturas'
     | '/formacion-preventiva-oficial'
     | '/mis-cursos'
     | '/nueva-contrasena'
@@ -612,6 +718,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
@@ -627,11 +734,18 @@ export interface FileRouteTypes {
     | '/dudas/'
     | '/empresa/'
     | '/admin/cursos/$courseId'
+    | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
+    | '/api/internal/archive/pending'
+    | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
+    | '/api/admin/billing/retry/$invoiceId'
+    | '/api/internal/archive/$invoiceId/confirm'
+    | '/api/internal/archive/$invoiceId/download'
+    | '/api/internal/archive/$invoiceId/fail'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -646,6 +760,7 @@ export interface RootRouteChildren {
   DudasRoute: typeof DudasRouteWithChildren
   EmpresaRoute: typeof EmpresaRouteWithChildren
   EmpresasRoute: typeof EmpresasRoute
+  FacturasRoute: typeof FacturasRoute
   FormacionPreventivaOficialRoute: typeof FormacionPreventivaOficialRoute
   MisCursosRoute: typeof MisCursosRoute
   NuevaContrasenaRoute: typeof NuevaContrasenaRoute
@@ -658,6 +773,7 @@ export interface RootRouteChildren {
   ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
+  ApiInvoicesRoute: typeof ApiInvoicesRouteWithChildren
   ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
   CampusEnrollmentIdRoute: typeof CampusEnrollmentIdRouteWithChildren
@@ -666,7 +782,13 @@ export interface RootRouteChildren {
   CursosCourseSlugRoute: typeof CursosCourseSlugRoute
   LegalLegalSlugRoute: typeof LegalLegalSlugRoute
   PagoConfirmadoRoute: typeof PagoConfirmadoRoute
+  ApiCronBillingRoute: typeof ApiCronBillingRoute
   EvaluacionEnrollmentIdQuizIdRoute: typeof EvaluacionEnrollmentIdQuizIdRoute
+  ApiInternalArchivePendingRoute: typeof ApiInternalArchivePendingRoute
+  ApiAdminBillingRetryInvoiceIdRoute: typeof ApiAdminBillingRetryInvoiceIdRoute
+  ApiInternalArchiveInvoiceIdConfirmRoute: typeof ApiInternalArchiveInvoiceIdConfirmRoute
+  ApiInternalArchiveInvoiceIdDownloadRoute: typeof ApiInternalArchiveInvoiceIdDownloadRoute
+  ApiInternalArchiveInvoiceIdFailRoute: typeof ApiInternalArchiveInvoiceIdFailRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -746,6 +868,13 @@ declare module '@tanstack/react-router' {
       path: '/empresas'
       fullPath: '/empresas'
       preLoaderRoute: typeof EmpresasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facturas': {
+      id: '/facturas'
+      path: '/facturas'
+      fullPath: '/facturas'
+      preLoaderRoute: typeof FacturasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/formacion-preventiva-oficial': {
@@ -895,6 +1024,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCompanyAccessCodesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/invoices': {
+      id: '/api/invoices'
+      path: '/api/invoices'
+      fullPath: '/api/invoices'
+      preLoaderRoute: typeof ApiInvoicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/payment-status': {
       id: '/api/payment-status'
       path: '/api/payment-status'
@@ -1000,6 +1136,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCursosCourseIdRouteImport
       parentRoute: typeof AdminCursosRoute
     }
+    '/api/cron/billing': {
+      id: '/api/cron/billing'
+      path: '/api/cron/billing'
+      fullPath: '/api/cron/billing'
+      preLoaderRoute: typeof ApiCronBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campus/$enrollmentId/': {
       id: '/campus/$enrollmentId/'
       path: '/'
@@ -1021,12 +1164,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvaluacionEnrollmentIdQuizIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/internal/archive/pending': {
+      id: '/api/internal/archive/pending'
+      path: '/api/internal/archive/pending'
+      fullPath: '/api/internal/archive/pending'
+      preLoaderRoute: typeof ApiInternalArchivePendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/invoices/$invoiceId/download': {
+      id: '/api/invoices/$invoiceId/download'
+      path: '/$invoiceId/download'
+      fullPath: '/api/invoices/$invoiceId/download'
+      preLoaderRoute: typeof ApiInvoicesInvoiceIdDownloadRouteImport
+      parentRoute: typeof ApiInvoicesRoute
+    }
     '/campus/$enrollmentId/leccion/$lessonId': {
       id: '/campus/$enrollmentId/leccion/$lessonId'
       path: '/leccion/$lessonId'
       fullPath: '/campus/$enrollmentId/leccion/$lessonId'
       preLoaderRoute: typeof CampusEnrollmentIdLeccionLessonIdRouteImport
       parentRoute: typeof CampusEnrollmentIdRoute
+    }
+    '/api/admin/billing/retry/$invoiceId': {
+      id: '/api/admin/billing/retry/$invoiceId'
+      path: '/api/admin/billing/retry/$invoiceId'
+      fullPath: '/api/admin/billing/retry/$invoiceId'
+      preLoaderRoute: typeof ApiAdminBillingRetryInvoiceIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/archive/$invoiceId/confirm': {
+      id: '/api/internal/archive/$invoiceId/confirm'
+      path: '/api/internal/archive/$invoiceId/confirm'
+      fullPath: '/api/internal/archive/$invoiceId/confirm'
+      preLoaderRoute: typeof ApiInternalArchiveInvoiceIdConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/archive/$invoiceId/download': {
+      id: '/api/internal/archive/$invoiceId/download'
+      path: '/api/internal/archive/$invoiceId/download'
+      fullPath: '/api/internal/archive/$invoiceId/download'
+      preLoaderRoute: typeof ApiInternalArchiveInvoiceIdDownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal/archive/$invoiceId/fail': {
+      id: '/api/internal/archive/$invoiceId/fail'
+      path: '/api/internal/archive/$invoiceId/fail'
+      fullPath: '/api/internal/archive/$invoiceId/fail'
+      preLoaderRoute: typeof ApiInternalArchiveInvoiceIdFailRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -1098,6 +1283,18 @@ const EmpresaRouteChildren: EmpresaRouteChildren = {
 const EmpresaRouteWithChildren =
   EmpresaRoute._addFileChildren(EmpresaRouteChildren)
 
+interface ApiInvoicesRouteChildren {
+  ApiInvoicesInvoiceIdDownloadRoute: typeof ApiInvoicesInvoiceIdDownloadRoute
+}
+
+const ApiInvoicesRouteChildren: ApiInvoicesRouteChildren = {
+  ApiInvoicesInvoiceIdDownloadRoute: ApiInvoicesInvoiceIdDownloadRoute,
+}
+
+const ApiInvoicesRouteWithChildren = ApiInvoicesRoute._addFileChildren(
+  ApiInvoicesRouteChildren,
+)
+
 interface CampusEnrollmentIdRouteChildren {
   CampusEnrollmentIdConfidencialidadRoute: typeof CampusEnrollmentIdConfidencialidadRoute
   CampusEnrollmentIdIndexRoute: typeof CampusEnrollmentIdIndexRoute
@@ -1127,6 +1324,7 @@ const rootRouteChildren: RootRouteChildren = {
   DudasRoute: DudasRouteWithChildren,
   EmpresaRoute: EmpresaRouteWithChildren,
   EmpresasRoute: EmpresasRoute,
+  FacturasRoute: FacturasRoute,
   FormacionPreventivaOficialRoute: FormacionPreventivaOficialRoute,
   MisCursosRoute: MisCursosRoute,
   NuevaContrasenaRoute: NuevaContrasenaRoute,
@@ -1139,6 +1337,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
+  ApiInvoicesRoute: ApiInvoicesRouteWithChildren,
   ApiPaymentStatusRoute: ApiPaymentStatusRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,
   CampusEnrollmentIdRoute: CampusEnrollmentIdRouteWithChildren,
@@ -1147,7 +1346,15 @@ const rootRouteChildren: RootRouteChildren = {
   CursosCourseSlugRoute: CursosCourseSlugRoute,
   LegalLegalSlugRoute: LegalLegalSlugRoute,
   PagoConfirmadoRoute: PagoConfirmadoRoute,
+  ApiCronBillingRoute: ApiCronBillingRoute,
   EvaluacionEnrollmentIdQuizIdRoute: EvaluacionEnrollmentIdQuizIdRoute,
+  ApiInternalArchivePendingRoute: ApiInternalArchivePendingRoute,
+  ApiAdminBillingRetryInvoiceIdRoute: ApiAdminBillingRetryInvoiceIdRoute,
+  ApiInternalArchiveInvoiceIdConfirmRoute:
+    ApiInternalArchiveInvoiceIdConfirmRoute,
+  ApiInternalArchiveInvoiceIdDownloadRoute:
+    ApiInternalArchiveInvoiceIdDownloadRoute,
+  ApiInternalArchiveInvoiceIdFailRoute: ApiInternalArchiveInvoiceIdFailRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

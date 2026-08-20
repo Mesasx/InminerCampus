@@ -46,6 +46,34 @@ type BillingPurchase = {
   admin_notification_attempts: number
   admin_notification_sent_at: string | null
   admin_notification_error: string | null
+  invoices: Array<{
+    id: string
+    invoice_number: string
+    internal_invoice_reference: string
+    official_invoice_number: string | null
+    status: string
+    provider: string
+    issued_at: string | null
+    pdf_storage_path: string | null
+    email_sent_at: string | null
+    local_archive_status: string
+    local_archive_path: string | null
+    refund_requires_credit_note: boolean
+    last_error: string | null
+    billing_jobs: Array<{
+      type: string
+      status: string
+      attempt_count: number
+      next_attempt_at: string | null
+      last_error: string | null
+    }>
+    mnprogram_syncs: Array<{
+      status: string
+      attempt_count: number
+      last_error: string | null
+      synced_at: string | null
+    }>
+  }>
   purchase_items: Array<{
     course_title_snapshot: string
     course_version_snapshot: number
@@ -208,6 +236,61 @@ function AdminBilling({ user }: { user: SessionUser }) {
       action: 'retry_notification',
       purchaseId: selected.id,
     })
+  }
+
+  async function retryInvoiceJob(jobType: string) {
+    if (!selected?.invoices[0]) return
+    const token = await getAccessToken()
+    if (!token) return
+    setSaving(true)
+    try {
+      const response = await fetch(
+        `/api/admin/billing/retry/${encodeURIComponent(selected.invoices[0].id)}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ jobType }),
+        },
+      )
+      const payload = (await response.json()) as {
+        message?: string
+        error?: string
+      }
+      setNotice(
+        response.ok
+          ? payload.message ?? 'Reintento programado.'
+          : payload.error ?? 'No se ha podido programar el reintento.',
+      )
+      if (response.ok) await load()
+    } catch {
+      setNotice('No se ha podido conectar para programar el reintento.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function downloadInvoice() {
+    const invoice = selected?.invoices[0]
+    if (!invoice?.pdf_storage_path || !invoice.official_invoice_number) return
+    const token = await getAccessToken()
+    if (!token) return
+    try {
+      const response = await fetch(
+        `/api/invoices/${encodeURIComponent(invoice.id)}/download`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      const payload = (await response.json()) as { url?: string; error?: string }
+      if (response.ok && payload.url) {
+        window.open(payload.url, '_blank', 'noopener')
+      } else {
+        setNotice(payload.error ?? 'No se ha podido descargar la factura.')
+      }
+    } catch {
+      setNotice('No se ha podido conectar para descargar la factura.')
+    }
   }
 
   async function downloadCsv() {
@@ -381,7 +464,11 @@ function AdminBilling({ user }: { user: SessionUser }) {
                           purchase.currency,
                         )}
                       </strong>
-                      <small>{invoiceLabel(purchase.invoice_status)}</small>
+                      <small>
+                        {purchase.invoices[0]
+                          ? automatedInvoiceLabel(purchase.invoices[0].status)
+                          : invoiceLabel(purchase.invoice_status)}
+                      </small>
                     </span>
                   </button>
                 )
@@ -406,6 +493,8 @@ function AdminBilling({ user }: { user: SessionUser }) {
               onInvoiceNumberChange={setInvoiceNumber}
               onInvoiceStatusChange={setInvoiceStatus}
               onRetryNotification={retryNotification}
+              onRetryInvoiceJob={retryInvoiceJob}
+              onDownloadInvoice={downloadInvoice}
               onSave={saveInvoice}
             />
           ) : (
@@ -429,6 +518,8 @@ function BillingDetail({
   onInvoiceNumberChange,
   onAdminNotesChange,
   onRetryNotification,
+  onRetryInvoiceJob,
+  onDownloadInvoice,
   onSave,
 }: {
   purchase: BillingPurchase
@@ -440,9 +531,12 @@ function BillingDetail({
   onInvoiceNumberChange: (value: string) => void
   onAdminNotesChange: (value: string) => void
   onRetryNotification: () => void
+  onRetryInvoiceJob: (jobType: string) => void
+  onDownloadInvoice: () => void
   onSave: () => void
 }) {
   const item = purchase.purchase_items[0]
+  const automatedInvoice = purchase.invoices[0]
   const invoiceLocked = purchase.invoice_status === 'refunded'
   return (
     <>
@@ -545,6 +639,14 @@ function BillingDetail({
         ) : null}
       </div>
 
+      {automatedInvoice ? (
+        <AutomatedInvoicePanel
+          invoice={automatedInvoice}
+          saving={saving}
+          onDownload={onDownloadInvoice}
+          onRetry={onRetryInvoiceJob}
+        />
+      ) : (
       <div className="form-grid billing-detail__editor">
         <div className="form-row">
           <div className="field">
@@ -597,6 +699,7 @@ function BillingDetail({
           {invoiceLocked ? 'Factura reembolsada' : 'Guardar facturación'}
         </button>
       </div>
+      )}
 
       <div
         className={
@@ -634,6 +737,117 @@ function BillingDetail({
   )
 }
 
+function AutomatedInvoicePanel({
+  invoice,
+  saving,
+  onRetry,
+  onDownload,
+}: {
+  invoice: BillingPurchase['invoices'][number]
+  saving: boolean
+  onRetry: (jobType: string) => void
+  onDownload: () => void
+}) {
+  const mnprogram = invoice.mnprogram_syncs[0]
+  const job = (type: string) =>
+    invoice.billing_jobs.find((candidate) => candidate.type === type)
+  const available = Boolean(
+    invoice.official_invoice_number && invoice.pdf_storage_path,
+  )
+  return (
+    <section className="form-grid billing-detail__editor">
+      <div className="panel__header">
+        <div>
+          <span className="eyebrow">Trazabilidad automática</span>
+          <h3>
+            {invoice.official_invoice_number ??
+              invoice.internal_invoice_reference}
+          </h3>
+        </div>
+        <span className="status status--orange">
+          {automatedInvoiceLabel(invoice.status)}
+        </span>
+      </div>
+      <dl className="admin-detail__facts billing-detail__facts">
+        <div>
+          <dt>Pago</dt>
+          <dd>Pagado</dd>
+        </div>
+        <div>
+          <dt>Factura</dt>
+          <dd>{available ? 'Emitida' : 'Pendiente de MNprogram'}</dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd>{invoice.email_sent_at ? 'Enviado' : job('invoice_email')?.status ?? 'Pendiente'}</dd>
+        </div>
+        <div>
+          <dt>MNprogram</dt>
+          <dd>{mnprogram?.status ?? job('mnprogram_sync')?.status ?? 'Pendiente'}</dd>
+        </div>
+        <div>
+          <dt>Archivo local</dt>
+          <dd>
+            {job('local_archive')?.status ?? invoice.local_archive_status}
+          </dd>
+        </div>
+      </dl>
+      {invoice.refund_requires_credit_note ? (
+        <div className="alert alert--error">
+          Reembolso registrado: requiere factura rectificativa en MNprogram.
+        </div>
+      ) : null}
+      {invoice.last_error || mnprogram?.last_error ? (
+        <div className="alert alert--info">
+          {invoice.last_error ?? mnprogram?.last_error}
+        </div>
+      ) : null}
+      <div className="content-editor__actions">
+        <button
+          className="button button--outline"
+          disabled={!available || saving}
+          onClick={onDownload}
+          type="button"
+        >
+          <Download size={16} /> Descargar
+        </button>
+        <button
+          className="button button--outline"
+          disabled={saving}
+          onClick={() => onRetry('mnprogram_sync')}
+          type="button"
+        >
+          <RefreshCw size={16} /> Reintentar MNprogram
+        </button>
+        <button
+          className="button button--outline"
+          disabled={saving}
+          onClick={() => onRetry('invoice_issue')}
+          type="button"
+        >
+          <RefreshCw size={16} /> Reintentar emisión
+        </button>
+        <button
+          className="button button--outline"
+          disabled={saving || !available}
+          onClick={() => onRetry('invoice_email')}
+          type="button"
+        >
+          <Send size={16} /> Reenviar factura
+        </button>
+        <button
+          className="button button--outline"
+          disabled={saving || !available}
+          onClick={() => onRetry('local_archive')}
+          type="button"
+        >
+          <RefreshCw size={16} /> Reintentar archivo
+        </button>
+      </div>
+    </section>
+  )
+}
+
 async function getAccessToken(): Promise<string | null> {
   const { data } =
     (await getSupabaseBrowserClient()?.auth.getSession()) ?? { data: null }
@@ -646,6 +860,21 @@ function invoiceLabel(status: string): string {
     invoiced: 'Emitida',
     invoice_sent: 'Enviada',
     refunded: 'Reembolsada',
+  }
+  return labels[status] ?? status
+}
+
+function automatedInvoiceLabel(status: string): string {
+  const labels: Record<string, string> = {
+    pending: 'Pendiente',
+    issuing: 'En emisión',
+    issued: 'Emitida',
+    email_pending: 'Email pendiente',
+    emailed: 'Enviada',
+    archive_pending: 'Archivo pendiente',
+    archived: 'Archivada',
+    error: 'Con incidencia',
+    cancelled: 'Cancelada',
   }
   return labels[status] ?? status
 }

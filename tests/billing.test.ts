@@ -68,3 +68,26 @@ test('valida DNI y rechaza identificadores españoles con control incorrecto', (
   assert.equal(isValidSpanishTaxIdentifier('12345678Z'), true)
   assert.equal(isValidSpanishTaxIdentifier('12345678A'), false)
 })
+
+test('acepta compra de empresa con varias plazas y organización', () => {
+  const result = checkoutRequestSchema.safeParse({
+    courseVersionId: 'cb8db9a1-3891-4df6-bb63-66c39f58f0f5',
+    checkoutRequestId: '11111111-1111-4111-8111-111111111111',
+    organizationId: '22222222-2222-4222-8222-222222222222',
+    kind: 'company',
+    quantity: 25,
+    billing: {
+      ...validBilling,
+      buyerType: 'business',
+      fiscalName: 'INMÍNER Ingeniería, S.L.',
+      taxId: 'B13476148',
+    },
+  })
+  assert.equal(result.success, true)
+})
+
+test('valida CIF y NIE españoles', () => {
+  assert.equal(isValidSpanishTaxIdentifier('B13476148'), true)
+  assert.equal(isValidSpanishTaxIdentifier('X1234567L'), true)
+  assert.equal(isValidSpanishTaxIdentifier('X1234567A'), false)
+})
