@@ -51,6 +51,13 @@ function CatalogPage() {
             Consulta los programas disponibles. Cada ficha identifica la ITC,
             la especificación técnica, la modalidad y las prácticas aplicables.
           </p>
+          <p className="muted">
+            ¿Ya tienes un código de acceso de tu empresa?{' '}
+            <Link className="text-link" to="/canjear-codigo">
+              Canjéalo aquí
+            </Link>
+            .
+          </p>
         </div>
       </header>
       <section className="section">
