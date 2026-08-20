@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { BookOpen, LogOut, UserRound } from 'lucide-react'
+import { BookOpen, LayoutDashboard, LogOut, UserRound } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
@@ -27,6 +27,9 @@ export function AccountMenu({ user }: { user: SessionUser }) {
   }, [open])
 
   const initials = (user.firstName?.[0] || user.email[0] || '?').toUpperCase()
+  const isAdmin = user.roles.some(
+    (role) => role === 'administrador' || role === 'superadministrador',
+  )
 
   async function signOut() {
     setOpen(false)
@@ -61,6 +64,11 @@ export function AccountMenu({ user }: { user: SessionUser }) {
           <Link role="menuitem" to="/mis-cursos" onClick={() => setOpen(false)}>
             <BookOpen size={16} /> Mis cursos
           </Link>
+          {isAdmin ? (
+            <Link role="menuitem" to="/admin" onClick={() => setOpen(false)}>
+              <LayoutDashboard size={16} /> Panel de administración
+            </Link>
+          ) : null}
           <button role="menuitem" type="button" onClick={signOut}>
             <LogOut size={16} /> Cerrar sesión
           </button>
