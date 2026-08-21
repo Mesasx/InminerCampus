@@ -299,9 +299,9 @@ function Lesson({
     ),
   )
 
-  const pdfResource = lesson?.resources.find(
-    (resource) => resource.kind === 'pdf' || resource.kind === 'presentation',
-  )
+  const pdfResource =
+    lesson?.resources.find((resource) => resource.kind === 'presentation') ??
+    lesson?.resources.find((resource) => resource.kind === 'pdf')
   const isSlideLesson = lesson?.contentMode === 'slides'
 
   return (
