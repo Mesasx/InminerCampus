@@ -33,6 +33,8 @@ type CourseVersion = {
   requirements: string[]
   syllabus_summary: string
   practice_required: boolean
+  accreditation_reference: string | null
+  renewal_interval_months: number | null
   price_net: number | null
   tax_rate: number
   currency: string
@@ -70,7 +72,7 @@ function CourseDetailPage() {
       const currentSchemaResult = await supabase
         .from('courses')
         .select(
-          'id, slug, title, short_description, description, specialty, access_mode, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
+          'id, slug, title, short_description, description, specialty, access_mode, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, accreditation_reference, renewal_interval_months, price_net, tax_rate, currency, version_number)',
         )
         .eq('slug', courseSlug)
         .eq('status', 'published')
@@ -88,7 +90,7 @@ function CourseDetailPage() {
         const legacySchemaResult = await supabase
           .from('courses')
           .select(
-            'id, slug, title, short_description, description, specialty, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, price_net, tax_rate, currency, version_number)',
+            'id, slug, title, short_description, description, specialty, cover_storage_path, course_versions!inner(id, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, accreditation_reference, renewal_interval_months, price_net, tax_rate, currency, version_number)',
           )
           .eq('slug', courseSlug)
           .eq('status', 'published')
@@ -170,6 +172,13 @@ function CourseDetailPage() {
   }
 
   const version = course.version
+  const isTransportCourse =
+    course.slug === 'operador-maquinaria-transporte-camion-volquete'
+  const versionLabel = isTransportCourse
+    ? version.duration_hours === 5
+      ? 'Reciclaje periódico'
+      : 'Formación inicial'
+    : null
 
   return (
     <PublicLayout>
@@ -258,7 +267,12 @@ function CourseDetailPage() {
                         search={{ version: option.id }}
                         to="/cursos/$courseSlug"
                       >
-                        <span>{option.duration_hours} horas</span>
+                        <span>
+                          {option.duration_hours} horas
+                          {isTransportCourse
+                            ? ` · ${option.duration_hours === 5 ? 'Reciclaje' : 'Formación inicial'}`
+                            : ''}
+                        </span>
                         <strong>
                           {formatCurrency(option.price_net, option.currency)}
                         </strong>
@@ -268,7 +282,9 @@ function CourseDetailPage() {
                 </div>
               ) : null}
               <span className="status status--orange">
-                {modalityLabel(version.modality)}
+                {versionLabel
+                  ? `${versionLabel} · ${modalityLabel(version.modality)}`
+                  : modalityLabel(version.modality)}
               </span>
               <div style={{ display: 'flex', gap: 11 }}>
                 <CalendarClock size={20} color="var(--orange)" />
@@ -284,8 +300,20 @@ function CourseDetailPage() {
               </div>
               <div style={{ display: 'flex', gap: 11 }}>
                 <BadgeCheck size={20} color="var(--orange)" />
-                <span>Evaluación y trazabilidad del progreso</span>
+                <span>
+                  {version.accreditation_reference ||
+                    'Evaluación y trazabilidad del progreso'}
+                </span>
               </div>
+              {version.renewal_interval_months ? (
+                <div style={{ display: 'flex', gap: 11 }}>
+                  <CalendarClock size={20} color="var(--orange)" />
+                  <span>
+                    Renovación máxima cada {version.renewal_interval_months}{' '}
+                    meses
+                  </span>
+                </div>
+              ) : null}
               <hr style={{ width: '100%', border: 0, borderTop: '1px solid var(--line)' }} />
               {course.access_mode === 'access_code' ? (
                 <>
