@@ -3,7 +3,7 @@ import test from 'node:test'
 import { readFile } from 'node:fs/promises'
 
 const migrationUrl = new URL(
-  '../supabase/migrations/20260820160000_automate_billing_mnprogram.sql',
+  '../supabase/migrations-disabled/20260820160000_automate_billing_mnprogram.sql',
   import.meta.url,
 )
 
