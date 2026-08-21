@@ -2556,7 +2556,6 @@ span {
 }
 
 .explanation-switcher {
-  order: -2;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -2637,7 +2636,6 @@ span {
 }
 
 .audio-player {
-  order: -1;
   display: grid;
   grid-template-columns: minmax(160px, auto) minmax(320px, 1fr);
   align-items: center;

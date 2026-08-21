@@ -11,6 +11,7 @@ const lessonRouteUrl = new URL(
   import.meta.url,
 )
 const courseRouteUrl = new URL('../src/routes/cursos.$courseSlug.tsx', import.meta.url)
+const audioPlayerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
 const stylesUrl = new URL('../src/styles/app.css', import.meta.url)
 
 function sectionBetween(sql: string, start: string, end: string) {
@@ -125,15 +126,21 @@ test('publica un único slide y ambos PDF completos por parte/bloque', async () 
   assert.match(sql, /required_perfect_streak=3/)
 })
 
-test('la interfaz muestra audio antes de la diapositiva y distingue el reciclaje', async () => {
-  const [lessonRoute, courseRoute, styles] = await Promise.all([
+test('la interfaz muestra diapositiva, audio y transcripción en ese orden', async () => {
+  const [lessonRoute, courseRoute, audioPlayer, styles] = await Promise.all([
     readFile(lessonRouteUrl, 'utf8'),
     readFile(courseRouteUrl, 'utf8'),
+    readFile(audioPlayerUrl, 'utf8'),
     readFile(stylesUrl, 'utf8'),
   ])
 
-  assert.match(styles, /\.explanation-switcher\s*\{\s*order: -2;/)
-  assert.match(styles, /\.audio-player\s*\{\s*order: -1;/)
+  const slideIndex = audioPlayer.indexOf('<section className="lesson-slides"')
+  const audioIndex = audioPlayer.indexOf('<article className="panel audio-player"')
+  const transcriptIndex = audioPlayer.indexOf('<div className="audio-player__script"')
+  assert.ok(slideIndex >= 0 && slideIndex < audioIndex)
+  assert.ok(audioIndex < transcriptIndex)
+  assert.doesNotMatch(styles, /\.explanation-switcher\s*\{[^}]*\border\s*:/s)
+  assert.doesNotMatch(styles, /\.audio-player\s*\{[^}]*\border\s*:/s)
   assert.match(
     lessonRoute,
     /find\(\(resource\) => resource\.kind === 'presentation'\)[\s\S]*resource\.kind === 'pdf'/,
