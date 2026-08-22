@@ -12,21 +12,24 @@ test('Checkout conserva métodos dinámicos e idempotencia de Stripe', async () 
   assert.match(checkout, /idempotencyKey/)
   assert.match(checkout, /integration_identifier/)
   assert.match(checkout, /STRIPE_INVOICE_CREATION_ENABLED/)
+  assert.match(checkout, /toLowerCase\(\) ===\s*'true'/)
   assert.match(checkout, /course_code_snapshot/)
   assert.match(checkout, /description_snapshot/)
 })
 
-test('el webhook no llama a MNprogram y encola dentro de la transacción', async () => {
+test('el webhook no llama directamente a MNprogram', async () => {
   const webhook = await source('src/routes/api.stripe-webhook.ts')
-  const migration = await source(
-    'supabase/migrations/20260820160000_automate_billing_mnprogram.sql',
-  )
   assert.doesNotMatch(webhook, /MnProgram|ContratosCliente|mnprogram_sync/)
   assert.match(webhook, /fulfill_stripe_checkout_v2/)
-  assert.match(
-    migration,
-    /perform app_private\.enqueue_invoice_for_purchase\(p_purchase_id\)/,
+})
+
+test('la facturación automática no tiene cron ni migración activa', async () => {
+  const vercel = JSON.parse(await source('vercel.json')) as { crons?: unknown[] }
+  const disabledMigration = await source(
+    'supabase/migrations-disabled/20260820160000_automate_billing_mnprogram.sql',
   )
+  assert.equal(vercel.crons, undefined)
+  assert.match(disabledMigration, /Future design only/)
 })
 
 test('un fallo posterior a la emisión reanuda el PDF sin volver a emitir', async () => {

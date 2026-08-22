@@ -37,37 +37,23 @@ export const Route = createFileRoute('/api/invoices')({
           (row) => row.organization_id,
         )
 
-        let purchasesQuery = supabase
+        let query = supabase
           .from('purchases')
-          .select('id')
+          .select(
+            'id, order_number, paid_at, invoice_status, invoice_number, invoiced_at, invoice_sent_at, total_amount_cents, currency, invoice_email, purchase_items(course_title_snapshot, quantity)',
+          )
           .in('status', ['paid', 'refunded', 'partially_refunded'])
+          .order('paid_at', { ascending: false })
           .limit(2_000)
         if (!isStaff) {
           const filters = [`buyer_user_id.eq.${user.id}`]
           if (organizationIds.length) {
             filters.push(`organization_id.in.(${organizationIds.join(',')})`)
           }
-          purchasesQuery = purchasesQuery.or(filters.join(','))
-        }
-        const { data: purchases, error: purchaseError } = await purchasesQuery
-        if (purchaseError) {
-          return Response.json(
-            { error: 'No se han podido cargar las facturas.' },
-            { status: 500 },
-          )
-        }
-        const purchaseIds = (purchases ?? []).map((purchase) => purchase.id)
-        if (!purchaseIds.length) {
-          return Response.json({ invoices: [] })
+          query = query.or(filters.join(','))
         }
 
-        const { data, error } = await supabase
-          .from('invoices')
-          .select(
-            'id, invoice_number, internal_invoice_reference, official_invoice_number, status, issued_at, total_cents, currency, pdf_storage_path, refund_requires_credit_note, purchases!inner(order_number, paid_at, purchase_items(course_title_snapshot, quantity))',
-          )
-          .in('purchase_id', purchaseIds)
-          .order('created_at', { ascending: false })
+        const { data, error } = await query
         if (error) {
           return Response.json(
             { error: 'No se han podido cargar las facturas.' },

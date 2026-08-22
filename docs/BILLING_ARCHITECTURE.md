@@ -1,89 +1,48 @@
-# Arquitectura de facturación y trazabilidad
+# Flujo de cobro y facturación manual
 
 ## Responsabilidad de cada sistema
 
-- **Stripe** confirma y procesa el cobro. El webhook firmado es la única fuente que cambia un pedido a pagado.
-- **Supabase/InmínerCampus** conserva el pedido, los snapshots fiscales y económicos, la matrícula, la trazabilidad, los trabajos y el PDF privado.
-- **MNprogram** recibe la trazabilidad comercial mediante `ContratosCliente` y será el emisor fiscal cuando soporte confirme el método privado real de emisión.
-- **DataBox/servidor local** conserva una copia documental verificada por SHA-256 mediante un agente Windows independiente.
+- **Stripe** procesa el cobro. Solo un webhook con firma válida y `payment_status=paid` confirma el pago.
+- **Supabase/InmínerCampus** conserva el pedido, los datos fiscales, los importes, la matrícula y el estado de gestión de la factura.
+- **Resend** avisa a `administracion@inminer.es` después de confirmar el pago.
+- **MNprogram** es el sistema donde Administración crea y envía manualmente la factura.
 
-La regla de cardinalidad es: una venta, un `purchase.id`, un `order_number`, un PaymentIntent, una fila `invoices`, un número fiscal oficial y un PDF inmutable.
+MNprogram no recibe pagos de Stripe ni emite facturas mediante API en esta fase.
 
-## Flujo
+## Flujo activo
 
-1. Checkout valida en servidor los datos fiscales y crea `purchases` y `purchase_items` con snapshots.
-2. Stripe Checkout cobra sin almacenar datos de tarjeta en InmínerCampus.
-3. El webhook verifica `stripe-signature`, exige `payment_status=paid` y ejecuta `fulfill_stripe_checkout_v2`.
-4. La misma transacción marca el pedido como pagado, crea la matrícula y llama a `enqueue_invoice_for_purchase`.
-5. La factura y los trabajos de integración se crean con restricciones únicas. Una repetición del webhook reutiliza las mismas filas.
-6. `/api/cron/billing` procesa trabajos fuera de la transacción de Stripe.
-7. `mnprogram_sync` registra la venta con la operación pública `ContratosCliente` cuando está configurada.
-8. `invoice_issue` permanece en `NOT_CONFIGURED` hasta disponer del WSDL y método fiscal reales. No se inventa una operación SOAP.
-9. Cuando el proveedor devuelve número oficial y fecha, el sistema conserva el PDF oficial o genera una representación PDF server-side con esos datos ya emitidos, lo almacena sin `upsert` y registra SHA-256.
-10. El email y el archivo DataBox son trabajos separados e idempotentes.
+1. Checkout valida los datos fiscales en el servidor y crea `purchases` y `purchase_items` con snapshots económicos.
+2. Stripe Checkout cobra sin que InmínerCampus almacene datos de tarjeta.
+3. El webhook verifica `stripe-signature`, confirma el pago y crea la matrícula de forma idempotente.
+4. El servidor reclama el aviso administrativo mediante `claim_admin_payment_notification`.
+5. Resend envía un único correo por compra con la clave idempotente `purchase-paid/{purchase.id}`.
+6. El correo incluye pedido, cliente, NIF/CIF, dirección, emails, teléfono, curso, descripción, plazas, precio unitario, base, IVA, total y referencias de Stripe.
+7. Administración crea la factura en MNprogram y registra en `/admin/facturacion` su número y estado: pendiente, emitida o enviada.
+8. El cliente consulta el estado en `/facturas`; el documento oficial se recibe por correo.
 
-La frecuencia incluida en `vercel.json` es diaria a las 06:00 UTC para ser
-compatible con Vercel Hobby. Para procesar facturas casi inmediatamente, usar
-Vercel Pro y cambiarla a `*/5 * * * *`, o configurar un programador externo
-que invoque el endpoint cada cinco minutos con `CRON_SECRET`.
+Si Resend falla, el cobro y la matrícula no se revierten. El aviso queda en estado `failed` y puede reenviarse desde Administración.
 
-## Numeración e idempotencia
+## Configuración activa
 
-`purchase.order_number` es la referencia humana principal. `purchase.id` e `invoice.id` son las referencias internas.
+```text
+STRIPE_INVOICE_CREATION_ENABLED=false
+MNPROGRAM_SYNC_ENABLED=false
+RESEND_API_KEY=<secreto en Vercel>
+ADMIN_NOTIFICATION_EMAIL=administracion@inminer.es
+ADMIN_NOTIFICATION_FROM=InmínerCampus <campus@inminer.es>
+ADMIN_APP_URL=https://inminercampus.com
+```
 
-La referencia interna `CAMPUS-AAAA-NNNNNN` se obtiene con un contador por serie y año mediante `INSERT ... ON CONFLICT DO UPDATE ... RETURNING`, dentro de la transacción y con la compra bloqueada. No se usa `SELECT max()+1`.
+`inminer.es` debe estar verificado en Resend antes de usar `campus@inminer.es` como remitente. Los secretos se configuran solo en Vercel y nunca con prefijo `VITE_`.
 
-`internal_invoice_reference` no es necesariamente el número fiscal. Cuando MNprogram emita la factura, `official_invoice_number` e `invoice_number` se sustituyen por el valor oficial sin perder la referencia interna.
+No hay un cron activo en `vercel.json`. La migración conservada en `supabase/migrations-disabled/20260820160000_automate_billing_mnprogram.sql`, los endpoints de emisión automática, el PDF privado y el agente DataBox quedan reservados para una fase futura y no deben aplicarse ni activarse en producción bajo este flujo.
 
-Protecciones principales:
+## Campos equivalentes a la plantilla Word
 
-- `invoices.purchase_id UNIQUE`.
-- `billing_jobs(invoice_id,type) UNIQUE`.
-- PaymentIntent, Checkout Session, evento Stripe y pedido ya tienen índices únicos.
-- El PDF no se sobreescribe y un trigger impide cambiar su ruta o hash una vez fijados.
-- Un snapshot fiscal emitido no puede alterarse.
-- Resend usa una clave idempotente por factura y versión de entrega.
+La plantilla `01FRA.CUENTA GESTIÓN.docx` contiene campos para fecha y número de factura, nombre, NIF/CIF, domicilio, CP, población, provincia, email, teléfono, unidades, descripción, precio unitario, base, IVA y total. Todos los datos que InmínerCampus conoce antes de emitir la factura se incluyen en el aviso a Administración.
 
-## Trabajos y reintentos
-
-Los trabajos remotos no forman parte del commit de Stripe. Los estados son `pending`, `processing`, `completed` y `failed`. El claim usa `FOR UPDATE SKIP LOCKED`.
-
-Backoff: 1 minuto, 5 minutos, 15 minutos, 1 hora y 6 horas; máximo seis intentos. Un timeout de MNprogram se considera ambiguo y no se reintenta automáticamente, porque el servidor podría haber creado la actuación antes de perderse la respuesta. Administración debe comprobar MNprogram y reintentar de forma explícita.
-
-## Stripe `invoice_creation`
-
-El checkout existente mantiene `invoice_creation` por compatibilidad mediante `STRIPE_INVOICE_CREATION_ENABLED=true`. Ese documento de Stripe no debe tratarse como una segunda factura fiscal.
-
-Cuando soporte confirme que MNprogram será el emisor fiscal definitivo y el adaptador esté operativo:
-
-1. comprobar la numeración y PDF oficial en sandbox;
-2. definir `STRIPE_INVOICE_CREATION_ENABLED=false` en Vercel;
-3. mantener Stripe como procesador de pago y conservar PaymentIntent/Checkout Session para conciliación.
-
-## Campos de la plantilla Word/MNprogram
-
-La plantilla `01FRA.CUENTA GESTIÓN.docx` no contiene VBA. Contiene campos MNprogram equivalentes a fecha y número de factura, nombre, NIF/CIF, domicilio, CP, población, provincia, email, teléfono, unidades, descripción, precio unitario, base, IVA y total. El generador y los snapshots usan esos mismos conceptos.
-
-Datos del emisor extraídos de la plantilla:
-
-- INMÍNER Ingeniería, S.L.
-- B-13476148
-- C/ Aragón, 29, 13004 Ciudad Real, España
-- Hoja CR-18847, Tomo 476, Folio 92, Inscripción 1ª
+El número y la fecha fiscal se asignan posteriormente dentro de MNprogram y se registran en el panel administrativo.
 
 ## Reembolsos
 
-`charge.refunded` continúa siendo procesado. Marca `refund_requires_credit_note=true` en pedido y factura. No se emite automáticamente una rectificativa hasta conocer el método fiscal real de MNprogram.
-
-## Endpoints
-
-- `GET /api/invoices`
-- `GET /api/invoices/:invoiceId/download`
-- `POST /api/admin/billing/retry/:invoiceId`
-- `GET /api/cron/billing`
-- `GET /api/internal/archive/pending`
-- `GET /api/internal/archive/:invoiceId/download`
-- `POST /api/internal/archive/:invoiceId/confirm`
-- `POST /api/internal/archive/:invoiceId/fail`
-
-Los PDFs viven en el bucket privado `billing-documents` bajo `invoices/{year}/{invoiceId}/invoice.pdf`. Las descargas de usuario usan una URL firmada de 60 segundos después de autorizar propietario, responsable de organización o administrador.
+Stripe continúa notificando los reembolsos. La compra se marca como reembolsada y Administración debe gestionar manualmente la factura rectificativa correspondiente en MNprogram.
