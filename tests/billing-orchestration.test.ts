@@ -35,6 +35,11 @@ test('el webhook reconcilia bruto, descuento, base e impuestos de Stripe', async
   assert.match(webhook, /amount_subtotal/)
   assert.match(webhook, /amount_discount/)
   assert.match(webhook, /verify_company_stripe_amounts/)
+  assert.match(webhook, /checkout\.session\.async_payment_succeeded/)
+  assert.match(webhook, /session\.payment_status !== 'paid'/)
+  assert.match(webhook, /confirmed payment received/)
+  assert.match(webhook, /admin notification starting/)
+  assert.match(webhook, /admin notification completed/)
 })
 
 test('el webhook no llama a MNprogram y encola dentro de la transacción', async () => {

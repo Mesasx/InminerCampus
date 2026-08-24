@@ -51,6 +51,12 @@ export const Route = createFileRoute('/api/stripe-webhook')({
             return Response.json({ received: true })
           }
 
+          console.info('[stripe-webhook] confirmed payment received', {
+            eventId: event.id,
+            eventType: event.type,
+            purchaseId,
+          })
+
           const paymentIntentId = objectId(session.payment_intent)
           const invoiceId = objectId(session.invoice)
           const customerId = objectId(session.customer)
@@ -123,10 +129,28 @@ export const Route = createFileRoute('/api/stripe-webhook')({
           }
 
           try {
-            await sendPaymentAdminNotification(purchaseId)
-          } catch {
+            console.info('[stripe-webhook] admin notification starting', {
+              eventId: event.id,
+              purchaseId,
+            })
+            const notificationResult =
+              await sendPaymentAdminNotification(purchaseId)
+            console.info('[stripe-webhook] admin notification completed', {
+              eventId: event.id,
+              purchaseId,
+              result: notificationResult,
+            })
+          } catch (notificationError) {
             // The payment and enrollment are already confirmed. The failed
             // notification remains visible and can be retried from Admin.
+            console.error('[stripe-webhook] admin notification failed', {
+              eventId: event.id,
+              purchaseId,
+              error:
+                notificationError instanceof Error
+                  ? notificationError.message
+                  : 'Unknown notification error',
+            })
           }
           return Response.json({ received: true })
         }

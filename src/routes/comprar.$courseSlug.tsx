@@ -5,8 +5,8 @@ import { BillingDetailsForm } from '../components/BillingDetailsForm'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { PublicLayout } from '../components/PublicLayout'
 import {
-  billingDetailsSchema,
   calculateOrderAmounts,
+  checkoutRequestSchema,
   decimalToCents,
   emptyBillingForm,
   formatCents,
@@ -129,6 +129,8 @@ function Checkout({
             .join(' ')
           setBilling((current) => ({
             ...current,
+            givenName: current.givenName || profile.first_name || '',
+            familyName: current.familyName || profile.last_name || '',
             fiscalName: current.fiscalName || fullName,
             phone: current.phone || profile.phone || '',
           }))
@@ -141,10 +143,16 @@ function Checkout({
     event.preventDefault()
     if (!course || !amounts) return
     setError('')
-    const billingResult = billingDetailsSchema.safeParse(billing)
-    if (!billingResult.success) {
+    const checkoutResult = checkoutRequestSchema.safeParse({
+      courseVersionId: course.versionId,
+      kind: 'individual',
+      quantity: 1,
+      checkoutRequestId,
+      billing,
+    })
+    if (!checkoutResult.success) {
       setError(
-        billingResult.error.issues[0]?.message ??
+        checkoutResult.error.issues[0]?.message ??
           'Revisa los datos fiscales antes de continuar.',
       )
       return
@@ -166,13 +174,7 @@ function Checkout({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({
-          courseVersionId: course.versionId,
-          kind: 'individual',
-          quantity: 1,
-          checkoutRequestId,
-          billing: billingResult.data,
-        }),
+        body: JSON.stringify(checkoutResult.data),
       })
       const payload = (await response.json()) as { url?: string; error?: string }
       if (!response.ok || !payload.url) {
@@ -200,7 +202,7 @@ function Checkout({
               <p className="muted">Cargando el pedido…</p>
             </div>
           ) : course ? (
-            <form className="panel" onSubmit={beginCheckout}>
+            <form className="panel" noValidate onSubmit={beginCheckout}>
               {error ? (
                 <div className="alert alert--error" style={{ marginBottom: 20 }}>
                   {error}

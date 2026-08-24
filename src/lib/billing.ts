@@ -6,6 +6,8 @@ export type BillingBuyerType = 'individual' | 'business'
 
 export type BillingFormValue = {
   buyerType: BillingBuyerType
+  givenName: string
+  familyName: string
   fiscalName: string
   taxId: string
   addressLine1: string
@@ -25,6 +27,8 @@ export const emptyBillingForm = (
   buyerType: BillingBuyerType = 'individual',
 ): BillingFormValue => ({
   buyerType,
+  givenName: '',
+  familyName: '',
   fiscalName: '',
   taxId: '',
   addressLine1: '',
@@ -51,6 +55,8 @@ const optionalPhoneSchema = z
 export const billingDetailsSchema = z
   .object({
     buyerType: z.enum(['individual', 'business']),
+    givenName: z.string().trim().max(100),
+    familyName: z.string().trim().max(160),
     fiscalName: z
       .string()
       .trim()
@@ -94,6 +100,20 @@ export const billingDetailsSchema = z
   })
   .strict()
   .superRefine((value, context) => {
+    if (value.buyerType === 'individual' && !value.givenName) {
+      context.addIssue({
+        code: 'custom',
+        path: ['givenName'],
+        message: 'Introduce tu nombre.',
+      })
+    }
+    if (value.buyerType === 'individual' && !value.familyName) {
+      context.addIssue({
+        code: 'custom',
+        path: ['familyName'],
+        message: 'Introduce tus apellidos.',
+      })
+    }
     if (
       value.sendInvoiceToDifferentEmail &&
       !z.string().email().safeParse(value.invoiceEmail).success
@@ -154,6 +174,20 @@ export const checkoutRequestSchema = z
         code: 'custom',
         path: ['quantity'],
         message: 'Una compra individual contiene una única plaza.',
+      })
+    }
+    if (value.kind === 'individual' && !value.billing.givenName) {
+      context.addIssue({
+        code: 'custom',
+        path: ['billing', 'givenName'],
+        message: 'Introduce el nombre de la persona compradora.',
+      })
+    }
+    if (value.kind === 'individual' && !value.billing.familyName) {
+      context.addIssue({
+        code: 'custom',
+        path: ['billing', 'familyName'],
+        message: 'Introduce los apellidos de la persona compradora.',
       })
     }
     if (value.kind === 'company') {
