@@ -152,7 +152,9 @@ function CompanyCheckout({ user, courseSlug, versionId }: { user: SessionUser; c
       participantPrivacyConfirmed: privacyConfirmed,
     })
     if (!parsed.success) {
-      setError(parsed.error.issues[0]?.message ?? 'Revisa los datos del pedido.')
+      const issue = parsed.error.issues[0]
+      setError(issue?.message ?? 'Revisa los datos del pedido.')
+      focusCheckoutIssue(issue?.path ?? [])
       return
     }
     const { data } = (await getSupabaseBrowserClient()?.auth.getSession()) ?? { data: null }
@@ -194,8 +196,8 @@ function CompanyCheckout({ user, courseSlug, versionId }: { user: SessionUser; c
       <section className="section section--tight">
         <div className="container company-checkout-layout">
           {course ? (
-            <form className="company-checkout-form" onSubmit={beginCheckout}>
-              {error ? <div className="alert alert--error">{error}</div> : null}
+            <form className="company-checkout-form" noValidate onSubmit={beginCheckout}>
+              {error ? <div className="alert alert--error" role="alert">{error}</div> : null}
               <CheckoutSection icon={UsersRound} number="01" title="Curso y número de plazas">
                 <div className="checkout-course-card">
                   <div><span className="status status--orange">Versión {course.versionNumber}</span><h2>{course.title}</h2><p>{course.duration} horas · {modalityLabel(course.modality)}</p></div>
@@ -258,6 +260,47 @@ function CompanyCheckout({ user, courseSlug, versionId }: { user: SessionUser; c
       </section>
     </PublicLayout>
   )
+}
+
+function focusCheckoutIssue(path: readonly PropertyKey[]) {
+  const key = path.map(String).join('.')
+  const fieldIds: Record<string, string> = {
+    'billing.fiscalName': 'billing-fiscal-name',
+    'billing.taxId': 'billing-tax-id',
+    'billing.addressLine1': 'billing-address',
+    'billing.postalCode': 'billing-postal-code',
+    'billing.city': 'billing-city',
+    'billing.province': 'billing-province',
+    'billing.countryCode': 'billing-country',
+    'billing.billingEmail': 'billing-email',
+    'billing.phone': 'billing-phone',
+    'billing.invoiceEmail': 'billing-invoice-email',
+    'contact.givenName': 'contact-name',
+    'contact.familyName': 'contact-family',
+    'contact.email': 'contact-email',
+    'contact.phone': 'contact-phone',
+  }
+  let fieldId = fieldIds[key]
+  if (path[0] === 'recipients' && typeof path[1] === 'number') {
+    const recipientField = path[2]
+    const prefix = recipientField === 'givenName'
+      ? 'participant-name'
+      : recipientField === 'familyName'
+        ? 'participant-family'
+        : 'participant-email'
+    fieldId = `${prefix}-${path[1]}`
+  }
+  requestAnimationFrame(() => {
+    const target = fieldId
+      ? document.getElementById(fieldId)
+      : key === 'billing.acceptLegal'
+        ? document.querySelector<HTMLElement>('.billing-form__legal input')
+        : key === 'participantPrivacyConfirmed'
+          ? document.querySelector<HTMLElement>('.privacy-confirmation input')
+          : document.querySelector<HTMLElement>('.alert--error')
+    target?.focus()
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  })
 }
 
 function CheckoutSection({ icon: Icon, number, title, children }: { icon: typeof Building2; number: string; title: string; children: ReactNode }) {

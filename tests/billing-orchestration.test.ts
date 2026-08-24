@@ -19,6 +19,17 @@ test('Checkout conserva métodos dinámicos e idempotencia de Stripe', async () 
   assert.doesNotMatch(checkout, /allow_promotion_codes/)
 })
 
+test('la compra empresarial muestra y enfoca los errores antes de Stripe', async () => {
+  const page = await source('src/routes/comprar-empresa.$courseSlug.tsx')
+  const checkout = await source('src/routes/api.checkout.ts')
+  assert.match(page, /<form className="company-checkout-form" noValidate/)
+  assert.match(page, /focusCheckoutIssue\(issue\?\.path \?\? \[\]\)/)
+  assert.match(page, /scrollIntoView\(\{ behavior: 'smooth', block: 'center' \}\)/)
+  assert.match(page, /className="alert alert--error" role="alert"/)
+  assert.match(checkout, /\[api\/checkout\] request received/)
+  assert.match(checkout, /\[api\/checkout\] Stripe session failed/)
+})
+
 test('el webhook reconcilia bruto, descuento, base e impuestos de Stripe', async () => {
   const webhook = await source('src/routes/api.stripe-webhook.ts')
   assert.match(webhook, /amount_subtotal/)
