@@ -511,7 +511,7 @@ function HomePage() {
         eyebrow="Inmíner Campus · Formación preventiva"
         machineImage={heroMachineImage}
         subtitle="Cursos para minería e industria"
-        title="20H"
+        title="CONOCIMIENTO QUE SE CONVIERTE EN SEGURIDAD."
       />
 
       <CampusIntro />
