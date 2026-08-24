@@ -137,14 +137,15 @@ test('la pala cargadora es una capa transparente independiente, no un banner fot
   assert.match(machineRule![0], /pointer-events:\s*none/)
 })
 
-test('el "20H" nunca se parte carácter a carácter (regresión de overflow-wrap heredado)', async () => {
-  // Regresión: `p, span... { overflow-wrap: anywhere }` es una regla global,
-  // y una columna de texto demasiado estrecha (padding duplicado a ambos
-  // lados) hacía que "20H" se partiera en "2 / 0 / H" en pantallas anchas.
+test('el titular del hero conserva palabras y líneas completas', async () => {
   const styles = await read('src/styles/app.css')
   const countRule = styles.match(/\.campus-hero__count\s*\{[^}]*\}/)
+  const lineRule = styles.match(/\.campus-hero__title-line\s*\{[^}]*\}/)
   assert.ok(countRule, '.campus-hero__count debe existir')
-  assert.match(countRule![0], /white-space:\s*nowrap/)
+  assert.ok(lineRule, '.campus-hero__title-line debe existir')
+  assert.match(countRule![0], /overflow-wrap:\s*normal/)
+  assert.match(countRule![0], /word-break:\s*normal/)
+  assert.match(lineRule![0], /white-space:\s*nowrap/)
 })
 
 test('el menú móvil permanece oculto por defecto (no se dibuja sin estilo junto a la navbar de escritorio)', async () => {

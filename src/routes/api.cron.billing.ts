@@ -14,11 +14,16 @@ export const Route = createFileRoute('/api/cron/billing')({
           return new Response('Unauthorized', { status: 401 })
         }
 
-        const { processDueBillingJobs } = await import(
-          '../server/billing/billing-jobs'
-        )
-        const result = await processDueBillingJobs(10)
-        return Response.json(result, {
+        const [{ processDueBillingJobs }, { processDueInternalCompletions }] =
+          await Promise.all([
+            import('../server/billing/billing-jobs'),
+            import('../server/completion/internal-completion-service'),
+          ])
+        const [billing, internalCompletions] = await Promise.all([
+          processDueBillingJobs(10),
+          processDueInternalCompletions(10),
+        ])
+        return Response.json({ billing, internalCompletions }, {
           headers: { 'Cache-Control': 'no-store' },
         })
       },

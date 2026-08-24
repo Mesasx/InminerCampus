@@ -42,6 +42,7 @@ import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
 import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
+import { Route as ApiInternalCompletionRouteImport } from './routes/api.internal-completion'
 import { Route as ApiInvoicesRouteImport } from './routes/api.invoices'
 import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api.stripe-webhook'
@@ -236,6 +237,11 @@ const ApiCompanyAccessCodesRoute = ApiCompanyAccessCodesRouteImport.update({
   path: '/api/company-access-codes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiInternalCompletionRoute = ApiInternalCompletionRouteImport.update({
+  id: '/api/internal-completion',
+  path: '/api/internal-completion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInvoicesRoute = ApiInvoicesRouteImport.update({
   id: '/api/invoices',
   path: '/api/invoices',
@@ -415,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -473,6 +480,7 @@ export interface FileRoutesByTo {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -535,6 +543,7 @@ export interface FileRoutesById {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
@@ -599,6 +608,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
@@ -657,6 +667,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
@@ -718,6 +729,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
     | '/api/stripe-webhook'
@@ -773,6 +785,7 @@ export interface RootRouteChildren {
   ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
+  ApiInternalCompletionRoute: typeof ApiInternalCompletionRoute
   ApiInvoicesRoute: typeof ApiInvoicesRouteWithChildren
   ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
@@ -1022,6 +1035,13 @@ declare module '@tanstack/react-router' {
       path: '/api/company-access-codes'
       fullPath: '/api/company-access-codes'
       preLoaderRoute: typeof ApiCompanyAccessCodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/internal-completion': {
+      id: '/api/internal-completion'
+      path: '/api/internal-completion'
+      fullPath: '/api/internal-completion'
+      preLoaderRoute: typeof ApiInternalCompletionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/invoices': {
@@ -1337,6 +1357,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
+  ApiInternalCompletionRoute: ApiInternalCompletionRoute,
   ApiInvoicesRoute: ApiInvoicesRouteWithChildren,
   ApiPaymentStatusRoute: ApiPaymentStatusRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,

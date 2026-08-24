@@ -20,6 +20,7 @@ import {
   relationArray,
   type Relation,
 } from '../lib/course-content'
+import { requestInternalCompletion } from '../lib/internal-completion'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
@@ -213,6 +214,12 @@ function CourseContent({
     }
   }, [enrollmentId, user.id])
 
+  useEffect(() => {
+    if (enrollmentStatus === 'completed') {
+      void requestInternalCompletion(enrollmentId)
+    }
+  }, [enrollmentId, enrollmentStatus])
+
   const courseTotals = useMemo(
     () =>
       modules.reduce(
@@ -272,7 +279,7 @@ function CourseContent({
           <p>Las lecciones se desbloquean en el orden definido.</p>
         </div>
       </div>
-      {!loading && modules.length ? (
+      {enrollmentStatus !== 'completed' && !loading && modules.length ? (
         <div className="course-progress-summary">
           <span className="label-industrial">
             {modules.length} bloques · {courseTotals.audioParts} capítulos ·{' '}
@@ -281,9 +288,29 @@ function CourseContent({
           <ProgressBar label="Progreso del curso" percent={courseProgressPercent} />
         </div>
       ) : null}
-      {['completed', 'theory_passed', 'practice_completed'].includes(
-        enrollmentStatus,
-      ) ? (
+      {enrollmentStatus === 'completed' ? (
+        <section className="panel completion-screen" aria-live="polite">
+          <span className="completion-screen__icon" aria-hidden="true">
+            <CheckCircle2 size={34} />
+          </span>
+          <div>
+            <span className="eyebrow">Formación finalizada</span>
+            <h2>Formación completada correctamente</h2>
+            <p>Muchas gracias por completar la formación.</p>
+            <p>
+              INMÍNER Ingeniería está tramitando tu certificado.
+            </p>
+            <p>
+              Cuando el certificado definitivo esté disponible, se incorporará
+              a tu cuenta de InmínerCampus.
+            </p>
+          </div>
+          <Link className="button button--primary" to="/mis-cursos">
+            Volver a Mis cursos
+          </Link>
+        </section>
+      ) : null}
+      {['theory_passed', 'practice_completed'].includes(enrollmentStatus) ? (
         <section className="panel course-assessment-card">
           <div>
             <span className="eyebrow">Curso superado</span>
@@ -302,7 +329,7 @@ function CourseContent({
           </Link>
         </section>
       ) : null}
-      {loading ? (
+      {enrollmentStatus !== 'completed' ? (loading ? (
         <section className="panel">
           <p className="muted">Cargando contenido…</p>
         </section>
@@ -513,7 +540,7 @@ function CourseContent({
         <section className="empty-state">
           <p>El contenido todavía no está publicado.</p>
         </section>
-      )}
+      )) : null}
     </AppShell>
   )
 }

@@ -12,7 +12,7 @@ import { relationArray, type Relation } from '../lib/course-content'
 import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
-import { useStvhActivityHeartbeat } from '../lib/use-activity-heartbeat'
+import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
 
 export const Route = createFileRoute(
   '/campus/$enrollmentId/leccion/$lessonId',
@@ -289,14 +289,9 @@ function Lesson({
     }
   }, [enrollmentId, isAdministrator, lessonId])
 
-  useStvhActivityHeartbeat(
+  useLearningActivityHeartbeat(
     enrollmentId,
-    Boolean(
-      lesson &&
-        lesson.courseSlug === 'formacion-stvh' &&
-        !isAdministrator &&
-        !contentCompleted,
-    ),
+    Boolean(lesson && !isAdministrator),
   )
 
   const pdfResource =
