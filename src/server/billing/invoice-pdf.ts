@@ -28,6 +28,8 @@ export type InvoicePdfData = {
   province: string
   countryCode: string
   subtotalCents: number
+  grossSubtotalCents: number
+  discountAmountCents: number
   taxCents: number
   totalCents: number
   currency: string
@@ -35,6 +37,9 @@ export type InvoicePdfData = {
     description: string
     quantity: number
     unitNetCents: number
+    grossLineNetCents: number
+    discountBasisPoints: number
+    discountAmountCents: number
     lineNetCents: number
     taxRateBasisPoints: number
     lineTotalCents: number
@@ -229,10 +234,11 @@ function drawItems(
   })
   const columns = [
     { label: 'CONCEPTO', x: MARGIN + 8 },
-    { label: 'CANT.', x: 315 },
-    { label: 'P. UNIT.', x: 355 },
-    { label: 'BASE', x: 416 },
-    { label: 'IVA', x: 474 },
+    { label: 'CANT.', x: 296 },
+    { label: 'P. UNIT.', x: 330 },
+    { label: 'DTO.', x: 393 },
+    { label: 'BASE', x: 435 },
+    { label: 'IVA', x: 482 },
     { label: 'TOTAL', x: 512 },
   ]
   columns.forEach((column) =>
@@ -253,7 +259,7 @@ function drawItems(
       thickness: 0.6,
       color: LINE,
     })
-    const descriptionLines = wrapText(regular, item.description, 247, 8.2).slice(
+    const descriptionLines = wrapText(regular, item.description, 228, 8.2).slice(
       0,
       2,
     )
@@ -266,12 +272,22 @@ function drawItems(
         color: INK,
       }),
     )
-    drawRight(page, regular, String(item.quantity), 340, rowTop - 18, 8.2)
+    drawRight(page, regular, String(item.quantity), 323, rowTop - 18, 8.2)
     drawRight(
       page,
       regular,
       formatCents(item.unitNetCents, data.currency),
-      409,
+      390,
+      rowTop - 18,
+      8.2,
+    )
+    drawRight(
+      page,
+      regular,
+      item.discountBasisPoints
+        ? `${item.discountBasisPoints / 100}%`
+        : '\u2014',
+      429,
       rowTop - 18,
       8.2,
     )
@@ -279,7 +295,7 @@ function drawItems(
       page,
       regular,
       formatCents(item.lineNetCents, data.currency),
-      468,
+      476,
       rowTop - 18,
       8.2,
     )
@@ -287,7 +303,7 @@ function drawItems(
       page,
       regular,
       `${item.taxRateBasisPoints / 100}%`,
-      510,
+      515,
       rowTop - 18,
       8.2,
     )
@@ -311,18 +327,28 @@ function drawTotals(
   const y = 235
   const labelX = 375
   const valueX = PAGE_WIDTH - MARGIN
-  page.drawText('Base imponible', { x: labelX, y, size: 9, font: regular, color: INK })
-  drawRight(page, regular, formatCents(data.subtotalCents, data.currency), valueX, y, 9)
-  page.drawText('IVA', { x: labelX, y: y - 24, size: 9, font: regular, color: INK })
-  drawRight(page, regular, formatCents(data.taxCents, data.currency), valueX, y - 24, 9)
-  page.drawRectangle({ x: labelX - 10, y: y - 64, width: 182, height: 30, color: INK })
-  page.drawText('TOTAL', { x: labelX, y: y - 54, size: 10, font: bold, color: rgb(1, 1, 1) })
+  let totalsY = y
+  if (data.discountAmountCents > 0) {
+    page.drawText('Importe original', { x: labelX, y: totalsY, size: 9, font: regular, color: INK })
+    drawRight(page, regular, formatCents(data.grossSubtotalCents, data.currency), valueX, totalsY, 9)
+    totalsY -= 18
+    page.drawText('Descuento', { x: labelX, y: totalsY, size: 9, font: regular, color: INMINER_ORANGE })
+    drawRight(page, regular, `-${formatCents(data.discountAmountCents, data.currency)}`, valueX, totalsY, 9, INMINER_ORANGE)
+    totalsY -= 18
+  }
+  page.drawText('Base imponible', { x: labelX, y: totalsY, size: 9, font: regular, color: INK })
+  drawRight(page, regular, formatCents(data.subtotalCents, data.currency), valueX, totalsY, 9)
+  totalsY -= 24
+  page.drawText('IVA', { x: labelX, y: totalsY, size: 9, font: regular, color: INK })
+  drawRight(page, regular, formatCents(data.taxCents, data.currency), valueX, totalsY, 9)
+  page.drawRectangle({ x: labelX - 10, y: totalsY - 40, width: 182, height: 30, color: INK })
+  page.drawText('TOTAL', { x: labelX, y: totalsY - 30, size: 10, font: bold, color: rgb(1, 1, 1) })
   drawRight(
     page,
     bold,
     formatCents(data.totalCents, data.currency),
     valueX - 7,
-    y - 54,
+    totalsY - 30,
     11,
     rgb(1, 1, 1),
   )

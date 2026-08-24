@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const BILLING_LEGAL_VERSION = '2026-07-29'
+export const BILLING_LEGAL_VERSION = '2026-08-24'
 
 export type BillingBuyerType = 'individual' | 'business'
 
@@ -124,6 +124,28 @@ export const checkoutRequestSchema = z
     organizationId: z.uuid().optional(),
     checkoutRequestId: z.uuid(),
     billing: billingDetailsSchema,
+    contact: z
+      .object({
+        givenName: z.string().trim().min(1).max(100),
+        familyName: z.string().trim().min(1).max(160),
+        email: z.string().trim().toLowerCase().email().max(320),
+        phone: optionalPhoneSchema,
+      })
+      .strict()
+      .optional(),
+    recipients: z
+      .array(
+        z
+          .object({
+            givenName: z.string().trim().min(1).max(100),
+            familyName: z.string().trim().min(1).max(160),
+            email: z.string().trim().toLowerCase().email().max(320),
+          })
+          .strict(),
+      )
+      .max(500)
+      .optional(),
+    participantPrivacyConfirmed: z.boolean().optional(),
   })
   .strict()
   .superRefine((value, context) => {
@@ -134,12 +156,44 @@ export const checkoutRequestSchema = z
         message: 'Una compra individual contiene una única plaza.',
       })
     }
-    if (value.kind === 'company' && !value.organizationId) {
-      context.addIssue({
-        code: 'custom',
-        path: ['organizationId'],
-        message: 'Selecciona la organización compradora.',
-      })
+    if (value.kind === 'company') {
+      if (value.billing.buyerType !== 'business') {
+        context.addIssue({
+          code: 'custom',
+          path: ['billing', 'buyerType'],
+          message: 'La compra empresarial requiere datos fiscales de empresa.',
+        })
+      }
+      if (!value.contact) {
+        context.addIssue({
+          code: 'custom',
+          path: ['contact'],
+          message: 'Introduce los datos de la persona compradora.',
+        })
+      }
+      if (!value.participantPrivacyConfirmed) {
+        context.addIssue({
+          code: 'custom',
+          path: ['participantPrivacyConfirmed'],
+          message: 'Debes confirmar la declaración sobre los participantes.',
+        })
+      }
+      if (!value.recipients || value.recipients.length !== value.quantity) {
+        context.addIssue({
+          code: 'custom',
+          path: ['recipients'],
+          message: `Debes facilitar exactamente ${value.quantity} participantes.`,
+        })
+      } else if (
+        new Set(value.recipients.map(({ email }) => email)).size !==
+        value.recipients.length
+      ) {
+        context.addIssue({
+          code: 'custom',
+          path: ['recipients'],
+          message: 'No puede repetirse un correo dentro del mismo pedido.',
+        })
+      }
     }
   })
 
@@ -242,6 +296,9 @@ export function taxRateToBasisPoints(value: string | number): number {
 
 export type OrderAmounts = {
   unitNetCents: number
+  grossSubtotalCents: number
+  discountBasisPoints: number
+  discountAmountCents: number
   subtotalNetCents: number
   taxAmountCents: number
   totalAmountCents: number
@@ -252,6 +309,7 @@ export function calculateOrderAmounts(
   unitNetCents: number,
   quantity: number,
   taxRateBasisPoints: number,
+  discountBasisPoints = 0,
 ): OrderAmounts {
   if (
     !Number.isSafeInteger(unitNetCents) ||
@@ -259,16 +317,24 @@ export function calculateOrderAmounts(
     !Number.isSafeInteger(taxRateBasisPoints) ||
     unitNetCents < 0 ||
     quantity < 1 ||
-    taxRateBasisPoints < 0
+    taxRateBasisPoints < 0 ||
+    !Number.isSafeInteger(discountBasisPoints) ||
+    discountBasisPoints < 0 ||
+    discountBasisPoints > 10_000
   ) {
     throw new Error('Invalid order amounts')
   }
 
-  const subtotal = BigInt(unitNetCents) * BigInt(quantity)
+  const grossSubtotal = BigInt(unitNetCents) * BigInt(quantity)
+  const discount =
+    (grossSubtotal * BigInt(discountBasisPoints) + 5_000n) / 10_000n
+  const subtotal = grossSubtotal - discount
   const tax =
     (subtotal * BigInt(taxRateBasisPoints) + 5_000n) / 10_000n
   const total = subtotal + tax
   if (
+    grossSubtotal > BigInt(Number.MAX_SAFE_INTEGER) ||
+    discount > BigInt(Number.MAX_SAFE_INTEGER) ||
     subtotal > BigInt(Number.MAX_SAFE_INTEGER) ||
     tax > BigInt(Number.MAX_SAFE_INTEGER) ||
     total > BigInt(Number.MAX_SAFE_INTEGER)
@@ -278,11 +344,23 @@ export function calculateOrderAmounts(
 
   return {
     unitNetCents,
+    grossSubtotalCents: Number(grossSubtotal),
+    discountBasisPoints,
+    discountAmountCents: Number(discount),
     subtotalNetCents: Number(subtotal),
     taxAmountCents: Number(tax),
     totalAmountCents: Number(total),
     taxRateBasisPoints,
   }
+}
+
+export function getCompanyVolumeDiscountBasisPoints(quantity: number): number {
+  if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > 500) {
+    throw new Error('Invalid company quantity')
+  }
+  if (quantity >= 8) return 1_000
+  if (quantity >= 6) return 500
+  return 0
 }
 
 export function centsToDecimalString(cents: number): string {

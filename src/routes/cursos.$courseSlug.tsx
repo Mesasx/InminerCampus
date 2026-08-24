@@ -247,6 +247,24 @@ function CourseDetailPage() {
               automáticamente para retomarlo cuando quieras. Al completar los
               bloques se habilita la evaluación final del curso.
             </p>
+            <div className="modality-scope" style={{ marginTop: 36 }}>
+              <h2>Modalidad y alcance de la formación</h2>
+              <p>
+                {modalityLabel(version.modality)} · {version.duration_hours} horas.
+                {version.practice_required
+                  ? ' Esta versión exige la práctica presencial indicada en el programa.'
+                  : ' La modalidad, los requisitos prácticos y las condiciones de certificación son los definidos para esta versión.'}
+              </p>
+              {version.accreditation_reference ? (
+                <p>{version.accreditation_reference}</p>
+              ) : null}
+              <a
+                className="text-link"
+                href={`/contacto?curso=${encodeURIComponent(course.slug)}`}
+              >
+                ¿Necesitáis modalidad o apoyo presencial?
+              </a>
+            </div>
           </article>
           <aside className="panel course-detail-aside">
             <div className="form-grid">
@@ -351,7 +369,7 @@ function CourseDetailPage() {
                     params={{ courseSlug }}
                     search={{ version: version.id }}
                   >
-                    Matricularme
+                    Comprar para mí
                   </Link>
                   <Link
                     className="button button--outline button--wide"
@@ -359,7 +377,7 @@ function CourseDetailPage() {
                     params={{ courseSlug }}
                     search={{ version: version.id }}
                   >
-                    Comprar para empresa
+                    Comprar para una empresa
                   </Link>
                 </>
               )}

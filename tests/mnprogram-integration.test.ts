@@ -47,6 +47,8 @@ test('mapea la trazabilidad de Stripe y del pedido a campos personalizados', () 
     customerEmail: 'admin@example.com',
     totalAmountCents: 18_029,
     subtotalCents: 14_900,
+    grossSubtotalCents: 15_684,
+    discountAmountCents: 784,
     taxCents: 3_129,
     currency: 'EUR',
     paidAt: '2026-08-20T10:15:00.000Z',
@@ -68,6 +70,7 @@ test('mapea la trazabilidad de Stripe y del pedido a campos personalizados', () 
 
   assert.equal(contract.customerTaxId, 'B13476148')
   assert.equal(contract.totalAmount, 180.29)
+  assert.equal(contract.customFields.Descuento, 7.84)
   assert.equal(contract.customFields['Stripe Payment ID'], 'pi_test_42')
   assert.equal(contract.customFields['Número pedido'], 'CAMPUS-2026-42')
   assert.equal(contract.customFields['Código curso'], 'MIN-01')

@@ -6,6 +6,7 @@ import {
   centsToDecimalString,
   checkoutRequestSchema,
   decimalToCents,
+  getCompanyVolumeDiscountBasisPoints,
   invoiceDeliveryEmail,
   normalizeTaxIdentifier,
   taxRateToBasisPoints,
@@ -58,7 +59,7 @@ export const Route = createFileRoute('/api/checkout')({
           return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
         }
 
-        if (body.kind === 'company') {
+        if (body.kind === 'company' && body.organizationId) {
           const [{ data: membership }, { data: superadmin }] = await Promise.all([
             supabase
               .from('organization_members')
@@ -112,6 +113,9 @@ export const Route = createFileRoute('/api/checkout')({
           unitNetCents,
           body.quantity,
           taxRateBasisPoints,
+          body.kind === 'company'
+            ? getCompanyVolumeDiscountBasisPoints(body.quantity)
+            : 0,
         )
         const currency = version.currency.toUpperCase()
         const idempotencyKey = `checkout:${user.id}:${body.checkoutRequestId}`
@@ -138,47 +142,110 @@ export const Route = createFileRoute('/api/checkout')({
         const decimalTax = centsToDecimalString(amounts.taxAmountCents)
         const decimalTotal = centsToDecimalString(amounts.totalAmountCents)
 
-        const { data: purchase, error: purchaseError } = await supabase
-          .from('purchases')
-          .insert({
-            order_number: orderNumber,
-            kind: body.kind,
-            buyer_user_id: user.id,
-            organization_id:
-              body.kind === 'company' ? body.organizationId : null,
-            status: 'draft',
-            subtotal_net: decimalSubtotal,
-            tax_amount: decimalTax,
-            total_amount: decimalTotal,
-            currency,
-            billing_details: body.billing,
-            idempotency_key: idempotencyKey,
-            billing_snapshot_version: 1,
-            billing_buyer_type: body.billing.buyerType,
-            billing_name: body.billing.fiscalName,
-            billing_tax_id: normalizeTaxIdentifier(body.billing.taxId),
-            billing_address_line1: body.billing.addressLine1,
-            billing_postal_code: body.billing.postalCode,
-            billing_city: body.billing.city,
-            billing_province: body.billing.province,
-            billing_country_code: body.billing.countryCode,
-            billing_email: body.billing.billingEmail,
-            billing_phone: body.billing.phone || null,
-            invoice_email: invoiceEmail,
-            contract_terms_accepted_at: acceptedAt,
-            contract_terms_version: BILLING_LEGAL_VERSION,
-            privacy_policy_version: BILLING_LEGAL_VERSION,
-            subtotal_net_cents: amounts.subtotalNetCents,
-            tax_amount_cents: amounts.taxAmountCents,
-            total_amount_cents: amounts.totalAmountCents,
-            tax_rate_basis_points: amounts.taxRateBasisPoints,
-            invoice_status: 'pending_invoice',
-            admin_notification_status: 'pending',
-          })
-          .select('id')
-          .single()
+        let purchase: { id: string } | null = null
+        let purchaseError: unknown = null
+        let checkoutOrganizationId = body.organizationId ?? null
+        if (body.kind === 'company') {
+          const { data, error } = await supabase.rpc(
+            'create_company_checkout_order',
+            {
+              p_buyer_user_id: user.id,
+              p_existing_organization_id: body.organizationId ?? null,
+              p_order_number: orderNumber,
+              p_idempotency_key: idempotencyKey,
+              p_course_version_id: version.id,
+              p_quantity: body.quantity,
+              p_currency: currency,
+              p_billing: body.billing,
+              p_invoice_email: invoiceEmail,
+              p_accepted_at: acceptedAt,
+              p_legal_version: BILLING_LEGAL_VERSION,
+              p_contact: body.contact!,
+              p_recipients: body.recipients!,
+              p_unit_net_cents: amounts.unitNetCents,
+              p_gross_subtotal_cents: amounts.grossSubtotalCents,
+              p_discount_basis_points: amounts.discountBasisPoints,
+              p_discount_amount_cents: amounts.discountAmountCents,
+              p_subtotal_net_cents: amounts.subtotalNetCents,
+              p_tax_rate_basis_points: amounts.taxRateBasisPoints,
+              p_tax_amount_cents: amounts.taxAmountCents,
+              p_total_amount_cents: amounts.totalAmountCents,
+              p_course_title: course.title,
+              p_course_code: course.slug,
+              p_course_version: version.version_number,
+              p_modality: version.modality,
+              p_duration_hours: version.duration_hours,
+              p_description: `${course.title} · Versión ${version.version_number} · ${version.duration_hours} horas`,
+            },
+          )
+          const result = data as {
+            purchase_id?: string
+            organization_id?: string
+          } | null
+          purchase = result?.purchase_id ? { id: result.purchase_id } : null
+          checkoutOrganizationId = result?.organization_id ?? null
+          purchaseError = error
+        } else {
+          const { data, error } = await supabase
+            .from('purchases')
+            .insert({
+              order_number: orderNumber,
+              kind: body.kind,
+              buyer_user_id: user.id,
+              organization_id: null,
+              status: 'draft',
+              subtotal_net: decimalSubtotal,
+              tax_amount: decimalTax,
+              total_amount: decimalTotal,
+              currency,
+              billing_details: body.billing,
+              idempotency_key: idempotencyKey,
+              billing_snapshot_version: 1,
+              billing_buyer_type: body.billing.buyerType,
+              billing_name: body.billing.fiscalName,
+              billing_tax_id: normalizeTaxIdentifier(body.billing.taxId),
+              billing_address_line1: body.billing.addressLine1,
+              billing_postal_code: body.billing.postalCode,
+              billing_city: body.billing.city,
+              billing_province: body.billing.province,
+              billing_country_code: body.billing.countryCode,
+              billing_email: body.billing.billingEmail,
+              billing_phone: body.billing.phone || null,
+              invoice_email: invoiceEmail,
+              contract_terms_accepted_at: acceptedAt,
+              contract_terms_version: BILLING_LEGAL_VERSION,
+              privacy_policy_version: BILLING_LEGAL_VERSION,
+              subtotal_net_cents: amounts.subtotalNetCents,
+              tax_amount_cents: amounts.taxAmountCents,
+              total_amount_cents: amounts.totalAmountCents,
+              tax_rate_basis_points: amounts.taxRateBasisPoints,
+              invoice_status: 'pending_invoice',
+              admin_notification_status: 'pending',
+              gross_subtotal_cents: amounts.grossSubtotalCents,
+              discount_basis_points: 0,
+              discount_amount_cents: 0,
+            })
+            .select('id')
+            .single()
+          purchase = data
+          purchaseError = error
+        }
 
         if (purchaseError || !purchase) {
+          const purchaseErrorMessage =
+            purchaseError && typeof purchaseError === 'object' &&
+            'message' in purchaseError && typeof purchaseError.message === 'string'
+              ? purchaseError.message
+              : ''
+          if (purchaseErrorMessage.includes('organization_already_registered')) {
+            return Response.json(
+              {
+                error:
+                  'Esta empresa ya está registrada en InmínerCampus. Solicita acceso o contacta con administración.',
+              },
+              { status: 409 },
+            )
+          }
           const duplicateResult = await findExistingCheckout({
             appUrl,
             idempotencyKey,
@@ -192,29 +259,34 @@ export const Route = createFileRoute('/api/checkout')({
           )
         }
 
-        const { error: itemError } = await supabase.from('purchase_items').insert({
-          purchase_id: purchase.id,
-          course_version_id: version.id,
-          quantity: body.quantity,
-          unit_net: centsToDecimalString(amounts.unitNetCents),
-          tax_rate: centsToDecimalString(amounts.taxRateBasisPoints),
-          line_net: decimalSubtotal,
-          line_tax: decimalTax,
-          line_total: decimalTotal,
-          currency,
-          snapshot_version: 1,
-          course_title_snapshot: course.title,
-          course_code_snapshot: course.slug,
-          course_version_snapshot: version.version_number,
-          modality_snapshot: version.modality,
-          duration_hours_snapshot: version.duration_hours,
-          description_snapshot: `${course.title} · Versión ${version.version_number} · ${version.duration_hours} horas`,
-          unit_net_cents: amounts.unitNetCents,
-          line_net_cents: amounts.subtotalNetCents,
-          line_tax_cents: amounts.taxAmountCents,
-          line_total_cents: amounts.totalAmountCents,
-          tax_rate_basis_points: amounts.taxRateBasisPoints,
-        })
+        const { error: itemError } = body.kind === 'individual'
+          ? await supabase.from('purchase_items').insert({
+              purchase_id: purchase.id,
+              course_version_id: version.id,
+              quantity: body.quantity,
+              unit_net: centsToDecimalString(amounts.unitNetCents),
+              tax_rate: centsToDecimalString(amounts.taxRateBasisPoints),
+              line_net: decimalSubtotal,
+              line_tax: decimalTax,
+              line_total: decimalTotal,
+              currency,
+              snapshot_version: 1,
+              course_title_snapshot: course.title,
+              course_code_snapshot: course.slug,
+              course_version_snapshot: version.version_number,
+              modality_snapshot: version.modality,
+              duration_hours_snapshot: version.duration_hours,
+              description_snapshot: `${course.title} · Versión ${version.version_number} · ${version.duration_hours} horas`,
+              unit_net_cents: amounts.unitNetCents,
+              line_net_cents: amounts.subtotalNetCents,
+              line_tax_cents: amounts.taxAmountCents,
+              line_total_cents: amounts.totalAmountCents,
+              tax_rate_basis_points: amounts.taxRateBasisPoints,
+              gross_line_net_cents: amounts.grossSubtotalCents,
+              discount_basis_points: 0,
+              discount_amount_cents: 0,
+            })
+          : { error: null }
 
         if (itemError) {
           await supabase
@@ -228,7 +300,7 @@ export const Route = createFileRoute('/api/checkout')({
         }
 
         try {
-          const [customer, taxRate] = await Promise.all([
+          const [customer, taxRate, discountCoupon] = await Promise.all([
             getOrCreateStripeCustomer({
               billing: body.billing,
               buyerUserId: user.id,
@@ -241,6 +313,15 @@ export const Route = createFileRoute('/api/checkout')({
               stripe,
               taxRateBasisPoints,
             }),
+            amounts.discountAmountCents > 0
+              ? createStripeCompanyDiscount({
+                  amountOffCents: amounts.discountAmountCents,
+                  currency,
+                  discountBasisPoints: amounts.discountBasisPoints,
+                  idempotencyKey,
+                  stripe,
+                })
+              : Promise.resolve(null),
           ])
 
           const session = await stripe.checkout.sessions.create(
@@ -271,6 +352,9 @@ export const Route = createFileRoute('/api/checkout')({
                   tax_rates: [taxRate.id],
                 },
               ],
+              ...(discountCoupon
+                ? { discounts: [{ coupon: discountCoupon.id }] }
+                : {}),
               ...(stripeInvoiceCreationEnabled
                 ? {
                     invoice_creation: {
@@ -308,7 +392,7 @@ export const Route = createFileRoute('/api/checkout')({
                 buyer_user_id: user.id,
                 course_version_id: version.id,
                 purchase_kind: body.kind,
-                organization_id: body.organizationId ?? '',
+                organization_id: checkoutOrganizationId ?? '',
               },
             },
             { idempotencyKey },
@@ -322,6 +406,7 @@ export const Route = createFileRoute('/api/checkout')({
               status: 'checkout_created',
               stripe_checkout_session_id: session.id,
               stripe_customer_id: customer.id,
+              stripe_discount_coupon_id: discountCoupon?.id ?? null,
             })
             .eq('id', purchase.id)
           if (updateError) throw updateError
@@ -491,5 +576,34 @@ async function getOrCreateStripeTaxRate({
       },
     },
     { idempotencyKey: `inminer-tax-rate:${country}:${marker}` },
+  )
+}
+
+async function createStripeCompanyDiscount({
+  amountOffCents,
+  currency,
+  discountBasisPoints,
+  idempotencyKey,
+  stripe,
+}: {
+  amountOffCents: number
+  currency: string
+  discountBasisPoints: number
+  idempotencyKey: string
+  stripe: Stripe
+}): Promise<Stripe.Coupon> {
+  return stripe.coupons.create(
+    {
+      amount_off: amountOffCents,
+      currency: currency.toLowerCase(),
+      duration: 'once',
+      max_redemptions: 1,
+      name: `Descuento empresa ${discountBasisPoints / 100} %`,
+      metadata: {
+        source: 'inminercampus_company_volume',
+        discount_basis_points: String(discountBasisPoints),
+      },
+    },
+    { idempotencyKey: `${idempotencyKey}:discount` },
   )
 }

@@ -41,7 +41,7 @@ const adminNav = [
 
 const companyNav = [
   { href: '/empresa', label: 'Resumen', icon: LayoutDashboard },
-  { href: '/empresa/codigos', label: 'Códigos', icon: KeyRound },
+  { href: '/empresa/codigos', label: 'Licencias', icon: KeyRound },
 ] as const
 
 const companyDynamicNav = [

@@ -55,8 +55,32 @@ export const Route = createFileRoute('/api/stripe-webhook')({
           const invoiceId = objectId(session.invoice)
           const customerId = objectId(session.customer)
           const subtotalCents = session.amount_subtotal ?? 0
+          const discountCents = session.total_details?.amount_discount ?? 0
+          const netSubtotalCents = subtotalCents - discountCents
           const totalCents = session.amount_total ?? subtotalCents
           const taxCents = session.total_details?.amount_tax ?? 0
+          if (session.metadata?.purchase_kind === 'company') {
+            const { error: amountError } = await supabase.rpc(
+              'verify_company_stripe_amounts',
+              {
+                p_purchase_id: purchaseId,
+                p_gross_subtotal_cents: subtotalCents,
+                p_discount_amount_cents: discountCents,
+                p_subtotal_net_cents: netSubtotalCents,
+                p_tax_amount_cents: taxCents,
+                p_total_amount_cents: totalCents,
+              },
+            )
+            if (amountError) {
+              await recordWebhookFailure({
+                event,
+                purchaseId,
+                safeError: 'Stripe amounts do not match the purchase snapshot',
+                supabase,
+              })
+              return new Response('Amount verification failed', { status: 500 })
+            }
+          }
           const { error } = await supabase.rpc(
             'fulfill_stripe_checkout_v2',
             {
@@ -68,7 +92,7 @@ export const Route = createFileRoute('/api/stripe-webhook')({
               p_payment_intent_id: paymentIntentId,
               p_invoice_id: invoiceId,
               p_stripe_customer_id: customerId,
-              p_subtotal_net: centsToDecimalString(subtotalCents),
+              p_subtotal_net: centsToDecimalString(netSubtotalCents),
               p_tax_amount: centsToDecimalString(taxCents),
               p_total_amount: centsToDecimalString(totalCents),
               p_paid_at: stripeTimestamp(event.created),
@@ -83,6 +107,19 @@ export const Route = createFileRoute('/api/stripe-webhook')({
               supabase,
             })
             return new Response('Fulfillment failed', { status: 500 })
+          }
+
+          if (session.metadata?.purchase_kind === 'company') {
+            try {
+              const { provisionAndSendCompanyLicenses } = await import(
+                '../server/company-license-service'
+              )
+              await provisionAndSendCompanyLicenses(purchaseId)
+            } catch {
+              // Fulfillment is already durable. Returning 500 makes Stripe retry;
+              // provisioning is transactionally idempotent and cannot duplicate codes.
+              return new Response('License provisioning failed', { status: 500 })
+            }
           }
 
           try {

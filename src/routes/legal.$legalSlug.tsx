@@ -125,6 +125,13 @@ const legalPages: Record<string, LegalDocument> = {
         ],
       },
       {
+        title: 'Datos facilitados por empresas compradoras',
+        paragraphs: [
+          'Una empresa compradora puede facilitar el nombre, apellidos y correo profesional de trabajadores u otras personas inscritas para asignar una plaza, crear y enviar una licencia, gestionar el acceso, prestar soporte, realizar el seguimiento permitido, atender la gestión administrativa y tramitar la certificación cuando proceda.',
+          'La empresa debe estar legitimada para facilitar esos datos y proporcionar a las personas afectadas la información pertinente. La declaración incluida en el checkout documenta esta comunicación, pero no sustituye el análisis ni las obligaciones de protección de datos que correspondan a cada parte.',
+        ],
+      },
+      {
         title: 'Destinatarios y proveedores',
         paragraphs: [
           'No se prevén comunicaciones ajenas a la prestación del servicio, salvo obligación legal. Determinados proveedores tecnológicos pueden tratar datos por cuenta de INMÍNER para prestar alojamiento, autenticación, pagos, comunicaciones o seguridad.',
@@ -217,6 +224,32 @@ const legalPages: Record<string, LegalDocument> = {
         ],
       },
       {
+        title: 'Compra de plazas para empresas',
+        paragraphs: [
+          'La empresa puede adquirir varias plazas de un mismo curso. Cada plaza corresponde a una persona y cada licencia o código es individual, no puede revenderse y debe utilizarse por la persona identificada en el pedido.',
+          'La empresa es responsable de facilitar datos correctos y de informar a las personas inscritas. La compra no implica por sí misma la emisión automática de un certificado: la finalización y certificación dependen del itinerario, evaluaciones, asistencia, prácticas y demás requisitos de la acción formativa contratada.',
+        ],
+      },
+      {
+        title: 'Descuentos por volumen para empresas',
+        paragraphs: [
+          'Para compras empresariales de un mismo curso se aplica el descuento que corresponda al número de plazas indicado en el resumen previo al pago.',
+        ],
+        bullets: [
+          'De 1 a 5 plazas: sin descuento.',
+          '6 o 7 plazas: 5 % de descuento.',
+          '8 o más plazas: 10 % de descuento.',
+          'Los descuentos por volumen no son acumulables. Al alcanzar ocho plazas se aplica exclusivamente el 10 %, no un 5 % adicional.',
+        ],
+      },
+      {
+        title: 'Modalidad y alcance de la formación',
+        paragraphs: [
+          'InmínerCampus incorpora recursos digitales de formación y seguimiento. Cuando el programa de la acción formativa, la normativa aplicable o las necesidades de la empresa lo requieran, INMÍNER puede complementar la formación con actuaciones presenciales.',
+          'La modalidad concreta, duración, requisitos prácticos y condiciones de certificación se detallan en la ficha de cada curso y versión. La compra no establece equivalencias jurídicas distintas de las expresamente documentadas para esa acción formativa.',
+        ],
+      },
+      {
         title: 'Acceso y realización',
         paragraphs: [
           'El acceso es personal, salvo los códigos de plaza adquiridos por una organización para sus trabajadores. La persona usuaria debe cumplir el itinerario, evaluaciones, asistencia y prácticas indicados en la ficha.',
@@ -287,7 +320,7 @@ function LegalPage() {
         </div>
         <div className="legal-overview__meta">
           <span>
-            <CalendarDays size={17} /> Actualizado el 29 de julio de 2026
+            <CalendarDays size={17} /> Actualizado el 24 de agosto de 2026
           </span>
           <span>
             <Building2 size={17} /> INMINER INGENIERÍA, S.L.
@@ -326,6 +359,10 @@ function LegalPage() {
       <p className="legal-note legal-note--footer">
         Si necesitas aclarar cómo se aplica alguno de estos apartados a tu
         matrícula o empresa, contacta con INMÍNER antes de contratar.
+      </p>
+      <p className="legal-note legal-note--footer">
+        Los textos relativos al flujo empresarial deben revisarse por asesoría
+        jurídica y de protección de datos antes de su publicación en producción.
       </p>
     </StaticPage>
   )

@@ -92,6 +92,20 @@ export const Route = createFileRoute('/api/company-access-codes')({
           return Response.json({ error: 'No tienes permisos.' }, { status: 403 })
         }
 
+        const { count: recipientCount } = await supabase
+          .from('company_license_recipients')
+          .select('id', { count: 'exact', head: true })
+          .eq('purchase_item_id', body.purchaseItemId)
+        if ((recipientCount ?? 0) > 0) {
+          return Response.json(
+            {
+              error:
+                'Este pedido usa licencias automáticas vinculadas a participantes.',
+            },
+            { status: 409 },
+          )
+        }
+
         const { count } = await supabase
           .from('access_codes')
           .select('*', { count: 'exact', head: true })

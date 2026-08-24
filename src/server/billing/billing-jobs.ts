@@ -55,6 +55,9 @@ type InvoiceContext = {
     stripe_checkout_session_id: string | null
     stripe_payment_intent_id: string | null
     stripe_customer_id: string | null
+    gross_subtotal_cents: number | null
+    discount_basis_points: number
+    discount_amount_cents: number
     purchase_items: Array<{
       course_title_snapshot: string
       course_code_snapshot: string | null
@@ -62,6 +65,9 @@ type InvoiceContext = {
       modality_snapshot: string
       quantity: number
       unit_net_cents: number
+      gross_line_net_cents: number | null
+      discount_basis_points: number
+      discount_amount_cents: number
       line_net_cents: number
       line_total_cents: number
       tax_rate_basis_points: number
@@ -414,7 +420,7 @@ async function loadInvoiceContext(
   const { data, error } = await supabase
     .from('invoices')
     .select(
-      'id, invoice_number, internal_invoice_reference, official_invoice_number, invoice_year, status, provider, customer_name, customer_tax_id, customer_email, customer_address, subtotal_cents, tax_cents, total_cents, currency, issued_at, pdf_storage_path, pdf_sha256, email_sent_at, email_delivery_version, local_archive_status, purchases!inner(id, order_number, kind, paid_at, billing_email, invoice_email, stripe_checkout_session_id, stripe_payment_intent_id, stripe_customer_id, purchase_items(course_title_snapshot, course_code_snapshot, course_version_snapshot, modality_snapshot, quantity, unit_net_cents, line_net_cents, line_total_cents, tax_rate_basis_points, description_snapshot))',
+      'id, invoice_number, internal_invoice_reference, official_invoice_number, invoice_year, status, provider, customer_name, customer_tax_id, customer_email, customer_address, subtotal_cents, tax_cents, total_cents, currency, issued_at, pdf_storage_path, pdf_sha256, email_sent_at, email_delivery_version, local_archive_status, purchases!inner(id, order_number, kind, paid_at, billing_email, invoice_email, stripe_checkout_session_id, stripe_payment_intent_id, stripe_customer_id, gross_subtotal_cents, discount_basis_points, discount_amount_cents, purchase_items(course_title_snapshot, course_code_snapshot, course_version_snapshot, modality_snapshot, quantity, unit_net_cents, gross_line_net_cents, discount_basis_points, discount_amount_cents, line_net_cents, line_total_cents, tax_rate_basis_points, description_snapshot))',
     )
     .eq('id', invoiceId)
     .maybeSingle()
@@ -436,6 +442,9 @@ function toMnProgramSnapshot(context: InvoiceContext): MnProgramSaleSnapshot {
     customerEmail: context.customer_email,
     totalAmountCents: context.total_cents,
     subtotalCents: context.subtotal_cents,
+    grossSubtotalCents:
+      context.purchase.gross_subtotal_cents ?? context.subtotal_cents,
+    discountAmountCents: context.purchase.discount_amount_cents ?? 0,
     taxCents: context.tax_cents,
     currency: context.currency,
     paidAt: context.purchase.paid_at,
@@ -469,6 +478,9 @@ function toInvoicePdfData(context: InvoiceContext): InvoicePdfData {
     province: String(address.province ?? ''),
     countryCode: String(address.countryCode ?? ''),
     subtotalCents: context.subtotal_cents,
+    grossSubtotalCents:
+      context.purchase.gross_subtotal_cents ?? context.subtotal_cents,
+    discountAmountCents: context.purchase.discount_amount_cents ?? 0,
     taxCents: context.tax_cents,
     totalCents: context.total_cents,
     currency: context.currency,
@@ -478,6 +490,9 @@ function toInvoicePdfData(context: InvoiceContext): InvoicePdfData {
         `${item.course_title_snapshot} · Versión ${item.course_version_snapshot}`,
       quantity: item.quantity,
       unitNetCents: item.unit_net_cents,
+      grossLineNetCents: item.gross_line_net_cents ?? item.line_net_cents,
+      discountBasisPoints: item.discount_basis_points ?? 0,
+      discountAmountCents: item.discount_amount_cents ?? 0,
       lineNetCents: item.line_net_cents,
       taxRateBasisPoints: item.tax_rate_basis_points,
       lineTotalCents: item.line_total_cents,

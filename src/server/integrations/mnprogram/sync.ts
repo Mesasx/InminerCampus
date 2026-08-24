@@ -9,6 +9,8 @@ export type MnProgramSaleSnapshot = {
   customerEmail: string
   totalAmountCents: number
   subtotalCents: number
+  grossSubtotalCents: number
+  discountAmountCents: number
   taxCents: number
   currency: string
   paidAt: string
@@ -62,6 +64,8 @@ export function toMnProgramContract(sale: MnProgramSaleSnapshot) {
         0,
       ),
       'Base imponible': sale.subtotalCents / 100,
+      'Importe original': sale.grossSubtotalCents / 100,
+      Descuento: sale.discountAmountCents / 100,
       IVA: sale.taxCents / 100,
       Total: sale.totalAmountCents / 100,
       'Fecha pago': sale.paidAt,

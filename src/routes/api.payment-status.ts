@@ -39,7 +39,7 @@ export const Route = createFileRoute('/api/payment-status')({
         const { data: purchase, error } = await supabase
           .from('purchases')
           .select(
-            'id, order_number, status, total_amount_cents, currency, billing_email, invoice_email, purchase_items(course_title_snapshot, modality_snapshot, duration_hours_snapshot, quantity), invoices(id, status, invoice_number, official_invoice_number, pdf_storage_path)',
+            'id, order_number, kind, status, total_amount_cents, currency, billing_email, invoice_email, purchase_items(course_title_snapshot, modality_snapshot, duration_hours_snapshot, quantity), invoices(id, status, invoice_number, official_invoice_number, pdf_storage_path)',
           )
           .eq('stripe_checkout_session_id', parsed.data.session_id)
           .eq('buyer_user_id', user.id)
@@ -78,6 +78,7 @@ export const Route = createFileRoute('/api/payment-status')({
           }>)[0]
         return Response.json({
           status: paymentStatus,
+          kind: purchase.kind,
           orderNumber: purchase.order_number,
           courseTitle: item?.course_title_snapshot ?? null,
           modality: item?.modality_snapshot ?? null,

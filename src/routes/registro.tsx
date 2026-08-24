@@ -1,17 +1,22 @@
 import { Turnstile } from '@marsidev/react-turnstile'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
 import { appConfig } from '../lib/config'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export const Route = createFileRoute('/registro')({
+  validateSearch: (search: Record<string, unknown>): { returnTo?: string } => ({
+    returnTo: safeReturnTo(search.returnTo),
+  }),
   component: RegisterPage,
 })
 
-const legalVersion = '2026-07-29'
+const legalVersion = '2026-08-24'
 
 function RegisterPage() {
+  const navigate = useNavigate()
+  const { returnTo } = Route.useSearch()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -53,7 +58,7 @@ function RegisterPage() {
       email: email.trim().toLowerCase(),
       password,
       options: {
-        emailRedirectTo: `${appConfig.appUrl}/mis-cursos`,
+        emailRedirectTo: `${appConfig.appUrl}${returnTo ?? '/mis-cursos'}`,
         captchaToken: captchaToken || undefined,
         data: {
           first_name: firstName.trim(),
@@ -80,6 +85,9 @@ function RegisterPage() {
         ? 'Tu cuenta está creada. Ya puedes acceder al campus.'
         : 'Revisa tu correo y confirma la cuenta para poder acceder.',
     )
+    if (data.session) {
+      await navigate({ to: returnTo ?? '/mis-cursos', replace: true })
+    }
   }
 
   return (
@@ -179,11 +187,18 @@ function RegisterPage() {
         </button>
         <p className="muted" style={{ textAlign: 'center', fontSize: '.9rem' }}>
           ¿Ya tienes cuenta?{' '}
-          <Link className="text-link" to="/acceso">
+          <Link className="text-link" to="/acceso" search={{ returnTo }}>
             Acceder
           </Link>
         </p>
       </form>
     </AuthLayout>
   )
+}
+
+function safeReturnTo(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) {
+    return undefined
+  }
+  return value.slice(0, 500)
 }
