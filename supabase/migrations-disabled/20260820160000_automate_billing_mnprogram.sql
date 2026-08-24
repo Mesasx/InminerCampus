@@ -1,3 +1,4 @@
+-- Future design only. Disabled while invoices are created manually in MNprogram.
 begin;
 
 create table if not exists public.invoice_counters (

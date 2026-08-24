@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { CheckCircle2, Download, LoaderCircle, XCircle } from 'lucide-react'
+import { CheckCircle2, LoaderCircle, XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { PublicLayout } from '../components/PublicLayout'
@@ -16,12 +16,6 @@ type PaymentStatus = {
   totalAmountCents: number
   currency: string
   invoiceEmail: string
-  invoice: {
-    id: string
-    status: string
-    number: string
-    available: boolean
-  } | null
 }
 
 export const Route = createFileRoute('/pago/confirmado')({
@@ -48,25 +42,6 @@ function PaymentConfirmedPage() {
 function PaymentConfirmation({ sessionId }: { sessionId?: string }) {
   const [payment, setPayment] = useState<PaymentStatus | null>(null)
   const [error, setError] = useState('')
-
-  async function downloadInvoice() {
-    if (!payment?.invoice?.available) return
-    const supabase = getSupabaseBrowserClient()
-    const { data } = (await supabase?.auth.getSession()) ?? { data: null }
-    const token = data?.session?.access_token
-    if (!token) return
-    try {
-      const response = await fetch(
-        `/api/invoices/${encodeURIComponent(payment.invoice.id)}/download`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const payload = (await response.json()) as { url?: string; error?: string }
-      if (response.ok && payload.url) window.location.href = payload.url
-      else setError(payload.error ?? 'No se ha podido descargar la factura.')
-    } catch {
-      setError('No se ha podido conectar para descargar la factura.')
-    }
-  }
 
   useEffect(() => {
     if (!sessionId) {
@@ -183,9 +158,8 @@ function PaymentConfirmation({ sessionId }: { sessionId?: string }) {
                     <div>
                       <dt>Factura</dt>
                       <dd>
-                        {payment.invoice?.available
-                          ? `${payment.invoice.number} disponible para descarga.`
-                          : `En preparación para ${payment.invoiceEmail}.`}
+                        Administración la preparará en MNprogram y la enviará a{' '}
+                        {payment.invoiceEmail}.
                       </dd>
                     </div>
                   ) : null}
@@ -195,15 +169,6 @@ function PaymentConfirmation({ sessionId }: { sessionId?: string }) {
               {error ? <div className="alert alert--error">{error}</div> : null}
               {confirmed ? (
                 <div className="content-editor__actions">
-                  {payment?.invoice?.available ? (
-                    <button
-                      className="button button--outline"
-                      onClick={() => void downloadInvoice()}
-                      type="button"
-                    >
-                      <Download size={16} /> Descargar factura
-                    </button>
-                  ) : null}
                   <Link className="button button--primary" to="/mis-cursos">
                     Ir a mis cursos
                   </Link>

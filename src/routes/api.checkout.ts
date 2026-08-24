@@ -117,8 +117,8 @@ export const Route = createFileRoute('/api/checkout')({
         const idempotencyKey = `checkout:${user.id}:${body.checkoutRequestId}`
         const stripe = new StripeClient(stripeSecret)
         const stripeInvoiceCreationEnabled =
-          process.env.STRIPE_INVOICE_CREATION_ENABLED?.trim().toLowerCase() !==
-          'false'
+          process.env.STRIPE_INVOICE_CREATION_ENABLED?.trim().toLowerCase() ===
+          'true'
 
         const existingResult = await findExistingCheckout({
           appUrl,

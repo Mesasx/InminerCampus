@@ -39,7 +39,7 @@ export const Route = createFileRoute('/api/payment-status')({
         const { data: purchase, error } = await supabase
           .from('purchases')
           .select(
-            'id, order_number, status, total_amount_cents, currency, billing_email, invoice_email, purchase_items(course_title_snapshot, modality_snapshot, duration_hours_snapshot, quantity), invoices(id, status, invoice_number, official_invoice_number, pdf_storage_path)',
+            'id, order_number, status, total_amount_cents, currency, billing_email, invoice_email, purchase_items(course_title_snapshot, modality_snapshot, duration_hours_snapshot, quantity)',
           )
           .eq('stripe_checkout_session_id', parsed.data.session_id)
           .eq('buyer_user_id', user.id)
@@ -69,13 +69,6 @@ export const Route = createFileRoute('/api/payment-status')({
             quantity: number
           }>
         )[0]
-        const invoice = ((purchase.invoices ?? []) as unknown as Array<{
-            id: string
-            status: string
-            invoice_number: string
-            official_invoice_number: string | null
-            pdf_storage_path: string | null
-          }>)[0]
         return Response.json({
           status: paymentStatus,
           orderNumber: purchase.order_number,
@@ -86,17 +79,6 @@ export const Route = createFileRoute('/api/payment-status')({
           totalAmountCents: purchase.total_amount_cents,
           currency: purchase.currency,
           invoiceEmail: purchase.invoice_email ?? purchase.billing_email,
-          invoice: invoice
-            ? {
-                id: invoice.id,
-                status: invoice.status,
-                number:
-                  invoice.official_invoice_number ?? invoice.invoice_number,
-                available: Boolean(
-                  invoice.official_invoice_number && invoice.pdf_storage_path,
-                ),
-              }
-            : null,
         })
       },
     },

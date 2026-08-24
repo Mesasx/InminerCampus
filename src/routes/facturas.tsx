@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Download, ReceiptText } from 'lucide-react'
+import { ReceiptText } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -9,23 +9,19 @@ import type { SessionUser } from '../lib/types'
 
 type InvoiceRow = {
   id: string
-  invoice_number: string
-  internal_invoice_reference: string
-  official_invoice_number: string | null
-  status: string
-  issued_at: string | null
-  total_cents: number
+  order_number: string
+  paid_at: string
+  invoice_status: string
+  invoice_number: string | null
+  invoiced_at: string | null
+  invoice_sent_at: string | null
+  total_amount_cents: number
   currency: string
-  pdf_storage_path: string | null
-  refund_requires_credit_note: boolean
-  purchases: {
-    order_number: string
-    paid_at: string
-    purchase_items: Array<{
-      course_title_snapshot: string
-      quantity: number
-    }>
-  }
+  invoice_email: string
+  purchase_items: Array<{
+    course_title_snapshot: string
+    quantity: number
+  }>
 }
 
 export const Route = createFileRoute('/facturas')({
@@ -75,37 +71,24 @@ function Invoices({ user }: { user: SessionUser }) {
     }
   }
 
-  async function download(invoice: InvoiceRow) {
-    const supabase = getSupabaseBrowserClient()
-    const { data } = (await supabase?.auth.getSession()) ?? { data: null }
-    const token = data?.session?.access_token
-    if (!token) return
-    try {
-      const response = await fetch(
-        `/api/invoices/${encodeURIComponent(invoice.id)}/download`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      )
-      const payload = (await response.json()) as { url?: string; error?: string }
-      if (response.ok && payload.url) window.location.href = payload.url
-      else setMessage(payload.error ?? 'No se ha podido preparar la descarga.')
-    } catch {
-      setMessage('No se ha podido conectar para descargar la factura.')
-    }
-  }
-
   return (
     <AppShell user={user} title="Facturas">
       <div className="dashboard-heading">
         <div>
           <span className="eyebrow">Mi cuenta</span>
           <h1>Facturas.</h1>
-          <p>Consulta el estado y descarga los documentos ya emitidos.</p>
+          <p>
+            Administración prepara las facturas en MNprogram y las envía por
+            correo electrónico.
+          </p>
         </div>
       </div>
 
       {message ? <div className="alert alert--info">{message}</div> : null}
       {loading ? (
-        <section className="empty-state"><p>Cargando facturas…</p></section>
+        <section className="empty-state">
+          <p>Cargando facturas…</p>
+        </section>
       ) : invoices.length ? (
         <section className="panel">
           <div className="table-scroll">
@@ -117,38 +100,28 @@ function Invoices({ user }: { user: SessionUser }) {
                   <th>Curso</th>
                   <th>Total</th>
                   <th>Estado</th>
-                  <th>Documento</th>
+                  <th>Entrega</th>
                 </tr>
               </thead>
               <tbody>
                 {invoices.map((invoice) => {
-                  const item = invoice.purchases.purchase_items[0]
-                  const available = Boolean(
-                    invoice.official_invoice_number && invoice.pdf_storage_path,
-                  )
+                  const item = invoice.purchase_items[0]
                   return (
                     <tr key={invoice.id}>
-                      <td>
-                        {invoice.official_invoice_number ??
-                          invoice.internal_invoice_reference}
-                      </td>
-                      <td>{formatDate(invoice.issued_at ?? invoice.purchases.paid_at)}</td>
+                      <td>{invoice.invoice_number ?? invoice.order_number}</td>
+                      <td>{formatDate(invoice.invoiced_at ?? invoice.paid_at)}</td>
                       <td>{item?.course_title_snapshot ?? '—'}</td>
-                      <td>{formatCents(invoice.total_cents, invoice.currency)}</td>
                       <td>
-                        {invoice.refund_requires_credit_note
-                          ? 'Rectificativa pendiente'
-                          : invoiceStatusLabel(invoice.status)}
+                        {formatCents(
+                          invoice.total_amount_cents,
+                          invoice.currency,
+                        )}
                       </td>
+                      <td>{invoiceStatusLabel(invoice.invoice_status)}</td>
                       <td>
-                        <button
-                          className="button button--outline"
-                          disabled={!available}
-                          onClick={() => void download(invoice)}
-                          type="button"
-                        >
-                          <Download size={15} /> Descargar
-                        </button>
+                        {invoice.invoice_sent_at
+                          ? `Enviada a ${invoice.invoice_email}`
+                          : `Se enviará a ${invoice.invoice_email}`}
                       </td>
                     </tr>
                   )
@@ -161,8 +134,8 @@ function Invoices({ user }: { user: SessionUser }) {
         <section className="empty-state">
           <ReceiptText size={28} />
           <div>
-            <h2>Aún no hay facturas</h2>
-            <p>Las facturas de tus compras aparecerán aquí.</p>
+            <h2>Aún no hay compras facturables</h2>
+            <p>Los pagos confirmados aparecerán aquí.</p>
           </div>
         </section>
       )}
@@ -173,15 +146,10 @@ function Invoices({ user }: { user: SessionUser }) {
 function invoiceStatusLabel(status: string): string {
   return (
     {
-      pending: 'Pendiente de emisión',
-      issuing: 'En emisión',
-      issued: 'Emitida',
-      email_pending: 'Envío pendiente',
-      emailed: 'Enviada',
-      archive_pending: 'Archivo pendiente',
-      archived: 'Archivada',
-      error: 'Revisión necesaria',
-      cancelled: 'Cancelada',
+      pending_invoice: 'Pendiente de emisión',
+      invoiced: 'Emitida en MNprogram',
+      invoice_sent: 'Enviada por email',
+      refunded: 'Reembolsada',
     }[status] ?? status
   )
 }
