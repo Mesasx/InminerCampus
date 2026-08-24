@@ -41,10 +41,21 @@ export const Route = createFileRoute('/api/company-licenses')({
         const { data: enrollments } = usedUserIds.length
           ? await supabase
               .from('enrollments')
-              .select('user_id, course_version_id, status, progress_percent, completed_at')
+              .select('id, user_id, course_version_id, status, progress_percent, completed_at')
               .in('organization_id', organizationIds)
               .in('user_id', usedUserIds)
           : { data: [] }
+        const enrollmentIds = (enrollments ?? []).map(({ id }) => id)
+        const { data: certificates } = enrollmentIds.length
+          ? await supabase
+              .from('certificates')
+              .select('enrollment_id')
+              .in('enrollment_id', enrollmentIds)
+              .eq('status', 'valid')
+          : { data: [] }
+        const certifiedEnrollmentIds = new Set(
+          (certificates ?? []).map(({ enrollment_id }) => enrollment_id),
+        )
         const enrollmentByUserAndCourse = new Map(
           (enrollments ?? []).map((enrollment) => [
             `${enrollment.user_id}:${enrollment.course_version_id}`,
@@ -95,6 +106,9 @@ export const Route = createFileRoute('/api/company-licenses')({
                 enrollmentStatus: enrollment?.status ?? null,
                 progressPercent: enrollment?.progress_percent ?? null,
                 completedAt: enrollment?.completed_at ?? null,
+                certificateIssued: enrollment
+                  ? certifiedEnrollmentIds.has(enrollment.id)
+                  : false,
               }
             }),
           },
