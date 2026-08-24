@@ -30,6 +30,8 @@ test('la migración aísla ciphertext, destinatarios y provisión idempotente', 
   assert.match(sql, /protect_paid_company_item_snapshot/i)
   assert.match(sql, /protect_company_recipient_identity/i)
   assert.match(sql, /grant select, insert on public\.company_access_code_secrets to service_role/i)
+  assert.match(sql, /'sent'::public\.company_license_delivery_status/)
+  assert.match(sql, /'failed'::public\.company_license_delivery_status/)
 })
 
 test('la generacion manual no compite con licencias automaticas', async () => {

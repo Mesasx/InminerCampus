@@ -504,7 +504,10 @@ set search_path = ''
 as $$
 begin
   update public.company_license_recipients set
-    delivery_status = case when p_success then 'sent' else 'failed' end,
+    delivery_status = case
+      when p_success then 'sent'::public.company_license_delivery_status
+      else 'failed'::public.company_license_delivery_status
+    end,
     email_sent_at = case when p_success then now() else email_sent_at end,
     email_message_id = case when p_success then nullif(p_message_id, '') else email_message_id end,
     last_error = case when p_success then null else left(coalesce(p_error, 'Error de envío'), 1000) end,
