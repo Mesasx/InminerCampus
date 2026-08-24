@@ -16,6 +16,7 @@ export const Route = createFileRoute('/api/checkout')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        console.info('[api/checkout] request received')
         const [{ default: StripeClient }, { getBearerToken, getSupabaseAdmin }] =
           await Promise.all([
             import('stripe'),
@@ -31,6 +32,9 @@ export const Route = createFileRoute('/api/checkout')({
           await request.json().catch(() => null),
         )
         if (!parsedBody.success) {
+          console.warn('[api/checkout] request rejected', {
+            path: parsedBody.error.issues[0]?.path.join('.') ?? 'body',
+          })
           return Response.json(
             {
               error:
@@ -44,6 +48,10 @@ export const Route = createFileRoute('/api/checkout')({
         const stripeSecret = process.env.STRIPE_SECRET_KEY?.trim()
         const appUrl = process.env.VITE_APP_URL?.trim().replace(/\/+$/, '')
         if (!stripeSecret || !appUrl) {
+          console.error('[api/checkout] configuration missing', {
+            appUrl: Boolean(appUrl),
+            stripeSecret: Boolean(stripeSecret),
+          })
           return Response.json(
             { error: 'Stripe todavía no está configurado.' },
             { status: 503 },
@@ -56,6 +64,7 @@ export const Route = createFileRoute('/api/checkout')({
           error: userError,
         } = await supabase.auth.getUser(token)
         if (userError || !user?.email) {
+          console.warn('[api/checkout] invalid session')
           return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
         }
 
@@ -237,6 +246,10 @@ export const Route = createFileRoute('/api/checkout')({
             'message' in purchaseError && typeof purchaseError.message === 'string'
               ? purchaseError.message
               : ''
+          console.error('[api/checkout] purchase creation failed', {
+            kind: body.kind,
+            error: purchaseErrorMessage || 'unknown',
+          })
           if (purchaseErrorMessage.includes('organization_already_registered')) {
             return Response.json(
               {
@@ -411,8 +424,18 @@ export const Route = createFileRoute('/api/checkout')({
             .eq('id', purchase.id)
           if (updateError) throw updateError
 
+          console.info('[api/checkout] Stripe session created', {
+            kind: body.kind,
+            purchaseId: purchase.id,
+          })
           return Response.json({ url: session.url })
-        } catch {
+        } catch (checkoutError) {
+          console.error('[api/checkout] Stripe session failed', {
+            error:
+              checkoutError instanceof Error
+                ? checkoutError.message
+                : String(checkoutError),
+          })
           await supabase
             .from('purchases')
             .update({ status: 'cancelled' })
