@@ -17,6 +17,37 @@ export function BillingDetailsForm({
     nextValue: BillingFormValue[Key],
   ) => onChange({ ...value, [key]: nextValue })
 
+  const updateIndividualName = (
+    key: 'givenName' | 'familyName',
+    nextValue: string,
+  ) => {
+    const next = { ...value, [key]: nextValue }
+    onChange({
+      ...next,
+      fiscalName:
+        value.buyerType === 'individual'
+          ? [next.givenName, next.familyName]
+              .map((part) => part.trim())
+              .filter(Boolean)
+              .join(' ')
+          : value.fiscalName,
+    })
+  }
+
+  const updateBuyerType = (buyerType: BillingFormValue['buyerType']) => {
+    onChange({
+      ...value,
+      buyerType,
+      fiscalName:
+        buyerType === 'individual'
+          ? [value.givenName, value.familyName]
+              .map((part) => part.trim())
+              .filter(Boolean)
+              .join(' ')
+          : value.fiscalName,
+    })
+  }
+
   return (
     <fieldset className="billing-form" disabled={disabled}>
       <legend>Datos fiscales</legend>
@@ -24,6 +55,43 @@ export function BillingDetailsForm({
         Se conservarán con el pedido para que Administración pueda preparar la
         factura.
       </p>
+
+      {value.buyerType === 'individual' || !lockBuyerType ? (
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="billing-given-name">
+              {value.buyerType === 'business' ? 'Nombre de contacto' : 'Nombre'}
+            </label>
+            <input
+              autoComplete="given-name"
+              id="billing-given-name"
+              maxLength={100}
+              required
+              value={value.givenName}
+              onChange={(event) =>
+                updateIndividualName('givenName', event.target.value)
+              }
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="billing-family-name">
+              {value.buyerType === 'business'
+                ? 'Apellidos de contacto'
+                : 'Apellidos'}
+            </label>
+            <input
+              autoComplete="family-name"
+              id="billing-family-name"
+              maxLength={160}
+              required
+              value={value.familyName}
+              onChange={(event) =>
+                updateIndividualName('familyName', event.target.value)
+              }
+            />
+          </div>
+        </div>
+      ) : null}
 
       <div className="form-row">
         <div className="field">
@@ -33,8 +101,7 @@ export function BillingDetailsForm({
             id="billing-buyer-type"
             value={value.buyerType}
             onChange={(event) =>
-              update(
-                'buyerType',
+              updateBuyerType(
                 event.target.value as BillingFormValue['buyerType'],
               )
             }
@@ -43,21 +110,23 @@ export function BillingDetailsForm({
             <option value="business">Empresa o autónomo</option>
           </select>
         </div>
-        <div className="field">
-          <label htmlFor="billing-fiscal-name">
-            {value.buyerType === 'individual'
-              ? 'Nombre y apellidos'
-              : 'Razón social o nombre fiscal'}
-          </label>
-          <input
-            autoComplete="name"
-            id="billing-fiscal-name"
-            maxLength={200}
-            required
-            value={value.fiscalName}
-            onChange={(event) => update('fiscalName', event.target.value)}
-          />
-        </div>
+        {value.buyerType === 'business' ? (
+          <div className="field">
+            <label htmlFor="billing-fiscal-name">
+              Razón social o nombre fiscal
+            </label>
+            <input
+              autoComplete="organization"
+              id="billing-fiscal-name"
+              maxLength={200}
+              required
+              value={value.fiscalName}
+              onChange={(event) => update('fiscalName', event.target.value)}
+            />
+          </div>
+        ) : (
+          <input id="billing-fiscal-name" type="hidden" value={value.fiscalName} />
+        )}
       </div>
 
       <div className="form-row">

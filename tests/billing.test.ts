@@ -11,6 +11,8 @@ import {
 
 const validBilling = {
   buyerType: 'individual' as const,
+  givenName: 'Ana',
+  familyName: 'García López',
   fiscalName: 'Ana García López',
   taxId: '12345678Z',
   addressLine1: 'Calle Mayor 12',
