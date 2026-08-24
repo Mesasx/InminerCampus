@@ -4504,12 +4504,11 @@ button.admin-list__item {
   margin: 0 0 clamp(6px, 1vh, 14px);
   color: var(--orange);
   font-family: var(--font-display);
-  font-size: clamp(5.5rem, 12vw, 11rem);
+  font-size: clamp(3.25rem, 5.5vw, 5.8rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.8;
-  overflow-wrap: normal;
-  white-space: nowrap;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+  text-wrap: balance;
 }
 
 .campus-hero__subtitle {
@@ -5469,7 +5468,8 @@ button.admin-list__item {
   }
 
   .campus-hero__count {
-    font-size: clamp(5.5rem, 22vw, 8rem);
+    max-width: 13ch;
+    font-size: clamp(3.5rem, 11vw, 5.5rem);
   }
 
   .campus-hero__machine {
@@ -5522,7 +5522,7 @@ button.admin-list__item {
   }
 
   .campus-hero__count {
-    font-size: clamp(4.5rem, 26vw, 6.5rem);
+    font-size: clamp(2.75rem, 12vw, 4.5rem);
   }
 
   .campus-hero__cta {
