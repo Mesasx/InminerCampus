@@ -7,11 +7,14 @@ const MAX_GAP_SECONDS = (TICK_MS / 1000) * 2
 
 /**
  * Acumula el tiempo que el usuario pasa realmente con la pestaña visible y
- * lo sincroniza a intervalos con `record_stvh_activity_heartbeat`. Descarta
+ * lo sincroniza a intervalos con `record_learning_activity_heartbeat`. Descarta
  * huecos de tiempo anómalos (pestaña en segundo plano, suspensión del
  * equipo, conexión perdida) en lugar de contarlos como actividad.
  */
-export function useStvhActivityHeartbeat(enrollmentId: string, enabled: boolean) {
+export function useLearningActivityHeartbeat(
+  enrollmentId: string,
+  enabled: boolean,
+) {
   useEffect(() => {
     if (!enabled) return
     const supabase = getSupabaseBrowserClient()
@@ -27,7 +30,7 @@ export function useStvhActivityHeartbeat(enrollmentId: string, enabled: boolean)
       if (pendingSeconds <= 0 || disposed) return
       const delta = pendingSeconds
       pendingSeconds = 0
-      void supabase!.rpc('record_stvh_activity_heartbeat', {
+      void supabase!.rpc('record_learning_activity_heartbeat', {
         p_enrollment_id: enrollmentId,
         p_session_id: sessionId,
         p_delta_seconds: delta,
@@ -64,11 +67,14 @@ export function useStvhActivityHeartbeat(enrollmentId: string, enabled: boolean)
     window.addEventListener('beforeunload', handleBeforeUnload)
 
     return () => {
-      disposed = true
       window.clearInterval(interval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('beforeunload', handleBeforeUnload)
       flush()
+      disposed = true
     }
   }, [enrollmentId, enabled])
 }
+
+// Alias temporal para no romper imports de bundles o ramas anteriores.
+export const useStvhActivityHeartbeat = useLearningActivityHeartbeat

@@ -17,6 +17,13 @@ const route = readFileSync(
   new URL('../src/routes/certificados.tsx', import.meta.url),
   'utf8',
 )
+const internalCompletionMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/20260821122229_internal_completion_records.sql',
+    import.meta.url,
+  ),
+  'utf8',
+)
 
 test('STVH certificates are issued only for completed enrollments', () => {
   assert.match(migration, /c\.slug = 'formacion-stvh'/)
@@ -30,11 +37,16 @@ test('STVH certificates are issued only for completed enrollments', () => {
   assert.match(migration, /where c\.slug = 'formacion-stvh'[\s\S]*e\.status = 'completed'/)
 })
 
-test('certificate page exposes a PDF download action', () => {
-  assert.match(route, /pdf_storage_path/)
-  assert.match(route, /createSignedUrl/)
-  assert.match(route, /downloadCertificatePdf/)
-  assert.match(route, /Descargar PDF/)
+test('los certificados automáticos quedan desactivados hasta su emisión definitiva', () => {
+  assert.match(
+    internalCompletionMigration,
+    /drop trigger if exists enrollments_issue_stvh_certificate/,
+  )
+  assert.doesNotMatch(route, /pdf_storage_path/)
+  assert.doesNotMatch(route, /createSignedUrl/)
+  assert.doesNotMatch(route, /downloadCertificatePdf/)
+  assert.doesNotMatch(route, /Descargar PDF/)
+  assert.match(route, /tramitando|preparando/i)
 })
 
 test('personalized certificate generator creates a valid PDF envelope', () => {

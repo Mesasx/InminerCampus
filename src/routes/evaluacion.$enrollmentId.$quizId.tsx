@@ -3,8 +3,10 @@ import { CheckCircle2, RotateCcw, ShieldCheck, XCircle } from 'lucide-react'
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
+import { requestInternalCompletion } from '../lib/internal-completion'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
 
 export const Route = createFileRoute(
   '/evaluacion/$enrollmentId/$quizId',
@@ -92,6 +94,8 @@ function Evaluation({
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  useLearningActivityHeartbeat(enrollmentId, Boolean(attempt && !result))
+
   const loadAttempt = useCallback(async () => {
     setLoading(true)
     setError('')
@@ -167,7 +171,11 @@ function Evaluation({
       setError('No se ha podido corregir el intento. Inténtalo de nuevo.')
       return
     }
-    setResult(data as AttemptResult)
+    const attemptResult = data as AttemptResult
+    setResult(attemptResult)
+    if (attemptResult.evaluationCompleted) {
+      void requestInternalCompletion(enrollmentId)
+    }
   }
 
   return (

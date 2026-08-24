@@ -59,7 +59,10 @@ test('instala 15 preguntas por bloque y la evaluación final en ambos cursos', (
 })
 
 test('crea la evaluación final que faltaba en el curso de 5 horas', () => {
-  assert.match(migration, /where target\.duration_hours = 5\non conflict \(course_version_id, position\)/)
+  assert.match(
+    migration,
+    /where target\.duration_hours = 5\r?\non conflict \(course_version_id, position\)/,
+  )
   assert.match(migration, /'Evaluación final integradora'/)
   assert.match(migration, /Se esperaban cinco evaluaciones en cada uno de los dos cursos/)
   assert.match(migration, /insert into public\.lesson_progress/)
