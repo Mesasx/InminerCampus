@@ -4504,11 +4504,21 @@ button.admin-list__item {
   margin: 0 0 clamp(6px, 1vh, 14px);
   color: var(--orange);
   font-family: var(--font-display);
-  font-size: clamp(3.25rem, 5.5vw, 5.8rem);
+  font-size: clamp(3.25rem, 4.3vw, 5rem);
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 0.9;
-  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.campus-hero__title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.campus-hero__title-line--ink {
+  color: var(--ink);
 }
 
 .campus-hero__subtitle {
@@ -5468,8 +5478,7 @@ button.admin-list__item {
   }
 
   .campus-hero__count {
-    max-width: 13ch;
-    font-size: clamp(3.5rem, 11vw, 5.5rem);
+    font-size: clamp(3.25rem, 8vw, 5rem);
   }
 
   .campus-hero__machine {
@@ -5522,7 +5531,7 @@ button.admin-list__item {
   }
 
   .campus-hero__count {
-    font-size: clamp(2.75rem, 12vw, 4.5rem);
+    font-size: clamp(1.9rem, 9.4vw, 4rem);
   }
 
   .campus-hero__cta {
