@@ -1,4 +1,5 @@
 import { ArrowDown } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { Logo } from './Logo'
 
 export function Hero({
@@ -11,7 +12,7 @@ export function Hero({
 }: {
   machineImage: string
   eyebrow: string
-  title: string
+  title: ReactNode
   subtitle: string
   ctaLabel: string
   ctaTargetId: string
