@@ -6,11 +6,15 @@ import { appConfig } from '../lib/config'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export const Route = createFileRoute('/acceso')({
+  validateSearch: (search: Record<string, unknown>): { returnTo?: string } => ({
+    returnTo: safeReturnTo(search.returnTo),
+  }),
   component: LoginPage,
 })
 
 function LoginPage() {
   const navigate = useNavigate()
+  const { returnTo } = Route.useSearch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
@@ -75,7 +79,7 @@ function LoginPage() {
     )
 
     await navigate({
-      to: isAdministrator ? '/admin' : '/mis-cursos',
+      to: returnTo ?? (isAdministrator ? '/admin' : '/mis-cursos'),
       replace: true,
     })
   }
@@ -134,11 +138,18 @@ function LoginPage() {
         </button>
         <p className="muted" style={{ textAlign: 'center', fontSize: '.9rem' }}>
           ¿Todavía no tienes cuenta?{' '}
-          <Link className="text-link" to="/registro">
+          <Link className="text-link" to="/registro" search={{ returnTo }}>
             Crear cuenta
           </Link>
         </p>
       </form>
     </AuthLayout>
   )
+}
+
+function safeReturnTo(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) {
+    return undefined
+  }
+  return value.slice(0, 500)
 }

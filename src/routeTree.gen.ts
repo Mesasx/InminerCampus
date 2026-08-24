@@ -42,6 +42,7 @@ import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
 import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
+import { Route as ApiCompanyLicensesRouteImport } from './routes/api.company-licenses'
 import { Route as ApiInternalCompletionRouteImport } from './routes/api.internal-completion'
 import { Route as ApiInvoicesRouteImport } from './routes/api.invoices'
 import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
@@ -237,6 +238,11 @@ const ApiCompanyAccessCodesRoute = ApiCompanyAccessCodesRouteImport.update({
   path: '/api/company-access-codes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCompanyLicensesRoute = ApiCompanyLicensesRouteImport.update({
+  id: '/api/company-licenses',
+  path: '/api/company-licenses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInternalCompletionRoute = ApiInternalCompletionRouteImport.update({
   id: '/api/internal-completion',
   path: '/api/internal-completion',
@@ -421,6 +427,7 @@ export interface FileRoutesByFullPath {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -480,6 +487,7 @@ export interface FileRoutesByTo {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -543,6 +551,7 @@ export interface FileRoutesById {
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
+  '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
   '/api/payment-status': typeof ApiPaymentStatusRoute
@@ -608,6 +617,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
@@ -667,6 +677,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
@@ -729,6 +740,7 @@ export interface FileRouteTypes {
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
+    | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
     | '/api/payment-status'
@@ -785,6 +797,7 @@ export interface RootRouteChildren {
   ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
+  ApiCompanyLicensesRoute: typeof ApiCompanyLicensesRoute
   ApiInternalCompletionRoute: typeof ApiInternalCompletionRoute
   ApiInvoicesRoute: typeof ApiInvoicesRouteWithChildren
   ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
@@ -1035,6 +1048,13 @@ declare module '@tanstack/react-router' {
       path: '/api/company-access-codes'
       fullPath: '/api/company-access-codes'
       preLoaderRoute: typeof ApiCompanyAccessCodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/company-licenses': {
+      id: '/api/company-licenses'
+      path: '/api/company-licenses'
+      fullPath: '/api/company-licenses'
+      preLoaderRoute: typeof ApiCompanyLicensesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/internal-completion': {
@@ -1357,6 +1377,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
+  ApiCompanyLicensesRoute: ApiCompanyLicensesRoute,
   ApiInternalCompletionRoute: ApiInternalCompletionRoute,
   ApiInvoicesRoute: ApiInvoicesRouteWithChildren,
   ApiPaymentStatusRoute: ApiPaymentStatusRoute,

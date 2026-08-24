@@ -34,6 +34,9 @@ type BillingPurchase = {
   tax_amount_cents: number
   total_amount_cents: number
   tax_rate_basis_points: number
+  gross_subtotal_cents: number
+  discount_basis_points: number
+  discount_amount_cents: number
   refunded_amount_cents: number
   currency: string
   stripe_payment_intent_id: string | null
@@ -598,6 +601,18 @@ function BillingDetail({
       </dl>
 
       <dl className="order-totals">
+        {purchase.kind === 'company' ? (
+          <>
+            <div>
+              <dt>Subtotal antes de descuento</dt>
+              <dd>{formatCents(purchase.gross_subtotal_cents, purchase.currency)}</dd>
+            </div>
+            <div className="order-discount">
+              <dt>Descuento empresa ({purchase.discount_basis_points / 100} %)</dt>
+              <dd>− {formatCents(purchase.discount_amount_cents, purchase.currency)}</dd>
+            </div>
+          </>
+        ) : null}
         <div>
           <dt>Base imponible</dt>
           <dd>

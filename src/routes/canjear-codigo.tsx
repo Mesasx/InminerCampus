@@ -6,12 +6,19 @@ import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export const Route = createFileRoute('/canjear-codigo')({
+  validateSearch: (search: Record<string, unknown>): { code?: string } => ({
+    code:
+      typeof search.code === 'string' && search.code.length <= 40
+        ? search.code.trim().toUpperCase()
+        : undefined,
+  }),
   component: RedeemCodePage,
 })
 
 function RedeemCodePage() {
   const navigate = useNavigate()
-  const [code, setCode] = useState('')
+  const { code: initialCode } = Route.useSearch()
+  const [code, setCode] = useState(initialCode ?? '')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 

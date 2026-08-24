@@ -14,6 +14,16 @@ test('Checkout conserva métodos dinámicos e idempotencia de Stripe', async () 
   assert.match(checkout, /STRIPE_INVOICE_CREATION_ENABLED/)
   assert.match(checkout, /course_code_snapshot/)
   assert.match(checkout, /description_snapshot/)
+  assert.match(checkout, /coupons\.create/)
+  assert.match(checkout, /discounts:/)
+  assert.doesNotMatch(checkout, /allow_promotion_codes/)
+})
+
+test('el webhook reconcilia bruto, descuento, base e impuestos de Stripe', async () => {
+  const webhook = await source('src/routes/api.stripe-webhook.ts')
+  assert.match(webhook, /amount_subtotal/)
+  assert.match(webhook, /amount_discount/)
+  assert.match(webhook, /verify_company_stripe_amounts/)
 })
 
 test('el webhook no llama a MNprogram y encola dentro de la transacción', async () => {

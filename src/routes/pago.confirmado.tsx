@@ -8,6 +8,7 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 
 type PaymentStatus = {
   status: 'pending' | 'confirmed' | 'failed'
+  kind: 'individual' | 'company'
   orderNumber: string
   courseTitle: string | null
   modality: string | null
@@ -204,9 +205,15 @@ function PaymentConfirmation({ sessionId }: { sessionId?: string }) {
                       <Download size={16} /> Descargar factura
                     </button>
                   ) : null}
-                  <Link className="button button--primary" to="/mis-cursos">
-                    Ir a mis cursos
-                  </Link>
+                  {payment?.kind === 'company' ? (
+                    <Link className="button button--primary" to="/empresa/codigos">
+                      Ver licencias de empresa
+                    </Link>
+                  ) : (
+                    <Link className="button button--primary" to="/mis-cursos">
+                      Ir a mis cursos
+                    </Link>
+                  )}
                 </div>
               ) : failed ? (
                 <Link className="button button--outline" to="/catalogo">

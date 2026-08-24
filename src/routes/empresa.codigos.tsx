@@ -1,185 +1,117 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Download, KeyRound } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { Check, Copy, Eye, KeyRound, RefreshCw } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
+import { formatCents } from '../lib/billing'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
-export const Route = createFileRoute('/empresa/codigos')({
-  component: CompanyCodesPage,
-})
+export const Route = createFileRoute('/empresa/codigos')({ component: CompanyCodesPage })
 
-type PaidItem = {
+type License = {
   id: string
-  quantity: number
+  givenName: string
+  familyName: string
+  email: string
+  maskedCode: string
+  licenseStatus: string
+  deliveryStatus: string
+  emailSentAt: string | null
+  lastError: string | null
+  redeemedAt: string | null
+  orderNumber: string
+  paidAt: string
+  totalAmountCents: number
+  currency: string
+  discountBasisPoints: number
   courseTitle: string
-  generated: number
+  quantity: number
+  enrollmentStatus: string | null
+  progressPercent: number | null
+  completedAt: string | null
 }
 
 function CompanyCodesPage() {
-  return (
-    <ProtectedGate roles={['responsable_empresa', 'superadministrador']}>
-      {(user) => <CompanyCodes user={user} />}
-    </ProtectedGate>
-  )
+  return <ProtectedGate>{(user) => <CompanyLicenses user={user} />}</ProtectedGate>
 }
 
-function CompanyCodes({ user }: { user: SessionUser }) {
-  const [items, setItems] = useState<PaidItem[]>([])
-  const [generatedCodes, setGeneratedCodes] = useState<string[]>([])
+function CompanyLicenses({ user }: { user: SessionUser }) {
+  const [licenses, setLicenses] = useState<License[]>([])
+  const [revealed, setRevealed] = useState<Record<string, string>>({})
+  const [busy, setBusy] = useState('')
   const [message, setMessage] = useState('')
-  const [loadingItem, setLoadingItem] = useState('')
 
-  useEffect(() => {
-    const supabase = getSupabaseBrowserClient()
-    if (!supabase) return
-    void supabase
-      .from('purchase_items')
-      .select(
-        'id, quantity, purchases!inner(kind, status, organization_id), course_versions!inner(courses!inner(title)), access_codes(id)',
-      )
-      .eq('purchases.kind', 'company')
-      .eq('purchases.status', 'paid')
-      .then(({ data }) => {
-        const rows = (data ?? []) as unknown as Array<{
-          id: string
-          quantity: number
-          course_versions: { courses: { title: string } }
-          access_codes: Array<{ id: string }>
-        }>
-        setItems(
-          rows.map((row) => ({
-            id: row.id,
-            quantity: row.quantity,
-            courseTitle: row.course_versions.courses.title,
-            generated: row.access_codes.length,
-          })),
-        )
-      })
+  const request = useCallback(async (body?: object) => {
+    const { data } = (await getSupabaseBrowserClient()?.auth.getSession()) ?? { data: null }
+    const token = data?.session?.access_token
+    if (!token) throw new Error('Tu sesión ha caducado.')
+    return fetch('/api/company-licenses', {
+      method: body ? 'POST' : 'GET',
+      headers: { Authorization: `Bearer ${token}`, ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined,
+    })
   }, [])
 
-  async function generate(itemId: string) {
-    setLoadingItem(itemId)
-    setMessage('')
-    setGeneratedCodes([])
-    const { data } =
-      (await getSupabaseBrowserClient()?.auth.getSession()) ?? { data: null }
-    const accessToken = data?.session?.access_token
-    if (!accessToken) return
+  const load = useCallback(async () => {
+    try {
+      const response = await request()
+      const payload = (await response.json()) as { licenses?: License[]; error?: string }
+      if (!response.ok) throw new Error(payload.error)
+      setLicenses(payload.licenses ?? [])
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se han podido cargar las licencias.')
+    }
+  }, [request])
 
-    const response = await fetch('/api/company-access-codes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ purchaseItemId: itemId }),
-    })
-    const payload = (await response.json()) as {
-      codes?: string[]
-      error?: string
-    }
-    setLoadingItem('')
-    if (!response.ok || !payload.codes) {
-      setMessage(payload.error ?? 'No se han podido generar los códigos.')
-      return
-    }
-    setGeneratedCodes(payload.codes)
-    setMessage(
-      'Guarda o exporta ahora los códigos: el valor completo no volverá a mostrarse.',
-    )
+  useEffect(() => { void load() }, [load])
+
+  async function reveal(license: License) {
+    setBusy(license.id); setMessage('')
+    try {
+      const response = await request({ action: 'reveal', recipientId: license.id })
+      const payload = (await response.json()) as { code?: string; error?: string }
+      if (!response.ok || !payload.code) throw new Error(payload.error)
+      setRevealed((current) => ({ ...current, [license.id]: payload.code! }))
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se ha podido mostrar el código.')
+    } finally { setBusy('') }
   }
 
-  function downloadCsv() {
-    const csv = ['codigo', ...generatedCodes].join('\n')
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `codigos-inminercampus-${new Date().toISOString().slice(0, 10)}.csv`
-    link.click()
-    URL.revokeObjectURL(url)
+  async function retry(license: License) {
+    setBusy(license.id); setMessage('')
+    try {
+      const response = await request({ action: 'retry', recipientId: license.id })
+      const payload = (await response.json()) as { error?: string }
+      if (!response.ok) throw new Error(payload.error)
+      setMessage(`Correo reenviado a ${license.email}.`)
+      await load()
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'No se ha podido reenviar.')
+    } finally { setBusy('') }
+  }
+
+  async function copy(license: License) {
+    const code = revealed[license.id]
+    if (!code) return
+    await navigator.clipboard.writeText(code)
+    setMessage('Código copiado de forma segura.')
   }
 
   return (
-    <AppShell user={user} mode="company" title="Códigos">
-      <div className="dashboard-heading">
-        <div>
-          <span className="eyebrow">Plazas empresariales</span>
-          <h1>Códigos de acceso.</h1>
-          <p>Únicos, de un solo uso y asociados al curso comprado.</p>
-        </div>
-      </div>
-      {message ? (
-        <div className="alert alert--info" style={{ marginBottom: 20 }}>
-          {message}
-        </div>
-      ) : null}
-      {generatedCodes.length ? (
-        <section className="panel" style={{ marginBottom: 24 }}>
-          <div className="panel__header">
-            <h2>Lote recién generado</h2>
-            <button
-              className="button button--primary"
-              onClick={downloadCsv}
-              type="button"
-            >
-              <Download size={17} /> Descargar CSV
-            </button>
-          </div>
-          <div className="form-grid">
-            {generatedCodes.map((code) => (
-              <code className="stat-card" key={code}>
-                {code}
-              </code>
-            ))}
-          </div>
-        </section>
-      ) : null}
+    <AppShell user={user} mode="company" title="Licencias">
+      <div className="dashboard-heading"><div><span className="eyebrow">Formación corporativa</span><h1>Licencias.</h1><p>Consulta cada asignación sin exponer masivamente los códigos.</p></div></div>
+      {message ? <div className="alert alert--info" style={{ marginBottom: 20 }}>{message}</div> : null}
       <section className="panel">
-        <div className="panel__header">
-          <h2>Pedidos pagados</h2>
-        </div>
-        {items.length ? (
-          <div className="app-course-list">
-            {items.map((item) => (
-              <article className="app-course" key={item.id}>
-                <span className="app-course__number">
-                  <KeyRound size={20} />
-                </span>
-                <div>
-                  <h3>{item.courseTitle}</h3>
-                  <p>
-                    {item.generated} de {item.quantity} códigos generados
-                  </p>
-                </div>
-                <div className="progress">
-                  <div
-                    className="progress__bar"
-                    style={{
-                      width: `${(item.generated / item.quantity) * 100}%`,
-                    }}
-                  />
-                </div>
-                <button
-                  className="button button--outline"
-                  disabled={
-                    item.generated >= item.quantity || loadingItem === item.id
-                  }
-                  onClick={() => void generate(item.id)}
-                  type="button"
-                >
-                  {loadingItem === item.id ? 'Generando…' : 'Generar pendientes'}
-                </button>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <p>No hay pedidos empresariales pagados con plazas pendientes.</p>
-          </div>
-        )}
+        <div className="panel__header"><h2>Personas y accesos</h2><span className="status status--orange">{licenses.length} licencias</span></div>
+        {licenses.length ? <div className="license-list">{licenses.map((license) => (
+          <article className="license-card" key={license.id}>
+            <div className="license-card__person"><span className="app-course__number"><KeyRound size={18} /></span><div><h3>{license.givenName} {license.familyName}</h3><p title={license.email}>{license.email}</p><small>{license.courseTitle} · Pedido {license.orderNumber}</small></div></div>
+            <div className="license-card__code"><code>{revealed[license.id] ?? license.maskedCode}</code><div className="license-card__actions">{revealed[license.id] ? <button aria-label="Copiar código" className="button button--outline" onClick={() => void copy(license)} type="button"><Copy size={16} /> Copiar</button> : <button className="button button--outline" disabled={busy === license.id || license.maskedCode === 'Pendiente'} onClick={() => void reveal(license)} type="button"><Eye size={16} /> Mostrar</button>}</div></div>
+            <div className="license-card__status"><span className={`status ${license.licenseStatus === 'used' ? 'status--green' : 'status--orange'}`}>{license.licenseStatus === 'used' ? <><Check size={14} /> Canjeada</> : 'Sin canjear'}</span><span className={`status ${license.deliveryStatus === 'sent' ? 'status--green' : ''}`}>{license.deliveryStatus === 'sent' ? <><Check size={14} /> Email enviado</> : 'Error al enviar'}</span>{license.enrollmentStatus ? <span className={`status ${license.enrollmentStatus === 'completed' ? 'status--green' : ''}`}>{license.enrollmentStatus === 'completed' ? 'Formación completada' : `Progreso ${Math.round(Number(license.progressPercent ?? 0))} %`}</span> : null}{license.deliveryStatus === 'failed' ? <button className="text-link button-reset" disabled={busy === license.id} onClick={() => void retry(license)} type="button"><RefreshCw size={14} /> Reintentar</button> : null}</div>
+            <div className="license-card__purchase"><small>{new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium' }).format(new Date(license.paidAt))}</small><strong>{formatCents(license.totalAmountCents, license.currency)}</strong>{license.discountBasisPoints ? <span>{license.discountBasisPoints / 100} % dto.</span> : null}</div>
+          </article>
+        ))}</div> : <div className="empty-state"><p>Todavía no hay licencias automáticas en pedidos pagados.</p></div>}
       </section>
     </AppShell>
   )

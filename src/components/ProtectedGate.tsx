@@ -7,9 +7,11 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 export function ProtectedGate({
   children,
   roles,
+  returnTo,
 }: {
   children: (user: SessionUser) => ReactNode
   roles?: AppRole[]
+  returnTo?: string
 }) {
   const { user, loading } = useCurrentUser()
 
@@ -51,7 +53,11 @@ export function ProtectedGate({
           <p className="auth-card__intro">
             Accede con tu cuenta para consultar esta sección.
           </p>
-          <Link className="button button--primary button--wide" to="/acceso">
+          <Link
+            className="button button--primary button--wide"
+            to="/acceso"
+            search={{ returnTo }}
+          >
             Ir al acceso
           </Link>
         </div>

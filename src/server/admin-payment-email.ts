@@ -26,12 +26,26 @@ export type PurchaseForNotification = {
   tax_rate_basis_points: number
   currency: string
   stripe_payment_intent_id: string | null
+  stripe_checkout_session_id: string | null
+  invoice_status: string
+  gross_subtotal_cents: number
+  discount_basis_points: number
+  discount_amount_cents: number
+  buyer_given_name: string | null
+  buyer_family_name: string | null
+  buyer_contact_email: string | null
   purchase_items: Array<{
     course_title_snapshot: string
     course_version_snapshot: number
     modality_snapshot: string
     duration_hours_snapshot: number
     quantity: number
+    unit_net_cents: number
+  }>
+  company_license_recipients: Array<{
+    given_name: string
+    family_name: string
+    email: string
   }>
 }
 
@@ -52,7 +66,7 @@ export async function sendPaymentAdminNotification(
       const { data, error } = await supabase
         .from('purchases')
         .select(
-          'id, order_number, kind, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, currency, stripe_payment_intent_id, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity)',
+          'id, order_number, kind, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, currency, stripe_payment_intent_id, stripe_checkout_session_id, invoice_status, gross_subtotal_cents, discount_basis_points, discount_amount_cents, buyer_given_name, buyer_family_name, buyer_contact_email, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity, unit_net_cents), company_license_recipients(given_name, family_name, email)',
         )
         .eq('id', purchaseId)
         .single()
@@ -140,6 +154,7 @@ export function buildPaymentEmailText(
     `Modalidad: ${formatModality(item?.modality_snapshot)}`,
     `Duración: ${item?.duration_hours_snapshot ?? '—'} horas`,
     `Plazas: ${item?.quantity ?? '—'}`,
+    `Precio unitario original: ${formatCents(item?.unit_net_cents ?? 0, purchase.currency)}`,
     '',
     `Cliente: ${purchase.billing_name}`,
     `NIF/CIF: ${purchase.billing_tax_id}`,
@@ -147,12 +162,25 @@ export function buildPaymentEmailText(
     `Correo de facturación: ${purchase.billing_email}`,
     `Correo de factura: ${purchase.invoice_email}`,
     `Teléfono: ${purchase.billing_phone || '—'}`,
+    `Contacto: ${[purchase.buyer_given_name, purchase.buyer_family_name].filter(Boolean).join(' ') || '—'}`,
+    `Email de contacto: ${purchase.buyer_contact_email || '—'}`,
     '',
+    `Subtotal antes de descuento: ${formatCents(purchase.gross_subtotal_cents, purchase.currency)}`,
+    `Descuento (${purchase.discount_basis_points / 100}%): ${formatCents(purchase.discount_amount_cents, purchase.currency)}`,
+    `Ahorro: ${formatCents(purchase.discount_amount_cents, purchase.currency)}`,
     `Base imponible: ${formatCents(purchase.subtotal_net_cents, purchase.currency)}`,
     `IVA (${purchase.tax_rate_basis_points / 100}%): ${formatCents(purchase.tax_amount_cents, purchase.currency)}`,
     `Total: ${formatCents(purchase.total_amount_cents, purchase.currency)}`,
     `PaymentIntent: ${purchase.stripe_payment_intent_id || '—'}`,
+    `Checkout Session: ${purchase.stripe_checkout_session_id || '—'}`,
+    `Estado de factura: ${purchase.invoice_status}`,
   ]
+  if (purchase.company_license_recipients.length) {
+    lines.push('', 'Participantes:')
+    for (const recipient of purchase.company_license_recipients) {
+      lines.push(`- ${recipient.given_name} ${recipient.family_name} <${recipient.email}>`)
+    }
+  }
   if (adminUrl) {
     lines.push('', `Gestionar: ${adminUrl}/admin/facturacion?pedido=${purchase.id}`)
   }
@@ -172,12 +200,17 @@ export function buildPaymentEmailHtml(
     ['Modalidad', formatModality(item?.modality_snapshot)],
     ['Duración', `${item?.duration_hours_snapshot ?? '—'} horas`],
     ['Plazas', String(item?.quantity ?? '—')],
+    ['Precio unitario original', formatCents(item?.unit_net_cents ?? 0, purchase.currency)],
     ['Cliente', purchase.billing_name],
     ['NIF/CIF', purchase.billing_tax_id],
     ['Dirección', formatAddress(purchase)],
     ['Correo de facturación', purchase.billing_email],
     ['Correo de factura', purchase.invoice_email],
     ['Teléfono', purchase.billing_phone || '—'],
+    ['Contacto', [purchase.buyer_given_name, purchase.buyer_family_name].filter(Boolean).join(' ') || '—'],
+    ['Email de contacto', purchase.buyer_contact_email || '—'],
+    ['Subtotal antes de descuento', formatCents(purchase.gross_subtotal_cents, purchase.currency)],
+    [`Descuento (${purchase.discount_basis_points / 100}%)`, formatCents(purchase.discount_amount_cents, purchase.currency)],
     [
       'Base imponible',
       formatCents(purchase.subtotal_net_cents, purchase.currency),
@@ -188,6 +221,8 @@ export function buildPaymentEmailHtml(
     ],
     ['Total', formatCents(purchase.total_amount_cents, purchase.currency)],
     ['PaymentIntent', purchase.stripe_payment_intent_id || '—'],
+    ['Checkout Session', purchase.stripe_checkout_session_id || '—'],
+    ['Estado de factura', purchase.invoice_status],
   ]
   const tableRows = rows
     .map(
@@ -199,7 +234,10 @@ export function buildPaymentEmailHtml(
     ? `<p style="margin-top:24px"><a href="${escapeHtml(`${adminUrl}/admin/facturacion?pedido=${purchase.id}`)}" style="display:inline-block;background:#e96f1d;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px">Abrir Pagos y facturación</a></p>`
     : ''
 
-  return `<!doctype html><html lang="es"><body style="font-family:Arial,sans-serif;color:#292524;background:#fafaf9;padding:24px"><main style="max-width:720px;margin:auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><p style="color:#e96f1d;font-weight:700;text-transform:uppercase;letter-spacing:.08em">InmínerCampus</p><h1>Nuevo pago confirmado</h1><p>El webhook de Stripe ha confirmado el pago. El acceso correspondiente ya puede activarse según el tipo de compra.</p><table style="width:100%;border-collapse:collapse">${tableRows}</table>${action}</main></body></html>`
+  const participants = purchase.company_license_recipients.length
+    ? `<h2>Participantes</h2><ul>${purchase.company_license_recipients.map((recipient) => `<li>${escapeHtml(`${recipient.given_name} ${recipient.family_name} <${recipient.email}>`)}</li>`).join('')}</ul>`
+    : ''
+  return `<!doctype html><html lang="es"><body style="font-family:Arial,sans-serif;color:#292524;background:#fafaf9;padding:24px"><main style="max-width:720px;margin:auto;background:#fff;border:1px solid #e7e5e4;border-radius:12px;padding:24px"><p style="color:#e96f1d;font-weight:700;text-transform:uppercase;letter-spacing:.08em">InmínerCampus</p><h1>Nuevo pago confirmado</h1><p>El webhook de Stripe ha confirmado el pago. El estado de pago no implica por sí solo que la factura administrativa definitiva esté emitida.</p><table style="width:100%;border-collapse:collapse">${tableRows}</table>${participants}${action}</main></body></html>`
 }
 
 function formatAddress(purchase: PurchaseForNotification): string {

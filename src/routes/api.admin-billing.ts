@@ -46,6 +46,9 @@ type BillingAdminRow = BillingCsvRow & {
   billing_country_code: string
   billing_phone: string | null
   tax_rate_basis_points: number
+  gross_subtotal_cents: number
+  discount_basis_points: number
+  discount_amount_cents: number
   refunded_amount_cents: number
   stripe_checkout_session_id: string | null
   invoice_status: string
@@ -107,7 +110,7 @@ export const Route = createFileRoute('/api/admin-billing')({
         const { data, error } = await administrator.supabase
           .from('purchases')
           .select(
-            'id, order_number, kind, status, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, refunded_amount_cents, currency, stripe_checkout_session_id, stripe_payment_intent_id, invoice_status, invoice_number, invoiced_at, invoice_sent_at, admin_notes, admin_notification_status, admin_notification_attempts, admin_notification_sent_at, admin_notification_error, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity), invoices(id, invoice_number, internal_invoice_reference, official_invoice_number, status, provider, issued_at, pdf_storage_path, email_sent_at, local_archive_status, local_archive_path, refund_requires_credit_note, last_error, billing_jobs(type, status, attempt_count, next_attempt_at, last_error), mnprogram_syncs(status, attempt_count, last_error, synced_at))',
+            'id, order_number, kind, status, paid_at, billing_name, billing_tax_id, billing_address_line1, billing_postal_code, billing_city, billing_province, billing_country_code, billing_email, billing_phone, invoice_email, subtotal_net_cents, tax_amount_cents, total_amount_cents, tax_rate_basis_points, gross_subtotal_cents, discount_basis_points, discount_amount_cents, refunded_amount_cents, currency, stripe_checkout_session_id, stripe_payment_intent_id, invoice_status, invoice_number, invoiced_at, invoice_sent_at, admin_notes, admin_notification_status, admin_notification_attempts, admin_notification_sent_at, admin_notification_error, purchase_items(course_title_snapshot, course_version_snapshot, modality_snapshot, duration_hours_snapshot, quantity, unit_net_cents), invoices(id, invoice_number, internal_invoice_reference, official_invoice_number, status, provider, issued_at, pdf_storage_path, email_sent_at, local_archive_status, local_archive_path, refund_requires_credit_note, last_error, billing_jobs(type, status, attempt_count, next_attempt_at, last_error), mnprogram_syncs(status, attempt_count, last_error, synced_at))',
           )
           .in('status', ['paid', 'refunded', 'partially_refunded'])
           .order('paid_at', { ascending: false })
