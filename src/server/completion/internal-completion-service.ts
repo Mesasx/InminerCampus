@@ -360,7 +360,7 @@ async function sendInternalCompletionEmail(
 ): Promise<string> {
   const apiKey = process.env.RESEND_API_KEY?.trim()
   const recipient =
-    process.env.INTERNAL_COMPLETION_EMAIL?.trim() || 'pedro@inminer.es'
+    process.env.INTERNAL_COMPLETION_EMAIL?.trim() || 'capinolopez@gmail.com'
   const sender =
     process.env.INTERNAL_COMPLETION_FROM?.trim() ||
     process.env.ADMIN_NOTIFICATION_FROM?.trim() ||

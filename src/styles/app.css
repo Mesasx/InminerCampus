@@ -3221,6 +3221,49 @@ span {
   box-shadow: 0 12px 26px rgba(233, 120, 36, 0.12);
 }
 
+.admin-user-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.admin-user-summary article {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  background: var(--surface);
+}
+
+.admin-user-summary article > span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  color: var(--orange);
+  background: var(--orange-soft);
+}
+
+.admin-user-summary strong,
+.admin-user-summary small {
+  display: block;
+}
+
+.admin-user-summary strong {
+  color: var(--navy);
+  font-size: 1.35rem;
+}
+
+.admin-user-summary small {
+  margin-top: 2px;
+  color: var(--muted);
+}
+
 .admin-grid,
 .admin-split,
 .admin-inbox {
@@ -3283,6 +3326,12 @@ button.admin-list__item {
 .admin-list__item small {
   margin-top: 4px;
   color: var(--muted);
+}
+
+.admin-list__identity {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
 }
 
 .admin-progress-card {
@@ -3415,11 +3464,85 @@ button.admin-list__item {
 .user-progress-card {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
+  align-items: start;
   gap: 14px;
   border: 1px solid var(--line);
   border-radius: 13px;
   padding: 16px;
+}
+
+.user-progress-card__content {
+  min-width: 0;
+}
+
+.user-progress-card__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.user-progress-card__heading .status {
+  flex: 0 0 auto;
+}
+
+.user-progress-card__percent {
+  color: var(--navy);
+}
+
+.user-progress-card__times {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 13px;
+}
+
+.user-progress-card__times > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--orange);
+  background: var(--surface-soft);
+}
+
+.user-progress-card__times small,
+.user-progress-card__times strong {
+  display: block;
+  margin: 0;
+}
+
+.user-progress-card__times strong {
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.user-progress-card__dates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.user-progress-card__dates > div {
+  min-width: 0;
+  border-left: 2px solid var(--line);
+  padding-left: 9px;
+}
+
+.user-progress-card__dates dt {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.user-progress-card__dates dd {
+  margin: 3px 0 0;
+  font-size: 0.8rem;
+  font-weight: 650;
 }
 
 .user-progress-card small,
@@ -3973,6 +4096,10 @@ button.admin-list__item {
     grid-template-columns: 1fr;
   }
 
+  .admin-user-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .billing-filters {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4492,6 +4619,21 @@ button.admin-list__item {
   .practice-roster__item,
   .user-progress-card {
     grid-template-columns: 1fr;
+  }
+
+  .admin-user-summary,
+  .user-progress-card__times,
+  .user-progress-card__dates {
+    grid-template-columns: 1fr;
+  }
+
+  .user-progress-card__heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-progress-card__heading .status {
+    align-self: flex-start;
   }
 
   .admin-list__item,
