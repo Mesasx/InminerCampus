@@ -70,7 +70,17 @@ test('every playable block receives 15 questions and three cumulative perfect ro
 })
 
 test('platform creation credit appears publicly and inside the campus', () => {
-  const credit = 'Plataforma creada por Pedro Mesas de la Fuente.'
-  assert.ok(footer.includes(credit))
-  assert.ok(shell.includes(credit))
+  // El nombre es ahora un enlace, así que el crédito ya no es texto contiguo.
+  for (const source of [footer, shell]) {
+    assert.match(source, /Plataforma creada por/)
+    assert.match(source, /Pedro Mesas de la Fuente/)
+  }
+})
+
+test('el crédito enlaza al sitio del autor y aísla la pestaña de origen', () => {
+  for (const source of [footer, shell]) {
+    assert.match(source, /href="https:\/\/mesasx\.com"/)
+    // Sin noopener, la página destino puede manipular la nuestra vía window.opener.
+    assert.match(source, /rel="noopener noreferrer"/)
+  }
 })

@@ -271,7 +271,16 @@ export function AppShell({
         </header>
         <main className="app-content">{children}</main>
         <footer className="app-credit">
-          Plataforma creada por Pedro Mesas de la Fuente.
+          Plataforma creada por{' '}
+          <a
+            className="text-link"
+            href="https://mesasx.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Pedro Mesas de la Fuente
+          </a>
+          .
         </footer>
       </div>
     </div>
