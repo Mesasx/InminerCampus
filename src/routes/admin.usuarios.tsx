@@ -512,13 +512,18 @@ function formatActiveTime(value: number): string {
 function formatElapsedTime(enrollment: AdminEnrollment): string {
   if (!enrollment.started_at) return 'No iniciado'
   const startedAt = Date.parse(enrollment.started_at)
-  const endedAt = enrollment.completed_at
-    ? Date.parse(enrollment.completed_at)
-    : Date.now()
+  // Mientras la matrícula no se cierra no hay `completed_at`, así que el fin de
+  // la teoría es la mejor referencia del tiempo que tardó el alumno. Sin
+  // ninguno de los dos sigue en curso y medimos contra ahora.
+  const finishedAt = enrollment.completed_at ?? enrollment.theory_completed_at
+  const endedAt = finishedAt ? Date.parse(finishedAt) : Date.now()
   if (!Number.isFinite(startedAt) || !Number.isFinite(endedAt)) {
     return 'Sin datos suficientes'
   }
-  return formatSeconds(Math.max(0, Math.round((endedAt - startedAt) / 1_000)))
+  const elapsed = formatSeconds(
+    Math.max(0, Math.round((endedAt - startedAt) / 1_000)),
+  )
+  return finishedAt ? elapsed : `${elapsed} (en curso)`
 }
 
 function formatSeconds(value: number): string {
