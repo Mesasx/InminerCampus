@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
 import { appConfig } from '../lib/config'
+import { DNI_ERROR_MESSAGE, isValidDni, normalizeDni } from '../lib/dni'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
 export const Route = createFileRoute('/registro')({
@@ -19,6 +20,7 @@ function RegisterPage() {
   const { returnTo } = Route.useSearch()
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [dni, setDni] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [acceptedLegal, setAcceptedLegal] = useState(false)
@@ -32,6 +34,12 @@ function RegisterPage() {
     setError('')
     setSuccess('')
 
+    // El DNI es obligatorio: sin él no se puede emitir el certificado ni el
+    // aviso interno de finalización, que lo exige para identificar al alumno.
+    if (!isValidDni(dni)) {
+      setError(DNI_ERROR_MESSAGE)
+      return
+    }
     if (password.length < 10) {
       setError('La contraseña debe tener al menos 10 caracteres.')
       return
@@ -63,6 +71,7 @@ function RegisterPage() {
         data: {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
+          dni: normalizeDni(dni),
           accepted_legal: true,
           legal_version: legalVersion,
         },
@@ -119,6 +128,21 @@ function RegisterPage() {
               onChange={(event) => setLastName(event.target.value)}
             />
           </div>
+        </div>
+        <div className="field">
+          <label htmlFor="register-dni">DNI / NIE</label>
+          <input
+            id="register-dni"
+            placeholder="12345678Z"
+            autoComplete="off"
+            required
+            value={dni}
+            onChange={(event) => setDni(event.target.value)}
+          />
+          <span className="muted">
+            Necesario para emitir certificados con tus datos personales. No
+            podrás cambiarlo una vez lo guardes.
+          </span>
         </div>
         <div className="field">
           <label htmlFor="register-email">Correo electrónico</label>
