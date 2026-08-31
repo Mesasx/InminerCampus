@@ -1,11 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
   BookOpenCheck,
+  CheckCircle2,
+  Clock3,
   Search,
   ShieldCheck,
   UserRound,
+  UsersRound,
 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
@@ -15,26 +19,40 @@ export const Route = createFileRoute('/admin/usuarios')({
   component: AdminUsersPage,
 })
 
-type Profile = {
+type AdminEnrollment = {
   id: string
-  email: string | null
-  first_name: string
-  last_name: string
-  status: string
-  created_at: string
-  user_roles: Array<{ role: string }>
-}
-
-type Enrollment = {
-  id: string
-  user_id: string
   status: string
   progress_percent: number
   enrolled_at: string
-  course_versions: {
+  started_at: string | null
+  theory_completed_at: string | null
+  completed_at: string | null
+  active_seconds: number
+  course: {
+    title: string
+    slug: string
     version_number: number
-    courses: { title: string }
+    duration_hours: number
+    modality: string
   }
+}
+
+type AdminUser = {
+  id: string
+  email: string | null
+  phone: string | null
+  first_name: string
+  last_name: string
+  dni: string | null
+  status: string
+  profile_exists: boolean
+  registered_at: string
+  email_confirmed_at: string | null
+  last_sign_in_at: string | null
+  first_access_at: string | null
+  last_access_at: string | null
+  roles: string[]
+  enrollments: AdminEnrollment[]
 }
 
 function AdminUsersPage() {
@@ -46,37 +64,49 @@ function AdminUsersPage() {
 }
 
 function AdminUsers({ user }: { user: SessionUser }) {
-  const [profiles, setProfiles] = useState<Profile[]>([])
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([])
+  const [users, setUsers] = useState<AdminUser[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
-    const supabase = getSupabaseBrowserClient()
-    if (!supabase) return
-    const [{ data: profileRows, error }, { data: enrollmentRows }] =
-      await Promise.all([
-        supabase
-          .from('profiles')
-          .select(
-            'id, email, first_name, last_name, status, created_at, user_roles(role)',
-          )
-          .order('created_at', { ascending: false }),
-        supabase
-          .from('enrollments')
-          .select(
-            'id, user_id, status, progress_percent, enrolled_at, course_versions(version_number, courses(title))',
-          )
-          .order('enrolled_at', { ascending: false }),
-      ])
-    if (error) setMessage('No se ha podido cargar el listado de usuarios.')
-    const nextProfiles = (profileRows ?? []) as unknown as Profile[]
-    setProfiles(nextProfiles)
-    setEnrollments((enrollmentRows ?? []) as unknown as Enrollment[])
-    setSelectedId((current) => current ?? nextProfiles[0]?.id ?? null)
-    setLoading(false)
+    setLoading(true)
+    const token = await getAccessToken()
+    if (!token) {
+      setMessage('Tu sesión ha caducado. Vuelve a iniciar sesión.')
+      setLoading(false)
+      return
+    }
+
+    try {
+      const response = await fetch('/api/admin-users', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const payload = (await response.json()) as {
+        users?: AdminUser[]
+        error?: string
+      }
+      if (!response.ok || !payload.users) {
+        throw new Error(payload.error ?? 'No se han podido cargar los usuarios.')
+      }
+
+      setUsers(payload.users)
+      setSelectedId((current) =>
+        payload.users?.some((entry) => entry.id === current)
+          ? current
+          : (payload.users?.[0]?.id ?? null),
+      )
+      setMessage('')
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : 'No se ha podido cargar el listado de usuarios.',
+      )
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
@@ -84,29 +114,45 @@ function AdminUsers({ user }: { user: SessionUser }) {
   }, [load])
 
   const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase()
-    if (!term) return profiles
-    return profiles.filter((profile) =>
+    const term = search.trim().toLocaleLowerCase('es')
+    if (!term) return users
+    return users.filter((entry) =>
       [
-        profile.email,
-        profile.first_name,
-        profile.last_name,
-        ...profile.user_roles.map((role) => role.role),
+        entry.email,
+        entry.phone,
+        entry.dni,
+        entry.first_name,
+        entry.last_name,
+        accountStatusLabel(entry.status),
+        ...entry.roles,
+        ...entry.enrollments.flatMap((enrollment) => [
+          enrollment.course.title,
+          enrollmentStatusLabel(enrollment.status),
+        ]),
       ]
         .filter(Boolean)
         .join(' ')
-        .toLowerCase()
+        .toLocaleLowerCase('es')
         .includes(term),
     )
-  }, [profiles, search])
+  }, [search, users])
 
-  const selected = profiles.find((profile) => profile.id === selectedId)
-  const selectedEnrollments = enrollments.filter(
-    (enrollment) => enrollment.user_id === selectedId,
+  const selected = users.find((entry) => entry.id === selectedId)
+  const totalEnrollments = users.reduce(
+    (total, entry) => total + entry.enrollments.length,
+    0,
+  )
+  const completedEnrollments = users.reduce(
+    (total, entry) =>
+      total +
+      entry.enrollments.filter(
+        (enrollment) => enrollment.status === 'completed',
+      ).length,
+    0,
   )
 
   async function updateStatus(status: string) {
-    if (!selected) return
+    if (!selected?.profile_exists) return
     const { error } =
       (await getSupabaseBrowserClient()?.rpc('admin_update_profile_status', {
         p_profile_id: selected.id,
@@ -126,15 +172,39 @@ function AdminUsers({ user }: { user: SessionUser }) {
         <div>
           <span className="eyebrow">Personas y acceso</span>
           <h1>Usuarios registrados.</h1>
-          <p>Consulta cada cuenta y el progreso real de sus matrículas.</p>
+          <p>
+            Consulta todas las cuentas del campus, sus datos personales, cursos,
+            estado y tiempos de realización.
+          </p>
         </div>
       </div>
+
+      <section className="admin-user-summary" aria-label="Resumen de usuarios">
+        <SummaryCard
+          icon={<UsersRound size={22} />}
+          label="Usuarios registrados"
+          value={users.length}
+        />
+        <SummaryCard
+          icon={<BookOpenCheck size={22} />}
+          label="Matrículas"
+          value={totalEnrollments}
+        />
+        <SummaryCard
+          icon={<CheckCircle2 size={22} />}
+          label="Cursos finalizados"
+          value={completedEnrollments}
+        />
+      </section>
+
       {message ? <div className="alert alert--info">{message}</div> : null}
       <div className="admin-split">
         <section className="panel">
           <div className="panel__header">
             <h2>Directorio</h2>
-            <span className="status">{profiles.length} cuentas</span>
+            <span className="status">
+              {filtered.length} de {users.length}
+            </span>
           </div>
           <div className="field field--search">
             <label htmlFor="user-search">Buscar</label>
@@ -144,39 +214,43 @@ function AdminUsers({ user }: { user: SessionUser }) {
                 id="user-search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Nombre, correo o rol"
+                placeholder="Nombre, correo, DNI, curso o estado"
               />
             </div>
           </div>
           {loading ? (
-            <p className="muted">Cargando usuarios…</p>
-          ) : (
+            <p className="muted">Cargando todos los usuarios…</p>
+          ) : filtered.length ? (
             <div className="admin-list">
-              {filtered.map((profile) => (
+              {filtered.map((entry) => (
                 <button
                   className={
-                    selectedId === profile.id
+                    selectedId === entry.id
                       ? 'admin-list__item is-active'
                       : 'admin-list__item'
                   }
-                  key={profile.id}
-                  onClick={() => setSelectedId(profile.id)}
+                  key={entry.id}
+                  onClick={() => setSelectedId(entry.id)}
                   type="button"
                 >
                   <span className="app-course__number">
                     <UserRound size={18} />
                   </span>
-                  <span>
-                    <strong>
-                      {[profile.first_name, profile.last_name]
-                        .filter(Boolean)
-                        .join(' ') || 'Usuario sin nombre'}
-                    </strong>
-                    <small>{profile.email ?? 'Correo no disponible'}</small>
+                  <span className="admin-list__identity">
+                    <strong>{displayName(entry)}</strong>
+                    <small>{entry.email ?? 'Correo no disponible'}</small>
+                    <small>
+                      {entry.enrollments.length}{' '}
+                      {entry.enrollments.length === 1 ? 'curso' : 'cursos'}
+                    </small>
                   </span>
-                  <span className="status">{profile.status}</span>
+                  <span className="status">{accountStatusLabel(entry.status)}</span>
                 </button>
               ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <p>No hay usuarios que coincidan con la búsqueda.</p>
             </div>
           )}
         </section>
@@ -187,95 +261,288 @@ function AdminUsers({ user }: { user: SessionUser }) {
               <div className="panel__header">
                 <div>
                   <span className="eyebrow">Ficha del usuario</span>
-                  <h2>
-                    {[selected.first_name, selected.last_name]
-                      .filter(Boolean)
-                      .join(' ') || 'Usuario sin nombre'}
-                  </h2>
+                  <h2>{displayName(selected)}</h2>
                 </div>
                 <ShieldCheck color="var(--orange)" />
               </div>
+
+              {!selected.profile_exists ? (
+                <div className="alert alert--info">
+                  Esta cuenta existe en el acceso del campus, pero todavía no
+                  tiene una ficha de perfil asociada.
+                </div>
+              ) : null}
+
               <dl className="admin-detail__facts">
+                <Fact label="Correo" value={selected.email ?? 'No disponible'} />
+                <Fact label="Teléfono" value={selected.phone ?? 'No informado'} />
+                <Fact label="DNI / NIE" value={selected.dni ?? 'No informado'} />
+                <Fact
+                  label="Roles"
+                  value={
+                    selected.roles.map(roleLabel).join(', ') || 'Sin rol asignado'
+                  }
+                />
+                <Fact
+                  label="Registro"
+                  value={formatDateTime(selected.registered_at)}
+                />
+                <Fact
+                  label="Correo confirmado"
+                  value={formatDateTime(selected.email_confirmed_at)}
+                />
+                <Fact
+                  label="Primer acceso"
+                  value={formatDateTime(selected.first_access_at)}
+                />
+                <Fact
+                  label="Último acceso"
+                  value={formatDateTime(
+                    selected.last_access_at ?? selected.last_sign_in_at,
+                  )}
+                />
                 <div>
-                  <dt>Correo</dt>
-                  <dd>{selected.email ?? 'No disponible'}</dd>
-                </div>
-                <div>
-                  <dt>Roles</dt>
+                  <dt>Estado de la cuenta</dt>
                   <dd>
-                    {selected.user_roles.map((role) => role.role).join(', ') ||
-                      'Sin rol'}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Alta</dt>
-                  <dd>
-                    {new Date(selected.created_at).toLocaleDateString('es-ES')}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Estado</dt>
-                  <dd>
-                    <select
-                      aria-label="Estado de la cuenta"
-                      value={selected.status}
-                      onChange={(event) => updateStatus(event.target.value)}
-                    >
-                      <option value="pending">Pendiente</option>
-                      <option value="active">Activa</option>
-                      <option value="suspended">Suspendida</option>
-                      <option value="archived">Archivada</option>
-                    </select>
+                    {selected.profile_exists ? (
+                      <select
+                        aria-label="Estado de la cuenta"
+                        value={selected.status}
+                        onChange={(event) => updateStatus(event.target.value)}
+                      >
+                        <option value="pending">Pendiente</option>
+                        <option value="active">Activa</option>
+                        <option value="suspended">Suspendida</option>
+                        <option value="archived">Archivada</option>
+                      </select>
+                    ) : (
+                      'Sin perfil'
+                    )}
                   </dd>
                 </div>
               </dl>
+
               <div className="panel__header">
-                <h3>Progreso formativo</h3>
+                <h3>Cursos y progreso</h3>
                 <span className="status">
-                  {selectedEnrollments.length} matrículas
+                  {selected.enrollments.length}{' '}
+                  {selected.enrollments.length === 1 ? 'matrícula' : 'matrículas'}
                 </span>
               </div>
-              {selectedEnrollments.length ? (
+              {selected.enrollments.length ? (
                 <div className="user-progress-list">
-                  {selectedEnrollments.map((enrollment) => (
-                    <article
-                      className="user-progress-card"
-                      key={enrollment.id}
-                    >
+                  {selected.enrollments.map((enrollment) => (
+                    <article className="user-progress-card" key={enrollment.id}>
                       <BookOpenCheck color="var(--orange)" size={22} />
-                      <div>
-                        <strong>
-                          {enrollment.course_versions.courses.title}
-                        </strong>
+                      <div className="user-progress-card__content">
+                        <div className="user-progress-card__heading">
+                          <strong>{enrollment.course.title}</strong>
+                          <span className="status">
+                            {enrollmentStatusLabel(enrollment.status)}
+                          </span>
+                        </div>
                         <small>
-                          Versión {enrollment.course_versions.version_number} ·{' '}
-                          {enrollment.status}
+                          Versión {enrollment.course.version_number} ·{' '}
+                          {enrollment.course.duration_hours} h ·{' '}
+                          {modalityLabel(enrollment.course.modality)}
                         </small>
-                        <div className="progress">
+                        <div
+                          className="progress"
+                          aria-label={`Progreso: ${formatPercent(enrollment.progress_percent)}`}
+                        >
                           <span
                             style={{
-                              width: `${enrollment.progress_percent}%`,
+                              width: `${clampPercent(enrollment.progress_percent)}%`,
                             }}
                           />
                         </div>
+                        <div className="user-progress-card__times">
+                          <span>
+                            <Clock3 size={15} />
+                            <span>
+                              <small>Tiempo activo</small>
+                              <strong>
+                                {formatActiveTime(enrollment.active_seconds)}
+                              </strong>
+                            </span>
+                          </span>
+                          <span>
+                            <Clock3 size={15} />
+                            <span>
+                              <small>Tiempo transcurrido</small>
+                              <strong>{formatElapsedTime(enrollment)}</strong>
+                            </span>
+                          </span>
+                        </div>
+                        <dl className="user-progress-card__dates">
+                          <Fact
+                            label="Matriculación"
+                            value={formatDateTime(enrollment.enrolled_at)}
+                          />
+                          <Fact
+                            label="Inicio"
+                            value={formatDateTime(enrollment.started_at)}
+                          />
+                          <Fact
+                            label="Finalización"
+                            value={formatDateTime(enrollment.completed_at)}
+                          />
+                        </dl>
                       </div>
-                      <strong>{enrollment.progress_percent}%</strong>
+                      <strong className="user-progress-card__percent">
+                        {formatPercent(enrollment.progress_percent)}
+                      </strong>
                     </article>
                   ))}
                 </div>
               ) : (
                 <div className="empty-state">
-                  <p>Este usuario todavía no está matriculado.</p>
+                  <p>Este usuario todavía no está matriculado en ningún curso.</p>
                 </div>
               )}
             </>
           ) : (
             <div className="empty-state">
-              <p>Selecciona un usuario para consultar su progreso.</p>
+              <p>Selecciona un usuario para consultar su ficha completa.</p>
             </div>
           )}
         </section>
       </div>
     </AppShell>
   )
+}
+
+function SummaryCard({
+  icon,
+  label,
+  value,
+}: {
+  icon: ReactNode
+  label: string
+  value: number
+}) {
+  return (
+    <article>
+      <span>{icon}</span>
+      <div>
+        <strong>{value}</strong>
+        <small>{label}</small>
+      </div>
+    </article>
+  )
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  )
+}
+
+function displayName(user: AdminUser): string {
+  return (
+    [user.first_name, user.last_name].filter(Boolean).join(' ') ||
+    'Usuario sin nombre'
+  )
+}
+
+function accountStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    pending: 'Pendiente',
+    active: 'Activa',
+    suspended: 'Suspendida',
+    archived: 'Archivada',
+    profile_missing: 'Sin perfil',
+  }
+  return labels[status] ?? status
+}
+
+function enrollmentStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    not_started: 'No iniciado',
+    in_progress: 'En curso',
+    theory_completed: 'Teoría completada',
+    practice_pending: 'Práctica pendiente',
+    practice_completed: 'Práctica completada',
+    completed: 'Finalizado',
+    failed: 'No superado',
+    expired: 'Caducado',
+  }
+  return labels[status] ?? status
+}
+
+function roleLabel(role: string): string {
+  const labels: Record<string, string> = {
+    alumno: 'Alumno',
+    responsable_empresa: 'Responsable de empresa',
+    tutor: 'Tutor',
+    administrador: 'Administrador',
+    superadministrador: 'Superadministrador',
+  }
+  return labels[role] ?? role
+}
+
+function modalityLabel(modality: string): string {
+  const labels: Record<string, string> = {
+    online: 'Online',
+    in_person: 'Presencial',
+    hybrid: 'Híbrida',
+  }
+  return labels[modality] ?? modality
+}
+
+function formatDateTime(value: string | null): string {
+  if (!value) return 'Sin registro'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'Sin registro'
+  return new Intl.DateTimeFormat('es-ES', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Europe/Madrid',
+  }).format(date)
+}
+
+function formatActiveTime(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) return 'Sin tiempo registrado'
+  return formatSeconds(value)
+}
+
+function formatElapsedTime(enrollment: AdminEnrollment): string {
+  if (!enrollment.started_at) return 'No iniciado'
+  const startedAt = Date.parse(enrollment.started_at)
+  const endedAt = enrollment.completed_at
+    ? Date.parse(enrollment.completed_at)
+    : Date.now()
+  if (!Number.isFinite(startedAt) || !Number.isFinite(endedAt)) {
+    return 'Sin datos suficientes'
+  }
+  return formatSeconds(Math.max(0, Math.round((endedAt - startedAt) / 1_000)))
+}
+
+function formatSeconds(value: number): string {
+  const totalMinutes = Math.max(0, Math.floor(value / 60))
+  const days = Math.floor(totalMinutes / 1_440)
+  const hours = Math.floor((totalMinutes % 1_440) / 60)
+  const minutes = totalMinutes % 60
+  const parts = []
+  if (days) parts.push(`${days} d`)
+  if (hours || days) parts.push(`${hours} h`)
+  parts.push(`${minutes} min`)
+  return parts.join(' ')
+}
+
+function clampPercent(value: number): number {
+  return Math.max(0, Math.min(100, Number.isFinite(value) ? value : 0))
+}
+
+function formatPercent(value: number): string {
+  return `${Math.round(clampPercent(value))}%`
+}
+
+async function getAccessToken(): Promise<string | null> {
+  const { data } =
+    (await getSupabaseBrowserClient()?.auth.getSession()) ?? { data: null }
+  return data?.session?.access_token ?? null
 }

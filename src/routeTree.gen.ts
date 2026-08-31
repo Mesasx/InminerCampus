@@ -39,12 +39,14 @@ import { Route as AdminMensajesRouteImport } from './routes/admin.mensajes'
 import { Route as AdminPracticasRouteImport } from './routes/admin.practicas'
 import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
 import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
+import { Route as ApiAdminUsersRouteImport } from './routes/api.admin-users'
 import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
 import { Route as ApiCompanyLicensesRouteImport } from './routes/api.company-licenses'
 import { Route as ApiInternalCompletionRouteImport } from './routes/api.internal-completion'
 import { Route as ApiInvoicesRouteImport } from './routes/api.invoices'
+import { Route as ApiLegacyCompletionsRouteImport } from './routes/api.legacy-completions'
 import { Route as ApiPaymentStatusRouteImport } from './routes/api.payment-status'
 import { Route as ApiStripeWebhookRouteImport } from './routes/api.stripe-webhook'
 import { Route as CampusEnrollmentIdRouteImport } from './routes/campus.$enrollmentId'
@@ -223,6 +225,11 @@ const ApiAdminBillingRoute = ApiAdminBillingRouteImport.update({
   path: '/api/admin-billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminUsersRoute = ApiAdminUsersRouteImport.update({
+  id: '/api/admin-users',
+  path: '/api/admin-users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCertificadoStvhRoute = ApiCertificadoStvhRouteImport.update({
   id: '/api/certificado-stvh',
   path: '/api/certificado-stvh',
@@ -251,6 +258,11 @@ const ApiInternalCompletionRoute = ApiInternalCompletionRouteImport.update({
 const ApiInvoicesRoute = ApiInvoicesRouteImport.update({
   id: '/api/invoices',
   path: '/api/invoices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLegacyCompletionsRoute = ApiLegacyCompletionsRouteImport.update({
+  id: '/api/legacy-completions',
+  path: '/api/legacy-completions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPaymentStatusRoute = ApiPaymentStatusRouteImport.update({
@@ -424,12 +436,14 @@ export interface FileRoutesByFullPath {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
+  '/api/legacy-completions': typeof ApiLegacyCompletionsRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
@@ -484,12 +498,14 @@ export interface FileRoutesByTo {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
+  '/api/legacy-completions': typeof ApiLegacyCompletionsRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/comprar-empresa/$courseSlug': typeof ComprarEmpresaCourseSlugRoute
@@ -548,12 +564,14 @@ export interface FileRoutesById {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
   '/api/internal-completion': typeof ApiInternalCompletionRoute
   '/api/invoices': typeof ApiInvoicesRouteWithChildren
+  '/api/legacy-completions': typeof ApiLegacyCompletionsRoute
   '/api/payment-status': typeof ApiPaymentStatusRoute
   '/api/stripe-webhook': typeof ApiStripeWebhookRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdRouteWithChildren
@@ -614,12 +632,14 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-users'
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
+    | '/api/legacy-completions'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
@@ -674,12 +694,14 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-users'
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
+    | '/api/legacy-completions'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/comprar-empresa/$courseSlug'
@@ -737,12 +759,14 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-users'
     | '/api/certificado-stvh'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
     | '/api/internal-completion'
     | '/api/invoices'
+    | '/api/legacy-completions'
     | '/api/payment-status'
     | '/api/stripe-webhook'
     | '/campus/$enrollmentId'
@@ -794,12 +818,14 @@ export interface RootRouteChildren {
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
   ApiAdminBillingRoute: typeof ApiAdminBillingRoute
+  ApiAdminUsersRoute: typeof ApiAdminUsersRoute
   ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
   ApiCompanyLicensesRoute: typeof ApiCompanyLicensesRoute
   ApiInternalCompletionRoute: typeof ApiInternalCompletionRoute
   ApiInvoicesRoute: typeof ApiInvoicesRouteWithChildren
+  ApiLegacyCompletionsRoute: typeof ApiLegacyCompletionsRoute
   ApiPaymentStatusRoute: typeof ApiPaymentStatusRoute
   ApiStripeWebhookRoute: typeof ApiStripeWebhookRoute
   CampusEnrollmentIdRoute: typeof CampusEnrollmentIdRouteWithChildren
@@ -1029,6 +1055,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminBillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin-users': {
+      id: '/api/admin-users'
+      path: '/api/admin-users'
+      fullPath: '/api/admin-users'
+      preLoaderRoute: typeof ApiAdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/certificado-stvh': {
       id: '/api/certificado-stvh'
       path: '/api/certificado-stvh'
@@ -1069,6 +1102,13 @@ declare module '@tanstack/react-router' {
       path: '/api/invoices'
       fullPath: '/api/invoices'
       preLoaderRoute: typeof ApiInvoicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/legacy-completions': {
+      id: '/api/legacy-completions'
+      path: '/api/legacy-completions'
+      fullPath: '/api/legacy-completions'
+      preLoaderRoute: typeof ApiLegacyCompletionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/payment-status': {
@@ -1374,12 +1414,14 @@ const rootRouteChildren: RootRouteChildren = {
   SobreNosotrosRoute: SobreNosotrosRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
   ApiAdminBillingRoute: ApiAdminBillingRoute,
+  ApiAdminUsersRoute: ApiAdminUsersRoute,
   ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
   ApiCompanyLicensesRoute: ApiCompanyLicensesRoute,
   ApiInternalCompletionRoute: ApiInternalCompletionRoute,
   ApiInvoicesRoute: ApiInvoicesRouteWithChildren,
+  ApiLegacyCompletionsRoute: ApiLegacyCompletionsRoute,
   ApiPaymentStatusRoute: ApiPaymentStatusRoute,
   ApiStripeWebhookRoute: ApiStripeWebhookRoute,
   CampusEnrollmentIdRoute: CampusEnrollmentIdRouteWithChildren,
