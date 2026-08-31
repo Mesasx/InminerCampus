@@ -3,6 +3,7 @@ import { Award, BookOpen, LogOut, ReceiptText } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
+import { DNI_ERROR_MESSAGE, isValidDni, normalizeDni } from '../lib/dni'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
@@ -60,9 +61,11 @@ function ProfileForm({ user }: { user: SessionUser }) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage('')
-    const trimmedDni = dni.trim().toUpperCase()
-    if (trimmedDni && !/^[0-9XYZ][0-9]{7}[A-Z]$/.test(trimmedDni)) {
-      setMessage('El DNI/NIE no tiene un formato válido.')
+    // El DNI es obligatorio: sin él no se puede emitir el certificado ni el
+    // aviso interno de finalización, que lo exige para identificar al alumno.
+    const trimmedDni = normalizeDni(dni)
+    if (!isValidDni(trimmedDni)) {
+      setMessage(DNI_ERROR_MESSAGE)
       return
     }
     const { error } =
@@ -177,6 +180,7 @@ function ProfileForm({ user }: { user: SessionUser }) {
             <input
               id="profile-dni"
               placeholder="12345678Z"
+              required={!dniLocked}
               disabled={dniLocked}
               value={dni}
               onChange={(event) => setDni(event.target.value)}

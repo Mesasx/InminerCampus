@@ -252,12 +252,12 @@ export function isValidSpanishTaxIdentifier(value: string): boolean {
   )
 }
 
-function isValidDni(value: string): boolean {
+export function isValidDni(value: string): boolean {
   if (!/^\d{8}[A-Z]$/.test(value)) return false
   return validDniLetter(Number(value.slice(0, 8)), value.at(-1)!)
 }
 
-function isValidNie(value: string): boolean {
+export function isValidNie(value: string): boolean {
   if (!/^[XYZ]\d{7}[A-Z]$/.test(value)) return false
   const prefix = { X: '0', Y: '1', Z: '2' }[value[0] as 'X' | 'Y' | 'Z']
   return validDniLetter(
