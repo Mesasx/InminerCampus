@@ -15,14 +15,16 @@ export const Route = createRootRoute({
         name: 'viewport',
         content: 'width=device-width, initial-scale=1, viewport-fit=cover',
       },
+      // Título y descripción de reserva: cada ruta pública define los suyos
+      // con `seoHead`, que sobrescribe estos valores. Sólo se usan si una
+      // ruta nueva se publica sin declarar metadatos.
       {
-        title:
-          'InmínerCampus | Formación Preventiva Oficial en seguridad minera',
+        title: 'InmínerCampus | Formación preventiva para minería',
       },
       {
         name: 'description',
         content:
-          'Formación Preventiva Oficial de Inmíner Ingeniería, S.L.: ITC 02.1.02 para puestos mineros e ITC 02.0.02 frente al polvo y la sílice.',
+          'Campus de formación preventiva de INMINER INGENIERÍA, S.L. para actividades extractivas: ITC 02.1.02 por puesto de trabajo e ITC 02.0.02 frente al polvo y la sílice.',
       },
       { name: 'theme-color', content: '#E97824' },
     ],
@@ -100,7 +102,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es-ES">
       <head>
         <HeadContent />
       </head>

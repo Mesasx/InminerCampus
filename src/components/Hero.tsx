@@ -39,7 +39,9 @@ export function Hero({
           <Logo />
         </div>
         <p className="campus-hero__eyebrow label-industrial">{eyebrow}</p>
-        <p className="campus-hero__count">{title}</p>
+        {/* Es el titular real de la página, no sólo un bloque grande:
+            debe ser el H1 para que la home tenga encabezado principal. */}
+        <h1 className="campus-hero__count">{title}</h1>
         <p className="campus-hero__subtitle label-industrial">{subtitle}</p>
         <a
           className="campus-hero__cta"

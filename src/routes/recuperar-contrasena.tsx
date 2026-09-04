@@ -4,8 +4,16 @@ import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
 import { appConfig } from '../lib/config'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/recuperar-contrasena')({
+  head: () => seoHead({
+    title: 'Recuperar contraseña',
+    description:
+      'Recupera el acceso a tu cuenta del Campus.',
+    path: '/recuperar-contrasena',
+    noindex: true,
+  }),
   component: RecoverPasswordPage,
 })
 

@@ -12,15 +12,9 @@ function prefersReducedMotion() {
   )
 }
 
-export function CourseSlider({
-  courses,
-  loading,
-  loadError,
-}: {
-  courses: PublicCourse[]
-  loading: boolean
-  loadError: boolean
-}) {
+// Los cursos llegan ya resueltos desde el loader de la ruta, así que el
+// carrusel no tiene estados de carga ni de error: o hay catálogo o no lo hay.
+export function CourseSlider({ courses }: { courses: PublicCourse[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const slideRefs = useRef<(HTMLElement | null)[]>([])
   const dragState = useRef<{ startX: number; startScroll: number } | null>(null)
@@ -152,20 +146,7 @@ export function CourseSlider({
         ) : null}
       </div>
 
-      {loading ? (
-        <div className="course-slider__status" aria-live="polite">
-          <p>Catálogo Inmíner</p>
-          <h2>Preparando la formación disponible.</h2>
-        </div>
-      ) : loadError ? (
-        <div className="course-slider__status" role="alert">
-          <p>Catálogo Inmíner</p>
-          <h2>No hemos podido cargar los cursos.</h2>
-          <Link className="editorial-cta editorial-cta--solid" to="/catalogo">
-            Abrir catálogo <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </div>
-      ) : total ? (
+      {total ? (
         <div
           aria-label="Cursos disponibles"
           aria-roledescription="carousel"

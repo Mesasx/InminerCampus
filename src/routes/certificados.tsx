@@ -3,8 +3,16 @@ import { Award, CheckCircle2 } from 'lucide-react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import type { SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/certificados')({
+  head: () => seoHead({
+    title: 'Mis certificados',
+    description:
+      'Certificados obtenidos en el Campus.',
+    path: '/certificados',
+    noindex: true,
+  }),
   component: CertificatesPage,
 })
 

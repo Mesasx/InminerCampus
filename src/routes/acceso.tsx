@@ -4,10 +4,18 @@ import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
 import { appConfig } from '../lib/config'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/acceso')({
   validateSearch: (search: Record<string, unknown>): { returnTo?: string } => ({
     returnTo: safeReturnTo(search.returnTo),
+  }),
+  head: () => seoHead({
+    title: 'Acceso al Campus',
+    description:
+      'Acceso de alumnos y empresas al Campus de Inmíner.',
+    path: '/acceso',
+    noindex: true,
   }),
   component: LoginPage,
 })

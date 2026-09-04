@@ -10,8 +10,20 @@ import {
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/legal/$legalSlug')({
+  // Cada documento legal tiene título y descripción propios: sin esto los
+  // cuatro compartían el mismo `<title>` genérico del sitio.
+  head: ({ params }) => {
+    const document = legalPages[params.legalSlug]
+    if (!document) return {}
+    return seoHead({
+      title: document.title,
+      description: document.description,
+      path: `/legal/${params.legalSlug}`,
+    })
+  },
   component: LegalPage,
 })
 

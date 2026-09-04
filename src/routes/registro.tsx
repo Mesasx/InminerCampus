@@ -5,10 +5,18 @@ import { AuthLayout } from '../components/AuthLayout'
 import { appConfig } from '../lib/config'
 import { DNI_ERROR_MESSAGE, isValidDni, normalizeDni } from '../lib/dni'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/registro')({
   validateSearch: (search: Record<string, unknown>): { returnTo?: string } => ({
     returnTo: safeReturnTo(search.returnTo),
+  }),
+  head: () => seoHead({
+    title: 'Crear cuenta',
+    description:
+      'Alta de nueva cuenta en el Campus de Inmíner.',
+    path: '/registro',
+    noindex: true,
   }),
   component: RegisterPage,
 })

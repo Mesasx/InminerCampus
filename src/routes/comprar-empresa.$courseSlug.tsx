@@ -16,10 +16,17 @@ import {
 import { modalityLabel } from '../lib/format'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/comprar-empresa/$courseSlug')({
   validateSearch: (search: Record<string, unknown>): { version?: string } => ({
     version: typeof search.version === 'string' && search.version.trim() ? search.version : undefined,
+  }),
+  head: () => seoHead({
+    title: 'Contratar formación para empresa',
+    description: 'Contratación de licencias de formación para empresa.',
+    path: '/comprar-empresa',
+    noindex: true,
   }),
   component: CompanyCheckoutPage,
 })

@@ -3,8 +3,15 @@ import { BadgeCheck, SearchCheck } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { StaticPage } from '../components/StaticPage'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/verificar-certificado')({
+  head: () => seoHead({
+    title: 'Verificar un certificado',
+    description:
+      'Comprueba la autenticidad de un certificado emitido por InmínerCampus introduciendo su código de verificación.',
+    path: '/verificar-certificado',
+  }),
   component: VerifyCertificatePage,
 })
 

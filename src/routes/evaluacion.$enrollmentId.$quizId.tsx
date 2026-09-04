@@ -7,10 +7,17 @@ import { requestInternalCompletion } from '../lib/internal-completion'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute(
   '/evaluacion/$enrollmentId/$quizId',
 )({
+  head: () => seoHead({
+    title: 'Evaluación',
+    description: 'Evaluación final del curso.',
+    path: '/evaluacion',
+    noindex: true,
+  }),
   component: EvaluationPage,
 })
 

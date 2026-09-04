@@ -5,6 +5,7 @@ import { ProtectedGate } from '../components/ProtectedGate'
 import { PublicLayout } from '../components/PublicLayout'
 import { formatCents } from '../lib/billing'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 type PaymentStatus = {
   status: 'pending' | 'confirmed' | 'failed'
@@ -33,6 +34,12 @@ export const Route = createFileRoute('/pago/confirmado')({
       typeof search.session_id === 'string' && search.session_id.trim()
         ? search.session_id
         : undefined,
+  }),
+  head: () => seoHead({
+    title: 'Pago confirmado',
+    description: 'Confirmación del pago realizado.',
+    path: '/pago/confirmado',
+    noindex: true,
   }),
   component: PaymentConfirmedPage,
 })

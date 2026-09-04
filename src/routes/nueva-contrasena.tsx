@@ -2,8 +2,16 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { AuthLayout } from '../components/AuthLayout'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/nueva-contrasena')({
+  head: () => seoHead({
+    title: 'Nueva contraseña',
+    description:
+      'Define una contraseña nueva para tu cuenta.',
+    path: '/nueva-contrasena',
+    noindex: true,
+  }),
   component: NewPasswordPage,
 })
 
