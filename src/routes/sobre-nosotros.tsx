@@ -14,8 +14,15 @@ import {
   Waves,
 } from 'lucide-react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/sobre-nosotros')({
+  head: () => seoHead({
+    title: 'Sobre Inmíner Ingeniería',
+    description:
+      'Quién está detrás de InmínerCampus: INMINER INGENIERÍA, S.L., ingeniería y prevención en minería e industria desde Ciudad Real.',
+    path: '/sobre-nosotros',
+  }),
   component: AboutPage,
 })
 

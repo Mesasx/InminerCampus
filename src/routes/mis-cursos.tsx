@@ -13,6 +13,7 @@ import { ProgressBar } from '../components/ProgressBar'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { CourseModality, EnrollmentCard, SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 const statusLabels: Record<string, string> = {
   not_started: 'Sin empezar',
@@ -59,6 +60,13 @@ function EnrollmentStatusBadge({ status }: { status: string }) {
 }
 
 export const Route = createFileRoute('/mis-cursos')({
+  head: () => seoHead({
+    title: 'Mis cursos',
+    description:
+      'Formación matriculada y progreso.',
+    path: '/mis-cursos',
+    noindex: true,
+  }),
   component: MyCoursesPage,
 })
 

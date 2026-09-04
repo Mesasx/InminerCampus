@@ -2,16 +2,37 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 import { CourseSlider } from '../components/CourseSlider'
 import { Hero } from '../components/Hero'
+import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
-import { usePublicCourses } from '../hooks/usePublicCourses'
+import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
+import { organizationSchema, webSiteSchema } from '../lib/schema'
+import { seoHead } from '../lib/seo'
+import type { PublicCourse } from '../lib/types'
 
 const heroMachineImage = '/assets/hero/loader-dirt.webp'
 
 export const Route = createFileRoute('/')({
-  head: () => ({
-    links: [{ rel: 'preload', as: 'image', href: heroMachineImage }],
-  }),
+  // El carrusel de cursos se resolvía en cliente, así que el HTML inicial no
+  // contenía ningún enlace a las fichas. Con el loader, la home ya enlaza a
+  // `/cursos/...` desde el primer byte.
+  loader: async () => ({ courses: toCourseCards(await fetchPublicCourses()) }),
+  head: () => {
+    const seo = seoHead({
+      title:
+        'Formación preventiva para minería | InmínerCampus',
+      description:
+        'Campus de formación preventiva de INMINER INGENIERÍA para actividades extractivas: ITC 02.1.02 por puesto de trabajo e ITC 02.0.02 frente al polvo y la sílice cristalina respirable.',
+      path: '/',
+    })
+    return {
+      ...seo,
+      links: [
+        ...seo.links,
+        { rel: 'preload', as: 'image', href: heroMachineImage },
+      ],
+    }
+  },
   component: HomePage,
 })
 
@@ -336,15 +357,7 @@ function CategoriesTeaser() {
   )
 }
 
-function FormationSection({
-  courses,
-  loading,
-  loadError,
-}: {
-  courses: ReturnType<typeof usePublicCourses>['courses']
-  loading: boolean
-  loadError: boolean
-}) {
+function FormationSection({ courses }: { courses: Array<PublicCourse> }) {
   const { ref, isVisible } = useSectionReveal<HTMLElement>()
 
   return (
@@ -353,7 +366,7 @@ function FormationSection({
       id="campus-formacion"
       ref={ref}
     >
-      <CourseSlider courses={courses} loadError={loadError} loading={loading} />
+      <CourseSlider courses={courses} />
     </section>
   )
 }
@@ -501,10 +514,13 @@ function FinalCta() {
 }
 
 function HomePage() {
-  const { courses, loading, loadError } = usePublicCourses()
+  const { courses } = Route.useLoaderData()
 
   return (
     <PublicLayout heroFull>
+      {/* La identidad de la empresa se declara una sola vez, en la home; el
+          resto de páginas la referencian por `@id` desde sus propios nodos. */}
+      <JsonLd nodes={[organizationSchema(), webSiteSchema()]} />
       <Hero
         ctaLabel="Explorar cursos"
         ctaTargetId="campus-formacion"
@@ -529,7 +545,7 @@ function HomePage() {
       <SafetySection />
       <MiningSection />
       <CategoriesTeaser />
-      <FormationSection courses={courses} loadError={loadError} loading={loading} />
+      <FormationSection courses={courses} />
       <HowItWorks />
       <AboutInminer />
       <WhyCampus courseCount={courses.length} />

@@ -6085,3 +6085,73 @@ button.admin-list__item {
     scroll-behavior: auto;
   }
 }
+
+/* === Migas de pan ======================================================= */
+.breadcrumbs {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li + li::before {
+  content: '/';
+  margin-right: 8px;
+  color: var(--line-strong);
+}
+
+.breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.breadcrumbs a:hover,
+.breadcrumbs a:focus-visible {
+  color: var(--orange-strong);
+  border-bottom-color: currentColor;
+}
+
+.breadcrumbs [aria-current='page'] {
+  color: var(--ink-soft);
+}
+
+.page-hero .breadcrumbs {
+  margin-bottom: 14px;
+}
+
+/* === Preguntas frecuentes de la ficha de curso =========================== */
+.course-faq {
+  margin: 18px 0 0;
+  display: grid;
+  gap: 18px;
+}
+
+.course-faq__item {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.course-faq__item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.course-faq dt {
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.course-faq dd {
+  margin: 0;
+  line-height: 1.8;
+}

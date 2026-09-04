@@ -1,8 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BadgeCheck, BookOpenCheck, ClipboardList, UserRoundCheck } from 'lucide-react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/como-funciona')({
+  head: () => seoHead({
+    title: 'Cómo funciona el Campus',
+    description:
+      'Del alta a la certificación: bloques con audio y diapositivas, evaluación final y trazabilidad del progreso de cada trabajador.',
+    path: '/como-funciona',
+  }),
   component: HowItWorksPage,
 })
 

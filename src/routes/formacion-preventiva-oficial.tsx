@@ -1,8 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { AlertCircle, BookOpenCheck, CheckCircle2, Scale } from 'lucide-react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/formacion-preventiva-oficial')({
+  head: () => seoHead({
+    title: 'Formación preventiva en seguridad minera: ITC 02.1.02 e ITC 02.0.02',
+    description:
+      'Qué exige la formación preventiva minera, qué especificación técnica aplica a cada puesto y en qué se diferencian la formación inicial y el reciclaje.',
+    path: '/formacion-preventiva-oficial',
+  }),
   component: OfficialTrainingPage,
 })
 

@@ -11,7 +11,9 @@ test('la portada de Campus usa la fotografía oficial, rutas reales e imagen opt
     read('src/components/PublicHeader.tsx'),
     read('src/components/AccountMenu.tsx'),
     read('src/components/PublicLayout.tsx'),
-    read('src/hooks/usePublicCourses.ts'),
+    // El catálogo dejó de cargarse en cliente: la consulta vive ahora en el
+    // módulo que usan los loaders de SSR.
+    read('src/lib/public-courses.ts'),
     read('src/components/CourseSlider.tsx'),
   ])
 
@@ -25,8 +27,9 @@ test('la portada de Campus usa la fotografía oficial, rutas reales e imagen opt
   assert.match(accountMenu, /['"]\/perfil['"]/)
   assert.match(header, /IntersectionObserver/)
   assert.match(layout, /<PublicHeader heroFull=\{heroFull\}/)
-  assert.match(courses, /\.from\('course_versions'\)/)
+  assert.match(courses, /\.from\('courses'\)/)
   assert.match(courses, /\.eq\('status', 'published'\)/)
+  assert.match(courses, /\.eq\('course_versions\.status', 'published'\)/)
 })
 
 test('la experiencia contempla carga diferida, scroll suave y movimiento reducido', async () => {

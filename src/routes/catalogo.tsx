@@ -1,10 +1,14 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { BookOpen, SlidersHorizontal } from 'lucide-react'
 import { useState } from 'react'
+import { Breadcrumbs } from '../components/Breadcrumbs'
 import { CourseCard } from '../components/CourseCard'
+import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { categoryLabels, categoryOf, type CourseCategory } from '../lib/course-category'
-import { usePublicCourses } from '../hooks/usePublicCourses'
+import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
+import { breadcrumbSchema, type BreadcrumbItem } from '../lib/schema'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/catalogo')({
   validateSearch: (
@@ -15,17 +19,73 @@ export const Route = createFileRoute('/catalogo')({
         ? search.categoria
         : undefined,
   }),
+  // El catálogo se resuelve en el servidor: hasta ahora el HTML inicial no
+  // contenía ni un solo enlace a `/cursos/...`, así que las fichas quedaban
+  // huérfanas para cualquier rastreador que no ejecutase JavaScript.
+  loader: async () => ({ courses: toCourseCards(await fetchPublicCourses()) }),
+  head: ({ match }) => {
+    const categoria = (match.search as { categoria?: CourseCategory })
+      .categoria
+    const meta = categoria ? categoryMeta[categoria] : catalogMeta
+    return seoHead({
+      title: meta.title,
+      description: meta.description,
+      // Los filtros son vistas del mismo catálogo: cada categoría declara su
+      // propia canónica con el parámetro, y el resto de combinaciones
+      // (búsqueda, duración) se resuelven en cliente sin cambiar la URL.
+      path: categoria ? `/catalogo?categoria=${categoria}` : '/catalogo',
+    })
+  },
   component: CatalogPage,
 })
 
+const catalogMeta = {
+  title: 'Catálogo de formación preventiva en minería',
+  description:
+    'Cursos de formación preventiva para puestos de trabajo en actividades extractivas: ITC 02.1.02, ITC 02.0.02, duración, modalidad y prácticas de cada programa.',
+}
+
+const categoryMeta: Record<CourseCategory, { title: string; description: string }> = {
+  mineria: {
+    title: 'Cursos de formación preventiva para minería',
+    description:
+      'Formación preventiva para operadores de maquinaria y trabajadores de actividades extractivas: ITC 02.1.02, especificaciones técnicas y prevención frente al polvo y la sílice.',
+  },
+  otros: {
+    title: 'Otra formación técnica',
+    description:
+      'Programas de formación técnica de Inmíner Ingeniería que no se encuadran en la normativa de seguridad minera.',
+  },
+}
+
 const categoryFilters: Array<CourseCategory> = ['mineria', 'otros']
+
+// H1 propio por categoría: la vista filtrada es una URL indexable distinta y
+// necesita un encabezado que describa exactamente lo que lista.
+const categoryHeadings: Record<CourseCategory, string> = {
+  mineria: 'Formación preventiva para minería y actividades extractivas.',
+  otros: 'Otra formación técnica de Inmíner Ingeniería.',
+}
 
 function CatalogPage() {
   const { categoria } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
-  const { courses, loading, loadError } = usePublicCourses()
+  const { courses } = Route.useLoaderData()
   const [duration, setDuration] = useState<'all' | '5' | '20'>('all')
   const [query, setQuery] = useState('')
+
+  const breadcrumbs: Array<BreadcrumbItem> = [
+    { name: 'Inicio', path: '/' },
+    { name: 'Catálogo', path: '/catalogo' },
+    ...(categoria
+      ? [
+          {
+            name: categoryLabels[categoria],
+            path: `/catalogo?categoria=${categoria}`,
+          },
+        ]
+      : []),
+  ]
 
   const filtered = courses.filter((course) => {
     const matchesCategory = !categoria || categoryOf(course) === categoria
@@ -43,10 +103,12 @@ function CatalogPage() {
 
   return (
     <PublicLayout>
+      <JsonLd nodes={[breadcrumbSchema(breadcrumbs)]} />
       <header className="page-hero">
         <div className="container">
+          <Breadcrumbs items={breadcrumbs} />
           <span className="eyebrow">Catálogo formativo</span>
-          <h1>Formación técnica para avanzar con seguridad.</h1>
+          <h1>{categoria ? categoryHeadings[categoria] : 'Formación técnica para avanzar con seguridad.'}</h1>
           <p>
             Consulta los programas disponibles. Cada ficha identifica la ITC,
             la especificación técnica, la modalidad y las prácticas aplicables.
@@ -121,27 +183,7 @@ function CatalogPage() {
             </div>
           </div>
 
-          {loading ? (
-            <div className="empty-state" aria-live="polite">
-              <div>
-                <div className="empty-state__icon">
-                  <BookOpen size={25} />
-                </div>
-                <h2>Cargando catálogo</h2>
-                <p>Estamos consultando la oferta formativa disponible.</p>
-              </div>
-            </div>
-          ) : loadError ? (
-            <div className="empty-state" role="alert">
-              <div>
-                <div className="empty-state__icon">
-                  <BookOpen size={25} />
-                </div>
-                <h2>No se ha podido cargar el catálogo</h2>
-                <p>Actualiza la página o inténtalo de nuevo en unos minutos.</p>
-              </div>
-            </div>
-          ) : filtered.length ? (
+          {filtered.length ? (
             <div className="course-grid">
               {filtered.map((course) => (
                 <CourseCard course={course} key={course.versionId} />

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/canjear-codigo')({
   validateSearch: (search: Record<string, unknown>): { code?: string } => ({
@@ -11,6 +12,13 @@ export const Route = createFileRoute('/canjear-codigo')({
       typeof search.code === 'string' && search.code.length <= 40
         ? search.code.trim().toUpperCase()
         : undefined,
+  }),
+  head: () => seoHead({
+    title: 'Canjear código de acceso',
+    description:
+      'Canjea el código de acceso facilitado por tu empresa.',
+    path: '/canjear-codigo',
+    noindex: true,
   }),
   component: RedeemCodePage,
 })

@@ -1,8 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/contacto')({
+  head: () => seoHead({
+    title: 'Contacto',
+    description:
+      'Contacta con Inmíner Ingeniería para resolver dudas sobre formación preventiva minera, modalidad presencial o contratación para empresas.',
+    path: '/contacto',
+  }),
   component: ContactPage,
 })
 

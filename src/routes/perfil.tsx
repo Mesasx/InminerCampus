@@ -6,8 +6,16 @@ import { ProtectedGate } from '../components/ProtectedGate'
 import { DNI_ERROR_MESSAGE, isValidDni, normalizeDni } from '../lib/dni'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/perfil')({
+  head: () => seoHead({
+    title: 'Mi perfil',
+    description:
+      'Datos personales y de facturación de tu cuenta.',
+    path: '/perfil',
+    noindex: true,
+  }),
   component: ProfilePage,
 })
 

@@ -13,6 +13,9 @@ const lessonRouteUrl = new URL(
 const courseRouteUrl = new URL('../src/routes/cursos.$courseSlug.tsx', import.meta.url)
 const audioPlayerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
 const stylesUrl = new URL('../src/styles/app.css', import.meta.url)
+// La etiqueta de versión («Formación inicial» / «Reciclaje periódico») pasó a
+// `course-seo.ts` al pasar la ficha a SSR: la ruta la consume desde ahí.
+const courseSeoUrl = new URL('../src/lib/course-seo.ts', import.meta.url)
 
 function sectionBetween(sql: string, start: string, end: string) {
   const startIndex = sql.indexOf(start)
@@ -127,12 +130,14 @@ test('publica un único slide y ambos PDF completos por parte/bloque', async () 
 })
 
 test('la interfaz muestra diapositiva, audio y transcripción en ese orden', async () => {
-  const [lessonRoute, courseRoute, audioPlayer, styles] = await Promise.all([
-    readFile(lessonRouteUrl, 'utf8'),
-    readFile(courseRouteUrl, 'utf8'),
-    readFile(audioPlayerUrl, 'utf8'),
-    readFile(stylesUrl, 'utf8'),
-  ])
+  const [lessonRoute, courseRoute, courseSeo, audioPlayer, styles] =
+    await Promise.all([
+      readFile(lessonRouteUrl, 'utf8'),
+      readFile(courseRouteUrl, 'utf8'),
+      readFile(courseSeoUrl, 'utf8'),
+      readFile(audioPlayerUrl, 'utf8'),
+      readFile(stylesUrl, 'utf8'),
+    ])
 
   const slideIndex = audioPlayer.indexOf('<section className="lesson-slides"')
   const audioIndex = audioPlayer.indexOf('<article className="panel audio-player"')
@@ -145,7 +150,8 @@ test('la interfaz muestra diapositiva, audio y transcripción en ese orden', asy
     lessonRoute,
     /find\(\(resource\) => resource\.kind === 'presentation'\)[\s\S]*resource\.kind === 'pdf'/,
   )
-  assert.match(courseRoute, /Reciclaje periódico/)
+  assert.match(courseSeo, /Reciclaje periódico/)
+  assert.match(courseRoute, /versionLabel\(course, version\)/)
   assert.match(courseRoute, /Renovación máxima cada/)
   assert.match(courseRoute, /accreditation_reference/)
 })

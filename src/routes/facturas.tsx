@@ -6,6 +6,7 @@ import { ProtectedGate } from '../components/ProtectedGate'
 import { formatCents } from '../lib/billing'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 type InvoiceRow = {
   id: string
@@ -29,6 +30,13 @@ type InvoiceRow = {
 }
 
 export const Route = createFileRoute('/facturas')({
+  head: () => seoHead({
+    title: 'Mis facturas',
+    description:
+      'Facturas de tus compras en el Campus.',
+    path: '/facturas',
+    noindex: true,
+  }),
   component: InvoicesPage,
 })
 

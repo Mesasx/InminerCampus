@@ -7,8 +7,15 @@ import {
   UsersRound,
 } from 'lucide-react'
 import { StaticPage } from '../components/StaticPage'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/empresas')({
+  head: () => seoHead({
+    title: 'Formación preventiva para empresas de minería',
+    description:
+      'Gestión de licencias, códigos de acceso y facturación para formar a la plantilla en prevención de riesgos en actividades extractivas.',
+    path: '/empresas',
+  }),
   component: CompaniesPage,
 })
 

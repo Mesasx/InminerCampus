@@ -27,6 +27,8 @@ import { Route as NuevaContrasenaRouteImport } from './routes/nueva-contrasena'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as RegistroRouteImport } from './routes/registro'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -163,6 +165,16 @@ const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
 const RegistroRoute = RegistroRouteImport.update({
   id: '/registro',
   path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
@@ -425,6 +437,8 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof PerfilRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
@@ -488,6 +502,8 @@ export interface FileRoutesByTo {
   '/perfil': typeof PerfilRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
@@ -553,6 +569,8 @@ export interface FileRoutesById {
   '/perfil': typeof PerfilRoute
   '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/registro': typeof RegistroRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
@@ -621,6 +639,8 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
@@ -684,6 +704,8 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
@@ -748,6 +770,8 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/recuperar-contrasena'
     | '/registro'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
@@ -815,6 +839,8 @@ export interface RootRouteChildren {
   PerfilRoute: typeof PerfilRoute
   RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   RegistroRoute: typeof RegistroRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
   ApiAdminBillingRoute: typeof ApiAdminBillingRoute
@@ -969,6 +995,20 @@ declare module '@tanstack/react-router' {
       path: '/registro'
       fullPath: '/registro'
       preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sobre-nosotros': {
@@ -1411,6 +1451,8 @@ const rootRouteChildren: RootRouteChildren = {
   PerfilRoute: PerfilRoute,
   RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   RegistroRoute: RegistroRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
   ApiAdminBillingRoute: ApiAdminBillingRoute,

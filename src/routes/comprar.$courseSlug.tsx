@@ -14,6 +14,7 @@ import {
 } from '../lib/billing'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
+import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/comprar/$courseSlug')({
   validateSearch: (
@@ -23,6 +24,12 @@ export const Route = createFileRoute('/comprar/$courseSlug')({
       typeof search.version === 'string' && search.version.trim()
         ? search.version
         : undefined,
+  }),
+  head: () => seoHead({
+    title: 'Contratar formación',
+    description: 'Contratación de la formación seleccionada.',
+    path: '/comprar',
+    noindex: true,
   }),
   component: CheckoutPage,
 })
