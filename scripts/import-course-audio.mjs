@@ -37,9 +37,11 @@ const courseMappings = [
     durationHours: 20,
   },
   {
+    // El curso de sílice conserva una única modalidad, la de 3 horas. La
+    // versión de 20 horas está retirada, así que sus locuciones se ignoran en
+    // vez de subirlas a una modalidad que ya nadie cursa.
     pattern: /^curso 6\b/i,
-    slug: 'prevencion-polvo-silice-cristalina-respirable',
-    durationHours: 20,
+    skip: 'el curso de sílice solo mantiene la modalidad de 3 horas',
   },
   {
     pattern: /^curso 7\b/i,
@@ -122,12 +124,19 @@ async function buildManifest() {
   const files = await walk(root)
   const manifest = []
   const errors = []
+  const skipped = new Map()
 
   for (const absolutePath of files) {
     const relativePath = path.relative(root, absolutePath)
     const parts = relativePath.split(path.sep)
     const folder = parts[0]
     const mapping = courseMappings.find(({ pattern }) => pattern.test(normalized(folder)))
+    if (mapping?.skip) {
+      const entry = skipped.get(mapping.skip) ?? { folder, count: 0 }
+      entry.count += 1
+      skipped.set(mapping.skip, entry)
+      continue
+    }
     const blockMatch = parts.slice(1, -1).join('/').match(/bloque[-_ ]*(\d+)/i)
     const partMatch = parts.at(-1).match(/parte[-_ ]*(\d+)[._-](\d+)/i)
     if (!mapping || !blockMatch || !partMatch) {
@@ -193,7 +202,7 @@ async function buildManifest() {
     keys.add(key)
   }
   if (errors.length) throw new Error(errors.join('\n'))
-  return manifest
+  return { manifest, skipped }
 }
 
 async function upload(item) {
@@ -232,7 +241,7 @@ async function upload(item) {
   throw lastError
 }
 
-const manifest = await buildManifest()
+const { manifest, skipped } = await buildManifest()
 const totals = Object.groupBy(
   manifest,
   ({ slug, durationHours }) => `${slug} (${durationHours} h)`,
@@ -241,6 +250,9 @@ const totals = Object.groupBy(
 console.log(`Archivos válidos: ${manifest.length}`)
 for (const [course, items] of Object.entries(totals)) {
   console.log(`- ${course}: ${items.length}`)
+}
+for (const [reason, { folder, count }] of skipped) {
+  console.log(`Omitidas ${count} pistas de «${folder}»: ${reason}.`)
 }
 
 if (dryRun) process.exit(0)

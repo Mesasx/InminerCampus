@@ -4,17 +4,11 @@ import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
 
 const root = resolve('Contenido Cursos', 'Diapositivas y documentos')
+// Arranque no entra aquí: su presentación vigente es el PDF de 51 páginas
+// —portada y una diapositiva por unidad— que publica
+// `upload-arranque-current-deck.mjs`, no el paquete de dos diapositivas por
+// unidad derivado del PowerPoint anterior.
 const packages = [
-  {
-    key: 'arranque-5h',
-    directory: resolve(
-      root,
-      'Curso 1 Operador de Maquinaria de Arranque, Cargas y viales',
-    ),
-    manifest: 'course-1-complete.manifest.json',
-    release: 'arranque-5h-2026',
-    sourceLabel: 'Curso 1 · presentación actualizada Inmíner Campus',
-  },
   {
     key: 'transporte-5h',
     directory: resolve(root, 'Curso 2'),

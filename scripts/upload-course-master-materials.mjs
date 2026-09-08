@@ -14,15 +14,13 @@ const selectedKeys = new Set(
     [
       'perforadora-manual',
       'arranque-manual',
-      'arranque-5h-slides',
-      'arranque-20h-slides',
+      'arranque-slides',
       'transporte-5h-manual',
       'transporte-5h-slides',
       'transporte-20h-manual',
       'transporte-20h-slides',
       'silice-manual',
       'silice-3h-slides',
-      'silice-20h-slides',
       'establecimientos-manual',
       'establecimientos-5h-slides',
     ].join(',')
@@ -59,34 +57,21 @@ const materials = [
     contentType: 'application/pdf',
   },
   {
-    key: 'arranque-5h-slides',
+    // La presentación cubre las dos modalidades: portada más las 50 unidades
+    // de 1.1 a 5.10, válidas tanto para el reciclaje de 5 h como para la
+    // formación inicial de 20 h.
+    key: 'arranque-slides',
     slug: 'operador-maquinaria-arranque-carga-viales',
-    durations: [5],
+    durations: [5, 20],
     kind: 'presentation',
     title: 'Presentación del curso',
     description:
       'Diapositivas utilizadas durante el desarrollo de la formación.',
-    pageCount: 100,
+    pageCount: 51,
     file: resolve(
       root,
       'Curso 1 Operador de Maquinaria de Arranque, Cargas y viales',
-      'Curso-1-V2-IMAGENES-Y-LOGO-CORREGIDO.pdf',
-    ),
-    contentType: 'application/pdf',
-  },
-  {
-    key: 'arranque-20h-slides',
-    slug: 'operador-maquinaria-arranque-carga-viales',
-    durations: [20],
-    kind: 'presentation',
-    title: 'Presentación del curso',
-    description:
-      'Presentación completa de las 50 unidades de la formación inicial de 20 horas.',
-    pageCount: 50,
-    file: resolve(
-      root,
-      'Diapositivas cursos',
-      'Curso_4_Maquinaria_Arranque_20h_INMINER_50_diapositivas.pdf',
+      'Operador-de-Maquinaria-de-Arranque-Carga-y-Viales.pdf',
     ),
     contentType: 'application/pdf',
   },
@@ -152,7 +137,7 @@ const materials = [
   {
     key: 'silice-manual',
     slug: 'prevencion-polvo-silice-cristalina-respirable',
-    durations: [3, 20],
+    durations: [3],
     kind: 'manual',
     title: 'Libro de texto del curso',
     description:
@@ -171,22 +156,6 @@ const materials = [
       'Presentación de las 50 unidades de prevención del polvo y la sílice cristalina respirables.',
     pageCount: 50,
     file: resolve(root, 'CursoSilice.pdf'),
-    contentType: 'application/pdf',
-  },
-  {
-    key: 'silice-20h-slides',
-    slug: 'prevencion-polvo-silice-cristalina-respirable',
-    durations: [20],
-    kind: 'presentation',
-    title: 'Presentación del curso',
-    description:
-      'Presentación definitiva de las 50 unidades de la formación de 20 horas.',
-    pageCount: 50,
-    file: resolve(
-      root,
-      'Diapositivas cursos',
-      'Curso_6_Polvo_y_Silice_20H_Presentacion_Definitiva.pdf',
-    ),
     contentType: 'application/pdf',
   },
   {
