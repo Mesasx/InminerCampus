@@ -54,6 +54,10 @@ const establecimientosImporterPath = new URL(
   '../scripts/import-establecimientos-master-content.mjs',
   import.meta.url,
 )
+const audioImporterPath = new URL(
+  '../scripts/import-course-audio.mjs',
+  import.meta.url,
+)
 const establecimientosAdminAccessMigration = new URL(
   '../supabase/migrations/20260908084326_grant_establecimientos_admin_preview_access.sql',
   import.meta.url,
@@ -251,4 +255,53 @@ test('el test aportado de transporte conserva 30 preguntas y 10 por intento', as
   assert.match(importer, /question_options/)
   assert.match(importer, /question_count: 10/)
   assert.doesNotMatch(importer, /active:\s*true,\s*question_count/)
+})
+
+test('el importador de audio dirige cada carpeta a una modalidad que existe', async () => {
+  const importer = await readFile(audioImporterPath, 'utf8')
+
+  // Modalidades realmente publicadas por curso. Sílice consolidó su modalidad
+  // corta en 3 horas aunque su carpeta de audio siga llamándose «5 horas», y
+  // establecimientos entrega 5 y 20 horas bajo un mismo directorio.
+  const modalities = {
+    'operador-maquinaria-arranque-carga-viales': [5, 20],
+    'operador-maquinaria-transporte-camion-volquete': [5, 20],
+    'prevencion-polvo-silice-cristalina-respirable': [3, 20],
+    'operadores-perforacion-corte-exterior': [5, 20],
+    'operadores-establecimientos-beneficio': [5, 20],
+  }
+
+  const mappings = [
+    ...importer.matchAll(
+      /pattern: \/\^curso (\d+)[\s\S]*?slug: '([^']+)',\s*(?:durationHours: (\d+)|durationFromFolder: true)/g,
+    ),
+  ].map(([, folder, slug, durationHours]) => ({
+    folder: Number(folder),
+    slug,
+    durationHours: durationHours ? Number(durationHours) : null,
+  }))
+
+  assert.equal(mappings.length, 9)
+  assert.deepEqual(
+    mappings.map(({ folder }) => folder),
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  )
+
+  for (const { folder, slug, durationHours } of mappings) {
+    assert.ok(modalities[slug], `Curso ${folder}: slug desconocido ${slug}`)
+    if (durationHours !== null) {
+      assert.ok(
+        modalities[slug].includes(durationHours),
+        `Curso ${folder}: ${slug} no ofrece una modalidad de ${durationHours} h.`,
+      )
+    }
+  }
+
+  // El curso 9 resuelve su modalidad leyendo el subdirectorio, y una carpeta
+  // sin duración reconocible tiene que dar error en vez de colarse sin ella.
+  assert.equal(
+    mappings.filter(({ durationHours }) => durationHours === null).length,
+    1,
+  )
+  assert.match(importer, /Duración no reconocida/)
 })
