@@ -30,8 +30,8 @@ const auditPath = new URL(
   '../src/components/CourseContentValidationReport.tsx',
   import.meta.url,
 )
-const arranqueDeckImporterPath = new URL(
-  '../scripts/upload-arranque-current-deck.mjs',
+const unitDeckImporterPath = new URL(
+  '../scripts/upload-course-unit-decks.mjs',
   import.meta.url,
 )
 const sharedMaterialsImporterPath = new URL(
@@ -157,15 +157,35 @@ test('el importador obtiene las explicaciones exclusivamente del manual maestro'
   assert.match(importer, /units\.length !== 100/)
 })
 
-test('la presentación actual de arranque se valida por lessonCode antes de sustituir diapositivas', async () => {
-  const importer = await readFile(arranqueDeckImporterPath, 'utf8')
+test('las presentaciones por unidad se validan por lessonCode antes de sustituir diapositivas', async () => {
+  const importer = await readFile(unitDeckImporterPath, 'utf8')
 
-  assert.match(importer, /pages !== 51/)
+  assert.match(importer, /pages !== deck\.totalPages/)
   assert.match(importer, /headingCode !== expectedCode/)
   assert.match(importer, /units\.length !== 50/)
   assert.match(importer, /unit\.lesson_code !== unit\.expectedCode/)
   assert.match(importer, /pendingRegistrations/)
-  assert.match(importer, /slides\/arranque-2026/)
+  assert.match(importer, /slides\/\$\{deck\.release\}/)
+
+  // El código se lee de la cabecera de la diapositiva, no de cualquier cifra
+  // suelta del cuerpo, para que una página descolocada no pase inadvertida.
+  assert.match(importer, /\(\?:PARTE\|UNIDAD\)/)
+
+  // Arranque abre con una portada y encadena las 50 unidades; transporte
+  // intercala una divisoria antes de los diez apartados de cada bloque.
+  assert.match(
+    importer,
+    /totalPages: 51,[\s\S]*?pageForUnit: \(index\) => index \+ 2,/,
+  )
+  assert.match(
+    importer,
+    /totalPages: 55,[\s\S]*?pageForUnit: \(index\) => index \+ 2 \+ Math\.floor\(index \/ 10\),/,
+  )
+  assert.match(importer, /Operador-de-Maquinaria-de-Arranque-Carga-y-Viales\.pdf/)
+  assert.match(
+    importer,
+    /El-transporte-en-el-movimiento-de-tierras-y-los-tipos-de-vehiculos\.pdf/,
+  )
 })
 
 test('transporte y silice reciben identidad estable sin tocar evaluaciones', async () => {
@@ -189,9 +209,8 @@ test('el catalogo de materiales separa cada modalidad documental', async () => {
 
   for (const key of [
     'transporte-5h-manual',
-    'transporte-5h-slides',
     'transporte-20h-manual',
-    'transporte-20h-slides',
+    'transporte-slides',
     'silice-manual',
     'silice-3h-slides',
     'establecimientos-manual',

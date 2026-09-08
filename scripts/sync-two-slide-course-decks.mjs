@@ -19,18 +19,6 @@ const decks = [
     release: 'establecimientos-5h-2026',
     sourceLabel: 'Establecimientos de beneficio · presentación 5 h Inmíner Campus',
   },
-  {
-    key: 'transporte-20h',
-    slug: 'operador-maquinaria-transporte-camion-volquete',
-    durationHours: 20,
-    pdf: resolve(
-      root,
-      'Diapositivas cursos',
-      'Curso_5_Transporte_Camion_y_Volquete_InminerCampus_FOTOS_GENERADAS.pdf',
-    ),
-    release: 'transporte-20h-2026',
-    sourceLabel: 'Transporte, camión y volquete · presentación 20 h Inmíner Campus',
-  },
 ]
 
 const selectedKeys = new Set(
