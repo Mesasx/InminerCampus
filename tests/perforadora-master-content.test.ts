@@ -30,6 +30,10 @@ const auditPath = new URL(
   '../src/components/CourseContentValidationReport.tsx',
   import.meta.url,
 )
+const perforadoraUtf8Migration = new URL(
+  '../supabase/migrations/20260908140000_perforadora_utf8_repair.sql',
+  import.meta.url,
+)
 const unitDeckImporterPath = new URL(
   '../scripts/upload-course-unit-decks.mjs',
   import.meta.url,
@@ -167,25 +171,58 @@ test('las presentaciones por unidad se validan por lessonCode antes de sustituir
   assert.match(importer, /pendingRegistrations/)
   assert.match(importer, /slides\/\$\{deck\.release\}/)
 
-  // El código se lee de la cabecera de la diapositiva, no de cualquier cifra
-  // suelta del cuerpo, para que una página descolocada no pase inadvertida.
-  assert.match(importer, /\(\?:PARTE\|UNIDAD\)/)
+  // El código se lee de una posición fija de la diapositiva —el rótulo de la
+  // cabecera o el título que la abre—, nunca de una cifra suelta del cuerpo,
+  // para que una página descolocada no pase inadvertida. Cada presentación
+  // declara cuál de las dos plantillas usa.
+  assert.match(importer, /rotulo: \/\\b\(\?:PARTE\|UNIDAD\)/)
+  assert.match(importer, /titulo: \/\^\[ \\t\]\*\(\[1-5\]/)
+  const deckCount = [...importer.matchAll(/^    key: '/gm)].length
+  const patternCount = [...importer.matchAll(/headingCode: headingCodePatterns\./g)]
+    .length
+  assert.equal(patternCount, deckCount)
 
-  // Arranque abre con una portada y encadena las 50 unidades; transporte
-  // intercala una divisoria antes de los diez apartados de cada bloque.
-  assert.match(
-    importer,
-    /totalPages: 51,[\s\S]*?pageForUnit: \(index\) => index \+ 2,/,
+  // Arranque y perforadora abren con una portada y encadenan las 50 unidades;
+  // transporte intercala una divisoria antes de los diez apartados de cada
+  // bloque, así que su unidad n cae diez páginas más allá cada bloque.
+  assert.equal(
+    [...importer.matchAll(/pageForUnit: \(index\) => index \+ 2,/g)].length,
+    2,
   )
   assert.match(
     importer,
     /totalPages: 55,[\s\S]*?pageForUnit: \(index\) => index \+ 2 \+ Math\.floor\(index \/ 10\),/,
   )
-  assert.match(importer, /Operador-de-Maquinaria-de-Arranque-Carga-y-Viales\.pdf/)
-  assert.match(
-    importer,
-    /El-transporte-en-el-movimiento-de-tierras-y-los-tipos-de-vehiculos\.pdf/,
-  )
+  for (const pdf of [
+    'Operador-de-Maquinaria-de-Arranque-Carga-y-Viales.pdf',
+    'El-transporte-en-el-movimiento-de-tierras-y-los-tipos-de-vehiculos.pdf',
+    'Formacion-Preventiva-para-el-Desempeno-del-Puesto-de-Trabajo.pdf',
+  ]) {
+    assert.match(importer, new RegExp(pdf.replace(/\./g, '\\.')))
+  }
+})
+
+test('la reparación de perforadora deshace la doble codificación sin tocar el resto', async () => {
+  const migration = await readFile(perforadoraUtf8Migration, 'utf8')
+
+  // Solo se convierte lo que aún arrastra la doble codificación: repetir la
+  // migración no cambia nada y un texto correcto nunca entra en la conversión.
+  const conversions = [...migration.matchAll(/convert_from\(convert_to\(/g)].length
+  const guards = [...migration.matchAll(/~ '\[ÃÂ\]'/g)].length
+  assert.ok(conversions > 0)
+  assert.ok(guards >= conversions)
+
+  assert.match(migration, /'operadores-perforacion-corte-exterior'/)
+  for (const table of [
+    'public.courses',
+    'public.course_modules',
+    'public.lessons',
+    'public.lesson_audio_segments',
+    'public.lesson_segment_slides',
+    'public.lesson_segment_notes',
+  ]) {
+    assert.match(migration, new RegExp(`update ${table.replace('.', '\\.')}`))
+  }
 })
 
 test('transporte y silice reciben identidad estable sin tocar evaluaciones', async () => {

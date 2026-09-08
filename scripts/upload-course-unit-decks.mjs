@@ -11,6 +11,15 @@ import process from 'node:process'
 import { spawnSync } from 'node:child_process'
 import { createClient } from '@supabase/supabase-js'
 
+// El código de la unidad se lee de la cabecera de la diapositiva. Unas
+// plantillas lo rotulan como «BLOQUE n · PARTE/UNIDAD x.y» y otras lo abren
+// como título de la propia página; en ambos casos se ancla a una posición fija
+// para que una cifra suelta del cuerpo no pueda hacerse pasar por código.
+const headingCodePatterns = {
+  rotulo: /\b(?:PARTE|UNIDAD)\s+([1-5]\.(?:10|[1-9]))\b/i,
+  titulo: /^[ \t]*([1-5]\.(?:10|[1-9]))\s*[^\w\s]/m,
+}
+
 // Presentaciones con una diapositiva por unidad. Cada curso publica un único
 // PDF que sirve por igual al reciclaje y a la formación inicial, y del que se
 // extraen las 50 unidades de 1.1 a 5.10.
@@ -30,6 +39,7 @@ const decks = [
     totalPages: 51,
     // Una portada y, a continuación, las cincuenta unidades seguidas.
     pageForUnit: (index) => index + 2,
+    headingCode: headingCodePatterns.rotulo,
   },
   {
     key: 'transporte',
@@ -46,6 +56,22 @@ const decks = [
     totalPages: 55,
     // Cada bloque abre con una página divisoria antes de sus diez unidades.
     pageForUnit: (index) => index + 2 + Math.floor(index / 10),
+    headingCode: headingCodePatterns.rotulo,
+  },
+  {
+    key: 'perforadora',
+    slug: 'operadores-perforacion-corte-exterior',
+    release: 'perforadora-2026',
+    sourceLabel:
+      'Formación preventiva para el desempeño del puesto de trabajo · operador de perforadora / perforista · presentación 2026',
+    pdf: resolve(
+      'Contenido Cursos',
+      'Formacion-Preventiva-para-el-Desempeno-del-Puesto-de-Trabajo.pdf',
+    ),
+    totalPages: 51,
+    pageForUnit: (index) => index + 2,
+    // Su plantilla no rotula la cabecera: cada unidad abre con su propio código.
+    headingCode: headingCodePatterns.titulo,
   },
 ]
 
@@ -100,13 +126,7 @@ function validatePdfMap(deck) {
       deck.pdf,
       '-',
     ])
-    // El código se lee de la cabecera «BLOQUE n · PARTE/UNIDAD x.y». Anclarlo
-    // a esa palabra evita depender del separador, que la plantilla dibuja con
-    // un glifo que pdftotext no sabe mapear, y descarta las cifras sueltas que
-    // puedan aparecer en el cuerpo de la diapositiva.
-    const headingCode = text.match(
-      /\b(?:PARTE|UNIDAD)\s+([1-5]\.(?:10|[1-9]))\b/i,
-    )?.[1]
+    const headingCode = text.match(deck.headingCode)?.[1]
     if (headingCode !== expectedCode) {
       throw new Error(
         `${deck.key}, página ${page}: se esperaba ${expectedCode} y se encontró ${headingCode ?? 'ningún código'}.`,
