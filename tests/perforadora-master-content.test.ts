@@ -194,7 +194,6 @@ test('el catalogo de materiales separa cada modalidad documental', async () => {
     'transporte-20h-slides',
     'silice-manual',
     'silice-3h-slides',
-    'silice-20h-slides',
     'establecimientos-manual',
   ]) {
     assert.match(importer, new RegExp(`key: '${key}'`))
@@ -203,6 +202,25 @@ test('el catalogo de materiales separa cada modalidad documental', async () => {
   assert.match(importer, /Manual_Polvo_Silice_Inminer_Campus\.pdf/)
   assert.match(importer, /CursoSilice\.pdf/)
   assert.match(importer, /Manual_Establecimientos_Beneficio_Inminer_Campus/)
+
+  // Sílice conserva una sola modalidad, así que nada debe publicarse contra la
+  // versión de 20 horas, que está retirada.
+  assert.doesNotMatch(importer, /key: 'silice-20h-slides'/)
+  for (const [, durations] of importer.matchAll(
+    /slug: 'prevencion-polvo-silice-cristalina-respirable',\s*durations: \[([^\]]+)\]/g,
+  )) {
+    assert.equal(durations.trim(), '3')
+  }
+
+  // La presentación de arranque es la de 51 páginas —portada más 50 unidades—
+  // y cubre por igual el reciclaje de 5 h y la formación inicial de 20 h.
+  assert.match(
+    importer,
+    /key: 'arranque-slides',\s*slug: 'operador-maquinaria-arranque-carga-viales',\s*durations: \[5, 20\]/,
+  )
+  assert.match(importer, /pageCount: 51/)
+  assert.match(importer, /Operador-de-Maquinaria-de-Arranque-Carga-y-Viales\.pdf/)
+  assert.doesNotMatch(importer, /Curso-1-V2-IMAGENES-Y-LOGO-CORREGIDO/)
 })
 
 test('establecimientos de beneficio nace como borrador presencial de 50 unidades', async () => {
@@ -260,48 +278,64 @@ test('el test aportado de transporte conserva 30 preguntas y 10 por intento', as
 test('el importador de audio dirige cada carpeta a una modalidad que existe', async () => {
   const importer = await readFile(audioImporterPath, 'utf8')
 
-  // Modalidades realmente publicadas por curso. Sílice consolidó su modalidad
-  // corta en 3 horas aunque su carpeta de audio siga llamándose «5 horas», y
-  // establecimientos entrega 5 y 20 horas bajo un mismo directorio.
-  const modalities = {
+  // Modalidades vivas de cada curso. Sílice conserva solo la de 3 horas pese a
+  // que su carpeta de audio siga llamándose «5 horas», y establecimientos
+  // entrega 5 y 20 horas bajo un mismo directorio.
+  const modalities: Record<string, number[]> = {
     'operador-maquinaria-arranque-carga-viales': [5, 20],
     'operador-maquinaria-transporte-camion-volquete': [5, 20],
-    'prevencion-polvo-silice-cristalina-respirable': [3, 20],
+    'prevencion-polvo-silice-cristalina-respirable': [3],
     'operadores-perforacion-corte-exterior': [5, 20],
     'operadores-establecimientos-beneficio': [5, 20],
   }
 
-  const mappings = [
-    ...importer.matchAll(
-      /pattern: \/\^curso (\d+)[\s\S]*?slug: '([^']+)',\s*(?:durationHours: (\d+)|durationFromFolder: true)/g,
-    ),
-  ].map(([, folder, slug, durationHours]) => ({
-    folder: Number(folder),
-    slug,
-    durationHours: durationHours ? Number(durationHours) : null,
-  }))
+  const tableStart = importer.indexOf('const courseMappings = [')
+  const table = importer.slice(
+    tableStart,
+    importer.indexOf('\n]', tableStart),
+  )
+  const mappings = table
+    .split(/pattern: \/\^curso /)
+    .slice(1)
+    .map((entry) => ({
+      folder: Number(entry.match(/^(\d+)/)?.[1]),
+      slug: entry.match(/slug: '([^']+)'/)?.[1] ?? null,
+      durationHours: entry.match(/durationHours: (\d+)/)
+        ? Number(entry.match(/durationHours: (\d+)/)?.[1])
+        : null,
+      fromFolder: /durationFromFolder: true/.test(entry),
+      skipped: /skip: '/.test(entry),
+    }))
 
-  assert.equal(mappings.length, 9)
   assert.deepEqual(
     mappings.map(({ folder }) => folder),
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
   )
 
-  for (const { folder, slug, durationHours } of mappings) {
-    assert.ok(modalities[slug], `Curso ${folder}: slug desconocido ${slug}`)
+  for (const { folder, slug, durationHours, skipped } of mappings) {
+    if (skipped) {
+      assert.equal(slug, null, `Curso ${folder}: una carpeta omitida no apunta a ningún curso.`)
+      continue
+    }
+    assert.ok(slug && modalities[slug], `Curso ${folder}: slug desconocido ${slug}`)
     if (durationHours !== null) {
       assert.ok(
-        modalities[slug].includes(durationHours),
+        modalities[slug!].includes(durationHours),
         `Curso ${folder}: ${slug} no ofrece una modalidad de ${durationHours} h.`,
       )
     }
   }
 
-  // El curso 9 resuelve su modalidad leyendo el subdirectorio, y una carpeta
-  // sin duración reconocible tiene que dar error en vez de colarse sin ella.
+  // El curso 9 resuelve su modalidad leyendo el subdirectorio y el 6 se omite
+  // entero; toda carpeta restante declara su duración de forma explícita.
+  assert.equal(mappings.filter(({ fromFolder }) => fromFolder).length, 1)
+  assert.equal(mappings.filter(({ skipped }) => skipped).length, 1)
   assert.equal(
-    mappings.filter(({ durationHours }) => durationHours === null).length,
-    1,
+    mappings.filter(
+      ({ durationHours, fromFolder, skipped }) =>
+        durationHours === null && !fromFolder && !skipped,
+    ).length,
+    0,
   )
   assert.match(importer, /Duración no reconocida/)
 })

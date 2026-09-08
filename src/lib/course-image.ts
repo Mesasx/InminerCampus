@@ -8,6 +8,10 @@ const imagesBySlug: Record<string, string> = {
   'prevencion-polvo-silice-cristalina-respirable':
     '/images/campus-carousel-silice.jpg',
   'formacion-stvh': '/images/curso-stvh-portada.jpg',
+  'operadores-establecimientos-beneficio':
+    '/images/curso-establecimientos-beneficio-portada.png',
+  'operadores-perforacion-corte-exterior':
+    '/images/curso-perforadora-portada.png',
 }
 
 export function courseImage(

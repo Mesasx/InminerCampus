@@ -57,7 +57,12 @@ function validatePdfMap() {
       PDF_PATH,
       '-',
     ])
-    const headingCode = text.match(/\b([1-5]\.(?:10|[1-9]))\s*[·-]/)?.[1]
+    // La plantilla separa el código del título con un glifo que pdftotext no
+    // sabe mapear y devuelve como carácter de reemplazo, así que se acepta
+    // junto al resto de separadores en vez de dar la página por inválida.
+    const headingCode = text.match(
+      /\b([1-5]\.(?:10|[1-9]))\s*[·•\-–—�]/,
+    )?.[1]
     if (headingCode !== expectedCode) {
       throw new Error(
         `Página ${page}: se esperaba ${expectedCode} y se encontró ${headingCode ?? 'ningún código'}.`,
