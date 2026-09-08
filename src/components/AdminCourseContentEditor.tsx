@@ -1,11 +1,4 @@
-import {
-  FileAudio,
-  ImagePlus,
-  Layers3,
-  Plus,
-  Save,
-  Upload,
-} from 'lucide-react'
+import { FileAudio, ImagePlus, Layers3, Plus, Save, Upload } from 'lucide-react'
 import {
   useCallback,
   useEffect,
@@ -24,9 +17,20 @@ type Slide = {
   image_external_url: string | null
 }
 
+type SegmentNote = {
+  summary: string
+  key_points: string[]
+  stop_criterion: string
+  source_label: string
+  source_pages: string
+  approved: boolean
+}
+
 type Segment = {
   id: string
   position: number
+  lesson_code: string | null
+  manual_chapter: string | null
   title: string
   narration_text: string
   audio_storage_path: string | null
@@ -34,6 +38,7 @@ type Segment = {
   duration_seconds: number
   published: boolean
   lesson_segment_slides: Slide[]
+  lesson_segment_notes: SegmentNote[]
 }
 
 type Lesson = {
@@ -75,7 +80,7 @@ export function AdminCourseContentEditor({
       (await getSupabaseBrowserClient()
         ?.from('course_modules')
         .select(
-          'id, position, title, description, lessons(id, position, title, summary, duration_minutes, lesson_audio_segments(id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, published, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url)))',
+          'id, position, title, description, lessons(id, position, title, summary, duration_minutes, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, published, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages, approved)))',
         )
         .eq('course_version_id', versionId)
         .order('position', { ascending: true })) ?? {}
@@ -105,7 +110,10 @@ export function AdminCourseContentEditor({
     setModules(rows)
     setLessonModuleId((current) => current || rows[0]?.id || '')
     setSelectedLessonId((current) => {
-      if (current && rows.some((m) => m.lessons.some((l) => l.id === current))) {
+      if (
+        current &&
+        rows.some((m) => m.lessons.some((l) => l.id === current))
+      ) {
         return current
       }
       return rows[0]?.lessons[0]?.id ?? null
@@ -119,10 +127,14 @@ export function AdminCourseContentEditor({
   const selectedLesson = modules
     .flatMap((module) => module.lessons)
     .find((lesson) => lesson.id === selectedLessonId)
+  const selectedModule = modules.find((module) =>
+    module.lessons.some((lesson) => lesson.id === selectedLessonId),
+  )
 
   async function createModule(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const position = Math.max(0, ...modules.map((module) => module.position)) + 1
+    const position =
+      Math.max(0, ...modules.map((module) => module.position)) + 1
     const { error } =
       (await getSupabaseBrowserClient()?.from('course_modules').insert({
         course_version_id: versionId,
@@ -180,6 +192,8 @@ export function AdminCourseContentEditor({
       .map((position) => ({
         lesson_id: selectedLesson.id,
         position,
+        lesson_code: `${selectedModule?.position ?? 1}.${position}`,
+        manual_chapter: `${selectedModule?.position ?? 1}.${position}`,
         title: `Parte ${position}`,
         narration_text: '',
         duration_seconds: 120,
@@ -222,6 +236,8 @@ export function AdminCourseContentEditor({
         ?.from('lesson_audio_segments')
         .update({
           title: segment.title.trim(),
+          lesson_code: segment.lesson_code?.trim() || null,
+          manual_chapter: segment.manual_chapter?.trim() || null,
           narration_text: segment.narration_text.trim(),
           duration_seconds: segment.duration_seconds,
           audio_external_url: segment.audio_external_url?.trim() || null,
@@ -264,14 +280,73 @@ export function AdminCourseContentEditor({
       .update({ audio_storage_path: path, audio_external_url: null })
       .eq('id', segment.id)
     setBusy(false)
-    onNotice(error ? 'El audio subió, pero no pudo asociarse.' : 'Audio cargado.')
+    onNotice(
+      error ? 'El audio subió, pero no pudo asociarse.' : 'Audio cargado.',
+    )
     if (!error) await load()
   }
 
-  async function addSlide(
-    event: FormEvent<HTMLFormElement>,
-    segment: Segment,
-  ) {
+  function updateNote(segmentId: string, patch: Partial<SegmentNote>) {
+    setModules((current) =>
+      current.map((module) => ({
+        ...module,
+        lessons: module.lessons.map((lesson) => ({
+          ...lesson,
+          lesson_audio_segments: lesson.lesson_audio_segments.map((segment) => {
+            if (segment.id !== segmentId) return segment
+            const note = segment.lesson_segment_notes[0] ?? {
+              summary: '',
+              key_points: [],
+              stop_criterion: '',
+              source_label: '',
+              source_pages: '',
+              approved: false,
+            }
+            return {
+              ...segment,
+              lesson_segment_notes: [{ ...note, ...patch }],
+            }
+          }),
+        })),
+      })),
+    )
+  }
+
+  async function saveNote(segment: Segment) {
+    const note = segment.lesson_segment_notes[0]
+    if (
+      !note?.summary.trim() ||
+      !note.source_label.trim() ||
+      !note.source_pages.trim()
+    ) {
+      onNotice('La explicación, la fuente y las páginas son obligatorias.')
+      return
+    }
+    setBusy(true)
+    const { error } = (await getSupabaseBrowserClient()
+      ?.from('lesson_segment_notes')
+      .upsert(
+        {
+          segment_id: segment.id,
+          summary: note.summary.trim(),
+          key_points: note.key_points.filter(Boolean),
+          stop_criterion: note.stop_criterion.trim(),
+          source_label: note.source_label.trim(),
+          source_pages: note.source_pages.trim(),
+          approved: note.approved,
+        },
+        { onConflict: 'segment_id' },
+      )) ?? { error: new Error('Supabase no está configurado') }
+    setBusy(false)
+    onNotice(
+      error
+        ? 'No se ha podido guardar la explicación.'
+        : 'Explicación guardada.',
+    )
+    if (!error) await load()
+  }
+
+  async function addSlide(event: FormEvent<HTMLFormElement>, segment: Segment) {
     event.preventDefault()
     const draft = slideDrafts[segment.id]
     if (!draft?.title.trim()) return
@@ -281,14 +356,12 @@ export function AdminCourseContentEditor({
         ...segment.lesson_segment_slides.map((slide) => slide.position),
       ) + 1
     const { error } =
-      (await getSupabaseBrowserClient()
-        ?.from('lesson_segment_slides')
-        .insert({
-          segment_id: segment.id,
-          position,
-          title: draft.title.trim(),
-          body: draft.body.trim(),
-        })) ?? {}
+      (await getSupabaseBrowserClient()?.from('lesson_segment_slides').insert({
+        segment_id: segment.id,
+        position,
+        title: draft.title.trim(),
+        body: draft.body.trim(),
+      })) ?? {}
     if (error) {
       onNotice('No se ha podido añadir la diapositiva.')
       return
@@ -307,12 +380,14 @@ export function AdminCourseContentEditor({
         ...module,
         lessons: module.lessons.map((lesson) => ({
           ...lesson,
-          lesson_audio_segments: lesson.lesson_audio_segments.map((segment) => ({
-            ...segment,
-            lesson_segment_slides: segment.lesson_segment_slides.map((slide) =>
-              slide.id === id ? { ...slide, ...patch } : slide,
-            ),
-          })),
+          lesson_audio_segments: lesson.lesson_audio_segments.map(
+            (segment) => ({
+              ...segment,
+              lesson_segment_slides: segment.lesson_segment_slides.map(
+                (slide) => (slide.id === id ? { ...slide, ...patch } : slide),
+              ),
+            }),
+          ),
         })),
       })),
     )
@@ -465,14 +540,65 @@ export function AdminCourseContentEditor({
                 </button>
               </div>
               <p className="muted">
-                Cada parte contiene un audio secuencial. Solo se puede
-                publicar cuando tenga un archivo o una URL de audio.
+                Cada parte contiene un audio secuencial. Solo se puede publicar
+                cuando tenga un archivo o una URL de audio.
               </p>
+              <div
+                className="content-diagnostics"
+                aria-label="Diagnóstico del bloque"
+              >
+                <span>
+                  {selectedLesson.lesson_audio_segments.length}/10 unidades
+                </span>
+                <span>
+                  {
+                    selectedLesson.lesson_audio_segments.filter(
+                      (segment) => segment.lesson_code,
+                    ).length
+                  }
+                  /10 códigos
+                </span>
+                <span>
+                  {
+                    selectedLesson.lesson_audio_segments.filter((segment) =>
+                      segment.narration_text.trim(),
+                    ).length
+                  }
+                  /10 transcripciones
+                </span>
+                <span>
+                  {
+                    selectedLesson.lesson_audio_segments.filter((segment) =>
+                      segment.lesson_segment_slides.some(
+                        (slide) =>
+                          slide.image_storage_path || slide.image_external_url,
+                      ),
+                    ).length
+                  }
+                  /10 diapositivas
+                </span>
+                <span>
+                  {
+                    selectedLesson.lesson_audio_segments.filter(
+                      (segment) => segment.lesson_segment_notes[0]?.approved,
+                    ).length
+                  }
+                  /10 explicaciones aprobadas
+                </span>
+              </div>
               <div className="audio-segment-editor">
                 {selectedLesson.lesson_audio_segments.map((segment) => {
                   const draft = slideDrafts[segment.id] ?? {
                     title: '',
                     body: '',
+                  }
+                  const note = segment.lesson_segment_notes[0] ?? {
+                    summary: '',
+                    key_points: [],
+                    stop_criterion: '',
+                    source_label: '',
+                    source_pages: '',
+                    approved: false,
                   }
                   return (
                     <article className="audio-segment-card" key={segment.id}>
@@ -486,6 +612,39 @@ export function AdminCourseContentEditor({
                         </span>
                       </div>
                       <div className="form-grid">
+                        <div className="content-editor__row">
+                          <div className="field">
+                            <label htmlFor={`segment-code-${segment.id}`}>
+                              Código estable
+                            </label>
+                            <input
+                              id={`segment-code-${segment.id}`}
+                              pattern="[1-9][0-9]*\.([1-9]|10)"
+                              value={segment.lesson_code ?? ''}
+                              onChange={(event) =>
+                                updateSegment(segment.id, {
+                                  lesson_code: event.target.value,
+                                })
+                              }
+                              placeholder="1.1"
+                            />
+                          </div>
+                          <div className="field">
+                            <label htmlFor={`segment-chapter-${segment.id}`}>
+                              Capítulo del manual
+                            </label>
+                            <input
+                              id={`segment-chapter-${segment.id}`}
+                              value={segment.manual_chapter ?? ''}
+                              onChange={(event) =>
+                                updateSegment(segment.id, {
+                                  manual_chapter: event.target.value,
+                                })
+                              }
+                              placeholder="Capítulo 1.1"
+                            />
+                          </div>
+                        </div>
                         <div className="field">
                           <label htmlFor={`segment-title-${segment.id}`}>
                             Título de la parte
@@ -560,9 +719,7 @@ export function AdminCourseContentEditor({
                             <input
                               accept="audio/*"
                               hidden
-                              onChange={(event) =>
-                                uploadAudio(segment, event)
-                              }
+                              onChange={(event) => uploadAudio(segment, event)}
                               type="file"
                             />
                           </label>
@@ -585,6 +742,107 @@ export function AdminCourseContentEditor({
                             type="button"
                           >
                             <Save size={17} /> Guardar parte
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="segment-note-editor">
+                        <strong>Explicación detallada del manual</strong>
+                        <div className="field">
+                          <label htmlFor={`note-summary-${segment.id}`}>
+                            Contenido completo
+                          </label>
+                          <textarea
+                            id={`note-summary-${segment.id}`}
+                            onChange={(event) =>
+                              updateNote(segment.id, {
+                                summary: event.target.value,
+                              })
+                            }
+                            rows={12}
+                            value={note.summary}
+                          />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`note-points-${segment.id}`}>
+                            Puntos clave (uno por línea)
+                          </label>
+                          <textarea
+                            id={`note-points-${segment.id}`}
+                            onChange={(event) =>
+                              updateNote(segment.id, {
+                                key_points: event.target.value
+                                  .split('\n')
+                                  .map((point) => point.trim()),
+                              })
+                            }
+                            value={note.key_points.join('\n')}
+                          />
+                        </div>
+                        <div className="field">
+                          <label htmlFor={`note-stop-${segment.id}`}>
+                            Criterio preventivo o de parada
+                          </label>
+                          <textarea
+                            id={`note-stop-${segment.id}`}
+                            onChange={(event) =>
+                              updateNote(segment.id, {
+                                stop_criterion: event.target.value,
+                              })
+                            }
+                            value={note.stop_criterion}
+                          />
+                        </div>
+                        <div className="content-editor__row">
+                          <div className="field">
+                            <label htmlFor={`note-source-${segment.id}`}>
+                              Fuente
+                            </label>
+                            <input
+                              id={`note-source-${segment.id}`}
+                              onChange={(event) =>
+                                updateNote(segment.id, {
+                                  source_label: event.target.value,
+                                })
+                              }
+                              value={note.source_label}
+                            />
+                          </div>
+                          <div className="field">
+                            <label htmlFor={`note-pages-${segment.id}`}>
+                              Páginas
+                            </label>
+                            <input
+                              id={`note-pages-${segment.id}`}
+                              onChange={(event) =>
+                                updateNote(segment.id, {
+                                  source_pages: event.target.value,
+                                })
+                              }
+                              value={note.source_pages}
+                            />
+                          </div>
+                        </div>
+                        <div className="content-editor__actions">
+                          <label className="content-editor__check">
+                            <input
+                              checked={note.approved}
+                              onChange={(event) =>
+                                updateNote(segment.id, {
+                                  approved: event.target.checked,
+                                })
+                              }
+                              type="checkbox"
+                            />
+                            Explicación aprobada
+                          </label>
+                          <button
+                            className="button button--primary"
+                            disabled={busy}
+                            onClick={() => void saveNote(segment)}
+                            type="button"
+                          >
+                            <Save size={17} /> Guardar explicación
                           </button>
                         </div>
                       </div>
@@ -672,7 +930,10 @@ export function AdminCourseContentEditor({
                             }
                             placeholder="Ideas clave que verá el alumno"
                           />
-                          <button className="button button--outline" type="submit">
+                          <button
+                            className="button button--outline"
+                            type="submit"
+                          >
                             <Plus size={16} /> Añadir diapositiva
                           </button>
                         </form>

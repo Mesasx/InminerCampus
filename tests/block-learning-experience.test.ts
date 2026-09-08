@@ -7,7 +7,10 @@ const player = readFileSync(
   'utf8',
 )
 const lessonRoute = readFileSync(
-  new URL('../src/routes/campus.$enrollmentId.leccion.$lessonId.tsx', import.meta.url),
+  new URL(
+    '../src/routes/campus.$enrollmentId.leccion.$lessonId.tsx',
+    import.meta.url,
+  ),
   'utf8',
 )
 const footer = readFileSync(
@@ -33,16 +36,25 @@ test('single-slide explanations hide useless slide navigation', () => {
 })
 
 test('keyboard arrows navigate explanations and fullscreen exits only with Escape', () => {
-  assert.match(player, /event\.key === 'ArrowLeft'[\s\S]*selectSegment\(activeIndex - 1\)/)
-  assert.match(player, /event\.key === 'ArrowRight'[\s\S]*selectSegment\(activeIndex \+ 1\)/)
-  assert.match(player, /event\.key === 'Escape'/)
+  assert.match(
+    player,
+    /event\.key === ["']ArrowLeft["'][\s\S]*selectSegment\(activeIndex - 1\)/,
+  )
+  assert.match(
+    player,
+    /event\.key === ["']ArrowRight["'][\s\S]*selectSegment\(activeIndex \+ 1\)/,
+  )
+  assert.match(player, /event\.key === ["']Escape["']/)
   assert.match(player, /Pulsa ESC para salir/)
   assert.doesNotMatch(player, /aria-label="Cerrar diapositiva"/)
 })
 
 test('slides show and download their course, regulation, and block numbering', () => {
   assert.match(player, /function SlideIdentity/)
-  assert.match(player, /numbering=\{`\$\{blockPosition\}\.\$\{activeIndex \+ 1\}`\}/)
+  assert.match(
+    player,
+    /numbering=\{`\$\{blockPosition\}\.\$\{activeIndex \+ 1\}`\}/,
+  )
   assert.match(player, /canvas\.toBlob/)
   assert.match(lessonRoute, /ITC 02\.1\.02 · ET 2001-1-08/)
   assert.match(lessonRoute, /ITC 02\.1\.02 · ET 2000-1-08/)
@@ -54,9 +66,15 @@ test('audio transcript and unique specific information are separate sections', (
   assert.match(player, /Información específica de la diapositiva/)
   assert.match(player, /activeSlide\?\.body\?\.trim\(\)/)
   assert.match(player, /activeSlide\?\.source_page\?\.match/)
-  assert.match(lessonRoute, /resource\.kind === 'presentation'/)
-  assert.match(migration, /Every playable segment must have an audio transcript/)
-  assert.match(migration, /Every playable segment must have approved specific information/)
+  assert.match(lessonRoute, /resource\.kind === ["']presentation["']/)
+  assert.match(
+    migration,
+    /Every playable segment must have an audio transcript/,
+  )
+  assert.match(
+    migration,
+    /Every playable segment must have approved specific information/,
+  )
   assert.match(migration, /ITC 02\.0\.02 · Orden TED\/723\/2021 · Cursos Pedro/)
 })
 

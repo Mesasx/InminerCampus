@@ -2,7 +2,10 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 
-const manifestUrl = new URL('../content/course-1-complete.manifest.json', import.meta.url)
+const manifestUrl = new URL(
+  '../content/course-1-complete.manifest.json',
+  import.meta.url,
+)
 const audioInventoryUrl = new URL(
   '../content/course-1-audio-inventory.json',
   import.meta.url,
@@ -19,7 +22,10 @@ const slideAccessMigrationUrl = new URL(
   '../supabase/migrations/20260810123511_allow_course_one_v2_slide_reads.sql',
   import.meta.url,
 )
-const playerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
+const playerUrl = new URL(
+  '../src/components/AudioLessonPlayer.tsx',
+  import.meta.url,
+)
 
 type Manifest = {
   courseSlug: string
@@ -87,15 +93,24 @@ test('el manifiesto definitivo contiene cinco bloques, cincuenta audios y cien P
           `^course-1/5h-v2/block-${audio.block}/slides/audio-${audio.block}-${String(audio.position).padStart(2, '0')}-slide-0[12]\\.png$`,
         ),
       )
-      assert.ok(!paths.has(slide.storagePath), `Ruta duplicada: ${slide.storagePath}`)
+      assert.ok(
+        !paths.has(slide.storagePath),
+        `Ruta duplicada: ${slide.storagePath}`,
+      )
       paths.add(slide.storagePath)
     }
   }
 
   assert.equal(parts.size, 50)
   assert.equal(paths.size, 100)
-  assert.match(JSON.stringify(manifest), /frecuencia máxima obligatoria de dos años/i)
-  assert.doesNotMatch(JSON.stringify(manifest), /frecuencia máxima obligatoria de cuatro años/i)
+  assert.match(
+    JSON.stringify(manifest),
+    /frecuencia máxima obligatoria de dos años/i,
+  )
+  assert.doesNotMatch(
+    JSON.stringify(manifest),
+    /frecuencia máxima obligatoria de cuatro años/i,
+  )
 })
 
 test('los cincuenta audios están validados, son únicos y tienen contenido aprobado', async () => {
@@ -131,26 +146,36 @@ test('la migración está limitada al Curso 1 de cinco horas y valida todos los 
   assert.match(sql, /No se elimina el sexto módulo porque contiene progreso/)
   assert.match(sql, /name like 'course-1\/5h\/%'/)
   assert.doesNotMatch(sql, /duration_hours\s*=\s*20/)
-  assert.doesNotMatch(sql, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i)
+  assert.doesNotMatch(
+    sql,
+    /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i,
+  )
   assert.doesNotMatch(sql, /@[a-z0-9.-]+\.[a-z]{2,}/i)
 })
 
-test('el reproductor prioriza una diapositiva, la numeración real y el PDF protegido', async () => {
+test('el reproductor conserva la diapositiva, la numeración real y el PDF protegido', async () => {
   const player = await readFile(playerUrl, 'utf8')
 
   assert.match(player, /Parte \{blockPosition\}\.\{activeIndex \+ 1\}/)
-  assert.match(player, /activeSegment\.lesson_segment_slides\[activeSlideIndex\]/)
+  assert.match(
+    player,
+    /activeSegment\.lesson_segment_slides\[activeSlideIndex\]/,
+  )
   assert.match(player, /handleSlideTouchEnd/)
-  assert.match(player, /event\.key === 'ArrowLeft'/)
-  assert.match(player, /event\.key === 'Escape'/)
-  assert.match(player, /resolveSignedUrls\(\s*client,\s*'course-materials',\s*storagePaths,\s*\)/)
+  assert.match(player, /event\.key === ["']ArrowLeft["']/)
+  assert.match(player, /event\.key === ["']Escape["']/)
+  assert.match(
+    player,
+    /resolveSignedUrls\(\s*client,\s*["']course-materials["'],\s*storagePaths,\s*\)/,
+  )
   assert.match(player, /pdfResource\?\.storagePath \?\? null/)
   assert.match(player, /5 \* 60 \* 1000/)
   assert.match(player, /Ver PDF · página/)
   assert.match(player, /rel="noopener noreferrer"/)
   assert.match(player, /aria-label="Cambiar explicación"/)
-  assert.ok(player.indexOf('explanation-switcher') < player.indexOf('lesson-slides'))
-  assert.ok(player.indexOf('lesson-slides') < player.indexOf('panel audio-player'))
+  assert.ok(
+    player.indexOf('explanation-switcher') < player.indexOf('lesson-slides'),
+  )
 })
 
 test('la V2 usa rutas nuevas y solo sustituye las cien diapositivas del Curso 1', async () => {
@@ -160,10 +185,16 @@ test('la V2 usa rutas nuevas y solo sustituye las cien diapositivas del Curso 1'
   assert.match(sql, /uploaded_slide_count <> 100/)
   assert.match(sql, /updated_slide_count not in \(0, 100\)/)
   assert.match(sql, /current_slide_count <> 100/)
-  assert.match(sql, /c(?:ourse)?\.slug = 'operador-maquinaria-arranque-carga-viales'/)
+  assert.match(
+    sql,
+    /c(?:ourse)?\.slug = 'operador-maquinaria-arranque-carga-viales'/,
+  )
   assert.match(sql, /course_version\.duration_hours = 5/)
   assert.match(sql, /module\.position between 1 and 5/)
-  assert.doesNotMatch(sql, /lesson_audio_progress|enrollments|audio_storage_path/)
+  assert.doesNotMatch(
+    sql,
+    /lesson_audio_progress|enrollments|audio_storage_path/,
+  )
 })
 
 test('la política privada permite firmar las diapositivas V2 solo a usuarios autorizados', async () => {

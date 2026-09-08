@@ -5,7 +5,10 @@ import {
   AudioLessonPlayer,
   type LessonAudioSegment,
 } from '../components/AudioLessonPlayer'
-import { SlideDeckViewer, type DeckChapter } from '../components/SlideDeckViewer'
+import {
+  SlideDeckViewer,
+  type DeckChapter,
+} from '../components/SlideDeckViewer'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { relationArray, type Relation } from '../lib/course-content'
@@ -14,11 +17,11 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
 
-export const Route = createFileRoute(
-  '/campus/$enrollmentId/leccion/$lessonId',
-)({
-  component: LessonPage,
-})
+export const Route = createFileRoute('/campus/$enrollmentId/leccion/$lessonId')(
+  {
+    component: LessonPage,
+  },
+)
 
 type Resource = {
   id: string
@@ -66,7 +69,9 @@ type LessonRow = {
     position: number
     title: string
     course_versions: Relation<{
+      id: string
       duration_hours: number
+      course_materials: Relation<Resource>
       courses: Relation<{
         title: string
         slug: string
@@ -82,11 +87,7 @@ function LessonPage() {
   return (
     <ProtectedGate>
       {(user) => (
-        <Lesson
-          user={user}
-          enrollmentId={enrollmentId}
-          lessonId={lessonId}
-        />
+        <Lesson user={user} enrollmentId={enrollmentId} lessonId={lessonId} />
       )}
     </ProtectedGate>
   )
@@ -136,7 +137,7 @@ function Lesson({
             supabase
               .from('lessons')
               .select(
-                'id, title, content_mode, course_modules(position, title, course_versions(duration_hours, courses(title, slug))), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
+                'id, title, content_mode, course_modules(position, title, course_versions(id, duration_hours, course_materials(id, kind, title, storage_path, external_url, downloadable), courses(title, slug))), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
               )
               .eq('id', lessonId)
               .maybeSingle(),
@@ -149,7 +150,7 @@ function Lesson({
             supabase
               .from('lesson_audio_segments')
               .select(
-                'id, position, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
+                'id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
               )
               .eq('lesson_id', lessonId)
               .eq('lesson_audio_progress.enrollment_id', enrollmentId)
@@ -158,7 +159,9 @@ function Lesson({
           ])
 
         const requestError =
-          lessonResponse.error || progressResponse.error || segmentResponse.error
+          lessonResponse.error ||
+          progressResponse.error ||
+          segmentResponse.error
         if (requestError) throw requestError
         if (!active) return
 
@@ -175,7 +178,10 @@ function Lesson({
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
           )
-          const resources = relationArray(row.lesson_resources)
+          const resources = [
+            ...relationArray(row.lesson_resources),
+            ...relationArray(courseVersion?.course_materials),
+          ]
           const segmentRows = (segmentResponse.data ??
             []) as unknown as SegmentRow[]
 
@@ -251,9 +257,7 @@ function Lesson({
               summary: `Presentación de ${totalSlides} diapositivas en ${deckChapters.length} capítulos.`,
             })
             setChapters(deckChapters)
-            setContentCompleted(
-              deckChapters.every((item) => item.completed),
-            )
+            setContentCompleted(deckChapters.every((item) => item.completed))
             return
           }
 
@@ -295,6 +299,7 @@ function Lesson({
   )
 
   const pdfResource =
+    lesson?.resources.find((resource) => resource.kind === 'manual') ??
     lesson?.resources.find((resource) => resource.kind === 'presentation') ??
     lesson?.resources.find((resource) => resource.kind === 'pdf')
   const isSlideLesson = lesson?.contentMode === 'slides'
@@ -303,7 +308,9 @@ function Lesson({
     <AppShell user={user} title={lesson?.title || 'Lección'}>
       <div className="dashboard-heading">
         <div>
-          <span className="label-industrial">Bloque {lesson?.blockPosition}</span>
+          <span className="label-industrial">
+            Bloque {lesson?.blockPosition}
+          </span>
           <h1>{lesson?.title || 'Contenido'}</h1>
           <p>{lesson?.summary}</p>
         </div>
@@ -463,12 +470,20 @@ function getRegulationLabel(courseSlug: string) {
   if (courseSlug.includes('arranque') || courseSlug.includes('carga')) {
     return 'ITC 02.1.02 · ET 2001-1-08'
   }
+  if (
+    courseSlug.includes('perforacion') ||
+    courseSlug.includes('perforadora')
+  ) {
+    return 'ITC 02.1.02 · ET 2003-1-10'
+  }
   return 'Formación preventiva minera'
 }
 
 type SegmentRow = {
   id: string
   position: number
+  lesson_code: string | null
+  manual_chapter: string | null
   title: string
   narration_text: string
   audio_storage_path: string | null
@@ -529,6 +544,8 @@ function resolveSegments(
     return {
       id: segment.id,
       position: segment.position,
+      lessonCode: segment.lesson_code,
+      manualChapter: segment.manual_chapter,
       title: segment.title,
       narrationText: segment.narration_text,
       audioUrl,

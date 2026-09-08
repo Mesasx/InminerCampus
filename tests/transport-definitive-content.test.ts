@@ -10,8 +10,14 @@ const lessonRouteUrl = new URL(
   '../src/routes/campus.$enrollmentId.leccion.$lessonId.tsx',
   import.meta.url,
 )
-const courseRouteUrl = new URL('../src/routes/cursos.$courseSlug.tsx', import.meta.url)
-const audioPlayerUrl = new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url)
+const courseRouteUrl = new URL(
+  '../src/routes/cursos.$courseSlug.tsx',
+  import.meta.url,
+)
+const audioPlayerUrl = new URL(
+  '../src/components/AudioLessonPlayer.tsx',
+  import.meta.url,
+)
 const stylesUrl = new URL('../src/styles/app.css', import.meta.url)
 // La etiqueta de versión («Formación inicial» / «Reciclaje periódico») pasó a
 // `course-seo.ts` al pasar la ficha a SSR: la ruta la consume desde ahí.
@@ -113,9 +119,15 @@ test('preserva audios, progreso, precios, Stripe y autenticación', async () => 
   assert.match(sql, /expected 100 stored audio objects/)
   assert.doesNotMatch(sql, /delete\s+from\s+public\.lesson_audio_segments/i)
   assert.doesNotMatch(sql, /audio_storage_path\s*=/i)
-  assert.doesNotMatch(sql, /\b(?:enrollments|lesson_progress|lesson_audio_progress)\b\s+(?:set|where|values)/i)
+  assert.doesNotMatch(
+    sql,
+    /\b(?:enrollments|lesson_progress|lesson_audio_progress)\b\s+(?:set|where|values)/i,
+  )
   assert.doesNotMatch(sql, /\b(?:price_net|stripe_price_id|auth\.)\b/i)
-  assert.match(sql, /renewal_interval_months = case when cv\.duration_hours=5 then 24/)
+  assert.match(
+    sql,
+    /renewal_interval_months = case when cv\.duration_hours=5 then 24/,
+  )
 })
 
 test('publica un único slide y ambos PDF completos por parte/bloque', async () => {
@@ -123,13 +135,16 @@ test('publica un único slide y ambos PDF completos por parte/bloque', async () 
 
   assert.match(sql, /transport-definitive-20260821/)
   assert.match(sql, /\('presentation', 'presentacion-completa', 1\)/)
-  assert.match(sql, /transport-' \|\| t\.duration_hours \|\| 'h-' \|\| resource\.file_suffix \|\| '\.pdf'/)
+  assert.match(
+    sql,
+    /transport-' \|\| t\.duration_hours \|\| 'h-' \|\| resource\.file_suffix \|\| '\.pdf'/,
+  )
   assert.match(sql, /'explicaciones-completas'/)
   assert.match(sql, /v_segments<>100 or v_slides<>100 or v_notes<>100/)
   assert.match(sql, /required_perfect_streak=3/)
 })
 
-test('la interfaz muestra diapositiva, audio y transcripción en ese orden', async () => {
+test('la interfaz muestra audio, transcripción y diapositiva en el orden formativo', async () => {
   const [lessonRoute, courseRoute, courseSeo, audioPlayer, styles] =
     await Promise.all([
       readFile(lessonRouteUrl, 'utf8'),
@@ -139,16 +154,32 @@ test('la interfaz muestra diapositiva, audio y transcripción en ese orden', asy
       readFile(stylesUrl, 'utf8'),
     ])
 
-  const slideIndex = audioPlayer.indexOf('<section className="lesson-slides"')
-  const audioIndex = audioPlayer.indexOf('<article className="panel audio-player"')
-  const transcriptIndex = audioPlayer.indexOf('<div className="audio-player__script"')
-  assert.ok(slideIndex >= 0 && slideIndex < audioIndex)
+  const audioIndex = audioPlayer.indexOf(
+    '<article className="panel audio-player"',
+  )
+  const transcriptIndex = audioPlayer.indexOf(
+    '<div className="audio-player__script"',
+  )
   assert.ok(audioIndex < transcriptIndex)
-  assert.doesNotMatch(styles, /\.explanation-switcher\s*\{[^}]*\border\s*:/s)
-  assert.doesNotMatch(styles, /\.audio-player\s*\{[^}]*\border\s*:/s)
+  assert.match(
+    styles,
+    /\.audio-lesson > \.audio-player\s*\{[^}]*order:\s*1/s,
+  )
+  assert.match(
+    styles,
+    /\.audio-lesson > \.lesson-slides\s*\{[^}]*order:\s*2/s,
+  )
+  assert.doesNotMatch(
+    styles,
+    /\.explanation-switcher\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
+  )
+  assert.doesNotMatch(
+    styles,
+    /\.audio-player\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
+  )
   assert.match(
     lessonRoute,
-    /find\(\(resource\) => resource\.kind === 'presentation'\)[\s\S]*resource\.kind === 'pdf'/,
+    /find\(\(resource\) => resource\.kind === ["']manual["']\)[\s\S]*resource\.kind === ["']presentation["'][\s\S]*resource\.kind === ["']pdf["']/,
   )
   assert.match(courseSeo, /Reciclaje periódico/)
   assert.match(courseRoute, /versionLabel\(course, version\)/)

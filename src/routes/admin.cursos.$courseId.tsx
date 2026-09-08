@@ -2,6 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { AdminCourseContentEditor } from '../components/AdminCourseContentEditor'
 import { AppShell } from '../components/AppShell'
+import { CourseContentValidationReport } from '../components/CourseContentValidationReport'
+import { CourseMaterialsPanel } from '../components/CourseMaterialsPanel'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
@@ -50,7 +52,9 @@ function CourseEditor({
   const [duration, setDuration] = useState<'5' | '20'>('5')
   const [modality, setModality] = useState('hybrid')
   const [price, setPrice] = useState('')
-  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
+    null,
+  )
   const [message, setMessage] = useState('')
 
   const load = useCallback(async () => {
@@ -59,9 +63,7 @@ function CourseEditor({
     const [{ data: courseRow }, { data: versionRows }] = await Promise.all([
       supabase
         .from('courses')
-        .select(
-          'id, title, short_description, description, specialty, status',
-        )
+        .select('id, title, short_description, description, specialty, status')
         .eq('id', courseId)
         .maybeSingle(),
       supabase
@@ -78,7 +80,7 @@ function CourseEditor({
     setSelectedVersionId((current) =>
       current && nextVersions.some((version) => version.id === current)
         ? current
-        : nextVersions[0]?.id ?? null,
+        : (nextVersions[0]?.id ?? null),
     )
   }, [courseId])
 
@@ -106,17 +108,20 @@ function CourseEditor({
 
   async function createVersion(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const nextNumber = Math.max(0, ...versions.map((item) => item.version_number)) + 1
+    const nextNumber =
+      Math.max(0, ...versions.map((item) => item.version_number)) + 1
     const { error } =
-      (await getSupabaseBrowserClient()?.from('course_versions').insert({
-        course_id: courseId,
-        version_number: nextNumber,
-        duration_hours: Number(duration),
-        modality,
-        price_net: price ? Number(price) : null,
-        status: 'draft',
-        created_by: user.id,
-      })) ?? {}
+      (await getSupabaseBrowserClient()
+        ?.from('course_versions')
+        .insert({
+          course_id: courseId,
+          version_number: nextNumber,
+          duration_hours: Number(duration),
+          modality,
+          price_net: price ? Number(price) : null,
+          status: 'draft',
+          created_by: user.id,
+        })) ?? {}
     setMessage(error ? 'No se ha podido crear la versión.' : 'Versión creada.')
     if (!error) {
       setPrice('')
@@ -132,7 +137,7 @@ function CourseEditor({
           status,
           published_at:
             status === 'published'
-              ? version.published_at ?? new Date().toISOString()
+              ? (version.published_at ?? new Date().toISOString())
               : version.published_at,
         })
         .eq('id', version.id)) ?? {}
@@ -145,6 +150,10 @@ function CourseEditor({
     )
     if (!error) await load()
   }
+
+  const selectedVersion = versions.find(
+    (version) => version.id === selectedVersionId,
+  )
 
   return (
     <AppShell user={user} mode="admin" title="Editor de curso">
@@ -346,11 +355,27 @@ function CourseEditor({
         </section>
       )}
       {selectedVersionId ? (
-        <AdminCourseContentEditor
-          key={selectedVersionId}
-          onNotice={setMessage}
-          versionId={selectedVersionId}
-        />
+        <>
+          <CourseMaterialsPanel
+            admin
+            key={`materials-${selectedVersionId}`}
+            onNotice={setMessage}
+            versionId={selectedVersionId}
+          />
+          {selectedVersion ? (
+            <CourseContentValidationReport
+              durationHours={selectedVersion.duration_hours}
+              key={`audit-${selectedVersionId}`}
+              onNotice={setMessage}
+              versionId={selectedVersionId}
+            />
+          ) : null}
+          <AdminCourseContentEditor
+            key={selectedVersionId}
+            onNotice={setMessage}
+            versionId={selectedVersionId}
+          />
+        </>
       ) : null}
     </AppShell>
   )

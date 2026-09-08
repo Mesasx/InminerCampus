@@ -38,6 +38,8 @@ export type LessonNote = {
 export type AudioSegment = {
   id: string
   position: number
+  lesson_code: string | null
+  manual_chapter: string | null
   title: string
   narration_text: string
   audio_storage_path: string | null
@@ -56,6 +58,8 @@ export type AudioProgress = {
 export type LessonAudioSegment = {
   id: string
   position: number
+  lessonCode: string | null
+  manualChapter: string | null
   title: string
   narrationText: string
   audioUrl: string
@@ -116,6 +120,13 @@ const detailedInformationHeadings = new Set([
   'Errores críticos que deben evitarse',
   'Comprobación antes de continuar',
   'Idea clave',
+  'Idea central',
+  'Definición y alcance',
+  'Fundamento técnico ampliado',
+  'Riesgo que debe comprenderse',
+  'Aplicación operativa',
+  'Criterio de actuación',
+  'Caso razonado',
 ])
 
 const detailedInformationListHeadings = new Set([
@@ -179,7 +190,7 @@ function DetailedSpecificInformation({ text }: { text: string }) {
           )
         }
 
-        if (heading === 'Idea clave') {
+        if (heading === 'Idea clave' || heading === 'Idea central') {
           return (
             <aside
               className="lesson-notes__key"
@@ -241,10 +252,14 @@ export function AudioLessonPlayer({
         ? initialSegments.map((segment) => ({
             id: segment.id,
             position: segment.position,
+            lesson_code: segment.lessonCode,
+            manual_chapter: segment.manualChapter,
             title: segment.title,
             narration_text: segment.narrationText,
             audio_storage_path: segment.audioStoragePath,
-            audio_external_url: segment.audioStoragePath ? null : segment.audioUrl,
+            audio_external_url: segment.audioStoragePath
+              ? null
+              : segment.audioUrl,
             duration_seconds: segment.durationSeconds,
             lesson_segment_slides: segment.slides.map((slide) => ({
               id: slide.id,
@@ -252,7 +267,9 @@ export function AudioLessonPlayer({
               title: slide.title,
               body: slide.body,
               image_storage_path: slide.imageStoragePath,
-              image_external_url: slide.imageStoragePath ? null : slide.imageUrl,
+              image_external_url: slide.imageStoragePath
+                ? null
+                : slide.imageUrl,
               source_label: slide.sourceLabel,
               source_page: slide.sourcePage,
               alt_text: slide.altText,
@@ -269,7 +286,7 @@ export function AudioLessonPlayer({
                 ]
               : [],
           }))
-        : sourceSegments ?? [],
+        : (sourceSegments ?? []),
     [initialSegments, sourceSegments],
   )
   const progress = useMemo<AudioProgress[]>(
@@ -280,7 +297,7 @@ export function AudioLessonPlayer({
             max_position_seconds: segment.maxPositionSeconds,
             completed_at: segment.completed ? new Date(0).toISOString() : null,
           }))
-        : sourceProgress ?? [],
+        : (sourceProgress ?? []),
     [initialSegments, sourceProgress],
   )
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -292,13 +309,17 @@ export function AudioLessonPlayer({
     return !row?.completed_at
   })
   const [activeIndex, setActiveIndex] = useState(
-    initialActiveIndex === -1 ? Math.max(segments.length - 1, 0) : initialActiveIndex,
+    initialActiveIndex === -1
+      ? Math.max(segments.length - 1, 0)
+      : initialActiveIndex,
   )
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [notice, setNotice] = useState('')
   const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null)
   const [pdfOpen, setPdfOpen] = useState(false)
+  const [transcriptOpen, setTranscriptOpen] = useState(false)
+  const [explanationOpen, setExplanationOpen] = useState(false)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
   const [sources, setSources] = useState<Record<string, string>>(() =>
     Object.fromEntries(
@@ -313,25 +334,26 @@ export function AudioLessonPlayer({
     ),
   )
   const [pdfSource, setPdfSource] = useState(pdfResource?.resolvedUrl ?? '')
-  const [segmentState, setSegmentState] = useState<Record<string, SegmentState>>(
-    () =>
-      Object.fromEntries(
-        segments.map((segment) => {
-          const row = progress.find((item) => item.segment_id === segment.id)
-          return [
-            segment.id,
-            {
-              max: row?.max_position_seconds ?? 0,
-              completed: Boolean(row?.completed_at),
-            },
-          ]
-        }),
-      ),
+  const [segmentState, setSegmentState] = useState<
+    Record<string, SegmentState>
+  >(() =>
+    Object.fromEntries(
+      segments.map((segment) => {
+        const row = progress.find((item) => item.segment_id === segment.id)
+        return [
+          segment.id,
+          {
+            max: row?.max_position_seconds ?? 0,
+            completed: Boolean(row?.completed_at),
+          },
+        ]
+      }),
+    ),
   )
 
   const activeSegment = segments[activeIndex]
   const activeState = activeSegment
-    ? segmentState[activeSegment.id] ?? { max: 0, completed: false }
+    ? (segmentState[activeSegment.id] ?? { max: 0, completed: false })
     : { max: 0, completed: false }
 
   const firstIncompleteIndex = useMemo(() => {
@@ -354,7 +376,9 @@ export function AudioLessonPlayer({
       const storagePaths = [
         ...segments.map((segment) => segment.audio_storage_path),
         ...segments.flatMap((segment) =>
-          segment.lesson_segment_slides.map((slide) => slide.image_storage_path),
+          segment.lesson_segment_slides.map(
+            (slide) => slide.image_storage_path,
+          ),
         ),
         pdfResource?.storagePath ?? null,
       ]
@@ -387,11 +411,15 @@ export function AudioLessonPlayer({
 
       setSources((current) => ({
         ...current,
-        ...Object.fromEntries(audioEntries.filter(([, value]) => Boolean(value))),
+        ...Object.fromEntries(
+          audioEntries.filter(([, value]) => Boolean(value)),
+        ),
       }))
       setSlideSources((current) => ({
         ...current,
-        ...Object.fromEntries(imageEntries.filter(([, value]) => Boolean(value))),
+        ...Object.fromEntries(
+          imageEntries.filter(([, value]) => Boolean(value)),
+        ),
       }))
       if (resolvedPdf) setPdfSource(resolvedPdf)
     }
@@ -418,6 +446,8 @@ export function AudioLessonPlayer({
     setPlaying(false)
     setExpandedSlideId(null)
     setActiveSlideIndex(0)
+    setTranscriptOpen(false)
+    setExplanationOpen(false)
   }, [activeSegment?.id])
 
   useEffect(() => {
@@ -459,12 +489,15 @@ export function AudioLessonPlayer({
     if (!activeSegment || previewMode) return
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
-    const { data, error } = await supabase.rpc('record_audio_segment_progress', {
-      p_enrollment_id: enrollmentId,
-      p_segment_id: activeSegment.id,
-      p_position_seconds: Math.floor(position),
-      p_completed: completed,
-    })
+    const { data, error } = await supabase.rpc(
+      'record_audio_segment_progress',
+      {
+        p_enrollment_id: enrollmentId,
+        p_segment_id: activeSegment.id,
+        p_position_seconds: Math.floor(position),
+        p_completed: completed,
+      },
+    )
 
     if (error) {
       setNotice(
@@ -523,7 +556,9 @@ export function AudioLessonPlayer({
         error,
       })
       setPlaying(false)
-      setNotice('No se ha podido reproducir el audio. Recarga la página e inténtalo de nuevo.')
+      setNotice(
+        'No se ha podido reproducir el audio. Recarga la página e inténtalo de nuevo.',
+      )
     }
   }
 
@@ -535,7 +570,10 @@ export function AudioLessonPlayer({
       : activeState.max + 1
     if (nextValue > maxAllowed) {
       setNotice('No puedes adelantar una parte que todavía no has escuchado.')
-      audio.currentTime = Math.min(activeState.max, audio.duration || activeState.max)
+      audio.currentTime = Math.min(
+        activeState.max,
+        audio.duration || activeState.max,
+      )
       return
     }
     setNotice('')
@@ -553,7 +591,9 @@ export function AudioLessonPlayer({
     if (!activeSlide) return
     const source = slideSources[activeSlide.id]
     if (!source) {
-      setNotice('La diapositiva actual todavía no está disponible para descargar.')
+      setNotice(
+        'La diapositiva actual todavía no está disponible para descargar.',
+      )
       return
     }
 
@@ -633,7 +673,10 @@ export function AudioLessonPlayer({
       URL.revokeObjectURL(downloadUrl)
       setNotice('Se ha descargado la diapositiva actual.')
     } catch (error) {
-      console.error('[slide-download] No se pudo descargar la diapositiva', error)
+      console.error(
+        '[slide-download] No se pudo descargar la diapositiva',
+        error,
+      )
       setNotice('No se ha podido descargar la diapositiva. Inténtalo de nuevo.')
     }
   }
@@ -677,7 +720,15 @@ export function AudioLessonPlayer({
     }
     document.addEventListener('keydown', handleSlideKeys)
     return () => document.removeEventListener('keydown', handleSlideKeys)
-  }, [activeIndex, expandedSlideId, firstIncompleteIndex, pdfOpen, previewMode, segmentState, segments])
+  }, [
+    activeIndex,
+    expandedSlideId,
+    firstIncompleteIndex,
+    pdfOpen,
+    previewMode,
+    segmentState,
+    segments,
+  ])
 
   if (!segments.length) {
     return (
@@ -703,11 +754,13 @@ export function AudioLessonPlayer({
   const expandedSlide = activeSegment.lesson_segment_slides.find(
     (slide) => slide.id === expandedSlideId,
   )
-  const activeSpecificText = activeSlide?.body?.trim() || activeNote?.summary || ''
+  const activeSpecificText =
+    activeSlide?.body?.trim() || activeNote?.summary || ''
   const activeSpecificPoints = (activeNote?.key_points ?? []).filter(
     (point) => !activeSpecificText.includes(point),
   )
-  const activeSourceLabel = activeSlide?.source_label || activeNote?.source_label
+  const activeSourceLabel =
+    activeSlide?.source_label || activeNote?.source_label
   const activeSourcePages = [
     activeSlide?.source_page ? `Diapositiva ${activeSlide.source_page}` : null,
     activeNote?.source_pages,
@@ -721,6 +774,8 @@ export function AudioLessonPlayer({
   const pdfViewerUrl = pdfSource
     ? `${pdfSource}${pdfPage ? `#page=${pdfPage}` : ''}`
     : ''
+  const activeCode =
+    activeSegment.lesson_code ?? `${blockPosition}.${activeSegment.position}`
 
   return (
     <section className="audio-lesson" aria-label="Lección en audio">
@@ -738,10 +793,14 @@ export function AudioLessonPlayer({
         <div className="explanation-switcher__content">
           <div className="explanation-switcher__meta">
             <span className="eyebrow">Bloque {blockPosition}</span>
-            <span>{completedParts} de {segments.length} escuchadas</span>
+            <span>
+              {completedParts} de {segments.length} escuchadas
+            </span>
           </div>
           <label className="explanation-switcher__select">
-            <span>Explicación {activeIndex + 1} de {segments.length}</span>
+            <span>
+              Explicación {activeIndex + 1} de {segments.length}
+            </span>
             <select
               aria-label="Cambiar explicación"
               onChange={(event) => selectSegment(Number(event.target.value))}
@@ -750,9 +809,7 @@ export function AudioLessonPlayer({
               {segments.map((segment, index) => {
                 const completed = segmentState[segment.id]?.completed
                 const locked =
-                  !previewMode &&
-                  index > firstIncompleteIndex &&
-                  !completed
+                  !previewMode && index > firstIncompleteIndex && !completed
                 return (
                   <option disabled={locked} key={segment.id} value={index}>
                     {blockPosition}.{index + 1} · {segment.title}
@@ -796,14 +853,17 @@ export function AudioLessonPlayer({
           </div>
           {activeSegment.lesson_segment_slides.length > 1 ? (
             <span className="lesson-slides__counter">
-              {activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}
+              {activeSlideIndex + 1} de{' '}
+              {activeSegment.lesson_segment_slides.length}
             </span>
           ) : null}
         </div>
         {activeSlide ? (
           <article
             className="lesson-slide lesson-slide--stage"
-            onTouchEnd={(event) => handleSlideTouchEnd(event.changedTouches[0].clientX)}
+            onTouchEnd={(event) =>
+              handleSlideTouchEnd(event.changedTouches[0].clientX)
+            }
             onTouchStart={(event) => {
               touchStartXRef.current = event.changedTouches[0].clientX
             }}
@@ -822,10 +882,14 @@ export function AudioLessonPlayer({
                   width={SLIDE_INTRINSIC_WIDTH}
                 />
               ) : (
-                <div className="lesson-slide__missing">Diapositiva no disponible</div>
+                <div className="lesson-slide__missing">
+                  Diapositiva no disponible
+                </div>
               )}
             </div>
-            <div className={`lesson-slide__toolbar${activeSegment.lesson_segment_slides.length === 1 ? ' lesson-slide__toolbar--single' : ''}`}>
+            <div
+              className={`lesson-slide__toolbar${activeSegment.lesson_segment_slides.length === 1 ? ' lesson-slide__toolbar--single' : ''}`}
+            >
               {activeSegment.lesson_segment_slides.length > 1 ? (
                 <>
                   <button
@@ -837,12 +901,16 @@ export function AudioLessonPlayer({
                   >
                     <ChevronLeft size={20} />
                   </button>
-                  <span>{activeSlideIndex + 1} de {activeSegment.lesson_segment_slides.length}</span>
+                  <span>
+                    {activeSlideIndex + 1} de{' '}
+                    {activeSegment.lesson_segment_slides.length}
+                  </span>
                   <button
                     aria-label="Diapositiva siguiente"
                     className="icon-button"
                     disabled={
-                      activeSlideIndex >= activeSegment.lesson_segment_slides.length - 1
+                      activeSlideIndex >=
+                      activeSegment.lesson_segment_slides.length - 1
                     }
                     onClick={() => selectSlide(activeSlideIndex + 1)}
                     type="button"
@@ -878,7 +946,9 @@ export function AudioLessonPlayer({
             <Volume2 aria-hidden="true" size={18} />
             <div>
               <span className="eyebrow">Audio explicativo</span>
-              <strong>Parte {blockPosition}.{activeIndex + 1}</strong>
+              <strong>
+                Parte {blockPosition}.{activeIndex + 1} · Unidad {activeCode}
+              </strong>
             </div>
           </div>
           <span className="status">
@@ -900,7 +970,10 @@ export function AudioLessonPlayer({
           onLoadedMetadata={(event) => {
             const resumeAt = activeState.completed
               ? 0
-              : Math.min(activeState.max, Math.max(event.currentTarget.duration - 1, 0))
+              : Math.min(
+                  activeState.max,
+                  Math.max(event.currentTarget.duration - 1, 0),
+                )
             event.currentTarget.currentTime = resumeAt
             lastReportedRef.current = resumeAt
             setCurrentTime(resumeAt)
@@ -909,7 +982,9 @@ export function AudioLessonPlayer({
           onPlay={() => setPlaying(true)}
           onError={() => {
             setPlaying(false)
-            setNotice('El navegador no ha podido cargar este audio. Recarga la página e inténtalo de nuevo.')
+            setNotice(
+              'El navegador no ha podido cargar este audio. Recarga la página e inténtalo de nuevo.',
+            )
           }}
           onRateChange={(event) => {
             event.currentTarget.playbackRate = 1
@@ -917,10 +992,7 @@ export function AudioLessonPlayer({
           onTimeUpdate={(event) => {
             const next = event.currentTarget.currentTime
             setCurrentTime(next)
-            if (
-              !activeState.completed &&
-              next - lastReportedRef.current >= 4
-            ) {
+            if (!activeState.completed && next - lastReportedRef.current >= 4) {
               lastReportedRef.current = next
               void reportProgress(next)
             }
@@ -971,8 +1043,23 @@ export function AudioLessonPlayer({
 
         {activeSegment.narration_text ? (
           <div className="audio-player__script">
-            <span className="eyebrow">Transcripción del audio</span>
-            <p>{activeSegment.narration_text}</p>
+            <button
+              aria-expanded={transcriptOpen}
+              className="button button--outline"
+              onClick={() => setTranscriptOpen((current) => !current)}
+              type="button"
+            >
+              <FileText size={17} />
+              {transcriptOpen ? 'Ocultar transcripción' : 'Ver transcripción'}
+            </button>
+            {transcriptOpen ? (
+              <div className="audio-player__script-content">
+                <span className="eyebrow">
+                  Transcripción del audio · texto exacto
+                </span>
+                <p>{activeSegment.narration_text}</p>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </article>
@@ -981,43 +1068,62 @@ export function AudioLessonPlayer({
         <section className="panel lesson-notes">
           <div className="panel__header">
             <div>
-              <span className="eyebrow">Parte {blockPosition}.{activeIndex + 1}</span>
+              <span className="eyebrow">
+                Información específica de la diapositiva · Unidad {activeCode}
+              </span>
               <h2>
-                Información específica de la diapositiva {blockPosition}.
-                {activeIndex + 1}
+                Explicación detallada ·{' '}
+                {activeSegment.manual_chapter || activeSegment.title}
               </h2>
             </div>
           </div>
-          <DetailedSpecificInformation text={activeSpecificText} />
-          {activeSpecificPoints.length ? (
-            <ul>
-              {activeSpecificPoints.map((point) => <li key={point}>{point}</li>)}
-            </ul>
-          ) : null}
-          {activeNote?.stop_criterion ? (
-            <div className="lesson-notes__stop">
-              <strong>Criterio preventivo o de parada</strong>
-              <p>{activeNote.stop_criterion}</p>
-            </div>
-          ) : null}
-          {activeSourceLabel ? (
-            <p className="lesson-notes__source">
-              Fuente: {activeSourceLabel}
-            </p>
-          ) : null}
-          {activeSourcePages ? (
-            <p className="lesson-notes__source">
-              Referencias relacionadas: {activeSourcePages}
-            </p>
-          ) : null}
           <button
-            className="button button--outline lesson-notes__pdf"
-            disabled={!pdfViewerUrl}
-            onClick={() => setPdfOpen(true)}
+            aria-expanded={explanationOpen}
+            className="button button--primary lesson-notes__expand"
+            onClick={() => setExplanationOpen((current) => !current)}
             type="button"
           >
-            <FileText size={18} /> {pdfLabel}
+            <FileText size={18} />
+            {explanationOpen
+              ? 'Ocultar explicación'
+              : 'Leer explicación completa'}
           </button>
+          {explanationOpen ? (
+            <div className="lesson-notes__expanded">
+              <DetailedSpecificInformation text={activeSpecificText} />
+              {activeSpecificPoints.length ? (
+                <ul>
+                  {activeSpecificPoints.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {activeNote?.stop_criterion ? (
+                <div className="lesson-notes__stop">
+                  <strong>Criterio preventivo o de parada</strong>
+                  <p>{activeNote.stop_criterion}</p>
+                </div>
+              ) : null}
+              {activeSourceLabel ? (
+                <p className="lesson-notes__source">
+                  Fuente: {activeSourceLabel}
+                </p>
+              ) : null}
+              {activeSourcePages ? (
+                <p className="lesson-notes__source">
+                  Referencias relacionadas: {activeSourcePages}
+                </p>
+              ) : null}
+              <button
+                className="button button--outline lesson-notes__pdf"
+                disabled={!pdfViewerUrl}
+                onClick={() => setPdfOpen(true)}
+                type="button"
+              >
+                <FileText size={18} /> {pdfLabel}
+              </button>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
@@ -1065,7 +1171,9 @@ export function AudioLessonPlayer({
                 width={SLIDE_INTRINSIC_WIDTH}
               />
             ) : null}
-            <span className="lesson-slide-modal__hint">Pulsa ESC para salir</span>
+            <span className="lesson-slide-modal__hint">
+              Pulsa ESC para salir
+            </span>
           </article>
         </div>
       ) : null}
