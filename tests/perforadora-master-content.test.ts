@@ -54,6 +54,10 @@ const establecimientosImporterPath = new URL(
   '../scripts/import-establecimientos-master-content.mjs',
   import.meta.url,
 )
+const establecimientosAdminAccessMigration = new URL(
+  '../supabase/migrations/20260908084326_grant_establecimientos_admin_preview_access.sql',
+  import.meta.url,
+)
 
 test('el modelo conserva cinco bloques y añade identidad estable y materiales por versión', async () => {
   const sql = await readFile(schemaMigration, 'utf8')
@@ -222,6 +226,20 @@ test('el importador de establecimientos separa las locuciones de 5 y 20 horas', 
   assert.match(importer, /versions\.length !== 2 \|\| units\.length !== 100/)
   assert.match(importer, /lesson_segment_notes/)
   assert.match(importer, /approved: true/)
+})
+
+test('los administradores pueden revisar establecimientos sin publicarlo', async () => {
+  const migration = await readFile(
+    establecimientosAdminAccessMigration,
+    'utf8',
+  )
+
+  assert.match(migration, /'operadores-establecimientos-beneficio'/)
+  assert.match(migration, /'administrador'::public\.app_role/)
+  assert.match(migration, /'superadministrador'::public\.app_role/)
+  assert.match(migration, /'establecimientos_draft_preview'/)
+  assert.match(migration, /on conflict \(user_id, course_version_id\) do nothing/)
+  assert.doesNotMatch(migration, /status\s*=\s*'published'/)
 })
 
 test('el test aportado de transporte conserva 30 preguntas y 10 por intento', async () => {
