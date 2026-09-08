@@ -14,7 +14,8 @@ const selectedKeys = new Set(
     [
       'perforadora-manual',
       'arranque-manual',
-      'arranque-slides',
+      'arranque-5h-slides',
+      'arranque-20h-slides',
       'transporte-5h-manual',
       'transporte-5h-slides',
       'transporte-20h-manual',
@@ -23,6 +24,7 @@ const selectedKeys = new Set(
       'silice-3h-slides',
       'silice-20h-slides',
       'establecimientos-manual',
+      'establecimientos-5h-slides',
     ].join(',')
   )
     .split(',')
@@ -57,18 +59,34 @@ const materials = [
     contentType: 'application/pdf',
   },
   {
-    key: 'arranque-slides',
+    key: 'arranque-5h-slides',
     slug: 'operador-maquinaria-arranque-carga-viales',
-    durations: [5, 20],
+    durations: [5],
     kind: 'presentation',
     title: 'Presentación del curso',
     description:
       'Diapositivas utilizadas durante el desarrollo de la formación.',
-    pageCount: 51,
+    pageCount: 100,
     file: resolve(
       root,
       'Curso 1 Operador de Maquinaria de Arranque, Cargas y viales',
-      'Operador-de-Maquinaria-de-Arranque-Carga-y-Viales.pdf',
+      'Curso-1-V2-IMAGENES-Y-LOGO-CORREGIDO.pdf',
+    ),
+    contentType: 'application/pdf',
+  },
+  {
+    key: 'arranque-20h-slides',
+    slug: 'operador-maquinaria-arranque-carga-viales',
+    durations: [20],
+    kind: 'presentation',
+    title: 'Presentación del curso',
+    description:
+      'Presentación completa de las 50 unidades de la formación inicial de 20 horas.',
+    pageCount: 50,
+    file: resolve(
+      root,
+      'Diapositivas cursos',
+      'Curso_4_Maquinaria_Arranque_20h_INMINER_50_diapositivas.pdf',
     ),
     contentType: 'application/pdf',
   },
@@ -96,12 +114,11 @@ const materials = [
     kind: 'presentation',
     title: 'Presentación del curso',
     description: 'Diapositivas utilizadas durante el curso de reciclaje de 5 horas.',
-    pageCount: 55,
+    pageCount: 100,
     file: resolve(
       root,
-      'Curso Transporte',
-      '5 horas',
-      'Curso_2_Transporte_5h__INMINER.pdf',
+      'Curso 2',
+      'Curso-2-Completo-Diapositivas.pdf',
     ),
     contentType: 'application/pdf',
   },
@@ -124,12 +141,11 @@ const materials = [
     kind: 'presentation',
     title: 'Presentación del curso',
     description: 'Diapositivas utilizadas durante la formación inicial de 20 horas.',
-    pageCount: 50,
+    pageCount: 100,
     file: resolve(
       root,
-      'Curso Transporte',
-      '20 horas',
-      'Curso_5_Maquinaria_Transporte_20h_INMINER.pdf',
+      'Diapositivas cursos',
+      'Curso_5_Transporte_Camion_y_Volquete_InminerCampus_FOTOS_GENERADAS.pdf',
     ),
     contentType: 'application/pdf',
   },
@@ -185,6 +201,22 @@ const materials = [
     file: resolve(root, 'Manual_Establecimientos_Beneficio_Inminer_Campus (2).pdf'),
     contentType: 'application/pdf',
   },
+  {
+    key: 'establecimientos-5h-slides',
+    slug: 'operadores-establecimientos-beneficio',
+    durations: [5],
+    kind: 'presentation',
+    title: 'Presentación del curso',
+    description:
+      'Presentación completa de las 50 unidades del curso de reciclaje de 5 horas.',
+    pageCount: 100,
+    file: resolve(
+      root,
+      'Diapositivas cursos',
+      'Curso_3_Establecimiento_Beneficio_InminerCampus_5h.pdf',
+    ),
+    contentType: 'application/pdf',
+  },
 ]
 
 const selected = materials.filter((material) => selectedKeys.has(material.key))
@@ -225,7 +257,7 @@ if (dryRun) {
   process.exit(0)
 }
 
-const supabaseUrl = process.env.SUPABASE_URL
+const supabaseUrl = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 if (!supabaseUrl || !serviceRoleKey) {
   throw new Error('Faltan SUPABASE_URL y/o SUPABASE_SERVICE_ROLE_KEY.')

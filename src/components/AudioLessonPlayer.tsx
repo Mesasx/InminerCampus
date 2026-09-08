@@ -319,7 +319,9 @@ export function AudioLessonPlayer({
   const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null)
   const [pdfOpen, setPdfOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
-  const [explanationOpen, setExplanationOpen] = useState(false)
+  // La explicación forma parte del contenido principal de estudio: debe estar
+  // visible al entrar en la unidad, aunque el alumno pueda plegarla después.
+  const [explanationOpen, setExplanationOpen] = useState(true)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
   const [sources, setSources] = useState<Record<string, string>>(() =>
     Object.fromEntries(
@@ -447,7 +449,7 @@ export function AudioLessonPlayer({
     setExpandedSlideId(null)
     setActiveSlideIndex(0)
     setTranscriptOpen(false)
-    setExplanationOpen(false)
+    setExplanationOpen(true)
   }, [activeSegment?.id])
 
   useEffect(() => {
