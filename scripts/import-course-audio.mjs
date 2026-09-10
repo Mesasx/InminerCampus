@@ -10,9 +10,21 @@ const concurrency = 6
 
 const courseMappings = [
   {
+    // El reciclaje de arranque quedó con el juego definitivo de locuciones que
+    // vive en «Operador maquinaria de Arranque cargas y viales 5 horas mod», con
+    // las cincuenta unidades del manual maestro. Esta carpeta antigua mezclaba
+    // dos temarios: su bloque 1 seguía otra secuencia y las partes 2.1 y 2.2
+    // pertenecían al curso de transporte. Se ignora para que una reimportación
+    // no vuelva a pisarlas.
     pattern: /^curso 1\b/i,
-    slug: 'operador-maquinaria-arranque-carga-viales',
-    durationHours: 5,
+    skip: 'el reciclaje de arranque usa el juego definitivo de 5 horas mod',
+  },
+  {
+    // Numera las pistas como «1.10_Titulo.mp3», que no encaja con el patrón
+    // «parte-1.10-…» de este importador. Las sube
+    // scripts/sync-arranque-5h-final-audio.mjs.
+    pattern: /^operador maquinaria de arranque/i,
+    skip: 'lo sube sync-arranque-5h-final-audio.mjs',
   },
   {
     pattern: /^curso 2\b/i,

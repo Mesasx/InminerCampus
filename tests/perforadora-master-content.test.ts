@@ -382,10 +382,14 @@ test('el importador de audio dirige cada carpeta a una modalidad que existe', as
     }
   }
 
-  // El curso 9 resuelve su modalidad leyendo el subdirectorio y el 6 se omite
-  // entero; toda carpeta restante declara su duración de forma explícita.
+  // El curso 9 resuelve su modalidad leyendo el subdirectorio; el 1 y el 6 se
+  // omiten enteros y toda carpeta restante declara su duración de forma
+  // explícita. El 1 se omite porque el reciclaje de arranque pasó a su juego
+  // definitivo de locuciones, que sube su propio script.
   assert.equal(mappings.filter(({ fromFolder }) => fromFolder).length, 1)
-  assert.equal(mappings.filter(({ skipped }) => skipped).length, 1)
+  assert.equal(mappings.filter(({ skipped }) => skipped).length, 2)
+  assert.match(importer, /pattern: \/\^operador maquinaria de arranque\/i/)
+  assert.match(importer, /skip: 'lo sube sync-arranque-5h-final-audio\.mjs'/)
   assert.equal(
     mappings.filter(
       ({ durationHours, fromFolder, skipped }) =>
