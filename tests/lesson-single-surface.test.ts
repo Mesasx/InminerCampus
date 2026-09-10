@@ -54,15 +54,29 @@ test('la explicación se lee sin desplegar y la transcripción va plegada', asyn
   assert.match(player, /aria-expanded=\{transcriptOpen\}/)
 })
 
-test('el alto del visor se limita para que quepa con su barra en pantalla', async () => {
+test('el visor aprovecha el ancho de la lección y conserva la proporción', async () => {
   const styles = await readFile(stylesUrl, 'utf8')
 
   // El ancho del visor se deriva de la altura libre, de modo que diapositiva y
   // barra entren sin desplazamiento en un portátil normal.
-  assert.match(styles, /\.lesson-slides \{[^}]*100dvh/s)
+  assert.match(styles, /\.lesson-slides \{[^}]*1500px/s)
+  assert.match(styles, /\.app-content--lesson \{[^}]*1540px/s)
   assert.match(styles, /\.lesson-slide__canvas \{[^}]*aspect-ratio: 16 \/ 9/s)
   // Una columna acotada impide que un texto sin cortes desborde en móvil.
   assert.match(styles, /\.audio-lesson \{[^}]*grid-template-columns: minmax\(0, 1fr\)/s)
+})
+
+test('fullscreen muestra sólo la imagen completa y un cierre discreto', async () => {
+  const [player, styles] = await Promise.all([
+    readFile(playerUrl, 'utf8'),
+    readFile(stylesUrl, 'utf8'),
+  ])
+
+  const fullscreen = player.slice(player.indexOf('{expandedSlide &&'))
+  assert.match(fullscreen, /className="lesson-slide--expanded"/)
+  assert.doesNotMatch(fullscreen.split('{pdfOpen')[0], /<SlideIdentity/)
+  assert.match(styles, /\.lesson-slide--expanded img \{[^}]*object-fit: contain/s)
+  assert.match(styles, /\.lesson-slide-modal \{[^}]*overflow: hidden/s)
 })
 
 test('la cabecera de la lección no compite con la diapositiva', async () => {

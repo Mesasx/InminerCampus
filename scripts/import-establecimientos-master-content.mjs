@@ -111,6 +111,11 @@ function parseChapter(code) {
   const shortMarker = 'LOCUCIÓN ALTERNATIVA · RECICLAJE 5 H'
   const longIndex = lines.findIndex((line) => line.trim() === longMarker)
   const shortIndex = lines.findIndex((line) => line.trim() === shortMarker)
+  const developmentIndex = lines.findIndex(
+    (line, index) =>
+      index > longIndex &&
+      line.trim() === `UNIDAD ${code} · DESARROLLO Y APLICACIÓN`,
+  )
   const criterionIndex = lines.findIndex(
     (line, index) =>
       index > shortIndex && line.trim() === 'CRITERIO PREVENTIVO ESENCIAL',
@@ -119,7 +124,11 @@ function parseChapter(code) {
     (line, index) =>
       index > criterionIndex && line.trim() === 'FUENTES ESPECÍFICAS DEL CAPÍTULO',
   )
-  if ([longIndex, shortIndex, criterionIndex, sourcesIndex].some((i) => i < 0)) {
+  if (
+    [longIndex, developmentIndex, shortIndex, criterionIndex, sourcesIndex].some(
+      (i) => i < 0,
+    )
+  ) {
     throw new Error(`Estructura editorial incompleta en ${code}.`)
   }
 
@@ -129,7 +138,8 @@ function parseChapter(code) {
     if (line.trim() && !line.startsWith('  ')) break
     bodyStart += 1
   }
-  const body = paragraphs(lines.slice(bodyStart, shortIndex))
+  const body = paragraphs(lines.slice(bodyStart, developmentIndex))
+  const applied = paragraphs(lines.slice(developmentIndex + 1, shortIndex))
   const criterion = paragraphs(lines.slice(criterionIndex + 1, sourcesIndex))
   const sources = paragraphs(lines.slice(sourcesIndex + 1))
   const pageNumbers = [
@@ -142,8 +152,14 @@ function parseChapter(code) {
     title,
     transcript20h: extractNarration(lines, longMarker, 'long'),
     transcript5h: extractNarration(lines, shortMarker, 'short'),
+    baseExplanation: `Explicación detallada\n${body}`,
+    appliedExplanation: [
+      `Aplicación práctica\n${applied}`,
+      `Idea clave\n${criterion}`,
+    ].join('\n\n'),
     explanation: [
       body,
+      applied,
       `Criterio de actuación\n${criterion}`,
       `Referencias o fuentes del capítulo\n${sources}`,
     ]
@@ -173,7 +189,8 @@ if (dryRun) {
       title: chapter.title,
       transcript5h: chapter.transcript5h.length,
       transcript20h: chapter.transcript20h.length,
-      explanation: chapter.explanation.length,
+      slide1: chapter.baseExplanation.length,
+      slide2: chapter.appliedExplanation.length,
       pages: chapter.sourcePages,
     })),
   )
@@ -192,7 +209,7 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 const { data: course, error: courseError } = await supabase
   .from('courses')
   .select(
-    'id, course_versions(id, duration_hours, course_modules(id, position, lessons(id, lesson_audio_segments(id, position, lesson_code, title))))',
+      'id, course_versions(id, duration_hours, course_modules(id, position, lessons(id, lesson_audio_segments(id, position, lesson_code, title, audio_storage_path, audio_external_url))))',
   )
   .eq('slug', COURSE_SLUG)
   .single()
@@ -233,6 +250,7 @@ for (const unit of units) {
           ? chapter.transcript20h
           : chapter.transcript5h,
       manual_chapter: `Capítulo ${chapter.code}`,
+      published: Boolean(unit.audio_storage_path || unit.audio_external_url),
     })
     .eq('id', unit.id)
   if (segmentError) throw segmentError
@@ -250,6 +268,39 @@ for (const unit of units) {
     { onConflict: 'segment_id' },
   )
   if (noteError) throw noteError
+
+  const slidePrefix = `${versions.find((version) => version.duration_hours === unit.durationHours)?.id}/slides/establecimientos-${unit.durationHours}h-2026/${chapter.code}`
+  const sourceLabel = `Establecimientos de beneficio · presentación ${unit.durationHours} h Inmíner Campus`
+  const { error: slidesError } = await supabase
+    .from('lesson_segment_slides')
+    .upsert(
+      [
+        {
+          segment_id: unit.id,
+          position: 1,
+          title: chapter.title,
+          body: chapter.baseExplanation,
+          image_storage_path: `${slidePrefix}/slide-01.png`,
+          image_external_url: null,
+          source_label: sourceLabel,
+          source_page: 'Diapositiva 1',
+          alt_text: `Diapositiva 1 de la unidad ${chapter.code}`,
+        },
+        {
+          segment_id: unit.id,
+          position: 2,
+          title: `Aplicación segura · ${chapter.title}`,
+          body: chapter.appliedExplanation,
+          image_storage_path: `${slidePrefix}/slide-02.png`,
+          image_external_url: null,
+          source_label: sourceLabel,
+          source_page: 'Diapositiva 2',
+          alt_text: `Diapositiva 2 de la unidad ${chapter.code}`,
+        },
+      ],
+      { onConflict: 'segment_id,position' },
+    )
+  if (slidesError) throw slidesError
 }
 
 console.log('Contenido maestro de establecimientos de beneficio importado.')

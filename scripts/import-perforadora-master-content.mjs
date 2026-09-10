@@ -269,9 +269,12 @@ async function main() {
 
   const notes = units.map((unit) => {
     const code = unit.lesson_code
-    const explanation = extractExplanation(code, unit.title)
+    const title = extractChapterTitle(code)
+    const explanation = extractExplanation(code, title)
     const sourcePages = unit.lesson_segment_slides?.[0]?.source_page ?? ''
     return {
+      title,
+      code,
       segment_id: unit.id,
       summary: explanation,
       key_points: [extractSection(explanation, 'Idea central')].filter(Boolean),
@@ -297,9 +300,27 @@ async function main() {
   if (dryRun) return
 
   for (let index = 0; index < notes.length; index += 20) {
+    const updates = notes.slice(index, index + 20).map((note) =>
+      supabase
+        .from('lesson_audio_segments')
+        .update({
+          title: note.title,
+          manual_chapter: `Capítulo ${note.code}`,
+        })
+        .eq('id', note.segment_id),
+    )
+    const results = await Promise.all(updates)
+    const failed = results.find((result) => result.error)
+    if (failed?.error) throw failed.error
+  }
+
+  for (let index = 0; index < notes.length; index += 20) {
+    const noteRows = notes.slice(index, index + 20).map(
+      ({ title: _title, code: _code, ...note }) => note,
+    )
     const { error } = await supabase
       .from('lesson_segment_notes')
-      .upsert(notes.slice(index, index + 20), { onConflict: 'segment_id' })
+      .upsert(noteRows, { onConflict: 'segment_id' })
     if (error) throw error
   }
   for (const version of versions) await uploadManual(version)

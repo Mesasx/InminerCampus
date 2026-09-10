@@ -305,7 +305,11 @@ function Lesson({
   const isSlideLesson = lesson?.contentMode === 'slides'
 
   return (
-    <AppShell user={user} title={lesson?.title || 'Lección'}>
+    <AppShell
+      contentClassName="app-content--lesson"
+      user={user}
+      title={lesson?.title || 'Lección'}
+    >
       {/* Cabecera reducida: el bloque se identifica en una línea y el nombre
           de cada unidad lo lleva ya el propio visor, así que aquí no se repite
           un titular grande que empujaría la diapositiva fuera de pantalla. */}
