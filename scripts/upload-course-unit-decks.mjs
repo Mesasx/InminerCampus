@@ -57,6 +57,11 @@ const decks = [
     // Cada bloque abre con una página divisoria antes de sus diez unidades.
     pageForUnit: (index) => index + 2 + Math.floor(index / 10),
     headingCode: headingCodePatterns.rotulo,
+    // Sólo el reciclaje. La formación inicial de 20 h tiene sus propias
+    // unidades y su propia presentación de 100 páginas, que sincroniza
+    // `sync-transport-20h-unit-slides.mjs`; aplicarle este deck le dejaba las
+    // imágenes y los números de página del temario de 5 h.
+    durations: [5],
   },
   {
     key: 'perforadora',
@@ -164,13 +169,18 @@ async function getVersions(deck) {
     .eq('slug', deck.slug)
     .single()
   if (courseError) throw courseError
+  const durations = deck.durations ?? [5, 20]
   const { data, error } = await supabase
     .from('course_versions')
     .select('id, duration_hours')
     .eq('course_id', course.id)
-    .in('duration_hours', [5, 20])
+    .in('duration_hours', durations)
   if (error) throw error
-  if (data.length !== 2) throw new Error('No se encontraron las versiones 5 h y 20 h.')
+  if (data.length !== durations.length) {
+    throw new Error(
+      `No se encontraron las versiones de ${durations.join(' h y ')} h de ${deck.slug}.`,
+    )
+  }
   return data
 }
 
