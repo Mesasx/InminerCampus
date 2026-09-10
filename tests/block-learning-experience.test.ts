@@ -35,7 +35,7 @@ test('single-slide explanations hide useless slide navigation', () => {
   assert.match(player, /Descargar diapositiva/)
 })
 
-test('keyboard arrows navigate explanations and fullscreen exits only with Escape', () => {
+test('keyboard arrows navigate explanations and fullscreen has accessible exits', () => {
   assert.match(
     player,
     /event\.key === ["']ArrowLeft["'][\s\S]*selectSegment\(activeIndex - 1\)/,
@@ -45,8 +45,10 @@ test('keyboard arrows navigate explanations and fullscreen exits only with Escap
     /event\.key === ["']ArrowRight["'][\s\S]*selectSegment\(activeIndex \+ 1\)/,
   )
   assert.match(player, /event\.key === ["']Escape["']/)
-  assert.match(player, /Pulsa ESC para salir/)
-  assert.doesNotMatch(player, /aria-label="Cerrar diapositiva"/)
+  assert.match(player, /aria-label="Cerrar pantalla completa"/)
+  assert.match(player, /document\.body\.style\.overflow = 'hidden'/)
+  assert.match(player, /document\.body\.style\.overflow = previousBodyOverflow/)
+  assert.match(player, /createPortal/)
 })
 
 test('slides show and download their course, regulation, and block numbering', () => {

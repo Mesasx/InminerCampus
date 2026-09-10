@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
@@ -497,10 +498,15 @@ export function AudioLessonPlayer({
     if (!dialogOpen) return
     const dialog = dialogRef.current
     const previousFocus = document.activeElement as HTMLElement | null
+    const previousBodyOverflow = document.body.style.overflow
+    const previousRootOverflow = document.documentElement.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
     const focusable = dialog?.querySelectorAll<HTMLElement>(
       'button:not(:disabled), a[href], iframe, [tabindex]:not([tabindex="-1"])',
     )
-    focusable?.[0]?.focus()
+    const initialFocusTarget = focusable?.[0] ?? dialog
+    initialFocusTarget?.focus()
 
     function handleDialogKey(event: KeyboardEvent) {
       if (event.key === 'Escape') {
@@ -523,6 +529,8 @@ export function AudioLessonPlayer({
     document.addEventListener('keydown', handleDialogKey)
     return () => {
       document.removeEventListener('keydown', handleDialogKey)
+      document.body.style.overflow = previousBodyOverflow
+      document.documentElement.style.overflow = previousRootOverflow
       previousFocus?.focus()
     }
   }, [expandedSlideId, pdfOpen])
@@ -1171,34 +1179,39 @@ export function AudioLessonPlayer({
         </button>
       </div>
 
-      {expandedSlide ? (
-        <div
-          aria-label={expandedSlide.title}
-          aria-modal="true"
-          className="lesson-slide-modal"
-          ref={dialogRef}
-          role="dialog"
-        >
-          <article className="lesson-slide lesson-slide--expanded">
-            <SlideIdentity
-              courseTitle={courseTitle}
-              numbering={`${blockPosition}.${activeIndex + 1}`}
-              regulationLabel={regulationLabel}
-            />
-            {slideSources[expandedSlide.id] ? (
-              <img
-                alt={expandedSlide.alt_text ?? expandedSlide.title}
-                height={SLIDE_INTRINSIC_HEIGHT}
-                src={slideSources[expandedSlide.id]}
-                width={SLIDE_INTRINSIC_WIDTH}
-              />
-            ) : null}
-            <span className="lesson-slide-modal__hint">
-              Pulsa ESC para salir
-            </span>
-          </article>
-        </div>
-      ) : null}
+      {expandedSlide && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              aria-label={`Diapositiva a pantalla completa: ${expandedSlide.title}`}
+              aria-modal="true"
+              className="lesson-slide-modal"
+              ref={dialogRef}
+              role="dialog"
+              tabIndex={-1}
+            >
+              <button
+                aria-label="Cerrar pantalla completa"
+                className="icon-button lesson-slide-modal__close"
+                onClick={() => setExpandedSlideId(null)}
+                title="Cerrar"
+                type="button"
+              >
+                <X size={24} />
+              </button>
+              <div className="lesson-slide--expanded">
+                {slideSources[expandedSlide.id] ? (
+                  <img
+                    alt={expandedSlide.alt_text ?? expandedSlide.title}
+                    height={SLIDE_INTRINSIC_HEIGHT}
+                    src={slideSources[expandedSlide.id]}
+                    width={SLIDE_INTRINSIC_WIDTH}
+                  />
+                ) : null}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
 
       {pdfOpen && pdfViewerUrl ? (
         <div

@@ -54,11 +54,13 @@ export function AppShell({
   user,
   mode = 'student',
   title,
+  contentClassName,
   children,
 }: {
   user: SessionUser
   mode?: ShellMode
   title: string
+  contentClassName?: string
   children: ReactNode
 }) {
   const navigate = useNavigate()
@@ -137,7 +139,11 @@ export function AppShell({
             </button>
             <span className="app-shell-context__title">{title}</span>
           </div>
-          <div className="app-content">{children}</div>
+          <div
+            className={`app-content${contentClassName ? ` ${contentClassName}` : ''}`}
+          >
+            {children}
+          </div>
         </main>
         <Footer />
       </>
@@ -269,7 +275,11 @@ export function AppShell({
           </div>
           <span className="muted">{user.firstName || user.email}</span>
         </header>
-        <main className="app-content">{children}</main>
+        <main
+          className={`app-content${contentClassName ? ` ${contentClassName}` : ''}`}
+        >
+          {children}
+        </main>
         <footer className="app-credit">
           Plataforma creada por{' '}
           <a

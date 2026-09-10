@@ -1764,6 +1764,13 @@ span {
   padding-block: 46px 70px;
 }
 
+/* La lección puede aprovechar pantallas anchas sin ensanchar el resto del
+   campus. El texto conserva su propia medida de lectura más abajo. */
+.app-content--lesson {
+  width: min(1540px, calc(100% - clamp(24px, 4vw, 68px)));
+  padding-top: 30px;
+}
+
 .app-shell-context {
   display: flex;
   width: min(1220px, calc(100% - 68px));
@@ -2713,11 +2720,11 @@ span {
   font-variant-numeric: tabular-nums;
 }
 
-/* El ancho del visor se limita también por la altura disponible, de forma que
-   la diapositiva completa y su barra de audio quepan en pantalla sin
-   desplazamientos absurdos. */
+/* La diapositiva utiliza todo el ancho disponible de la lección. La lectura y
+   la navegación mantienen debajo su medida estrecha, pero el material visual
+   deja de encogerse en portátiles por una restricción basada en la altura. */
 .lesson-slides {
-  width: min(100%, 1280px, max(560px, calc((100dvh - 330px) * 16 / 9)));
+  width: min(100%, 1500px);
   margin-inline: auto;
 }
 
@@ -3173,28 +3180,24 @@ span {
 
 .lesson-slide-modal {
   padding: 0;
+  overflow: hidden;
+  background: #0b0f12;
+  backdrop-filter: none;
 }
 
 .lesson-slide--expanded {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  place-items: center;
   width: 100vw;
   height: 100dvh;
-  max-height: none;
   overflow: hidden;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background: var(--earth-dark);
-  color: white;
+  background: #0b0f12;
 }
 
 .lesson-slide--expanded img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  max-height: none;
-  margin: 0;
+  display: block;
+  width: 100vw;
+  height: 100dvh;
   object-fit: contain;
 }
 
@@ -3202,11 +3205,21 @@ span {
   transform: none;
 }
 
-.lesson-slide-modal__hint {
-  padding: 8px 18px max(8px, env(safe-area-inset-bottom));
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.82rem;
-  text-align: center;
+.lesson-slide-modal__close {
+  position: fixed;
+  z-index: 1;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  width: 44px;
+  height: 44px;
+  background: rgba(11, 15, 18, 0.72);
+  color: white;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.34);
+}
+
+.lesson-slide-modal__close:not(:disabled):hover {
+  background: rgba(244, 122, 22, 0.92);
+  color: white;
 }
 
 .lesson-pdf-modal {

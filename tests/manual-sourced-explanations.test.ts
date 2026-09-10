@@ -24,6 +24,10 @@ const slidesScriptUrl = new URL(
   '../scripts/copy-beneficio-20h-slides.mjs',
   import.meta.url,
 )
+const beneficioImporterUrl = new URL(
+  '../scripts/import-establecimientos-master-content.mjs',
+  import.meta.url,
+)
 const playerUrl = new URL(
   '../src/components/AudioLessonPlayer.tsx',
   import.meta.url,
@@ -70,7 +74,13 @@ test('beneficio conserva una transcripción distinta en cada modalidad', async (
 })
 
 test('perforadora explica las dos modalidades y deja la locución pendiente', async () => {
-  const sql = await readFile(perforadoraUrl, 'utf8')
+  const [sql, importer] = await Promise.all([
+    readFile(perforadoraUrl, 'utf8'),
+    readFile(
+      new URL('../scripts/import-perforadora-master-content.mjs', import.meta.url),
+      'utf8',
+    ),
+  ])
 
   assert.equal((sql.match(new RegExp(V_PERFORADORA_5, 'g')) ?? []).length, 51)
   assert.equal((sql.match(new RegExp(V_PERFORADORA_20, 'g')) ?? []).length, 51)
@@ -88,12 +98,15 @@ test('perforadora explica las dos modalidades y deja la locución pendiente', as
   assert.doesNotMatch(sql, /narration_text = /)
   assert.match(sql, /Perforadora_Guiones_Locucion_15s_55s_y_Gamma/)
   assert.match(sql, /tienen transcripción sin que se haya aportado el guion/)
+  assert.match(importer, /manual_chapter: `Capítulo \$\{note\.code\}`/)
+  assert.match(importer, /title: note\.title/)
 })
 
 test('los scripts de beneficio separan las dos modalidades y sus carpetas', async () => {
-  const [audio, slides] = await Promise.all([
+  const [audio, slides, importer] = await Promise.all([
     readFile(audioScriptUrl, 'utf8'),
     readFile(slidesScriptUrl, 'utf8'),
+    readFile(beneficioImporterUrl, 'utf8'),
   ])
 
   assert.match(audio, /folder: '5 horas', durationHours: 5/)
@@ -104,6 +117,13 @@ test('los scripts de beneficio separan las dos modalidades y sus carpetas', asyn
   assert.match(audio, /--dry-run/)
   assert.match(slides, new RegExp(V_BENEFICIO_20))
   assert.match(slides, /copied !== 100/)
+  assert.match(importer, /baseExplanation: `Explicación detallada/)
+  assert.match(importer, /appliedExplanation/)
+  assert.match(importer, /onConflict: 'segment_id,position'/)
+  assert.match(
+    importer,
+    /published: Boolean\(unit\.audio_storage_path \|\| unit\.audio_external_url\)/,
+  )
 })
 
 test('el reproductor conserva los rótulos propios del manual', async () => {
