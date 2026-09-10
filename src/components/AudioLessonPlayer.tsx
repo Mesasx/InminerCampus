@@ -137,6 +137,18 @@ const detailedInformationListHeadings = new Set([
   'Comprobación antes de continuar',
 ])
 
+// Los manuales maestros titulan sus propios apartados dentro de cada sección
+// («Riesgos vinculados a las interfaces», «Puestos comprendidos»…). Esos
+// rótulos son distintos en cada unidad, así que no caben en una lista cerrada:
+// se reconocen por forma. Se excluyen explícitamente las viñetas y las líneas
+// numeradas, que sí abren bloque pero son contenido, no título.
+function looksLikeSubheading(line: string, rest: string[]) {
+  if (!rest.length) return false
+  if (line.length < 3 || line.length > 94) return false
+  if (/^[•\-–—\d]/.test(line)) return false
+  return !/[.:;,]$/.test(line)
+}
+
 function DetailedSpecificInformation({ text }: { text: string }) {
   const blocks = text
     .split(/\n{2,}/)
@@ -145,7 +157,10 @@ function DetailedSpecificInformation({ text }: { text: string }) {
 
   if (blocks.length === 1) return <p>{text}</p>
 
-  const sections: Array<{ heading: string | null; blocks: string[] }> = []
+  const sections: Array<{
+    heading: string | null
+    blocks: Array<string | { subheading: string }>
+  }> = []
 
   for (const block of blocks) {
     const lines = block
@@ -160,7 +175,17 @@ function DetailedSpecificInformation({ text }: { text: string }) {
     }
 
     const activeSection = sections.at(-1)
-    if (activeSection?.heading) {
+    const rest = lines.slice(1)
+    // Un rótulo propio del manual se conserva como subtítulo dentro de la
+    // sección abierta, en vez de disolverse en el párrafo anterior.
+    const nested =
+      activeSection?.heading && looksLikeSubheading(heading, rest)
+        ? [{ subheading: heading }, ...rest]
+        : null
+
+    if (activeSection && nested) {
+      activeSection.blocks.push(...nested)
+    } else if (activeSection?.heading) {
       activeSection.blocks.push(block)
     } else {
       sections.push({ heading: null, blocks: [block] })
@@ -172,9 +197,17 @@ function DetailedSpecificInformation({ text }: { text: string }) {
       {sections.map((section, sectionIndex) => {
         const { heading } = section
 
+        const paragraphs = section.blocks.map((block) =>
+          typeof block === 'string' ? (
+            <p key={block}>{block}</p>
+          ) : (
+            <h4 key={`sub-${block.subheading}`}>{block.subheading}</h4>
+          ),
+        )
+
         if (heading && detailedInformationListHeadings.has(heading)) {
           const items = section.blocks.flatMap((block) =>
-            block
+            (typeof block === 'string' ? block : block.subheading)
               .split('\n')
               .map((line) => line.trim().replace(/^[-•]\s*/, ''))
               .filter(Boolean),
@@ -198,9 +231,7 @@ function DetailedSpecificInformation({ text }: { text: string }) {
               key={`${heading}-${sectionIndex}`}
             >
               <strong>{heading}</strong>
-              {section.blocks.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {paragraphs}
             </aside>
           )
         }
@@ -209,16 +240,12 @@ function DetailedSpecificInformation({ text }: { text: string }) {
           return (
             <section key={`${heading}-${sectionIndex}`}>
               <h3>{heading}</h3>
-              {section.blocks.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {paragraphs}
             </section>
           )
         }
 
-        return section.blocks.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))
+        return paragraphs
       })}
     </div>
   )

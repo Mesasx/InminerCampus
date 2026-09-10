@@ -3042,6 +3042,18 @@ span {
   margin: 0;
 }
 
+/* Rótulos propios del manual dentro de una sección: pesan menos que el h3 y
+   ordenan la lectura sin volver a fragmentar la página. */
+.lesson-notes__content h4 {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.lesson-notes__content h4:first-child {
+  margin-top: 0;
+}
+
 .lesson-notes__key {
   border-left: 4px solid var(--orange);
   border-radius: 0 12px 12px 0;
