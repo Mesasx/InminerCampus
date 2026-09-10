@@ -156,7 +156,12 @@ test('la migración está limitada al Curso 1 de cinco horas y valida todos los 
 test('el reproductor conserva la diapositiva, la numeración real y el PDF protegido', async () => {
   const player = await readFile(playerUrl, 'utf8')
 
-  assert.match(player, /Parte \{blockPosition\}\.\{activeIndex \+ 1\}/)
+  // La numeración de la parte ya no encabeza una tarjeta de audio propia: vive
+  // en la cabecera del visor, junto al título de la diapositiva.
+  assert.match(
+    player,
+    /numbering=\{`\$\{blockPosition\}\.\$\{activeIndex \+ 1\}`\}/,
+  )
   assert.match(
     player,
     /activeSegment\.lesson_segment_slides\[activeSlideIndex\]/,
@@ -173,8 +178,13 @@ test('el reproductor conserva la diapositiva, la numeración real y el PDF prote
   assert.match(player, /Ver PDF · página/)
   assert.match(player, /rel="noopener noreferrer"/)
   assert.match(player, /aria-label="Cambiar explicación"/)
+  // La diapositiva abre la pantalla y la barra de audio cuelga de ella dentro
+  // del mismo artículo, antes de la lectura de apoyo.
+  assert.ok(player.indexOf('lesson-context') < player.indexOf('lesson-slides'))
+  assert.ok(player.indexOf('lesson-slides') < player.indexOf('lesson-reading'))
   assert.ok(
-    player.indexOf('explanation-switcher') < player.indexOf('lesson-slides'),
+    player.indexOf('lesson-slide__canvas') <
+      player.indexOf('lesson-slide__bar'),
   )
 })
 

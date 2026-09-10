@@ -100,13 +100,17 @@ test('el mapa maestro contiene las 50 unidades de perforadora sin crear otro cur
   assert.doesNotMatch(sql, /insert into public\.courses/)
 })
 
-test('el alumno puede desplegar transcripción y explicación completa', async () => {
+test('la explicación se lee sin abrir nada y la transcripción queda plegada', async () => {
   const player = await readFile(playerPath, 'utf8')
 
-  assert.match(player, /Ver transcripción/)
-  assert.match(player, /Leer explicación completa/)
+  // La explicación detallada es contenido esencial: se muestra directamente,
+  // sin botón que obligue al alumno a desplegarla en cada unidad.
+  assert.doesNotMatch(player, /Leer explicación completa/)
+  assert.doesNotMatch(player, /explanationOpen/)
+  assert.match(player, /aria-label="Explicación detallada"/)
+  // La transcripción sí conserva su acordeón, un escalón por debajo.
+  assert.match(player, /Transcripción del audio/)
   assert.match(player, /aria-expanded=\{transcriptOpen\}/)
-  assert.match(player, /aria-expanded=\{explanationOpen\}/)
   assert.match(player, /activeSegment\.lesson_code/)
   assert.match(player, /activeSegment\.manual_chapter/)
 })
