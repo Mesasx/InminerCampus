@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 
 const COURSE_SLUG = 'operadores-establecimientos-beneficio'
 const MANUAL_NAME = 'Manual_Establecimientos_Beneficio_Inminer_Campus (2).pdf'
+const DECK_NAME = 'Que-es-un-Establecimiento-de-Beneficio.pdf'
 const manualPath = resolve(
   'Contenido Cursos',
   'Diapositivas y documentos',
@@ -189,8 +190,7 @@ if (dryRun) {
       title: chapter.title,
       transcript5h: chapter.transcript5h.length,
       transcript20h: chapter.transcript20h.length,
-      slide1: chapter.baseExplanation.length,
-      slide2: chapter.appliedExplanation.length,
+      explanation: chapter.explanation.length,
       pages: chapter.sourcePages,
     })),
   )
@@ -269,35 +269,29 @@ for (const unit of units) {
   )
   if (noteError) throw noteError
 
-  const slidePrefix = `${versions.find((version) => version.duration_hours === unit.durationHours)?.id}/slides/establecimientos-${unit.durationHours}h-2026/${chapter.code}`
-  const sourceLabel = `Establecimientos de beneficio · presentación ${unit.durationHours} h Inmíner Campus`
+  const slidePrefix = `${versions.find((version) => version.duration_hours === unit.durationHours)?.id}/slides/establecimientos-beneficio-${unit.durationHours}h-2026-v2/${chapter.code}`
+  const sourceLabel = `${DECK_NAME} · presentación ${unit.durationHours} h Inmíner Campus`
+  const sourcePage = (Number(chapter.code.split('.')[0]) - 1) * 10 + Number(chapter.code.split('.')[1])
+  const { error: obsoleteSlidesError } = await supabase
+    .from('lesson_segment_slides')
+    .delete()
+    .eq('segment_id', unit.id)
+    .gt('position', 1)
+  if (obsoleteSlidesError) throw obsoleteSlidesError
   const { error: slidesError } = await supabase
     .from('lesson_segment_slides')
     .upsert(
-      [
-        {
-          segment_id: unit.id,
-          position: 1,
-          title: chapter.title,
-          body: chapter.baseExplanation,
-          image_storage_path: `${slidePrefix}/slide-01.png`,
-          image_external_url: null,
-          source_label: sourceLabel,
-          source_page: 'Diapositiva 1',
-          alt_text: `Diapositiva 1 de la unidad ${chapter.code}`,
-        },
-        {
-          segment_id: unit.id,
-          position: 2,
-          title: `Aplicación segura · ${chapter.title}`,
-          body: chapter.appliedExplanation,
-          image_storage_path: `${slidePrefix}/slide-02.png`,
-          image_external_url: null,
-          source_label: sourceLabel,
-          source_page: 'Diapositiva 2',
-          alt_text: `Diapositiva 2 de la unidad ${chapter.code}`,
-        },
-      ],
+      {
+        segment_id: unit.id,
+        position: 1,
+        title: chapter.title,
+        body: '',
+        image_storage_path: `${slidePrefix}/slide-01.png`,
+        image_external_url: null,
+        source_label: sourceLabel,
+        source_page: `Diapositiva ${sourcePage}`,
+        alt_text: `Diapositiva ${sourcePage} de la unidad ${chapter.code}`,
+      },
       { onConflict: 'segment_id,position' },
     )
   if (slidesError) throw slidesError

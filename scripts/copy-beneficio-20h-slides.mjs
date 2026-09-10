@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
 
-// Replica las cien diapositivas de establecimientos de beneficio bajo la
+// Replica las cincuenta diapositivas de establecimientos de beneficio bajo la
 // carpeta de la modalidad de 20 h.
 //
 // La presentación es la misma en las dos modalidades, pero no se puede
@@ -14,8 +14,8 @@ import { createClient } from '@supabase/supabase-js'
 const V5 = '4945d77b-d931-4054-a534-8a7466ce6a0b'
 const V20 = 'f5a7da9c-a3f2-4163-bb65-90395827f146'
 const BUCKET = 'course-materials'
-const SOURCE_PREFIX = `${V5}/slides/establecimientos-5h-2026`
-const TARGET_PREFIX = `${V20}/slides/establecimientos-20h-2026`
+const SOURCE_PREFIX = `${V5}/slides/establecimientos-beneficio-5h-2026-v2`
+const TARGET_PREFIX = `${V20}/slides/establecimientos-beneficio-20h-2026-v2`
 
 const dryRun = process.argv.includes('--dry-run')
 
@@ -38,7 +38,7 @@ let copied = 0
 const missing = []
 
 for (const code of codes) {
-  for (const slide of [1, 2]) {
+  for (const slide of [1]) {
     const from = `${SOURCE_PREFIX}/${code}/slide-0${slide}.png`
     const to = `${TARGET_PREFIX}/${code}/slide-0${slide}.png`
 
@@ -69,10 +69,10 @@ if (missing.length) {
     `No se han encontrado ${missing.length} diapositivas de origen:\n${missing.join('\n')}`,
   )
 }
-if (copied !== 100) {
-  throw new Error(`Se esperaban 100 diapositivas y se han tratado ${copied}.`)
+if (copied !== 50) {
+  throw new Error(`Se esperaban 50 diapositivas y se han tratado ${copied}.`)
 }
 
 console.log(
-  `Establecimientos de beneficio 20 h: 100 diapositivas ${dryRun ? 'localizadas en origen' : 'copiadas a su propia carpeta'}.`,
+  `Establecimientos de beneficio 20 h: 50 diapositivas ${dryRun ? 'localizadas en origen' : 'copiadas a su propia carpeta'}.`,
 )

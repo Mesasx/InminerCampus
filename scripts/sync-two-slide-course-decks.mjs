@@ -11,13 +11,17 @@ const decks = [
     key: 'establecimientos-5h',
     slug: 'operadores-establecimientos-beneficio',
     durationHours: 5,
-    pdf: resolve(
-      root,
-      'Diapositivas cursos',
-      'Curso_3_Establecimiento_Beneficio_InminerCampus_5h.pdf',
-    ),
-    release: 'establecimientos-5h-2026',
+    pdf: resolve(root, 'Que-es-un-Establecimiento-de-Beneficio.pdf'),
+    release: 'establecimientos-beneficio-5h-2026-v2',
     sourceLabel: 'Establecimientos de beneficio · presentación 5 h Inmíner Campus',
+  },
+  {
+    key: 'establecimientos-20h',
+    slug: 'operadores-establecimientos-beneficio',
+    durationHours: 20,
+    pdf: resolve(root, 'Que-es-un-Establecimiento-de-Beneficio.pdf'),
+    release: 'establecimientos-beneficio-20h-2026-v2',
+    sourceLabel: 'Establecimientos de beneficio · presentación 20 h Inmíner Campus',
   },
 ]
 
@@ -47,8 +51,8 @@ function run(command, args) {
 
 for (const deck of selected) {
   const pages = Number(run('pdfinfo', [deck.pdf]).match(/^Pages:\s+(\d+)$/m)?.[1])
-  if (pages !== 100) {
-    throw new Error(`${deck.key}: se esperaban 100 páginas y se encontraron ${pages}.`)
+  if (pages !== 50) {
+    throw new Error(`${deck.key}: se esperaban 50 páginas y se encontraron ${pages}.`)
   }
 }
 
@@ -58,7 +62,7 @@ if (dryRun) {
       presentación: key,
       curso: slug,
       horas: durationHours,
-      diapositivas: 100,
+      diapositivas: 50,
       pdf,
     })),
   )
@@ -146,16 +150,16 @@ for (const deck of selected) {
     const rendered = (await readdir(renderRoot))
       .filter((name) => /^slide-\d+\.png$/.test(name))
       .sort((a, b) => Number(a.match(/\d+/)[0]) - Number(b.match(/\d+/)[0]))
-    if (rendered.length !== 100) {
+    if (rendered.length !== 50) {
       throw new Error(`${deck.key}: se renderizaron ${rendered.length} diapositivas.`)
     }
 
     const { version, units } = await getVersionAndUnits(deck)
     const rows = []
     await uploadInBatches(rendered, 6, async (name, index) => {
-      const unit = units[Math.floor(index / 2)]
-      const position = (index % 2) + 1
-      const storagePath = `${version.id}/slides/${deck.release}/${unit.expectedCode}/slide-${String(position).padStart(2, '0')}.png`
+      const unit = units[index]
+      const position = 1
+      const storagePath = `${version.id}/slides/${deck.release}/${unit.expectedCode}/slide-01.png`
       const { error } = await supabase.storage
         .from('course-materials')
         .upload(storagePath, await readFile(join(renderRoot, name)), {
@@ -167,7 +171,7 @@ for (const deck of selected) {
       rows[index] = {
         segment_id: unit.id,
         position,
-        title: position === 1 ? unit.title : `Aplicación segura · ${unit.title}`,
+        title: unit.title,
         body: '',
         image_storage_path: storagePath,
         image_external_url: null,
@@ -186,7 +190,7 @@ for (const deck of selected) {
       .from('lesson_segment_slides')
       .insert(rows)
     if (insertError) throw insertError
-    console.log(`${deck.key}: 100 diapositivas cargadas y vinculadas.`)
+    console.log(`${deck.key}: 50 diapositivas cargadas y vinculadas.`)
   } finally {
     await rm(renderRoot, { recursive: true, force: true })
   }

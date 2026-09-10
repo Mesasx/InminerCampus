@@ -7,7 +7,7 @@ const targets = [
     label: 'Establecimiento de Beneficio',
     durations: [5, 20],
     expectedSegments: 50,
-    expectedSlides: 100,
+    expectedSlides: 50,
   },
   {
     slug: 'operadores-perforacion-corte-exterior',
@@ -68,7 +68,6 @@ async function auditVersion(course, target, version) {
   const notes = segments.flatMap((segment) =>
     relationRows(segment.lesson_segment_notes),
   )
-  const explanations = slides.map((slide) => slide.body?.trim() ?? '')
   const noteExplanations = notes.map((note) => note.summary?.trim() ?? '')
   const visibleTexts = [
     course.title,
@@ -108,7 +107,15 @@ async function auditVersion(course, target, version) {
       withImage: slides.filter(
         (slide) => slide.image_storage_path || slide.image_external_url,
       ).length,
-      withExplanation: explanations.filter(Boolean).length,
+      withExplanation: segments.filter((segment) => {
+        const slideHasExplanation = relationRows(segment.lesson_segment_slides).some(
+          (slide) => slide.body?.trim(),
+        )
+        const noteHasExplanation = relationRows(segment.lesson_segment_notes).some(
+          (note) => note.summary?.trim(),
+        )
+        return slideHasExplanation || noteHasExplanation
+      }).length,
     },
     audio: {
       withSource: segments.filter(
