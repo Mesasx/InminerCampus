@@ -23,7 +23,7 @@ export const Route = createFileRoute('/catalogo')({
   // contenía ni un solo enlace a `/cursos/...`, así que las fichas quedaban
   // huérfanas para cualquier rastreador que no ejecutase JavaScript.
   loader: async () => ({ courses: toCourseCards(await fetchPublicCourses()) }),
-  head: ({ match }) => {
+  head: ({ loaderData, match }) => {
     const categoria = (match.search as { categoria?: CourseCategory })
       .categoria
     const meta = categoria ? categoryMeta[categoria] : catalogMeta
@@ -34,6 +34,16 @@ export const Route = createFileRoute('/catalogo')({
       // propia canónica con el parámetro, y el resto de combinaciones
       // (búsqueda, duración) se resuelven en cliente sin cambiar la URL.
       path: categoria ? `/catalogo?categoria=${categoria}` : '/catalogo',
+      // Una categoría sin cursos publicados es una página vacía: se sirve, pero
+      // no se indexa. El catálogo cambia con el tiempo y una categoría puede
+      // quedarse sin programas sin que eso deba dejar una URL pobre en Google.
+      // Sin datos del loader no se decide nada: marcar `noindex` a ciegas
+      // desindexaría una categoría que sí tiene cursos.
+      noindex: Boolean(
+        categoria &&
+          loaderData &&
+          !loaderData.courses.some((course) => categoryOf(course) === categoria),
+      ),
     })
   },
   component: CatalogPage,
@@ -58,7 +68,7 @@ const categoryMeta: Record<CourseCategory, { title: string; description: string 
   },
 }
 
-const categoryFilters: Array<CourseCategory> = ['mineria', 'otros']
+const allCategories: Array<CourseCategory> = ['mineria', 'otros']
 
 // H1 propio por categoría: la vista filtrada es una URL indexable distinta y
 // necesita un encabezado que describa exactamente lo que lista.
@@ -73,6 +83,16 @@ function CatalogPage() {
   const { courses } = Route.useLoaderData()
   const [duration, setDuration] = useState<'all' | '5' | '20'>('all')
   const [query, setQuery] = useState('')
+
+  // Sólo se ofrecen las categorías que tienen algún programa publicado. Un
+  // botón que siempre lleva a un listado vacío no ayuda a nadie, y el catálogo
+  // se queda sin categorías a medida que los cursos se reclasifican. La
+  // categoría pedida por URL se mantiene visible aunque esté vacía, para que el
+  // filtro activo no desaparezca de debajo del usuario.
+  const categoryFilters = allCategories.filter(
+    (item) =>
+      item === categoria || courses.some((course) => categoryOf(course) === item),
+  )
 
   const breadcrumbs: Array<BreadcrumbItem> = [
     { name: 'Inicio', path: '/' },

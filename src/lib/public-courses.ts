@@ -185,7 +185,14 @@ export async function fetchPublicCourses(): Promise<Array<PublicCourseDetail>> {
     )
 }
 
-/** Una ficha concreta, o `null` si el slug no existe o no está publicado. */
+/**
+ * Una ficha concreta, o `null` si el slug no existe, no está publicado o no es
+ * visible en el catálogo.
+ *
+ * Un curso no listado no tiene ficha pública: conocer su URL no puede bastar
+ * para verlo. La ruta `/cursos/$courseSlug` convierte ese `null` en un 404, de
+ * modo que ocultar la tarjeta y proteger la URL son la misma decisión.
+ */
 export async function fetchPublicCourse(
   slug: string,
 ): Promise<PublicCourseDetail | null> {
@@ -209,7 +216,10 @@ export async function fetchPublicCourse(
   const rows = (data ?? []) as unknown as Array<RawCourseRow>
   if (!rows[0]) return null
   const course = normalizeCourse(rows[0])
-  return course.versions.length > 0 ? course : null
+  if (!course.versions.length) return null
+  return isCourseVisibleInCatalog({ slug: course.slug, listed: course.listed })
+    ? course
+    : null
 }
 
 /**

@@ -1,0 +1,736 @@
+{
+ "blocks": [
+  {
+   "position": 1,
+   "title": "Definición de los trabajos",
+   "units": 9
+  },
+  {
+   "position": 2,
+   "title": "Técnicas preventivas y de protección",
+   "units": 10
+  },
+  {
+   "position": 3,
+   "title": "Equipos de trabajo, EPI y medios auxiliares",
+   "units": 9
+  },
+  {
+   "position": 4,
+   "title": "Control y vigilancia sobre el lugar de trabajo y su entorno",
+   "units": 6
+  },
+  {
+   "position": 5,
+   "title": "Interferencias con otras actividades",
+   "units": 9
+  },
+  {
+   "position": 6,
+   "title": "Normativa y legislación",
+   "units": 7
+  }
+ ],
+ "units": [
+  {
+   "ordinal": 1,
+   "code": "1.1",
+   "block": 1,
+   "position": 1,
+   "title": "Introducción a la formación preventiva minera",
+   "slidePage": 1,
+   "manualPage": 6,
+   "explanation": "\nObjetivo\nComprender por qué un trabajador de administración o servicios necesita formación preventiva minera aunque su función habitual no consista en manejar maquinaria o intervenir directamente en producción.\n\nExplicación detallada\nLa seguridad minera no afecta exclusivamente al operador situado frente a una trituradora, a un conductor de maquinaria o a una persona que desarrolla tareas productivas. El centro minero constituye un sistema en el que conviven personas, equipos, instalaciones, vehículos, procesos, contratistas, zonas administrativas y áreas industriales.\nUna persona cuyo puesto sea administrativo puede permanecer durante muchas horas en una oficina y, sin embargo, exponerse ocasionalmente a riesgos diferentes al desplazarse por viales internos, acceder a un almacén, visitar una planta o acompañar a una persona externa. El RD 1389/1997 considera lugar de trabajo el conjunto de áreas a las que los trabajadores deban acceder por razón de su trabajo y exige que dichas áreas y actividades se organicen de manera que no comprometan su seguridad ni la de los demás.\nLa prevención debe presentarse desde el principio como una actividad de anticipación. No se espera a que ocurra un accidente para actuar: se identifican peligros, se evalúan riesgos, se eliminan o controlan y se comprueba periódicamente la eficacia de las medidas. La Ley 31/1995 sitúa entre los principios preventivos evitar riesgos, evaluar los inevitables, combatirlos en origen, adaptar el trabajo a la persona y anteponer la protección colectiva a la individual.\nEl curso debe transmitir además que la formación general nunca sustituye a las instrucciones concretas del establecimiento. Saber que existe riesgo por vehículos, por ejemplo, no informa al trabajador de cuál es el límite de velocidad del centro, qué cruces existen, qué rutas peatonales debe utilizar o quién tiene prioridad. Esos elementos deben incorporarse mediante la adaptación al centro.\n\nAplicación práctica\nUna persona de contabilidad necesita entregar documentación en otra dependencia situada al otro lado de un vial industrial. Su tarea continúa siendo administrativa, pero durante el desplazamiento aparecen riesgos que no existen en su despacho.\n\nSecuencia operativa recomendada\n- Antes de abandonar el área habitual: identificar destino, recorrido autorizado, restricciones y EPI aplicables\n- Durante el desplazamiento: seguir rutas, señalización e instrucciones\n- Al detectar una condición no prevista: detenerse y consultar\n\nProfundización técnica y criterio preventivo\nLa idea de sistema es especialmente importante: un incidente puede originarse lejos del puesto habitual del trabajador y afectarle por circulación, evacuación, cambios operativos o interferencias. Por eso la prevención minera debe entenderse de forma transversal. El trabajador debe aprender a reconocer el momento en que abandona un entorno conocido y entra en otro con reglas diferentes, y a solicitar información antes de exponerse a una condición que no domina. La formación general proporciona criterio;\nla evaluación de riesgos y las instrucciones del centro concretan ese criterio en recorridos, prohibiciones, EPI, alarmas y responsables reales.\n\nIdea clave\nTrabajar en administración o servicios no elimina los riesgos propios del entorno minero.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.1-introduccion-a-la-formacion-preventiva-minera.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.1-introduccion-a-la-formacion-preventiva-minera.mp3"
+   }
+  },
+  {
+   "ordinal": 2,
+   "code": "1.2",
+   "block": 1,
+   "position": 2,
+   "title": "El Grupo 5.5.d y sus límites",
+   "slidePage": 2,
+   "manualPage": 7,
+   "explanation": "\nObjetivo\nIdentificar qué representa el grupo 5.5.d y, sobre todo, comprender que el encuadre debe depender de las tareas efectivas.\n\nExplicación detallada\nLa ITC 02.1.02 establece diferentes itinerarios y, dentro de los «puestos comunes», incluye expresamente el grupo 5.5.d: administración y personal de servicios distintos a los de mantenimiento. La relación de puestos de la ITC no es exhaustiva, y la propia norma define el puesto en función de las tareas específicas desempeñadas habitualmente. Esta precisión es esencial. El nombre contractual de una ocupación no debería utilizarse como único criterio preventivo.\nUna persona denominada «auxiliar» podría realizar exclusivamente tareas documentales o, por el contrario, desplazarse de manera continuada por una instalación y utilizar determinados equipos auxiliares. Sus exposiciones serían distintas. El manual general debe ofrecer un denominador preventivo común, pero el empresario tendrá que comprobar posteriormente que los contenidos cubren el puesto real. También debe delimitarse lo que no pretende cubrir este curso.\nSi una persona realiza efectivamente reparación, transformación, conservación o mantenimiento de equipos, no basta con denominarla «servicios». La Ley reserva estos trabajos a personal específicamente capacitado, y la propia ITC cuenta con categorías diferenciadas para mantenimiento. La consecuencia didáctica es importante: cuando aparezcan máquinas o instalaciones en este curso, se explicarán principalmente desde la perspectiva de la convivencia segura.\nEl alumno debe aprender a identificar protecciones, indicadores, zonas peligrosas y anomalías, no a intervenir técnicamente.\n\nAplicación práctica\nUn trabajador cuyo puesto figura como «servicios generales» que de forma habitual sustituye motores, abre cuadros eléctricos o repara bombas estaría desarrollando tareas que requieren revisar su encuadre y su formación.\n\nSecuencia operativa recomendada\n- Inventariar tareas habituales\n- Identificar equipos y zonas\n- Contrastarlas con evaluación de riesgos\n- Comprobar si siguen correspondiendo a 5.5.d\n- Adaptar el programa\n\nProfundización técnica y criterio preventivo\nEl encuadre en 5.5.d no puede decidirse únicamente por el nombre comercial del puesto. La propia ITC señala que la relación de puestos no es exhaustiva y el itinerario debe responder a las tareas efectivamente desempeñadas. En la práctica conviene revisar qué zonas visita la persona, qué equipos utiliza, con qué frecuencia lo hace y si desarrolla tareas que pertenecen materialmente a producción o mantenimiento. Si el contenido real del trabajo cambia, también debe revisarse la formación.\nEsta lectura evita dos errores: formar insuficientemente a quien está más expuesto de lo que indica su categoría administrativa, y atribuir a este curso competencias técnicas que no concede.\n\nIdea clave\nLa categoría formativa debe reflejar el trabajo real, no únicamente la denominación administrativa.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.2-el-grupo-5-5-d-y-sus-limites.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.2-el-grupo-5-5-d-y-sus-limites.mp3"
+   }
+  },
+  {
+   "ordinal": 3,
+   "code": "1.3",
+   "block": 1,
+   "position": 3,
+   "title": "El centro minero como entorno de trabajo",
+   "slidePage": 3,
+   "manualPage": 8,
+   "explanation": "\nObjetivo\nRomper la asociación simplista entre «minería» y «frente de extracción» y reconocer la diversidad de áreas que puede encontrar el personal 5.5.d.\n\nExplicación detallada\nEl Reglamento General de Normas Básicas de Seguridad Minera tiene un ámbito que comprende, entre otros, minas, canteras y establecimientos de beneficio de recursos geológicos en los que se aplican técnicas mineras. El RD 1389/1997 amplía la visión preventiva del lugar de trabajo a las áreas relacionadas directa o indirectamente con las industrias extractivas a las que los trabajadores deban acceder. Desde la perspectiva docente, conviene representar un establecimiento como un mapa funcional:\naccesos, aparcamientos, oficinas, almacenes, vestuarios, laboratorios cuando existan, plantas, talleres, zonas de carga y descarga, viales, instalaciones auxiliares y áreas restringidas. No todas ellas tienen la misma exposición ni las mismas condiciones de acceso. La principal competencia que debe adquirir un trabajador no productivo es comprender que el riesgo cambia con el entorno. En una oficina pueden predominar ergonomía, orden, electricidad o evacuación.\nAl cruzar a una zona operativa pueden aparecer simultáneamente circulación de vehículos, equipos en movimiento, ruido, polvo, obstáculos, estructuras, cargas y señalización específica. El curso general no debe afirmar que todos esos riesgos existen en todas las minas; deben presentarse como categorías que han de verificarse contra la evaluación del centro. La ITC exige precisamente esa adaptación.\n\nAplicación práctica\nUna reunión celebrada en una sala situada dentro de una planta puede requerir un recorrido y EPI distintos a una reunión en oficinas centrales.\n\nSecuencia operativa recomendada\n- Antes de acceder a una zona no habitual: comprobar autorización, recorrido, EPI, señalización, trabajos concurrentes y procedimiento de emergencia aplicable\n\nProfundización técnica y criterio preventivo\nLa diversidad espacial de un centro minero obliga a trabajar con una lógica de zonas. Una misma persona puede pasar durante la jornada por un aparcamiento, un edificio administrativo, un vial, un almacén y una dependencia próxima al proceso. Cada transición puede cambiar la exposición y las reglas de acceso. El alumno debe aprender a identificar señales de que entra en un entorno distinto:\ncambio de pavimento, barreras, señalización, ruido, circulación de equipos, obligación de EPI o presencia de responsables de zona. El manual presenta categorías generales; la empresa deberá concretarlas con su plano, evaluación y procedimientos.\n\nIdea clave\nPertenecer a la misma empresa no significa que todas sus zonas tengan el mismo nivel ni naturaleza de riesgo.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.3-el-centro-minero-como-entorno-de-trabajo.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.3-el-centro-minero-como-entorno-de-trabajo.mp3"
+   }
+  },
+  {
+   "ordinal": 4,
+   "code": "1.4",
+   "block": 1,
+   "position": 4,
+   "title": "Organización preventiva y personas responsables",
+   "slidePage": 4,
+   "manualPage": 9,
+   "explanation": "\nObjetivo\nSaber identificar a quién corresponde tomar decisiones y a quién comunicar incidencias.\n\nExplicación detallada\nEl RD 1389/1997 obliga a que los lugares de trabajo cuenten con supervisión responsable y que exista un número suficiente de personas con aptitudes, experiencia y formación adecuadas. Asimismo, el RGNBSM establece la figura de la dirección facultativa y contempla las disposiciones internas de seguridad para adaptar los requisitos generales a la actividad concreta. En términos formativos no es necesario convertir al alumno en experto en estructura administrativa minera.\nLo fundamental es que conozca la cadena práctica: quién es su responsable, quién controla un área, cómo contactar con prevención, quién puede autorizar determinados accesos y qué personas están capacitadas para intervenir sobre equipos. La organización previene la improvisación. Ante una fuga, una protección dañada o una alarma, la reacción de una persona de administración o servicios no debería ser «intentar arreglarla». Debe protegerse, evitar exponerse y comunicar el hecho por el canal establecido.\nCuando intervienen contratistas, la estructura debe ser todavía más clara. El RD 171/2004 exige coordinación cuando concurren empresas para controlar las interacciones entre actividades y asegurar que los riesgos y medidas sean coherentes.\n\nAplicación práctica\nSe detecta una puerta de protección abierta en una instalación. El trabajador no debe cerrarla si desconoce la situación del equipo; podría interferir con un trabajo autorizado.\n\nSecuencia operativa recomendada\n- Detectar\n- Mantenerse fuera del peligro\n- Informar al responsable definido\n- Impedir, únicamente si puede hacerse sin riesgo, que otras personas se expongan\n- Esperar instrucciones\n\nProfundización técnica y criterio preventivo\nLa organización preventiva funciona como una red de responsabilidades. No se trata de memorizar un organigrama, sino de saber quién puede tomar decisiones que afectan a la seguridad. La persona responsable del lugar, el mando directo, el servicio de prevención, la dirección facultativa y los responsables de empresas concurrentes pueden tener funciones diferentes. Cuando se produce una anomalía, actuar correctamente incluye identificar el canal adecuado y aportar información suficiente.\nLa regla para el personal 5.5.d es sencilla: protegerse, no agravar la situación, no intervenir fuera de competencia, comunicar y seguir las instrucciones de quien tenga responsabilidad sobre el área o el equipo.\n\nIdea clave\nUna respuesta preventiva eficaz incluye saber quién tiene competencia para decidir.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.4-organizacion-preventiva-y-personas-responsables.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.4-organizacion-preventiva-y-personas-responsables.mp3"
+   }
+  },
+  {
+   "ordinal": 5,
+   "code": "1.5",
+   "block": 1,
+   "position": 5,
+   "title": "Funciones administrativas y sus riesgos",
+   "slidePage": 5,
+   "manualPage": 10,
+   "explanation": "\nObjetivo\nReconocer que la actividad administrativa también requiere evaluación y medidas preventivas.\n\nExplicación detallada\nEl personal administrativo puede realizar gestión documental, compras, recursos humanos, archivo, recepción, coordinación, facturación, atención a proveedores, planificación o desplazamientos internos. La importancia preventiva no está en crear una lista cerrada, sino en relacionar cada tarea con sus condiciones reales. Un puesto administrativo puede incluir riesgos ligados a postura, pantallas, manipulación ocasional de cargas, orden y limpieza, circulación, instalaciones eléctricas, incendio y evacuación.\nAl mismo tiempo, la pertenencia a un centro minero puede introducir exposiciones adicionales durante desplazamientos fuera del edificio administrativo. La Ley 31/1995 obliga a evaluar los riesgos considerando la naturaleza de la actividad, las características de los puestos y las personas que los ocupan; la formación debe centrarse en esos riesgos específicos. El objetivo de esta diapositiva no es impartir un curso completo de ergonomía, sino evitar un error de diseño:\ndedicar todo el curso 5.5.d a maquinaria industrial dejando sin tratar las tareas que una parte de los alumnos realiza realmente.\n\nAplicación práctica\nUna persona archiva cajas pesadas en una estantería y posteriormente visita una dependencia de planta. En una misma jornada tiene exposiciones diferentes que deben controlarse de manera diferente.\n\nSecuencia operativa recomendada\n- Dividir la jornada en tareas\n- Identificar zonas y medios utilizados\n- Relacionar cada tarea con sus riesgos\n- Aplicar medidas previstas en la evaluación\n- Revisar los cambios\n\nProfundización técnica y criterio preventivo\nLos riesgos administrativos deben integrarse en el análisis y no tratarse como algo ajeno a la minería. Las posturas mantenidas, la organización del puesto con pantalla, la manipulación ocasional de cargas, el orden, las instalaciones eléctricas y la evacuación siguen siendo relevantes. A ellos se añaden los riesgos asociados a desplazamientos dentro de un centro minero. Esta combinación explica por qué la evaluación debe contemplar la jornada completa y no solo el lugar donde el trabajador permanece más tiempo.\nUna persona puede tener un riesgo bajo durante horas y quedar expuesta a un riesgo significativo durante un desplazamiento de pocos minutos.\n\nIdea clave\nLa formación minera complementa, pero no elimina, los riesgos preventivos propios del trabajo administrativo.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.5-funciones-administrativas-y-sus-riesgos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.5-funciones-administrativas-y-sus-riesgos.mp3"
+   }
+  },
+  {
+   "ordinal": 6,
+   "code": "1.6",
+   "block": 1,
+   "position": 6,
+   "title": "Servicios distintos del mantenimiento",
+   "slidePage": 6,
+   "manualPage": 11,
+   "explanation": "\nObjetivo\nComprender por qué el grupo de «servicios» requiere especial atención a la adaptación.\n\nExplicación detallada\nLa ITC no define una lista cerrada de todas las profesiones que pueden englobarse dentro de 5.5.d; de hecho, advierte expresamente que la relación de puestos no es exhaustiva. Esto hace que «personal de servicios» pueda reunir perfiles de exposición muy diferentes. Desde un punto de vista docente, el curso general debe centrarse en principios comunes: acceso seguro, identificación de riesgos, desplazamientos, utilización autorizada de equipos, EPI, emergencias, control del entorno, interferencias y comunicación.\nDespués, el empresario deberá añadir los riesgos realmente vinculados al servicio concreto sin reducir el programa mínimo. El límite frente al mantenimiento debe mantenerse visible. Si surge una avería, que una persona sepa utilizar normalmente un equipo no significa que pueda repararlo. Los trabajos de reparación, transformación, mantenimiento y conservación deben reservarse a personas capacitadas para ello.\n\nAplicación práctica\nDos trabajadores «de servicios» pueden compartir el itinerario normativo, pero uno puede permanecer en recepción y otro desplazarse habitualmente por zonas de operación. La personalización preventiva deberá reflejar esa diferencia.\n\nSecuencia operativa recomendada\n- Describir tareas reales\n- Separar tareas habituales de excepcionales\n- Identificar riesgos y equipos\n- Excluir intervenciones ajenas al puesto\n- Ajustar casos, imágenes y procedimientos a la empresa\n\nProfundización técnica y criterio preventivo\nEl término 'servicios' puede abarcar realidades muy distintas, por lo que la adaptación es inseparable de este itinerario. El denominador común debe ser el conocimiento del entorno, la identificación de riesgos, los límites de actuación, el uso autorizado de equipos, la comunicación y la coordinación. La empresa debe añadir los riesgos concretos del servicio real. El curso general no debe asumir, por ejemplo, que todos los trabajadores de servicios utilizan las mismas herramientas o entran en las mismas áreas.\nLo que sí debe quedar fijo es el principio de no convertir una actividad auxiliar en mantenimiento por improvisación.\n\nIdea clave\n5.5.d puede ser un marco común, pero no debe convertirse en una excusa para impartir el mismo contenido a perfiles materialmente distintos.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.6-servicios-distintos-del-mantenimiento.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.6-servicios-distintos-del-mantenimiento.mp3"
+   }
+  },
+  {
+   "ordinal": 7,
+   "code": "1.7",
+   "block": 1,
+   "position": 7,
+   "title": "Zonas de trabajo y desplazamientos internos",
+   "slidePage": 7,
+   "manualPage": 12,
+   "explanation": "\nObjetivo\nRealizar desplazamientos de forma consciente y conforme a las reglas internas.\n\nExplicación detallada\nLos desplazamientos son actividades de trabajo cuando son necesarios para desempeñar la función. El riesgo puede encontrarse en aparcamientos, cruces, viales, escaleras, zonas de carga, puertas industriales, accesos a plantas o recorridos temporales. El RD 1389/1997 exige organización, mantenimiento, delimitación de áreas con riesgos particulares, instrucciones comprensibles y modos operativos seguros. Una idea especialmente importante es que la familiaridad reduce la percepción de riesgo.\nEl trabajador puede dejar de observar un cruce que recorre todos los días o decidir atravesar una zona temporalmente delimitada porque conoce un atajo. Por ello, la observación del entorno debe mantenerse incluso en trayectos rutinarios. La señalización no sustituye otras medidas, pero comunica prohibiciones, obligaciones, advertencias o emergencia.\nLa guía técnica del INSST sobre señalización insiste en que la señalización debe integrarse con el resto de medidas preventivas y adaptarse a la situación que pretende comunicar.\n\nAplicación práctica\nEl paso peatonal habitual está cerrado por una actividad temporal. Retirar una cadena «solo para pasar» anula deliberadamente una barrera preventiva.\n\nSecuencia operativa recomendada\n- Seguir itinerarios designados\n- Observar delimitaciones\n- Mantener atención visual y auditiva\n- No utilizar atajos\n- Ante cierre, buscar ruta autorizada o consultar\n\nProfundización técnica y criterio preventivo\nLos desplazamientos internos merecen el mismo nivel de atención que una tarea estacionaria. La siniestralidad puede producirse en cruces, accesos, escaleras, zonas de carga o simplemente al atravesar un vial. La rutina reduce la percepción del peligro: cuanto más conocido es un recorrido, más fácil resulta dejar de comprobar si ha cambiado. Por ello se recomienda mantener una observación activa, evitar distracciones y respetar siempre las rutas designadas.\nCuando un recorrido esté alterado, el trabajador no debe crear su propia alternativa; debe seguir la señalización o solicitar una ruta segura.\n\nIdea clave\nEl recorrido habitual puede dejar de ser seguro cuando cambian las condiciones.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.7-zonas-de-trabajo-y-desplazamientos-internos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.7-zonas-de-trabajo-y-desplazamientos-internos.mp3"
+   }
+  },
+  {
+   "ordinal": 8,
+   "code": "1.8",
+   "block": 1,
+   "position": 8,
+   "title": "Cambio entre zona administrativa y operativa",
+   "slidePage": 8,
+   "manualPage": 13,
+   "explanation": "\nObjetivo\nReconocer el «cambio de contexto preventivo».\n\nExplicación detallada\nLa transición entre áreas es uno de los momentos más útiles para introducir una pausa preventiva. El trabajador que sale de una oficina para entrar en una planta debe abandonar también determinados hábitos propios de una zona de bajo tránsito industrial: caminar distraído, usar el teléfono, prescindir de EPI o no prestar atención a movimientos de equipos. No debe enseñarse que todas las plantas tienen idénticos riesgos. El principio es que antes de acceder deben comprobarse las condiciones específicas:\nseñalización, EPI, circulación, ruido, trabajos temporales y limitaciones de acceso. La ITC obliga a adaptar la formación a los lugares, equipos y condiciones reales del centro. La duración de una visita no elimina el riesgo. Una exposición breve puede ser suficiente para que se produzca un atropello, una caída o un golpe. La regla de acceso debe aplicarse desde el primer momento.\n\nAplicación práctica\nUna persona entra «solo un minuto» para entregar un documento y decide no ponerse el EPI exigido. El incumplimiento no se vuelve aceptable porque la estancia sea breve.\n\nSecuencia operativa recomendada\n- Detenerse en el punto de acceso\n- Verificar autorización\n- Identificar obligaciones\n- Colocar EPI\n- Comprobar actividad circundante\n- Acceder por recorrido permitido\n\nProfundización técnica y criterio preventivo\nEl cambio de zona puede utilizarse como un punto de control preventivo. Antes de atravesar una puerta, barrera o límite entre áreas, el trabajador debe comprobar si cambia la autorización, el EPI, la señalización, el nivel de ruido, la circulación o la actividad existente. Esta pausa de pocos segundos ayuda a romper el automatismo. También evita la falsa idea de que una exposición breve es irrelevante: un atropello, una caída o una proyección pueden ocurrir inmediatamente.\nLas medidas de acceso se aplican desde el primer instante y durante toda la permanencia en la zona.\n\nIdea clave\nCambiar de zona significa volver a comprobar las condiciones de seguridad.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.8-cambio-entre-zona-administrativa-y-operativa.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.8-cambio-entre-zona-administrativa-y-operativa.mp3"
+   }
+  },
+  {
+   "ordinal": 9,
+   "code": "1.9",
+   "block": 1,
+   "position": 9,
+   "title": "Responsabilidades preventivas básicas",
+   "slidePage": 9,
+   "manualPage": 14,
+   "explanation": "\nObjetivo\nInteriorizar las conductas preventivas exigibles al trabajador.\n\nExplicación detallada\nLa Ley 31/1995 establece que cada trabajador debe velar, según sus posibilidades y formación, por su seguridad y por la de las personas afectadas por sus actos; debe usar adecuadamente equipos y sustancias, utilizar correctamente los medios de protección, comunicar de inmediato situaciones razonablemente peligrosas y cooperar con el empresario. Esta obligación debe explicarse sin trasladar indebidamente al trabajador la responsabilidad organizativa que corresponde a la empresa.\nEl deber empresarial de protección no desaparece porque existan obligaciones de los trabajadores. En la práctica, el comportamiento esperado puede resumirse en cuatro verbos: cumplir, utilizar, comunicar y no improvisar. Cumplir instrucciones; utilizar correctamente medios y EPI; comunicar anomalías; y no realizar tareas para las que no se dispone de competencia.\n\nAplicación práctica\nSe observa un cable deteriorado. El trabajador no debe repararlo con cinta; debe evitar su utilización y comunicarlo.\n\nSecuencia operativa recomendada\n- Identificar\n- Valorar si existe exposición inmediata\n- Separarse o detener el uso cuando proceda\n- Comunicar\n- Dejar la intervención técnica al personal competente\n\nProfundización técnica y criterio preventivo\nLas obligaciones del trabajador deben explicarse junto con el deber empresarial de protección. El trabajador participa en la prevención mediante su conducta, pero no sustituye a la organización preventiva ni asume funciones técnicas que no le corresponden. Cumplir instrucciones, usar correctamente equipos y EPI, informar de riesgos y cooperar son conductas exigibles. No improvisar es igualmente importante:\nante una avería, una protección retirada o una instalación desconocida, la respuesta profesional no es 'resolverlo como sea', sino evitar la exposición y activar el canal previsto.\n\nIdea clave\nParticipar en prevención no significa solucionar técnicamente todos los problemas, sino actuar correctamente dentro de las propias competencias.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-1\\parte-1.9-responsabilidades-preventivas-basicas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-1\\parte-1.9-responsabilidades-preventivas-basicas.mp3"
+   }
+  },
+  {
+   "ordinal": 10,
+   "code": "2.1",
+   "block": 2,
+   "position": 1,
+   "title": "Peligro, riesgo, daño y prevención",
+   "slidePage": 10,
+   "manualPage": 16,
+   "explanation": "\nObjetivo\nManejar un vocabulario preventivo que permita analizar situaciones.\n\nExplicación detallada\nLa Ley 31/1995 construye la prevención alrededor de la identificación y evaluación de riesgos y de una serie de principios de acción preventiva. Para el alumno no es necesario memorizar definiciones jurídicas complejas; sí es necesario distinguir entre una fuente de daño y la posibilidad de que ese daño se materialice. Un pavimento mojado puede generar riesgo de caída. Una parte móvil accesible puede generar atrapamiento. Un vehículo en maniobra puede generar riesgo de atropello.\nEl análisis debe continuar preguntando qué barreras existen y si son suficientes. Debe enseñarse la jerarquía conceptual: primero evitar; cuando no sea posible, evaluar y controlar; actuar preferentemente sobre el origen; usar medidas colectivas antes de las individuales. El EPI, por tanto, no es la primera respuesta automática a cualquier peligro. Una barandilla, una segregación física de tráfico o un resguardo pueden actuar antes de que el riesgo llegue directamente a la persona.\n\nAplicación práctica\nAnte un derrame, colocar únicamente calzado antideslizante a todos no debería ser la primera medida si el derrame puede eliminarse y evitar que vuelva a producirse.\n\nSecuencia operativa recomendada\n- Identificar peligro\n- Estimar quién puede exponerse\n- Consultar medidas previstas\n- Priorizar eliminación/control colectivo\n- Aplicar medidas organizativas/EPI cuando correspondan\n- Comprobar eficacia\n\nProfundización técnica y criterio preventivo\nDistinguir peligro y riesgo permite razonar mejor. El peligro es la fuente capaz de producir daño; el riesgo depende de cómo, cuánto y con qué probabilidad puede materializarse ese daño. Dos personas pueden estar cerca del mismo peligro y tener exposiciones diferentes por distancia, tiempo, barreras o forma de trabajo. La prevención busca eliminar o reducir la exposición, preferentemente actuando sobre el origen y con medidas colectivas antes de depender de EPI.\nEsta lógica debe utilizarse en todos los temas posteriores: identificar, valorar barreras, comprobar si son suficientes y actuar dentro de las instrucciones del centro.\n\nIdea clave\nIdentificar el peligro es el primer paso; prevenir significa actuar antes de que produzca daño.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.1-peligro-riesgo-dano-y-prevencion.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.1-peligro-riesgo-dano-y-prevencion.mp3"
+   }
+  },
+  {
+   "ordinal": 11,
+   "code": "2.2",
+   "block": 2,
+   "position": 2,
+   "title": "Inspección previa del entorno",
+   "slidePage": 11,
+   "manualPage": 17,
+   "explanation": "\nObjetivo\nAdquirir el hábito de comprobar las condiciones antes de empezar o entrar en una zona.\n\nExplicación detallada\nLa ET menciona de manera expresa la revisión del lugar de trabajo antes de comenzar. La Ley 31/1995 exige controles periódicos cuando resulten necesarios para detectar situaciones potencialmente peligrosas. La inspección previa de un trabajador 5.5.d no es una auditoría técnica. Es una comprobación visual y funcional adaptada a sus competencias: acceso libre, suelo, iluminación, orden, señalización, actividad cercana, circulación y condiciones no habituales. Debe evitarse la rutina mental de «ayer estaba bien».\nLas condiciones pueden cambiar por una avería, mantenimiento, derrame, nueva empresa contratista, meteorología o modificación del recorrido.\n\nAplicación práctica\nUna reunión está programada en una zona a la que normalmente se accede por un pasillo. Ese día el pasillo está parcialmente balizado. El trabajador debe reaccionar al cambio, no ejecutar automáticamente su recorrido habitual. Procedimiento P-A-R-A: Parar brevemente; Analizar entorno; Reconocer cambios; Actuar conforme a instrucciones o consultar.\n\nProfundización técnica y criterio preventivo\nLa inspección previa no convierte al trabajador 5.5.d en inspector técnico. Es una comprobación razonable, dentro de sus competencias, destinada a detectar cambios evidentes antes de entrar o empezar. Suelos, accesos, iluminación, orden, señalización, maquinaria próxima, trabajos simultáneos y condiciones ambientales son elementos observables. El valor de esta práctica está en comparar la situación real con la situación prevista. Si no coinciden, la tarea no debe continuar automáticamente:\nhay que confirmar si el cambio ha sido evaluado y qué medidas corresponden.\n\nIdea clave\nLa seguridad prevista en un procedimiento debe contrastarse con las condiciones que realmente existen.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.2-inspeccion-previa-del-entorno.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.2-inspeccion-previa-del-entorno.mp3"
+   }
+  },
+  {
+   "ordinal": 12,
+   "code": "2.3",
+   "block": 2,
+   "position": 3,
+   "title": "Control del acceso",
+   "slidePage": 12,
+   "manualPage": 18,
+   "explanation": "\nObjetivo\nDiferenciar entre poder físicamente entrar y estar preventivamente autorizado a hacerlo.\n\nExplicación detallada\nEn los lugares mineros pueden existir zonas con riesgos particulares que deban delimitarse; la Ley 31/1995 dispone además que el empresario debe asegurar que solo personas suficientemente informadas puedan acceder a zonas de riesgo grave y específico. La autorización puede materializarse de formas distintas según el centro: señalización, control de acceso, procedimiento, permiso, acompañamiento o instrucciones. Por eso el curso general no debe inventar un sistema universal.\nLas señales ayudan a identificar prohibiciones, advertencias, obligaciones y emergencia, pero deben leerse junto con las instrucciones del centro.\n\nAplicación práctica\nUn trabajador sigue a un compañero a través de una puerta controlada porque «él sí tiene acceso». La autorización es personal/funcional y no puede presumirse.\n\nSecuencia operativa recomendada\n- Identificar señalización\n- Comprobar autorización\n- Verificar EPI y condiciones\n- Acceder únicamente si se cumplen\n- Ante duda, no entrar\n\nProfundización técnica y criterio preventivo\nEl control de acceso es una medida preventiva, no un trámite. Puede materializarse mediante barreras físicas, señalización, permisos, acompañamiento, acreditaciones o instrucciones. La forma concreta depende del centro y del riesgo. El trabajador debe evitar inferencias: que una puerta esté abierta o que otro trabajador entre no significa que el acceso sea válido para todos. Cuando una zona tenga riesgo grave y específico, la información y autorización adquieren especial relevancia.\nAnte cualquier duda, la decisión segura es no acceder hasta recibir confirmación.\n\nIdea clave\nUna puerta abierta, una barrera desplazada o la presencia de otra persona no constituyen autorización.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.3-control-del-acceso.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.3-control-del-acceso.mp3"
+   }
+  },
+  {
+   "ordinal": 13,
+   "code": "2.4",
+   "block": 2,
+   "position": 4,
+   "title": "Peatones, vehículos y maquinaria móvil",
+   "slidePage": 13,
+   "manualPage": 19,
+   "explanation": "\nObjetivo\nReducir el riesgo derivado de la coexistencia entre personas y equipos móviles.\n\nExplicación detallada\nLos lugares mineros pueden incorporar circulación interna de vehículos y equipos. El principio básico para personal no operador es la segregación: utilizar recorridos peatonales, cruces y zonas previstas y evitar entrar en áreas de maniobra. La formación debe insistir en los puntos ciegos y en una regla sencilla: ver un vehículo no garantiza haber sido visto. La ropa de alta visibilidad puede mejorar la percepción del peatón, pero no sustituye a la separación física, la planificación del tráfico o la comunicación.\nLa ITC incluye expresamente dentro de las interferencias los trabajos en proximidad de maquinaria y otro personal.\n\nAplicación práctica\nUn vehículo pesado comienza una maniobra de retroceso. El peatón debe permanecer fuera de su trayectoria, aunque considere que puede pasar «rápidamente».\n\nSecuencia operativa recomendada\n- Permanecer en ruta peatonal\n- Observar maniobras\n- Mantener distancia\n- Obtener confirmación cuando sea necesaria una interacción\n- Cruzar solo por zona y momento seguros\n\nProfundización técnica y criterio preventivo\nLa interacción entre peatones y equipos móviles debe abordarse desde la segregación y la visibilidad. Los vehículos industriales tienen inercias, radios de giro y puntos ciegos distintos a los de un turismo. El peatón no puede confiar en ser visto, incluso con ropa de alta visibilidad. Debe utilizar recorridos definidos, evitar trayectorias de maniobra y no situarse detrás o junto a equipos que puedan moverse.\nCuando una interacción sea necesaria, debe existir una comunicación reconocible y, si procede, confirmación del operador antes de aproximarse.\n\nIdea clave\nNunca se debe basar un cruce o aproximación en la suposición de que el operador nos ha visto.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.4-peatones-vehiculos-y-maquinaria-movil.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.4-peatones-vehiculos-y-maquinaria-movil.mp3"
+   }
+  },
+  {
+   "ordinal": 14,
+   "code": "2.5",
+   "block": 2,
+   "position": 5,
+   "title": "Caídas, golpes y caída de objetos",
+   "slidePage": 14,
+   "manualPage": 20,
+   "explanation": "\nObjetivo\nReconocer riesgos aparentemente simples que pueden producir lesiones relevantes.\n\nExplicación detallada\nLas caídas al mismo nivel pueden originarse por irregularidades, derrames, objetos, cables o pérdida de atención. Las caídas a distinto nivel pueden relacionarse con escaleras, huecos, plataformas o bordes. También deben considerarse los golpes con estructuras y la caída de objetos desde niveles superiores. El control comienza por diseño, mantenimiento, orden y limpieza.\nLa guía técnica del INSST sobre lugares de trabajo ofrece criterios para evaluar condiciones de circulación, superficies y organización preventiva del espacio. Para el trabajador 5.5.d el mensaje principal es no improvisar: no subirse a mobiliario, no crear atajos y no atravesar zonas bajo trabajos cuando estén delimitadas.\n\nAplicación práctica\nPara alcanzar una carpeta elevada se utiliza una silla con ruedas en vez de un medio adecuado.\n\nSecuencia operativa recomendada\n- Mantener paso despejado\n- Usar accesos y medios previstos\n- Comunicar daños/ derrames\n- Respetar delimitación inferior de trabajos en altura\n- No improvisar medios de acceso\n\nProfundización técnica y criterio preventivo\nLas caídas y golpes son riesgos cotidianos que pueden producir lesiones graves precisamente porque se subestiman. Un pequeño derrame, una caja en un pasillo o una escalera improvisada pueden ser suficientes. La prevención combina buen diseño, mantenimiento, orden y conducta individual. El trabajador debe usar medios adecuados para acceder a altura, respetar barandillas y delimitaciones y comunicar defectos del suelo o de los accesos. La experiencia previa no elimina el peligro:\nun obstáculo conocido sigue siendo un obstáculo y puede coincidir con una distracción o una situación de emergencia.\n\nIdea clave\nLa familiaridad con un lugar no convierte un obstáculo o desnivel en seguro.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.5-caidas-golpes-y-caida-de-objetos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.5-caidas-golpes-y-caida-de-objetos.mp3"
+   }
+  },
+  {
+   "ordinal": 15,
+   "code": "2.6",
+   "block": 2,
+   "position": 6,
+   "title": "Energías e instalaciones: reconocer sin intervenir",
+   "slidePage": 15,
+   "manualPage": 21,
+   "explanation": "\nObjetivo\nComprender que un equipo detenido puede seguir conteniendo energía peligrosa.\n\nExplicación detallada\nLa ET menciona instalaciones eléctricas, hidráulicas y neumáticas y dedica una parte relevante del programa a equipos y sistemas de seguridad. El RD 1215/1997 y la Ley 31/1995 exigen equipos adecuados y restringen determinadas operaciones a personas competentes. Debe introducirse, a nivel conceptual, que puede existir energía eléctrica, presión hidráulica o neumática, movimiento mecánico, temperatura o energía gravitatoria. Una máquina que no se mueve puede conservar presión, temperatura o capacidad de movimiento.\nComo este curso no es de mantenimiento, la enseñanza operativa termina en el reconocimiento: no abrir cuadros, retirar resguardos, mover válvulas desconocidas, intervenir en una avería o «probar» un equipo fuera de las funciones asignadas.\n\nAplicación práctica\nSe detecta una pequeña fuga en un circuito. El alumno no debe apretar una conexión si esa intervención no forma parte de sus funciones.\n\nSecuencia operativa recomendada\n- No tocar\n- Alejarse de la zona de exposición\n- Avisar\n- Seguir instrucciones de la persona responsable\n- No restablecer el servicio por iniciativa propia\n\nProfundización técnica y criterio preventivo\nLa energía peligrosa no siempre es visible. Un equipo puede estar detenido y conservar tensión eléctrica, presión, temperatura, movimiento por inercia o energía gravitatoria. En un curso 5.5.d el objetivo es reconocer esa posibilidad y respetar los límites de actuación. No se enseña a consignar técnicamente instalaciones ni a intervenir sobre circuitos, sino a entender por qué no deben abrirse cuadros, manipularse válvulas o retirarse resguardos sin competencia y autorización.\nAnte una fuga o avería, la prioridad es mantenerse fuera de la zona de exposición y comunicar.\n\nIdea clave\n«parado» y «seguro» no son sinónimos.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.6-energias-e-instalaciones-reconocer-sin-intervenir.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.6-energias-e-instalaciones-reconocer-sin-intervenir.mp3"
+   }
+  },
+  {
+   "ordinal": 16,
+   "code": "2.7",
+   "block": 2,
+   "position": 7,
+   "title": "Ruido y condiciones físicas del entorno",
+   "slidePage": 16,
+   "manualPage": 22,
+   "explanation": "\nObjetivo\nIdentificar los principales agentes físicos que pueden afectar incluso a personal no productivo.\n\nExplicación detallada\nEl ruido industrial puede generar daño auditivo y también interferir con la comunicación y percepción de señales. El INSST mantiene una guía específica para evaluar y prevenir los riesgos de exposición al ruido en aplicación del RD 286/2006. También pueden influir calor, frío, iluminación o meteorología. No es necesario convertir esta diapositiva en una evaluación higiénica cuantitativa;\nel trabajador debe reconocer que estas condiciones pueden modificar la seguridad y que las medidas deben proceder de la evaluación del centro. Una señal auditiva puede resultar menos perceptible en una zona ruidosa. La lluvia puede cambiar una superficie exterior. Una iluminación deficiente puede aumentar el riesgo de golpes y caídas.\n\nAplicación práctica\nUna ruta exterior normalmente segura se vuelve resbaladiza tras una tormenta.\n\nSecuencia operativa recomendada\n- Consultar requisitos de la zona\n- Utilizar protección cuando esté indicada\n- Observar cambios ambientales\n- Detener/consultar cuando alteren sustancialmente las condiciones previstas\n\nProfundización técnica y criterio preventivo\nLos agentes físicos pueden afectar tanto a la salud a largo plazo como a la seguridad inmediata. El ruido puede producir pérdida auditiva y, además, ocultar avisos o dificultar la comunicación. La iluminación deficiente aumenta errores y caídas; el calor, el frío o la humedad pueden afectar al rendimiento y a las superficies. La meteorología puede cambiar una ruta exterior en minutos.\nEl trabajador debe conocer las medidas de su centro, mantener los EPI durante toda la exposición requerida y comunicar cambios que hagan insegura una actividad inicialmente prevista.\n\nIdea clave\nLas condiciones ambientales forman parte del riesgo y pueden cambiar durante la jornada.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.7-ruido-y-condiciones-fisicas-del-entorno.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.7-ruido-y-condiciones-fisicas-del-entorno.mp3"
+   }
+  },
+  {
+   "ordinal": 17,
+   "code": "2.8",
+   "block": 2,
+   "position": 8,
+   "title": "Polvo y agentes químicos",
+   "slidePage": 17,
+   "manualPage": 23,
+   "explanation": "\nObjetivo\nReconocer la presencia potencial de sustancias peligrosas sin convertir al alumno en especialista químico.\n\nExplicación detallada\nEn instalaciones mineras pueden existir sustancias, preparados, residuos y polvo derivados de la propia actividad. La ET incluye definiciones específicas de sustancias, preparados, sustancias tóxicas y residuos, mientras que el INSST dispone de guía técnica para la evaluación de agentes químicos en los lugares de trabajo. El trabajador debe comprender las principales vías de exposición: inhalación, contacto cutáneo e ingestión accidental.\nTambién debe saber que un envase no identificado no debe utilizarse y que la etiqueta y la ficha de datos de seguridad forman parte de la información preventiva. En un curso general no se deben establecer EPI respiratorios universales: su selección depende del contaminante, concentración, duración y evaluación correspondiente.\n\nAplicación práctica\nAparece un recipiente sin etiqueta. No se prueba, huele ni utiliza para averiguar qué contiene.\n\nSecuencia operativa recomendada\n- No manipular producto desconocido\n- Identificarlo mediante sistema de la empresa\n- Consultar información\n- Aplicar medidas establecidas\n- Informar de derrames o deterioros\n\nProfundización técnica y criterio preventivo\nFrente a polvo y productos químicos, el primer principio es no trabajar por intuición. La apariencia, el olor o una experiencia previa no permiten determinar por sí solos la peligrosidad. Etiquetas y fichas de datos de seguridad aportan información técnica y la evaluación de riesgos define las medidas. Las vías de entrada al organismo incluyen inhalación, contacto y, en algunos casos, ingestión accidental.\nDebe evitarse utilizar recipientes sin identificar, mezclar productos por iniciativa propia o seleccionar protección respiratoria de forma genérica. La protección correcta depende del agente y de la exposición real.\n\nIdea clave\n«desconocido» nunca debe interpretarse como «inofensivo».\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.8-polvo-y-agentes-quimicos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.8-polvo-y-agentes-quimicos.mp3"
+   }
+  },
+  {
+   "ordinal": 18,
+   "code": "2.9",
+   "block": 2,
+   "position": 9,
+   "title": "Emergencia, incendio y evacuación",
+   "slidePage": 18,
+   "manualPage": 24,
+   "explanation": "\nObjetivo\nSaber qué hacer antes y durante una emergencia.\n\nExplicación detallada\nLa Ley 31/1995 obliga al empresario a analizar posibles emergencias y adoptar medidas de primeros auxilios, lucha contra incendios y evacuación. El RD 1389/1997 exige medios de evacuación, salvamento, comunicación, alerta y alarma adecuados a la actividad. La formación debe empezar antes de la emergencia: conocer alarma, ruta, salida, punto de reunión, canales de comunicación y las responsabilidades personales.\nDurante la evacuación se siguen las instrucciones, se abandona el área con orden y no se regresa hasta autorización. No debe enseñarse a todo alumno que ha de combatir un incendio. El uso de medios de extinción dependerá de la formación, condiciones, procedimiento y ausencia de riesgo personal.\n\nAplicación práctica\nSuena una alarma y una persona decide terminar una llamada antes de evacuar. La actuación retrasa la evacuación y dificulta el control de ocupantes.\n\nSecuencia operativa recomendada\n- Reconocer alarma\n- Detener actividad de forma segura si es posible\n- Seguir ruta\n- No volver atrás\n- Acudir a reunión\n- Permanecer disponible para recuento/instrucciones\n\nProfundización técnica y criterio preventivo\nLa respuesta ante emergencias debe ensayarse mentalmente antes de que ocurra la situación. El trabajador necesita saber cómo se activa la alarma, qué significado tiene, por dónde evacuar, dónde reunirse y a quién informar. Durante la emergencia la prioridad es seguir el procedimiento y evitar conductas que dificulten el control, como volver por objetos personales o abandonar el punto de reunión sin aviso. Los medios de extinción no deben presentarse como obligación universal del trabajador;\nsu uso depende de la formación, la seguridad de la situación y las instrucciones del centro.\n\nIdea clave\nUna emergencia no es el momento para descubrir el plan.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.9-emergencia-incendio-y-evacuacion.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.9-emergencia-incendio-y-evacuacion.mp3"
+   }
+  },
+  {
+   "ordinal": 19,
+   "code": "2.10",
+   "block": 2,
+   "position": 10,
+   "title": "Primeros auxilios y conducta PAS",
+   "slidePage": 19,
+   "manualPage": 25,
+   "explanation": "\nObjetivo\nResponder sin crear un segundo accidente.\n\nExplicación detallada\nEl INSST estructura la actuación inicial mediante la conducta PAS: proteger, alertar y socorrer. La primera obligación práctica es comprobar que el escenario sea seguro antes de aproximarse. Después se activa el sistema de emergencia y se presta ayuda dentro de las competencias y formación disponibles. La formación general debe enseñar a conservar la calma, evitar movimientos innecesarios del accidentado, no administrar medicamentos y proporcionar información útil al servicio de emergencia.\nLas maniobras específicas de soporte vital deben enseñarse con práctica adecuada y conforme a la formación disponible; una diapositiva teórica no sustituye dicho entrenamiento.\n\nAplicación práctica\nUna persona yace junto a un equipo eléctrico aparentemente averiado. Antes de tocarla es imprescindible valorar si el peligro eléctrico continúa presente.\n\nSecuencia operativa recomendada\n- Proteger zona y auxiliador\n- Alertar al sistema interno/112 según corresponda\n- Socorrer dentro de capacitación\n- Facilitar acceso a servicios de emergencia\n- Seguir instrucciones\n\nProfundización técnica y criterio preventivo\nLa conducta PAS ordena la actuación inicial y evita que la urgencia provoque un segundo accidente. Proteger significa comprobar primero que el escenario permite acercarse; alertar implica activar el sistema de emergencia con información clara; socorrer consiste en ayudar dentro de la formación disponible. La diapositiva debe complementarse con formación práctica cuando se pretendan enseñar maniobras específicas.\nEn un entorno industrial o minero debe prestarse especial atención a riesgos que pueden seguir presentes alrededor del accidentado, como electricidad, movimiento de equipos, atmósferas peligrosas o tráfico interno.\n\nIdea clave\nEl primer auxiliador no debe convertirse en una segunda víctima.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-2\\parte-2.10-primeros-auxilios-y-conducta-pas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-2\\parte-2.10-primeros-auxilios-y-conducta-pas.mp3"
+   }
+  },
+  {
+   "ordinal": 20,
+   "code": "3.1",
+   "block": 3,
+   "position": 1,
+   "title": "Qué es un equipo de trabajo",
+   "slidePage": 20,
+   "manualPage": 27,
+   "explanation": "\nObjetivo\nEntender la amplitud del concepto y abandonar la idea de que «equipo» equivale únicamente a maquinaria pesada.\n\nExplicación detallada\nLa ET define equipo como máquina, aparato, instrumento o instalación utilizado en el trabajo. El RD 1215/1997 utiliza igualmente un concepto amplio y constituye la norma básica sobre utilización de equipos de trabajo. Para 5.5.d pueden ser relevantes desde equipos sencillos de oficina hasta medios auxiliares, herramientas o determinados equipos autorizados. El nivel de formación dependerá de lo que realmente se utilice. El riesgo tampoco es proporcional a la apariencia de complejidad.\nUna escalera portátil mal utilizada puede producir lesiones graves; un equipo eléctrico pequeño puede ser peligroso si presenta defectos.\n\nAplicación práctica\nUna persona considera una escalera «demasiado sencilla para necesitar comprobaciones» y la utiliza con un elemento dañado.\n\nSecuencia operativa recomendada\n- Identificar equipo\n- Confirmar que corresponde al puesto\n- Conocer instrucciones\n- Revisar antes del uso\n- Utilizar para la finalidad prevista\n\nProfundización técnica y criterio preventivo\nEl concepto legal de equipo de trabajo es amplio y permite entender por qué la prevención no se limita a grandes máquinas. Una herramienta manual, una escalera, un equipo eléctrico o una instalación pueden generar riesgos. Cada equipo tiene un uso previsto, unas instrucciones y unas limitaciones. El trabajador debe identificar cuáles pertenecen realmente a sus funciones y conocer la información necesaria antes de utilizarlos.\nLa sencillez aparente no exime de comprobar el estado ni de respetar las condiciones de uso.\n\nIdea clave\nTodo equipo debe tener un uso previsto y condiciones de utilización segura.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.1-que-es-un-equipo-de-trabajo.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.1-que-es-un-equipo-de-trabajo.mp3"
+   }
+  },
+  {
+   "ordinal": 21,
+   "code": "3.2",
+   "block": 3,
+   "position": 2,
+   "title": "Competencia y autorización para utilizar equipos",
+   "slidePage": 21,
+   "manualPage": 28,
+   "explanation": "\nObjetivo\nSaber reconocer el límite entre disponibilidad física y competencia.\n\nExplicación detallada\nLa Ley 31/1995 establece que cuando un equipo puede presentar un riesgo específico, su utilización debe quedar reservada a quienes estén encargados de ella; las intervenciones de reparación o mantenimiento deben efectuarlas personas específicamente capacitadas. El RD 1215/1997 y su guía técnica desarrollan la necesidad de utilización segura y formación adecuada, incluida la problemática de los usos prohibidos o no previstos. Una observación frecuente es «lo he visto hacer muchas veces».\nVer operar un equipo no acredita conocimientos sobre estabilidad, capacidad, alarmas, riesgos residuales ni respuestas frente a fallos.\n\nAplicación práctica\nUna persona mueve una carga con un equipo de manutención que no forma parte de sus funciones.\n\nSecuencia operativa recomendada\n- Preguntar: ¿es parte de mi puesto?, ¿he recibido formación?, ¿estoy autorizado cuando procede?, ¿conozco las limitaciones? Si alguna respuesta necesaria es negativa, no utilizar\n\nProfundización técnica y criterio preventivo\nLa competencia para utilizar un equipo se relaciona con el riesgo, la formación, la información y, cuando proceda, la autorización. Observar a otros o haber utilizado un equipo en otro contexto no garantiza conocer sus limitaciones en el centro actual. La empresa debe definir qué personas están encargadas del uso de equipos con riesgo específico y qué trabajos requieren personal especialmente capacitado. Para el alumno, tres preguntas ofrecen una buena barrera:\n¿forma parte de mi función?, ¿he recibido la formación necesaria?, ¿estoy autorizado cuando se requiere? Si falta una respuesta esencial, no se utiliza.\n\nIdea clave\nParecer sencillo no equivale a ser seguro ni estar autorizado.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.2-competencia-y-autorizacion-para-utilizar-equipos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.2-competencia-y-autorizacion-para-utilizar-equipos.mp3"
+   }
+  },
+  {
+   "ordinal": 22,
+   "code": "3.3",
+   "block": 3,
+   "position": 3,
+   "title": "Comprobación previa de equipos",
+   "slidePage": 22,
+   "manualPage": 29,
+   "explanation": "\nObjetivo\nDetectar defectos evidentes antes de que se conviertan en incidentes.\n\nExplicación detallada\nLa ET exige revisión del equipo, máquinas, accesorios e instrumental antes de su puesta en marcha, incluidos los sistemas que afectan a la seguridad. Para personal 5.5.d la revisión debe limitarse al nivel que establezca el fabricante y el procedimiento interno: daños visibles, cableado, protecciones, accesorios, indicaciones de fallo, fugas o elementos sueltos. La revisión no autoriza reparaciones. Un defecto debe desencadenar un proceso de retirada de uso o comunicación, no una reparación improvisada.\n\nAplicación práctica\nUn cable presenta aislamiento deteriorado. La medida no es envolverlo provisionalmente y continuar.\n\nSecuencia operativa recomendada\n- Inspeccionar\n- Detectar anomalía\n- No utilizar\n- Identificar/aislar según procedimiento\n- Comunicar\n- Permitir intervención únicamente al personal competente\n\nProfundización técnica y criterio preventivo\nLa revisión previa debe centrarse en defectos que el usuario puede detectar sin desmontar ni intervenir técnicamente. Estructura, cables, conectores, resguardos, indicadores, accesorios o fugas visibles son ejemplos. Una comprobación sirve para impedir que el defecto llegue a convertirse en accidente. Si se detecta una anomalía, el equipo se deja fuera de uso siguiendo el procedimiento y se comunica. La revisión no convierte al usuario en reparador y no justifica soluciones temporales improvisadas.\n\nIdea clave\nLa finalidad de la revisión es encontrar el defecto antes del uso.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.3-comprobacion-previa-de-equipos.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.3-comprobacion-previa-de-equipos.mp3"
+   }
+  },
+  {
+   "ordinal": 23,
+   "code": "3.4",
+   "block": 3,
+   "position": 4,
+   "title": "Manuales e instrucciones del fabricante",
+   "slidePage": 23,
+   "manualPage": 30,
+   "explanation": "\nObjetivo\nUtilizar la información del fabricante como límite técnico del uso.\n\nExplicación detallada\nLa ET obliga a tratar las limitaciones técnicas del uso previsto y menciona expresamente los manuales de instrucciones. El manual puede establecer límites de carga, accesorios compatibles, condiciones ambientales, inspecciones, restricciones y advertencias. La experiencia informal de los compañeros no debe sustituir esa información ni los procedimientos internos. La guía del INSST sobre equipos presta especial atención al uso previsto, usos prohibidos y formación requerida.\n\nAplicación práctica\nUtilizar una escalera con una configuración que el fabricante no contempla.\n\nSecuencia operativa recomendada\n- Conocer instrucción aplicable\n- Respetar limitaciones\n- Ante duda, consultar\n- No modificar método o accesorio por iniciativa propia\n\nProfundización técnica y criterio preventivo\nLos manuales del fabricante son parte de la información preventiva porque establecen límites técnicos que no deben sustituirse por costumbre o experiencia informal. Carga máxima, accesorios compatibles, condiciones ambientales, comprobaciones y prohibiciones pueden cambiar de un modelo a otro. La empresa puede añadir instrucciones más restrictivas cuando la evaluación lo requiera.\nEl trabajador debe saber dónde consultar y entender que la capacidad física de un equipo para realizar una acción no demuestra que esa acción esté prevista ni sea segura.\n\nIdea clave\nQue un equipo pueda físicamente realizar algo no significa que esté diseñado para hacerlo de forma segura.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.4-manuales-e-instrucciones-del-fabricante.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.4-manuales-e-instrucciones-del-fabricante.mp3"
+   }
+  },
+  {
+   "ordinal": 24,
+   "code": "3.5",
+   "block": 3,
+   "position": 5,
+   "title": "Resguardos y dispositivos de seguridad",
+   "slidePage": 24,
+   "manualPage": 31,
+   "explanation": "\nObjetivo\nReconocer la función de los principales elementos de protección.\n\nExplicación detallada\nLa ET cita bloqueos de seguridad, controles, indicadores y dispositivos de vigilancia como ejemplos de sistemas asociados a las máquinas e instalaciones. Un resguardo crea una barrera frente a una zona peligrosa; un enclavamiento puede impedir un funcionamiento en condiciones incorrectas; una parada de emergencia permite responder ante determinadas situaciones; sensores, barreras o alarmas cumplen otras funciones de seguridad. El mensaje esencial para 5.5.d es que estos dispositivos no son molestias operativas.\nNunca deben puentearse, neutralizarse o retirarse para facilitar una actividad.\n\nAplicación práctica\nUna puerta protegida impide el funcionamiento de un equipo. Mantenerla artificialmente cerrada mientras permanece abierta físicamente anularía la protección.\n\nSecuencia operativa recomendada\n- Detectar activación/defecto\n- Detener actuación\n- No puentear\n- Comunicar\n- Seguir procedimiento técnico del personal autorizado\n\nProfundización técnica y criterio preventivo\nLos dispositivos de seguridad son barreras diseñadas para mantener a las personas fuera de condiciones peligrosas o para limitar las consecuencias de un fallo. Resguardos, enclavamientos, sensores y paradas de emergencia responden a peligros previamente identificados. Neutralizarlos transforma el riesgo previsto por el fabricante y puede dejar expuesta a la persona sin que sea evidente. Si una protección impide continuar, debe asumirse que existe una razón hasta que personal competente determine lo contrario.\n\nIdea clave\nSi un sistema de seguridad impide continuar, hay que averiguar por qué; no eliminar el sistema.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.5-resguardos-y-dispositivos-de-seguridad.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.5-resguardos-y-dispositivos-de-seguridad.mp3"
+   }
+  },
+  {
+   "ordinal": 25,
+   "code": "3.6",
+   "block": 3,
+   "position": 6,
+   "title": "Indicadores, manómetros y paneles",
+   "slidePage": 25,
+   "manualPage": 32,
+   "explanation": "\nObjetivo\nComprender que los indicadores contienen información operativa y preventiva.\n\nExplicación detallada\nLa ET menciona controles de presión y temperatura, indicadores de advertencia y peligro, dispositivos de iluminación e indicación y paneles de alarmas. Un trabajador 5.5.d no necesita aprender valores de proceso que no pertenezcan a sus funciones. Sí debe reconocer que alterar, tapar, ignorar o resetear un indicador puede ocultar información relevante. Debe evitarse «normalizar» una alarma repetitiva. La reiteración no demuestra que sea segura;\npuede indicar que una condición requiere análisis por personal responsable.\n\nAplicación práctica\nUna luz de fallo aparece regularmente y se acostumbra a reiniciar sin investigarla.\n\nSecuencia operativa recomendada\n- Observar\n- No manipular fuera de funciones\n- Comunicar valor/alarma y ubicación\n- Seguir instrucciones\n\nProfundización técnica y criterio preventivo\nLos indicadores convierten variables del proceso en información útil. Un trabajador de 5.5.d no tiene por qué conocer valores operativos que no forman parte de su función, pero sí debe respetar el significado preventivo de alarmas, luces o instrumentos. Ignorar una advertencia recurrente puede normalizar una desviación y retrasar su corrección. La conducta correcta es observar, no manipular fuera de funciones y comunicar de forma precisa qué indicador o alarma se ha detectado y dónde.\n\nIdea clave\nNo es necesario saber reparar un sistema para saber que una advertencia merece atención.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.6-indicadores-manometros-y-paneles.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.6-indicadores-manometros-y-paneles.mp3"
+   }
+  },
+  {
+   "ordinal": 26,
+   "code": "3.7",
+   "block": 3,
+   "position": 7,
+   "title": "Protección colectiva y EPI",
+   "slidePage": 26,
+   "manualPage": 33,
+   "explanation": "\nObjetivo\nEntender la prioridad preventiva entre medidas.\n\nExplicación detallada\nLa Ley 31/1995 establece que la protección colectiva debe anteponerse a la individual. El RD 773/1997 señala que los EPI se emplean cuando los riesgos no pueden evitarse o limitarse suficientemente por medidas colectivas u organizativas. Una barandilla, resguardo, segregación física o extracción actúan sobre el entorno; el EPI actúa sobre la persona. Ambos pueden ser necesarios, pero no son intercambiables. Es frecuente que el alumno asocie prevención a «ponerse el EPI». Esta diapositiva debe corregir esa visión.\n\nAplicación práctica\nUtilizar casco no sustituye la necesidad de delimitar una zona con riesgo de caída de objetos.\n\nSecuencia operativa recomendada\n- Seguir las medidas del centro\n- No retirar protecciones colectivas\n- Usar además el EPI cuando sea requerido\n- Comunicar fallos de cualquiera de las barreras\n\nProfundización técnica y criterio preventivo\nLa jerarquía preventiva evita reducir la prevención a 'ponerse un EPI'. Las medidas que eliminan o controlan el peligro en el origen protegen antes de que la exposición alcance al trabajador. Las protecciones colectivas benefician a varias personas y no dependen tanto de la conducta individual. Los EPI siguen siendo esenciales cuando el riesgo residual lo requiere, pero deben complementarse con organización, señalización, mantenimiento y control.\nUn EPI nunca debe utilizarse como argumento para mantener una situación que podría evitarse con una medida más eficaz.\n\nIdea clave\nUn EPI es una barrera importante, pero no debe justificar una condición que podría controlarse mejor en origen.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.7-proteccion-colectiva-y-epi.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.7-proteccion-colectiva-y-epi.mp3"
+   }
+  },
+  {
+   "ordinal": 27,
+   "code": "3.8",
+   "block": 3,
+   "position": 8,
+   "title": "EPI habituales y selección por riesgo",
+   "slidePage": 27,
+   "manualPage": 34,
+   "explanation": "\nObjetivo\nReconocer familias de EPI sin crear una lista universal.\n\nExplicación detallada\nEl RD 773/1997 obliga a seleccionar los EPI según los riesgos que no se han podido controlar suficientemente por otros medios, las condiciones del lugar y las características del usuario. El INSST dispone de una guía actualizada que desarrolla selección y utilización. En instalaciones mineras pueden ser relevantes, según la evaluación: casco, calzado, alta visibilidad, protección ocular, auditiva, guantes o protección respiratoria. No debe enseñarse que todos sean obligatorios siempre.\nEspecial atención merece la protección respiratoria: no debe asignarse de forma genérica una «mascarilla» a cualquier polvo o sustancia. Su selección depende del riesgo identificado.\n\nAplicación práctica\nEntrar en una zona con ruido obligatorio sin protección auditiva porque «solo serán dos minutos» incumple la medida establecida.\n\nSecuencia operativa recomendada\n- Consultar señal/evaluación\n- Seleccionar EPI establecido\n- Comprobar compatibilidad y estado\n- Ajustar correctamente\n- Mantenerlo durante toda la exposición\n\nProfundización técnica y criterio preventivo\nLa selección de EPI debe vincularse a un riesgo concreto. Casco, calzado, alta visibilidad, protección ocular, auditiva o respiratoria protegen frente a peligros diferentes y pueden tener prestaciones distintas. No existe un equipo universal ni una combinación idéntica para todas las áreas. La empresa debe definir la selección en función de la evaluación y facilitar información sobre uso y mantenimiento.\nEl trabajador debe respetar la señalización, comprobar el ajuste y mantener el EPI durante toda la exposición, incluso cuando la estancia sea breve.\n\nIdea clave\nEl EPI correcto es el adecuado para el riesgo concreto, no el que simplemente está disponible.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.8-epi-habituales-y-seleccion-por-riesgo.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.8-epi-habituales-y-seleccion-por-riesgo.mp3"
+   }
+  },
+  {
+   "ordinal": 28,
+   "code": "3.9",
+   "block": 3,
+   "position": 9,
+   "title": "Revisión, cuidado y retirada de EPI",
+   "slidePage": 28,
+   "manualPage": 35,
+   "explanation": "\nObjetivo\nMantener la eficacia protectora durante toda la vida útil.\n\nExplicación detallada\nEl RD 773/1997 exige utilización y mantenimiento adecuados; el INSST destaca que selección, ajuste, conservación y sustitución son partes del sistema de protección. Antes del uso deben comprobarse daños, deformaciones, suciedad relevante, elementos faltantes, ajuste y cualquier criterio de retirada del fabricante. El equipo no debe modificarse para mejorar comodidad. El almacenamiento también importa: exposición innecesaria a contaminantes, humedad, calor o radiación puede degradar ciertos materiales.\n\nAplicación práctica\nUn casco con daños visibles no se conserva «para visitas cortas».\n\nSecuencia operativa recomendada\n- Inspeccionar\n- Ajustar\n- Utilizar\n- Limpiar/guardar conforme a instrucciones\n- Sustituir cuando corresponda\n- Informar de deficiencias\n\nProfundización técnica y criterio preventivo\nLa protección puede perderse si el equipo está deteriorado, mal ajustado o almacenado incorrectamente. Por ello la revisión antes del uso debe formar parte de la rutina. Deben observarse daños, deformaciones, suciedad que afecte al funcionamiento, elementos faltantes o criterios de retirada establecidos por el fabricante. Modificar un EPI para ganar comodidad puede alterar prestaciones que no son visibles.\nCuando exista duda razonable sobre su estado, el equipo debe retirarse o someterse al procedimiento de revisión correspondiente.\n\nIdea clave\nDisponer de un EPI no garantiza protección; debe estar adecuado, íntegro y bien utilizado.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-3\\parte-3.9-revision-cuidado-y-retirada-de-epi.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-3\\parte-3.9-revision-cuidado-y-retirada-de-epi.mp3"
+   }
+  },
+  {
+   "ordinal": 29,
+   "code": "4.1",
+   "block": 4,
+   "position": 1,
+   "title": "Vigilancia continua del entorno",
+   "slidePage": 29,
+   "manualPage": 37,
+   "explanation": "\nObjetivo\nEntender que la seguridad no es una comprobación única al comienzo del turno.\n\nExplicación detallada\nLa ET exige control y vigilancia del lugar según procedimientos internos y la ITC vincula este bloque con inspecciones y controles que debe realizar el trabajador conforme a instrucciones y DIS. Una zona puede cambiar por derrames, nuevos trabajos, averías, equipos móviles o modificaciones de acceso. La observación debe mantenerse durante toda la actividad.\n\nAplicación práctica\nDurante la jornada se deposita material sobre parte de una ruta de evacuación.\n\nSecuencia operativa recomendada\n- Observar continuamente\n- Detectar cambio\n- Valorar exposición\n- Comunicar\n- Utilizar alternativa autorizada\n\nProfundización técnica y criterio preventivo\nLa vigilancia continua completa la inspección inicial. Los riesgos evolucionan a medida que cambian actividades, personas, equipos o condiciones ambientales. El trabajador debe mantener la atención sin convertirse en supervisor técnico de operaciones que no le corresponden. Su papel es detectar cambios relevantes para su propia seguridad o la de quienes puedan verse afectados por sus actos, y comunicar cuando las condiciones dejan de coincidir con lo previsto.\nLa observación preventiva debe integrarse en la actividad normal y no reservarse únicamente a auditorías o inspecciones formales.\n\nIdea clave\n«era seguro al llegar» no garantiza que siga siéndolo.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.1-vigilancia-continua-del-entorno.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.1-vigilancia-continua-del-entorno.mp3"
+   }
+  },
+  {
+   "ordinal": 30,
+   "code": "4.2",
+   "block": 4,
+   "position": 2,
+   "title": "Alarmas",
+   "slidePage": 30,
+   "manualPage": 38,
+   "explanation": "\nObjetivo\nResponder correctamente a señales acústicas o luminosas.\n\nExplicación detallada\nEl RD 1389/1997 exige sistemas de comunicación, alerta y alarma cuando sean necesarios. Los trabajadores deben conocer qué señales les afectan. No todas las alarmas implican evacuación, de modo que la formación general debe remitir al procedimiento del centro.\n\nAplicación práctica\nUna alarma se activa con frecuencia y el personal deja de reaccionar.\n\nSecuencia operativa recomendada\n- Reconocer\n- Seguir instrucción específica\n- No silenciar/resetear fuera de funciones\n- Comunicar anomalías\n\nProfundización técnica y criterio preventivo\nLas alarmas solo son eficaces si las personas conocen su significado y reaccionan de forma coherente. Un centro puede disponer de señales para emergencia general, equipos en movimiento, fallos técnicos o condiciones específicas. El manual general no puede asignar un significado universal a todas; debe remitir a las instrucciones locales. La normalización por repetición es un riesgo: si una alarma se activa con frecuencia, no debe asumirse que carece de importancia.\nSilenciarla o resetearla fuera de las funciones asignadas puede ocultar información esencial.\n\nIdea clave\nUna alarma nunca debe ignorarse por costumbre.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.2-alarmas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.2-alarmas.mp3"
+   }
+  },
+  {
+   "ordinal": 31,
+   "code": "4.3",
+   "block": 4,
+   "position": 3,
+   "title": "Cambios de condiciones",
+   "slidePage": 31,
+   "manualPage": 39,
+   "explanation": "\nObjetivo\nIntroducir la reevaluación dinámica.\n\nExplicación detallada\nLa Ley obliga a revisar la gestión preventiva cuando las circunstancias muestran que las medidas pueden ser inadecuadas. Para el trabajador esto se traduce en detectar cambios: climatología, iluminación, nueva tarea, avería, personal externo, modificación de ruta.\n\nAplicación práctica\nUna zona exterior seca al inicio de jornada se vuelve resbaladiza.\n\nSecuencia operativa recomendada\n- Detectar cambio\n- Detener automatismo\n- Comprobar nuevas instrucciones\n- Continuar solo con condiciones controladas\n\nProfundización técnica y criterio preventivo\nLa gestión preventiva debe ser sensible al cambio. Una tarea planificada bajo determinadas condiciones puede necesitar otra medida cuando aparece lluvia, una avería, falta de iluminación, una empresa externa o una modificación del recorrido. El trabajador no tiene que realizar una nueva evaluación formal, pero sí reconocer que el escenario ha dejado de ser el previsto y detener el automatismo. La respuesta consiste en informar, consultar las nuevas instrucciones y continuar solo cuando el control sea claro.\n\nIdea clave\nCuando cambia el escenario, debe revisarse la forma de actuar.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.3-cambios-de-condiciones.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.3-cambios-de-condiciones.mp3"
+   }
+  },
+  {
+   "ordinal": 32,
+   "code": "4.4",
+   "block": 4,
+   "position": 4,
+   "title": "Qué es una anomalía",
+   "slidePage": 32,
+   "manualPage": 40,
+   "explanation": "\nObjetivo\nFavorecer el reporte temprano.\n\nExplicación detallada\nPuede considerarse anomalía cualquier condición inesperada que pueda afectar a la seguridad: fuga, cable dañado, resguardo abierto, olor, ruido inusual, señal deteriorada, obstáculo o alarma. No corresponde al 5.5.d determinar siempre la causa técnica.\n\nAplicación práctica\nUna protección aparece desmontada sin información visible.\n\nSecuencia operativa recomendada\n- No intervenir\n- Evitar exposición\n- Comunicar con precisión\n\nProfundización técnica y criterio preventivo\nUna anomalía es una señal de que la situación real difiere de la normal o prevista. Fugas, ruidos, olores, cables dañados, resguardos abiertos o señales deterioradas pueden tener causas muy distintas. El trabajador 5.5.d no necesita diagnosticar la avería para que su aviso sea valioso. La prevención mejora cuando se informa temprano, antes de que una desviación pequeña se convierta en incidente. La comunicación debe centrarse en lo observado, sin especular innecesariamente sobre causas técnicas.\n\nIdea clave\nComunicar un defecto no exige saber repararlo.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.4-que-es-una-anomalia.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.4-que-es-una-anomalia.mp3"
+   }
+  },
+  {
+   "ordinal": 33,
+   "code": "4.5",
+   "block": 4,
+   "position": 5,
+   "title": "Comunicación eficaz de incidencias",
+   "slidePage": 33,
+   "manualPage": 41,
+   "explanation": "\nObjetivo\nMejorar la utilidad de los avisos.\n\nExplicación detallada\nLa Ley obliga a los trabajadores a informar de inmediato de situaciones que, razonablemente, puedan entrañar riesgo. Una comunicación útil identifica qué, dónde, cuándo y qué efecto inmediato se observa.\n\nAplicación práctica\n«derrame de aproximadamente dos metros junto al acceso peatonal norte».\n\nSecuencia operativa recomendada\n- Protegerse\n- Comunicar ubicación y condición\n- Indicar si hay personas expuestas\n- Permanecer disponible si se solicita información\n\nProfundización técnica y criterio preventivo\nLa calidad del aviso condiciona la rapidez de la respuesta. Una incidencia útil contiene ubicación, momento, descripción objetiva y, cuando sea evidente, efecto inmediato sobre la seguridad. Expresiones vagas obligan al receptor a buscar de nuevo la información. El trabajador debe utilizar el canal definido por la empresa y distinguir entre una comunicación ordinaria y una situación que requiere aviso inmediato. Describir con precisión no significa diagnosticar;\nsignifica transmitir hechos observables que permitan tomar decisiones.\n\nIdea clave\n«hay algo raro» aporta menos valor que una descripción precisa y localizada.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.5-comunicacion-eficaz-de-incidencias.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.5-comunicacion-eficaz-de-incidencias.mp3"
+   }
+  },
+  {
+   "ordinal": 34,
+   "code": "4.6",
+   "block": 4,
+   "position": 6,
+   "title": "Detenerse ante una condición insegura",
+   "slidePage": 34,
+   "manualPage": 42,
+   "explanation": "\nObjetivo\nNormalizar la interrupción preventiva.\n\nExplicación detallada\nLa Ley reconoce el derecho a interrumpir la actividad y abandonar el lugar cuando el trabajador considere que existe un riesgo grave e inminente para su vida o salud; el empresario debe proporcionar instrucciones para esas situaciones. No toda duda es un «riesgo grave e inminente» en sentido jurídico, pero pedagógicamente debe enseñarse que ante condiciones no comprendidas no se debe improvisar.\n\nAplicación práctica\nSe exige atravesar una zona que aparece cerrada sin explicación.\n\nSecuencia operativa recomendada\n- No continuar\n- Informar/consultar\n- Seguir instrucciones seguras\n\nProfundización técnica y criterio preventivo\nInterrumpir una actividad puede ser la decisión más segura cuando existe una condición grave o cuando el trabajador carece de información suficiente para actuar sin exponerse. La Ley contempla específicamente el riesgo grave e inminente, pero el principio práctico es más amplio: no debe improvisarse frente a una situación no comprendida. Pedir una aclaración no es falta de competencia.\nLa actuación profesional consiste en reconocer el límite, mantener la zona segura en la medida de lo posible y recurrir a quien pueda decidir.\n\nIdea clave\nPreguntar antes de continuar es una actuación profesional.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-4\\parte-4.6-detenerse-ante-una-condicion-insegura.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-4\\parte-4.6-detenerse-ante-una-condicion-insegura.mp3"
+   }
+  },
+  {
+   "ordinal": 35,
+   "code": "5.1",
+   "block": 5,
+   "position": 1,
+   "title": "Concepto de interferencia",
+   "slidePage": 35,
+   "manualPage": 44,
+   "explanation": "\nObjetivo\nComprender que un riesgo puede proceder del trabajo ajeno.\n\nExplicación detallada\nLa ET incluye específicamente los trabajos simultáneos y la ITC define este bloque alrededor de las interferencias entre tareas realizadas por diferentes trabajadores. Un recorrido seguro puede dejar de serlo durante una descarga, mantenimiento u otra actividad temporal.\n\nAplicación práctica\nUn pasillo de paso coincide temporalmente con una zona de traslado de cargas.\n\nSecuencia operativa recomendada\n- Identificar actividad concurrente\n- Respetar delimitaciones\n- Coordinar acceso\n- Continuar solo en condiciones acordadas\n\nProfundización técnica y criterio preventivo\nLas interferencias muestran que la evaluación del propio puesto no puede aislarse del entorno. Una tarea sencilla puede adquirir riesgos por una descarga cercana, una reparación, el movimiento de una máquina o la presencia de otra empresa. La ET incluye expresamente los trabajos simultáneos porque el mismo espacio y tiempo modifican la exposición. El trabajador debe observar qué actividades se desarrollan alrededor y respetar las medidas de coordinación, aunque la tarea ajena no tenga relación directa con la suya.\n\nIdea clave\nEl riesgo real es el resultado del conjunto de actividades presentes.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.1-concepto-de-interferencia.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.1-concepto-de-interferencia.mp3"
+   }
+  },
+  {
+   "ordinal": 36,
+   "code": "5.2",
+   "block": 5,
+   "position": 2,
+   "title": "Concurrencia de empresas",
+   "slidePage": 36,
+   "manualPage": 45,
+   "explanation": "\nObjetivo\nEntender la necesidad de coordinación cuando trabajan varias empresas.\n\nExplicación detallada\nEl RD 171/2004 exige cooperación y coordinación entre empresas concurrentes, con especial atención a la interacción entre actividades. El RD 1389/1997 contiene también obligaciones específicas de coordinación en el lugar minero.\n\nAplicación práctica\nProveedor, contratista y personal propio coinciden en un acceso.\n\nSecuencia operativa recomendada\n- Recibir información\n- Conocer medios de coordinación\n- Respetar instrucciones\n- Informar de cambios/incidencias\n\nProfundización técnica y criterio preventivo\nLa coordinación de actividades empresariales busca controlar las interacciones entre empresas concurrentes. No sustituye las obligaciones propias de cada empresa; las complementa. El intercambio de información debe permitir conocer riesgos que una actividad introduce para otras personas y las medidas que deben observarse.\nPara el trabajador 5.5.d, esto se traduce en respetar instrucciones de acogida, rutas, permisos, responsables y restricciones, además de comunicar cambios o incidencias que puedan afectar a terceros.\n\nIdea clave\nCada empresa controla sus riesgos, pero las interacciones también deben controlarse.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.2-concurrencia-de-empresas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.2-concurrencia-de-empresas.mp3"
+   }
+  },
+  {
+   "ordinal": 37,
+   "code": "5.3",
+   "block": 5,
+   "position": 3,
+   "title": "Información antes de comenzar",
+   "slidePage": 37,
+   "manualPage": 46,
+   "explanation": "\nObjetivo\nIdentificar qué información necesita el trabajador para actuar seguro.\n\nExplicación detallada\nPuede incluir accesos, circulación, riesgos del centro, medidas de emergencia, trabajos simultáneos y restricciones. La información debe ser comprensible; el RD 1389/1997 insiste expresamente en instrucciones comprensibles.\n\nAplicación práctica\nUn contratista recibe un documento extenso pero no sabe cuál es el punto de reunión.\n\nSecuencia operativa recomendada\n- Revisar información\n- Aclarar dudas\n- Confirmar cambios\n- Aplicar\n\nProfundización técnica y criterio preventivo\nLa información previa debe ser útil, concreta y comprensible. Puede incluir riesgos del centro, accesos, circulación, EPI, emergencias, trabajos simultáneos o zonas restringidas. La entrega de documentación por sí sola no garantiza que la persona comprenda cómo actuar. Cuando una instrucción sea ambigua, debe aclararse antes de comenzar. La empresa debe adaptar la forma de comunicar a las características de las personas afectadas y a la complejidad del riesgo.\n\nIdea clave\nDocumentar no es suficiente si el trabajador no comprende lo que debe hacer.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.3-informacion-antes-de-comenzar.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.3-informacion-antes-de-comenzar.mp3"
+   }
+  },
+  {
+   "ordinal": 38,
+   "code": "5.4",
+   "block": 5,
+   "position": 4,
+   "title": "Comunicación segura",
+   "slidePage": 38,
+   "manualPage": 47,
+   "explanation": "\nObjetivo\nEvitar accidentes derivados de suposiciones.\n\nExplicación detallada\nLas interferencias requieren medios de coordinación adecuados al nivel de peligro, número de empresas y duración de la concurrencia. La comunicación debe identificar quién autoriza, cuándo ha terminado una tarea y cuándo puede entrar otra persona.\n\nAplicación práctica\nSe supone que una revisión ha terminado porque ya no se ve al técnico.\n\nSecuencia operativa recomendada\n- Solicitar confirmación\n- Identificar responsable\n- No inferir estados de equipo o zona\n\nProfundización técnica y criterio preventivo\nLa coordinación fracasa cuando las decisiones dependen de suposiciones. El estado de un equipo, el fin de una reparación o la liberación de una zona deben confirmarse mediante el sistema establecido. La comunicación debe identificar quién da la autorización, a qué zona o actividad se refiere y desde qué momento resulta válida. El trabajador debe evitar deducir que una tarea ha terminado porque no ve a nadie trabajando. La ausencia visible de personal no equivale a una liberación formal.\n\nIdea clave\n«creí que...» es una señal clásica de fallo de coordinación.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.4-comunicacion-segura.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.4-comunicacion-segura.mp3"
+   }
+  },
+  {
+   "ordinal": 39,
+   "code": "5.5",
+   "block": 5,
+   "position": 5,
+   "title": "Proximidad a maquinaria",
+   "slidePage": 39,
+   "manualPage": 48,
+   "explanation": "\nObjetivo\nMantenerse fuera de zonas de movimiento de equipos.\n\nExplicación detallada\nLa ET menciona expresamente proximidad a maquinaria u otro personal. El alumno debe identificar radios de giro, trayectorias y zonas de maniobra como espacios que requieren control.\n\nAplicación práctica\nAcercarse a un operador por detrás para hacerle una pregunta.\n\nSecuencia operativa recomendada\n- Permanecer visible y fuera del radio\n- Utilizar sistema de comunicación previsto\n- Esperar confirmación\n\nProfundización técnica y criterio preventivo\nLa proximidad a maquinaria exige considerar el espacio operativo como dinámico. Una máquina puede girar, retroceder, elevar una carga o cambiar de trayectoria en pocos segundos. Además, el operador puede tener visibilidad limitada. El trabajador debe mantenerse fuera de radios de acción y aproximarse únicamente mediante el sistema previsto. Acercarse por detrás o intentar llamar la atención entrando en la zona de maniobra transforma una simple comunicación en una exposición grave.\n\nIdea clave\nNo entrar en el espacio operativo de una máquina sin coordinación.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.5-proximidad-a-maquinaria.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.5-proximidad-a-maquinaria.mp3"
+   }
+  },
+  {
+   "ordinal": 40,
+   "code": "5.6",
+   "block": 5,
+   "position": 6,
+   "title": "Interacción peatón-vehículo",
+   "slidePage": 40,
+   "manualPage": 49,
+   "explanation": "\nObjetivo\nAplicar específicamente los principios de tráfico interno.\n\nExplicación detallada\nLa actividad puede incluir aparcamientos, viales, accesos o áreas de carga. El diseño de rutas y normas corresponde al centro; el alumno debe respetarlas.\n\nAplicación práctica\nCruzar entre dos vehículos estacionados que ocultan al peatón.\n\nSecuencia operativa recomendada\n- Utilizar cruce\n- Comprobar visibilidad\n- Evitar puntos ciegos\n- No distraerse\n\nProfundización técnica y criterio preventivo\nLos principios de tráfico interno deben aplicarse también en aparcamientos y accesos, no solo junto a grandes equipos. Cruzar entre vehículos estacionados, caminar fuera de rutas o utilizar el móvil reduce la visibilidad y la capacidad de reacción. La mejor medida es separar trayectorias siempre que sea posible. Cuando el cruce sea inevitable, debe utilizarse el punto designado y comprobarse que conductores y peatones tienen visibilidad suficiente.\n\nIdea clave\nLa prioridad práctica es evitar compartir espacio y trayectoria cuando exista alternativa segura.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.6-interaccion-peaton-vehiculo.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.6-interaccion-peaton-vehiculo.mp3"
+   }
+  },
+  {
+   "ordinal": 41,
+   "code": "5.7",
+   "block": 5,
+   "position": 7,
+   "title": "Zonas en reparación o mantenimiento",
+   "slidePage": 41,
+   "manualPage": 50,
+   "explanation": "\nObjetivo\nComprender cómo un mantenimiento ajeno puede modificar el entorno del trabajador.\n\nExplicación detallada\nLa ET incluye expresamente reparaciones, revisiones y mantenimiento dentro del bloque de interferencias. Durante estos trabajos pueden faltar temporalmente protecciones, existir herramientas, delimitaciones o equipos fuera de servicio.\n\nAplicación práctica\nUna protección está desmontada porque un técnico trabaja en el equipo.\n\nSecuencia operativa recomendada\n- Respetar delimitación\n- No tocar\n- No utilizar equipo\n- Esperar liberación formal\n\nProfundización técnica y criterio preventivo\nDurante una reparación o mantenimiento pueden desaparecer temporalmente protecciones habituales y aparecer riesgos que no existen en operación normal. Por eso una zona en intervención debe tratarse como una condición especial hasta que el responsable confirme su liberación. El personal ajeno no debe recolocar piezas, retirar herramientas, cerrar resguardos o poner equipos en servicio por iniciativa propia. Incluso una acción aparentemente útil puede interferir con la seguridad del trabajo técnico.\n\nIdea clave\nUna zona en mantenimiento debe tratarse como una condición especial hasta que se restablezca formalmente.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.7-zonas-en-reparacion-o-mantenimiento.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.7-zonas-en-reparacion-o-mantenimiento.mp3"
+   }
+  },
+  {
+   "ordinal": 42,
+   "code": "5.8",
+   "block": 5,
+   "position": 8,
+   "title": "Zonas temporalmente restringidas",
+   "slidePage": 42,
+   "manualPage": 51,
+   "explanation": "\nObjetivo\nEvitar el incumplimiento derivado de la rutina.\n\nExplicación detallada\nUna zona puede cerrarse por avería, inspección, obra u otra actividad. Que el trabajador conozca el área no invalida el cierre.\n\nAplicación práctica\nRetirar un cono para pasar con una caja y volver a colocarlo después.\n\nSecuencia operativa recomendada\n- No modificar delimitación\n- Buscar alternativa\n- Comunicar necesidad de acceso si existe\n\nProfundización técnica y criterio preventivo\nLas restricciones temporales protegen frente a riesgos que muchas veces no son visibles desde el exterior. Una zona puede estar cerrada por inspección, avería, pruebas o un riesgo estructural. Conocer el lugar o necesitar pasar no autoriza a modificar la delimitación. Si el acceso es necesario, debe solicitarse y coordinarse. La fuerza preventiva de la barrera permanece mientras esté vigente, independientemente de que la actividad que la originó sea visible en ese momento.\n\nIdea clave\nLa restricción temporal tiene la misma fuerza preventiva durante todo el tiempo que esté vigente.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.8-zonas-temporalmente-restringidas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.8-zonas-temporalmente-restringidas.mp3"
+   }
+  },
+  {
+   "ordinal": 43,
+   "code": "5.9",
+   "block": 5,
+   "position": 9,
+   "title": "Trabajos no previstos y cambios de alcance",
+   "slidePage": 43,
+   "manualPage": 52,
+   "explanation": "\nObjetivo\nDetener la improvisación cuando una tarea cambia.\n\nExplicación detallada\nLa formación debe enseñar que una modificación puede introducir riesgos no contemplados. La ITC exige precisamente adaptar la formación a la evolución y a las condiciones reales.\n\nAplicación práctica\nUna gestión documental termina requiriendo entrar en una zona no prevista inicialmente.\n\nSecuencia operativa recomendada\n- Parar\n- Definir nuevo alcance\n- Comprobar riesgos/autorización/EPI\n- Continuar solo cuando esté previsto\n\nProfundización técnica y criterio preventivo\nLos cambios de alcance son una fuente frecuente de improvisación: una tarea empieza de una forma y termina requiriendo otra zona, otro equipo o una interacción no prevista. En ese momento debe revisarse si siguen siendo válidas las instrucciones iniciales. La respuesta segura es detener, definir el nuevo alcance, comprobar riesgos, autorización y medios y continuar solo después. Esta lógica es coherente con la obligación de adaptar la prevención a las condiciones reales del puesto y del centro.\n\nIdea clave\nSi cambia la tarea, puede cambiar la evaluación necesaria.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-5\\parte-5.9-trabajos-no-previstos-y-cambios-de-alcance.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-5\\parte-5.9-trabajos-no-previstos-y-cambios-de-alcance.mp3"
+   }
+  },
+  {
+   "ordinal": 44,
+   "code": "6.1",
+   "block": 6,
+   "position": 1,
+   "title": "Derechos y obligaciones preventivas",
+   "slidePage": 44,
+   "manualPage": 54,
+   "explanation": "\nObjetivo\nIdentificar los derechos básicos relacionados con el curso.\n\nExplicación detallada\nEl trabajador debe recibir información sobre riesgos y medidas, y formación teórica y práctica suficiente y adecuada centrada en su puesto.\nIdentificar las responsabilidades personales. La Ley exige uso adecuado de equipos y medios de protección, comunicación inmediata de situaciones peligrosas y cooperación con el empresario.\n\nAplicación práctica\nUn trabajador que empieza a acceder a una nueva instalación debe recibir la información/ formación que corresponda.\nComunicar un resguardo defectuoso forma parte de las obligaciones preventivas.\n\nProfundización técnica y criterio preventivo\nDerechos y obligaciones forman un sistema equilibrado. La empresa debe garantizar protección eficaz, información, formación, medios y organización preventiva; el trabajador debe utilizar correctamente esos medios, cumplir instrucciones, comunicar riesgos y cooperar. Presentar únicamente una de las dos partes crea una visión incompleta.\nEl objetivo es que el alumno entienda que la prevención es una responsabilidad empresarial organizada que necesita, a la vez, una conducta individual coherente para funcionar en la práctica.\n\nIdea clave\nConocer los riesgos antes de exponerse forma parte de una protección eficaz.\nLa prevención es responsabilidad empresarial organizada y también requiere conducta responsable del trabajador.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.1-derechos-y-obligaciones-preventivas.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.1-derechos-y-obligaciones-preventivas.mp3"
+   }
+  },
+  {
+   "ordinal": 45,
+   "code": "6.2",
+   "block": 6,
+   "position": 2,
+   "title": "Arquitectura normativa básica",
+   "slidePage": 45,
+   "manualPage": 55,
+   "explanation": "\nObjetivo\nComprender cómo se relacionan las principales normas.\n\nExplicación detallada\nLa Ley 31/1995 constituye el marco general de prevención; el RGNBSM establece reglas básicas específicas de seguridad minera; el RD 1389/1997 establece disposiciones mínimas para las actividades mineras de su ámbito; y la ITC 02.1.02, desarrollada por especificaciones técnicas, regula la formación preventiva por puesto.\n\nSecuencia operativa recomendada\n- Utilizar un esquema jerárquico y relacionar cada norma con un ejemplo práctico\n\nProfundización técnica y criterio preventivo\nLa arquitectura normativa permite entender por qué un mismo riesgo puede estar regulado desde distintos niveles. La Ley 31/1995 establece el marco general; el Reglamento General de Normas Básicas de Seguridad Minera y el RD 1389/1997 introducen exigencias sectoriales; la ITC 02.1.02 regula la formación preventiva por puesto; y las especificaciones técnicas desarrollan contenidos mínimos para grupos concretos.\nLas instrucciones y DIS del centro concretan finalmente cómo se aplican esas exigencias en una instalación determinada.\n\nIdea clave\nEl curso no nace de una política interna voluntaria, sino de un marco preventivo y minero estructurado.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.2-arquitectura-normativa-basica.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.2-arquitectura-normativa-basica.mp3"
+   }
+  },
+  {
+   "ordinal": 46,
+   "code": "6.3",
+   "block": 6,
+   "position": 3,
+   "title": "Ley 31/1995 de Prevención de Riesgos Laborales",
+   "slidePage": 46,
+   "manualPage": 56,
+   "explanation": "\nObjetivo\nComprender los pilares preventivos sin memorizar artículos.\n\nExplicación detallada\nLa Ley reconoce el derecho a protección eficaz y regula evaluación, planificación, información, formación, equipos, emergencias, coordinación y obligaciones de los trabajadores. Su texto consolidado incorporaba una última actualización publicada el 9 de abril de 2026 a la fecha de esta investigación.\n\nAplicación práctica\nEntregar un EPI sin información ni selección adecuada no agota las obligaciones preventivas.\n\nProfundización técnica y criterio preventivo\nLa Ley 31/1995 no debe estudiarse como una sucesión de artículos aislados, sino como un sistema de gestión. Evaluar riesgos, planificar medidas, informar, formar, preparar emergencias y coordinar empresas son partes conectadas. Los principios de acción preventiva orientan el orden de las decisiones: evitar riesgos, combatirlos en origen y priorizar la protección colectiva. El trabajador debe comprender que la prevención forma parte de la organización normal del trabajo y no se limita a documentos o inspecciones.\n\nIdea clave\nLa prevención debe integrarse en la gestión y no limitarse a documentación.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.3-ley-31-1995-de-prevencion-de-riesgos-laborales.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.3-ley-31-1995-de-prevencion-de-riesgos-laborales.mp3"
+   }
+  },
+  {
+   "ordinal": 47,
+   "code": "6.4",
+   "block": 6,
+   "position": 4,
+   "title": "Derechos de los trabajadores",
+   "slidePage": 47,
+   "manualPage": 57,
+   "explanation": "\nObjetivo\nIdentificar los derechos básicos relacionados con el curso.\n\nExplicación detallada\nEl trabajador debe recibir información sobre riesgos y medidas, y formación teórica y práctica suficiente y adecuada centrada en su puesto.\n\nAplicación práctica\nUn trabajador que empieza a acceder a una nueva instalación debe recibir la información/ formación que corresponda.\n\nProfundización técnica y criterio preventivo\nEl derecho a información y formación es práctico: el trabajador debe poder conocer los riesgos antes de exponerse y entender las medidas aplicables. La formación tiene que ser suficiente, adecuada y centrada en el puesto, y actualizarse cuando cambian funciones, tecnologías o equipos. El derecho a protección eficaz también implica que las medidas sean reales y utilizables. Si una persona no comprende una instrucción esencial, debe pedir aclaración;\nrecibir un documento no sustituye la comprensión necesaria para actuar.\n\nIdea clave\nConocer los riesgos antes de exponerse forma parte de una protección eficaz.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.4-derechos-de-los-trabajadores.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.4-derechos-de-los-trabajadores.mp3"
+   }
+  },
+  {
+   "ordinal": 48,
+   "code": "6.5",
+   "block": 6,
+   "position": 5,
+   "title": "Obligaciones de los trabajadores",
+   "slidePage": 48,
+   "manualPage": 58,
+   "explanation": "\nObjetivo\nIdentificar las responsabilidades personales.\n\nExplicación detallada\nLa Ley exige uso adecuado de equipos y medios de protección, comunicación inmediata de situaciones peligrosas y cooperación con el empresario.\n\nAplicación práctica\nComunicar un resguardo defectuoso forma parte de las obligaciones preventivas.\n\nProfundización técnica y criterio preventivo\nLas obligaciones del trabajador se ejercen dentro de su formación y posibilidades. Usar correctamente equipos, medios de protección y sustancias, no inutilizar dispositivos de seguridad, informar de peligros y cooperar son deberes esenciales. No obstante, esas obligaciones no desplazan el deber empresarial de proteger. El trabajador no debe asumir intervenciones técnicas para 'cumplir con la seguridad'; al contrario, debe respetar los límites de competencia y activar los recursos de la organización.\n\nIdea clave\nLa prevención es responsabilidad empresarial organizada y también requiere conducta responsable del trabajador.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.5-obligaciones-de-los-trabajadores.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.5-obligaciones-de-los-trabajadores.mp3"
+   }
+  },
+  {
+   "ordinal": 49,
+   "code": "6.6",
+   "block": 6,
+   "position": 6,
+   "title": "Reglamento General de Normas Básicas de Seguridad Minera",
+   "slidePage": 49,
+   "manualPage": 59,
+   "explanation": "\nObjetivo\nEntender por qué existe normativa específica del sector.\n\nExplicación detallada\nEl RGNBSM establece reglas generales mínimas de seguridad para las actividades incluidas en su ámbito, con el objetivo, entre otros, de proteger a las personas frente a peligros que puedan afectar a su salud o vida.\n\nProfundización técnica y criterio preventivo\nEl Reglamento General de Normas Básicas de Seguridad Minera proporciona el marco sectorial que explica figuras como la dirección facultativa y las disposiciones internas de seguridad. Su finalidad esencial es proteger a las personas y asegurar las actividades incluidas en su ámbito. Las DIS permiten adaptar determinados requisitos a casos concretos y, una vez aprobadas cuando proceda, forman parte de las reglas internas que el personal debe cumplir.\nEsta capa sectorial convive con la legislación general de prevención.\n\nIdea clave\nLa minería combina el marco general de PRL con exigencias sectoriales propias.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.6-reglamento-general-de-normas-basicas-de-seguridad-minera.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.6-reglamento-general-de-normas-basicas-de-seguridad-minera.mp3"
+   }
+  },
+  {
+   "ordinal": 50,
+   "code": "6.7",
+   "block": 6,
+   "position": 7,
+   "title": "Las 10 conductas preventivas esenciales",
+   "slidePage": 50,
+   "manualPage": 60,
+   "explanation": "\nObjetivo\nConvertir el contenido en una pauta de comportamiento.\n\nExplicación detallada\nEl curso debe finalizar reuniendo los diez comportamientos esenciales: observar antes de actuar; respetar accesos; no utilizar equipos fuera de competencia; no anular protecciones; mantener separación de maquinaria; utilizar EPI correctamente; comunicar anomalías; revisar las condiciones cuando cambian; cumplir procedimientos de emergencia; y detenerse ante una situación no comprendida.\nEstos comportamientos sintetizan los principios de acción preventiva, las obligaciones personales y el enfoque de adaptación al puesto establecidos por la Ley, la ITC y la normativa minera.\n\nProfundización técnica y criterio preventivo\nEl cierre debe transformar conocimientos dispersos en un criterio de decisión. Observar, respetar accesos, no intervenir fuera de competencia, mantener separación de maquinaria, utilizar el EPI adecuado, comunicar anomalías, revisar cambios, seguir emergencias y detenerse ante una situación no comprendida son conductas transferibles a muchos escenarios.\nEl alumno no necesita recordar cada frase del manual para trabajar seguro, pero sí aplicar estas reglas de forma consistente y consultar siempre las instrucciones específicas del centro.\n\nIdea clave\nEl objetivo no es que el alumno recuerde sesenta diapositivas, sino que utilice un criterio preventivo coherente cuando se encuentre ante situaciones reales.\n",
+   "audio": {
+    "5": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 5 horas\\bloque-6\\parte-6.7-las-10-conductas-preventivas-esenciales.mp3",
+    "20": "Contenido Cursos\\Pistas de Audio\\Administracion\\Curso de 20 horas\\bloque-6\\parte-6.7-las-10-conductas-preventivas-esenciales.mp3"
+   }
+  }
+ ]
+}
