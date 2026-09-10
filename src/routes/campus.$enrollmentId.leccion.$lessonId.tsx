@@ -306,13 +306,15 @@ function Lesson({
 
   return (
     <AppShell user={user} title={lesson?.title || 'Lección'}>
-      <div className="dashboard-heading">
+      {/* Cabecera reducida: el bloque se identifica en una línea y el nombre
+          de cada unidad lo lleva ya el propio visor, así que aquí no se repite
+          un titular grande que empujaría la diapositiva fuera de pantalla. */}
+      <div className="dashboard-heading dashboard-heading--lesson">
         <div>
           <span className="label-industrial">
             Bloque {lesson?.blockPosition}
           </span>
           <h1>{lesson?.title || 'Contenido'}</h1>
-          <p>{lesson?.summary}</p>
         </div>
         <Link
           className="button button--outline"

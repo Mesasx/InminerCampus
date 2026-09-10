@@ -9,6 +9,7 @@ import {
   Play,
   RotateCcw,
   Volume2,
+  VolumeX,
   X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -112,6 +113,11 @@ const detailedInformationHeadings = new Set([
   'Objetivo',
   'Explicación detallada',
   'Explicación de base',
+  // Vocabulario propio del material de polvo y sílice.
+  'Explicación vinculada al audio',
+  'Profundización técnica',
+  'Secuencia de aplicación',
+  'Errores críticos',
   'Profundización técnica y criterio preventivo',
   'Aplicación práctica',
   'Secuencia operativa recomendada',
@@ -131,10 +137,24 @@ const detailedInformationHeadings = new Set([
 
 const detailedInformationListHeadings = new Set([
   'Secuencia operativa recomendada',
+  'Secuencia de aplicación',
+  'Errores críticos',
   'Riesgos y errores que deben evitarse',
   'Errores críticos que deben evitarse',
   'Comprobación antes de continuar',
 ])
+
+// Los manuales maestros titulan sus propios apartados dentro de cada sección
+// («Riesgos vinculados a las interfaces», «Puestos comprendidos»…). Esos
+// rótulos son distintos en cada unidad, así que no caben en una lista cerrada:
+// se reconocen por forma. Se excluyen explícitamente las viñetas y las líneas
+// numeradas, que sí abren bloque pero son contenido, no título.
+function looksLikeSubheading(line: string, rest: string[]) {
+  if (!rest.length) return false
+  if (line.length < 3 || line.length > 94) return false
+  if (/^[•\-–—\d]/.test(line)) return false
+  return !/[.:;,]$/.test(line)
+}
 
 function DetailedSpecificInformation({ text }: { text: string }) {
   const blocks = text
@@ -144,7 +164,10 @@ function DetailedSpecificInformation({ text }: { text: string }) {
 
   if (blocks.length === 1) return <p>{text}</p>
 
-  const sections: Array<{ heading: string | null; blocks: string[] }> = []
+  const sections: Array<{
+    heading: string | null
+    blocks: Array<string | { subheading: string }>
+  }> = []
 
   for (const block of blocks) {
     const lines = block
@@ -159,7 +182,17 @@ function DetailedSpecificInformation({ text }: { text: string }) {
     }
 
     const activeSection = sections.at(-1)
-    if (activeSection?.heading) {
+    const rest = lines.slice(1)
+    // Un rótulo propio del manual se conserva como subtítulo dentro de la
+    // sección abierta, en vez de disolverse en el párrafo anterior.
+    const nested =
+      activeSection?.heading && looksLikeSubheading(heading, rest)
+        ? [{ subheading: heading }, ...rest]
+        : null
+
+    if (activeSection && nested) {
+      activeSection.blocks.push(...nested)
+    } else if (activeSection?.heading) {
       activeSection.blocks.push(block)
     } else {
       sections.push({ heading: null, blocks: [block] })
@@ -171,9 +204,17 @@ function DetailedSpecificInformation({ text }: { text: string }) {
       {sections.map((section, sectionIndex) => {
         const { heading } = section
 
+        const paragraphs = section.blocks.map((block) =>
+          typeof block === 'string' ? (
+            <p key={block}>{block}</p>
+          ) : (
+            <h4 key={`sub-${block.subheading}`}>{block.subheading}</h4>
+          ),
+        )
+
         if (heading && detailedInformationListHeadings.has(heading)) {
           const items = section.blocks.flatMap((block) =>
-            block
+            (typeof block === 'string' ? block : block.subheading)
               .split('\n')
               .map((line) => line.trim().replace(/^[-•]\s*/, ''))
               .filter(Boolean),
@@ -197,9 +238,7 @@ function DetailedSpecificInformation({ text }: { text: string }) {
               key={`${heading}-${sectionIndex}`}
             >
               <strong>{heading}</strong>
-              {section.blocks.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {paragraphs}
             </aside>
           )
         }
@@ -208,16 +247,12 @@ function DetailedSpecificInformation({ text }: { text: string }) {
           return (
             <section key={`${heading}-${sectionIndex}`}>
               <h3>{heading}</h3>
-              {section.blocks.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {paragraphs}
             </section>
           )
         }
 
-        return section.blocks.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))
+        return paragraphs
       })}
     </div>
   )
@@ -319,9 +354,10 @@ export function AudioLessonPlayer({
   const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null)
   const [pdfOpen, setPdfOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
-  // La explicación forma parte del contenido principal de estudio: debe estar
-  // visible al entrar en la unidad, aunque el alumno pueda plegarla después.
-  const [explanationOpen, setExplanationOpen] = useState(true)
+  // El volumen vive en React y no sólo en el elemento <audio> para que
+  // sobreviva al cambio de unidad, que reinicia la reproducción.
+  const [volume, setVolume] = useState(1)
+  const [muted, setMuted] = useState(false)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
   const [sources, setSources] = useState<Record<string, string>>(() =>
     Object.fromEntries(
@@ -449,8 +485,12 @@ export function AudioLessonPlayer({
     setExpandedSlideId(null)
     setActiveSlideIndex(0)
     setTranscriptOpen(false)
-    setExplanationOpen(true)
   }, [activeSegment?.id])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (audio) audio.volume = muted ? 0 : volume
+  }, [muted, volume])
 
   useEffect(() => {
     const dialogOpen = Boolean(expandedSlideId || pdfOpen)
@@ -781,28 +821,20 @@ export function AudioLessonPlayer({
 
   return (
     <section className="audio-lesson" aria-label="Lección en audio">
-      <header className="panel explanation-switcher">
-        <button
-          aria-label="Explicación anterior"
-          className="explanation-switcher__arrow"
-          disabled={activeIndex === 0}
-          onClick={() => selectSegment(activeIndex - 1)}
-          type="button"
-        >
-          <ChevronLeft size={20} />
-          <span>Anterior</span>
-        </button>
-        <div className="explanation-switcher__content">
-          <div className="explanation-switcher__meta">
-            <span className="eyebrow">Bloque {blockPosition}</span>
-            <span>
-              {completedParts} de {segments.length} escuchadas
-            </span>
-          </div>
-          <label className="explanation-switcher__select">
-            <span>
-              Explicación {activeIndex + 1} de {segments.length}
-            </span>
+      {/* Contexto discreto. El alumno debe saber dónde está sin que la
+          cabecera compita con la diapositiva, que es la protagonista. */}
+      <div className="lesson-context">
+        <p className="lesson-context__trail">
+          <span className="lesson-context__course">{courseTitle}</span>
+          <i aria-hidden="true" />
+          <span>
+            Bloque {blockPosition} · Unidad {activeIndex + 1} de{' '}
+            {segments.length}
+          </span>
+        </p>
+        <div className="lesson-context__tracking">
+          <label className="lesson-context__jump">
+            <span>Ir a</span>
             <select
               aria-label="Cambiar explicación"
               onChange={(event) => selectSegment(Number(event.target.value))}
@@ -831,303 +863,291 @@ export function AudioLessonPlayer({
           >
             <span style={{ width: `${overallPercent}%` }} />
           </div>
+          <span className="lesson-context__count">
+            {completedParts}/{segments.length} escuchadas
+          </span>
         </div>
-        <button
-          aria-label="Explicación siguiente"
-          className="explanation-switcher__arrow"
-          disabled={
-            activeIndex >= segments.length - 1 ||
-            (!previewMode && !activeState.completed)
-          }
-          onClick={() => selectSegment(activeIndex + 1)}
-          type="button"
-        >
-          <span>Siguiente</span>
-          <ChevronRight size={20} />
-        </button>
-      </header>
+      </div>
 
-      <section className="lesson-slides" aria-label="Diapositivas del apartado">
-        <div className="lesson-slides__heading">
-          <div>
-            <span className="eyebrow">Apoyo visual</span>
-            <h2>{activeSlide?.title ?? 'Diapositiva'}</h2>
+      {/* Diapositiva y audio forman una sola superficie: la barra de
+          reproducción cuelga del visor en lugar de vivir en su propia tarjeta,
+          de modo que el conjunto se lee como una única unidad formativa. */}
+      <section className="lesson-slides" aria-label="Diapositiva y locución">
+        <article
+          className="lesson-slide lesson-slide--stage"
+          onTouchEnd={(event) =>
+            handleSlideTouchEnd(event.changedTouches[0].clientX)
+          }
+          onTouchStart={(event) => {
+            touchStartXRef.current = event.changedTouches[0].clientX
+          }}
+        >
+          <SlideIdentity
+            courseTitle={courseTitle}
+            numbering={`${blockPosition}.${activeIndex + 1}`}
+            regulationLabel={regulationLabel}
+            slideTitle={activeSlide?.title ?? activeSegment.title}
+          />
+          <div className="lesson-slide__canvas">
+            {activeSlide && slideSources[activeSlide.id] ? (
+              <img
+                alt={activeSlide.alt_text ?? activeSlide.title}
+                height={SLIDE_INTRINSIC_HEIGHT}
+                src={slideSources[activeSlide.id]}
+                width={SLIDE_INTRINSIC_WIDTH}
+              />
+            ) : (
+              <div className="lesson-slide__missing">
+                Diapositiva no disponible
+              </div>
+            )}
+            {activeSegment.lesson_segment_slides.length > 1 ? (
+              <>
+                <button
+                  aria-label="Diapositiva anterior"
+                  className="lesson-slide__step lesson-slide__step--prev"
+                  disabled={activeSlideIndex === 0}
+                  onClick={() => selectSlide(activeSlideIndex - 1)}
+                  type="button"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+                <button
+                  aria-label="Diapositiva siguiente"
+                  className="lesson-slide__step lesson-slide__step--next"
+                  disabled={
+                    activeSlideIndex >=
+                    activeSegment.lesson_segment_slides.length - 1
+                  }
+                  onClick={() => selectSlide(activeSlideIndex + 1)}
+                  type="button"
+                >
+                  <ChevronRight size={22} />
+                </button>
+              </>
+            ) : null}
           </div>
-          {activeSegment.lesson_segment_slides.length > 1 ? (
-            <span className="lesson-slides__counter">
-              {activeSlideIndex + 1} de{' '}
-              {activeSegment.lesson_segment_slides.length}
-            </span>
-          ) : null}
-        </div>
-        {activeSlide ? (
-          <article
-            className="lesson-slide lesson-slide--stage"
-            onTouchEnd={(event) =>
-              handleSlideTouchEnd(event.changedTouches[0].clientX)
-            }
-            onTouchStart={(event) => {
-              touchStartXRef.current = event.changedTouches[0].clientX
+
+          <audio
+            onEnded={(event) => {
+              setPlaying(false)
+              void reportProgress(event.currentTarget.duration, true)
             }}
-          >
-            <SlideIdentity
-              courseTitle={courseTitle}
-              numbering={`${blockPosition}.${activeIndex + 1}`}
-              regulationLabel={regulationLabel}
-            />
-            <div className="lesson-slide__canvas">
-              {slideSources[activeSlide.id] ? (
-                <img
-                  alt={activeSlide.alt_text ?? activeSlide.title}
-                  height={SLIDE_INTRINSIC_HEIGHT}
-                  src={slideSources[activeSlide.id]}
-                  width={SLIDE_INTRINSIC_WIDTH}
+            onLoadedMetadata={(event) => {
+              const resumeAt = activeState.completed
+                ? 0
+                : Math.min(
+                    activeState.max,
+                    Math.max(event.currentTarget.duration - 1, 0),
+                  )
+              event.currentTarget.currentTime = resumeAt
+              event.currentTarget.volume = muted ? 0 : volume
+              lastReportedRef.current = resumeAt
+              setCurrentTime(resumeAt)
+            }}
+            onPause={() => setPlaying(false)}
+            onPlay={() => setPlaying(true)}
+            onError={() => {
+              setPlaying(false)
+              setNotice(
+                'No se ha podido reproducir el audio. Recarga la página e inténtalo de nuevo.',
+              )
+            }}
+            onRateChange={(event) => {
+              event.currentTarget.playbackRate = 1
+            }}
+            onTimeUpdate={(event) => {
+              const next = event.currentTarget.currentTime
+              setCurrentTime(next)
+              if (
+                !activeState.completed &&
+                next - lastReportedRef.current >= 4
+              ) {
+                lastReportedRef.current = next
+                void reportProgress(next)
+              }
+            }}
+            preload="metadata"
+            ref={audioRef}
+            src={sources[activeSegment.id]}
+          />
+
+          <div className="lesson-slide__bar">
+            <div className="audio-player__controls">
+              <button
+                aria-label={
+                  playing ? 'Pausar la locución' : 'Reproducir la locución'
+                }
+                className="audio-player__play"
+                disabled={!sources[activeSegment.id]}
+                onClick={togglePlayback}
+                type="button"
+              >
+                {playing ? <Pause size={18} /> : <Play size={18} />}
+              </button>
+              <button
+                aria-label="Retroceder diez segundos"
+                className="icon-button audio-player__rewind"
+                onClick={() => handleSeek(Math.max(0, currentTime - 10))}
+                type="button"
+              >
+                <RotateCcw size={15} />
+              </button>
+              <span className="audio-player__time">
+                {formatTime(currentTime)}
+              </span>
+              <input
+                aria-label="Posición del audio"
+                max={activeSegment.duration_seconds}
+                min={0}
+                onChange={(event) => handleSeek(Number(event.target.value))}
+                step={1}
+                type="range"
+                value={Math.min(currentTime, activeSegment.duration_seconds)}
+              />
+              <span className="audio-player__time">
+                {formatTime(activeSegment.duration_seconds)}
+              </span>
+              <div className="audio-player__volume">
+                <button
+                  aria-label={muted ? 'Activar el sonido' : 'Silenciar'}
+                  aria-pressed={muted}
+                  className="icon-button audio-player__mute"
+                  onClick={() => setMuted((current) => !current)}
+                  type="button"
+                >
+                  {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                </button>
+                <input
+                  aria-label="Volumen"
+                  max={1}
+                  min={0}
+                  onChange={(event) => {
+                    const next = Number(event.target.value)
+                    setVolume(next)
+                    setMuted(next === 0)
+                  }}
+                  step={0.05}
+                  type="range"
+                  value={muted ? 0 : volume}
                 />
-              ) : (
-                <div className="lesson-slide__missing">
-                  Diapositiva no disponible
-                </div>
-              )}
+              </div>
             </div>
+
             <div
               className={`lesson-slide__toolbar${activeSegment.lesson_segment_slides.length === 1 ? ' lesson-slide__toolbar--single' : ''}`}
             >
               {activeSegment.lesson_segment_slides.length > 1 ? (
-                <>
-                  <button
-                    aria-label="Diapositiva anterior"
-                    className="icon-button"
-                    disabled={activeSlideIndex === 0}
-                    onClick={() => selectSlide(activeSlideIndex - 1)}
-                    type="button"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-                  <span>
-                    {activeSlideIndex + 1} de{' '}
-                    {activeSegment.lesson_segment_slides.length}
-                  </span>
-                  <button
-                    aria-label="Diapositiva siguiente"
-                    className="icon-button"
-                    disabled={
-                      activeSlideIndex >=
-                      activeSegment.lesson_segment_slides.length - 1
-                    }
-                    onClick={() => selectSlide(activeSlideIndex + 1)}
-                    type="button"
-                  >
-                    <ChevronRight size={20} />
-                  </button>
-                </>
+                <span>
+                  {activeSlideIndex + 1} de{' '}
+                  {activeSegment.lesson_segment_slides.length}
+                </span>
               ) : null}
               <button
-                aria-label={`Descargar ${activeSlide.title}`}
-                className="button button--outline lesson-slide__download"
+                aria-label={`Descargar diapositiva ${blockPosition}.${activeIndex + 1}`}
+                className="icon-button lesson-slide__download"
+                disabled={!activeSlide}
                 onClick={() => void downloadCurrentSlide()}
+                title="Descargar diapositiva"
                 type="button"
               >
-                <Download size={17} /> Descargar diapositiva
+                <Download size={16} />
               </button>
               <button
-                aria-label={`Ver ${activeSlide.title} a pantalla completa`}
+                aria-label={`Ver la diapositiva ${blockPosition}.${activeIndex + 1} a pantalla completa`}
                 className="icon-button lesson-slide__fullscreen"
-                onClick={() => setExpandedSlideId(activeSlide.id)}
+                disabled={!activeSlide}
+                onClick={() =>
+                  activeSlide ? setExpandedSlideId(activeSlide.id) : undefined
+                }
+                title="Pantalla completa"
                 type="button"
               >
-                <Maximize2 size={19} />
+                <Maximize2 size={16} />
               </button>
             </div>
-          </article>
-        ) : null}
-      </section>
-
-      <article className="panel audio-player">
-        <div className="audio-player__heading">
-          <div className="audio-player__label">
-            <Volume2 aria-hidden="true" size={18} />
-            <div>
-              <span className="eyebrow">Audio explicativo</span>
-              <strong>
-                Parte {blockPosition}.{activeIndex + 1} · Unidad {activeCode}
-              </strong>
-            </div>
           </div>
-          <span className="status">
-            {previewMode
-              ? sources[activeSegment.id]
-                ? 'Vista previa'
-                : 'Audio pendiente'
-              : activeState.completed
-                ? 'Escuchado'
-                : 'En curso'}
-          </span>
-        </div>
-
-        <audio
-          onEnded={(event) => {
-            setPlaying(false)
-            void reportProgress(event.currentTarget.duration, true)
-          }}
-          onLoadedMetadata={(event) => {
-            const resumeAt = activeState.completed
-              ? 0
-              : Math.min(
-                  activeState.max,
-                  Math.max(event.currentTarget.duration - 1, 0),
-                )
-            event.currentTarget.currentTime = resumeAt
-            lastReportedRef.current = resumeAt
-            setCurrentTime(resumeAt)
-          }}
-          onPause={() => setPlaying(false)}
-          onPlay={() => setPlaying(true)}
-          onError={() => {
-            setPlaying(false)
-            setNotice(
-              'El navegador no ha podido cargar este audio. Recarga la página e inténtalo de nuevo.',
-            )
-          }}
-          onRateChange={(event) => {
-            event.currentTarget.playbackRate = 1
-          }}
-          onTimeUpdate={(event) => {
-            const next = event.currentTarget.currentTime
-            setCurrentTime(next)
-            if (!activeState.completed && next - lastReportedRef.current >= 4) {
-              lastReportedRef.current = next
-              void reportProgress(next)
-            }
-          }}
-          preload="metadata"
-          ref={audioRef}
-          src={sources[activeSegment.id]}
-        />
-
-        <div className="audio-player__controls">
-          <button
-            aria-label={playing ? 'Pausar' : 'Reproducir'}
-            className="audio-player__play"
-            disabled={!sources[activeSegment.id]}
-            onClick={togglePlayback}
-            type="button"
-          >
-            {playing ? <Pause size={19} /> : <Play size={19} />}
-          </button>
-          <button
-            aria-label="Retroceder diez segundos"
-            className="icon-button audio-player__rewind"
-            onClick={() => handleSeek(Math.max(0, currentTime - 10))}
-            type="button"
-          >
-            <RotateCcw size={16} />
-          </button>
-          <span>{formatTime(currentTime)}</span>
-          <input
-            aria-label="Posición del audio"
-            max={activeSegment.duration_seconds}
-            min={0}
-            onChange={(event) => handleSeek(Number(event.target.value))}
-            step={1}
-            type="range"
-            value={Math.min(currentTime, activeSegment.duration_seconds)}
-          />
-          <span>{formatTime(activeSegment.duration_seconds)}</span>
-        </div>
+        </article>
         {notice ? <p className="audio-player__notice">{notice}</p> : null}
-
         {previewMode ? (
           <div className="alert alert--info audio-player__preview">
             Vista previa administrativa: puedes revisar los guiones y las
             diapositivas aunque todavía no exista una grabación.
           </div>
         ) : null}
+      </section>
+
+      {/* Lectura continua: la explicación desarrolla la diapositiva y se ve
+          sin abrir nada; la transcripción queda un escalón por debajo. */}
+      <div className="lesson-reading">
+        {activeSpecificText ? (
+          <section className="lesson-notes" aria-label="Explicación detallada">
+            <span className="eyebrow">
+              Información específica de la diapositiva · Unidad {activeCode}
+            </span>
+            <h2 className="lesson-notes__title">
+              Explicación detallada ·{' '}
+              {activeSegment.manual_chapter || activeSegment.title}
+            </h2>
+            <DetailedSpecificInformation text={activeSpecificText} />
+            {activeSpecificPoints.length ? (
+              <ul>
+                {activeSpecificPoints.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            ) : null}
+            {activeNote?.stop_criterion ? (
+              <div className="lesson-notes__stop">
+                <strong>Criterio preventivo o de parada</strong>
+                <p>{activeNote.stop_criterion}</p>
+              </div>
+            ) : null}
+          </section>
+        ) : null}
 
         {activeSegment.narration_text ? (
-          <div className="audio-player__script">
+          <div className="lesson-disclosure">
             <button
               aria-expanded={transcriptOpen}
-              className="button button--outline"
+              className="lesson-disclosure__toggle"
               onClick={() => setTranscriptOpen((current) => !current)}
               type="button"
             >
-              <FileText size={17} />
-              {transcriptOpen ? 'Ocultar transcripción' : 'Ver transcripción'}
+              <ChevronRight
+                aria-hidden="true"
+                className={`lesson-disclosure__chevron${transcriptOpen ? ' lesson-disclosure__chevron--open' : ''}`}
+                size={16}
+              />
+              <FileText aria-hidden="true" size={16} />
+              <span>Transcripción del audio · texto exacto</span>
             </button>
             {transcriptOpen ? (
-              <div className="audio-player__script-content">
-                <span className="eyebrow">
-                  Transcripción del audio · texto exacto
-                </span>
+              <div className="audio-player__script">
                 <p>{activeSegment.narration_text}</p>
               </div>
             ) : null}
           </div>
         ) : null}
-      </article>
 
-      {activeNote || activeSlide?.body ? (
-        <section className="panel lesson-notes">
-          <div className="panel__header">
-            <div>
-              <span className="eyebrow">
-                Información específica de la diapositiva · Unidad {activeCode}
-              </span>
-              <h2>
-                Explicación detallada ·{' '}
-                {activeSegment.manual_chapter || activeSegment.title}
-              </h2>
-            </div>
-          </div>
-          <button
-            aria-expanded={explanationOpen}
-            className="button button--primary lesson-notes__expand"
-            onClick={() => setExplanationOpen((current) => !current)}
-            type="button"
-          >
-            <FileText size={18} />
-            {explanationOpen
-              ? 'Ocultar explicación'
-              : 'Leer explicación completa'}
-          </button>
-          {explanationOpen ? (
-            <div className="lesson-notes__expanded">
-              <DetailedSpecificInformation text={activeSpecificText} />
-              {activeSpecificPoints.length ? (
-                <ul>
-                  {activeSpecificPoints.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              ) : null}
-              {activeNote?.stop_criterion ? (
-                <div className="lesson-notes__stop">
-                  <strong>Criterio preventivo o de parada</strong>
-                  <p>{activeNote.stop_criterion}</p>
-                </div>
-              ) : null}
-              {activeSourceLabel ? (
-                <p className="lesson-notes__source">
-                  Fuente: {activeSourceLabel}
-                </p>
-              ) : null}
-              {activeSourcePages ? (
-                <p className="lesson-notes__source">
-                  Referencias relacionadas: {activeSourcePages}
-                </p>
-              ) : null}
-              <button
-                className="button button--outline lesson-notes__pdf"
-                disabled={!pdfViewerUrl}
-                onClick={() => setPdfOpen(true)}
-                type="button"
-              >
-                <FileText size={18} /> {pdfLabel}
-              </button>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
+        {activeSourceLabel || activeSourcePages || pdfViewerUrl ? (
+          <footer className="lesson-reading__meta">
+            <span className="lesson-notes__source">
+              {[activeSourceLabel, activeSourcePages]
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
+            <button
+              className="button button--outline lesson-notes__pdf"
+              disabled={!pdfViewerUrl}
+              onClick={() => setPdfOpen(true)}
+              type="button"
+            >
+              <FileText size={17} /> {pdfLabel}
+            </button>
+          </footer>
+        ) : null}
+      </div>
 
       <div className="audio-lesson__navigation">
         <button
@@ -1227,22 +1247,30 @@ export function AudioLessonPlayer({
   )
 }
 
+// Cabecera del visor. Manda el título de la diapositiva, porque es lo que el
+// alumno está estudiando; el curso y la referencia normativa quedan como
+// procedencia, en un segundo plano tipográfico.
 function SlideIdentity({
   courseTitle,
   numbering,
   regulationLabel,
+  slideTitle,
 }: {
   courseTitle: string
   numbering: string
   regulationLabel: string
+  slideTitle?: string
 }) {
   return (
     <header className="lesson-slide__identity">
-      <strong>{courseTitle}</strong>
-      <span>
-        {regulationLabel}
-        <i aria-hidden="true" />
+      <strong>
         <b>{numbering}</b>
+        {slideTitle ?? courseTitle}
+      </strong>
+      <span>
+        {courseTitle}
+        <i aria-hidden="true" />
+        {regulationLabel}
       </span>
     </header>
   )

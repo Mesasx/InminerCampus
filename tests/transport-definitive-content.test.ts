@@ -154,29 +154,30 @@ test('la interfaz muestra audio, transcripción y diapositiva en el orden format
       readFile(stylesUrl, 'utf8'),
     ])
 
-  const audioIndex = audioPlayer.indexOf(
-    '<article className="panel audio-player"',
-  )
+  // El orden formativo es diapositiva → audio → explicación → transcripción.
+  // El reproductor ya no es una tarjeta suelta: cuelga del visor dentro del
+  // mismo artículo, de modo que ambos se leen como una sola unidad.
+  const canvasIndex = audioPlayer.indexOf('<div className="lesson-slide__canvas"')
+  const barIndex = audioPlayer.indexOf('<div className="lesson-slide__bar"')
+  const readingIndex = audioPlayer.indexOf('<div className="lesson-reading"')
   const transcriptIndex = audioPlayer.indexOf(
     '<div className="audio-player__script"',
   )
-  assert.ok(audioIndex < transcriptIndex)
+  assert.ok(canvasIndex > 0 && canvasIndex < barIndex)
+  assert.ok(barIndex < readingIndex)
+  assert.ok(readingIndex < transcriptIndex)
+  assert.doesNotMatch(audioPlayer, /className="panel audio-player"/)
+  // La barra comparte caja con el visor: su única separación es el filete
+  // superior, nunca un borde completo que la vuelva a convertir en tarjeta.
   assert.match(
     styles,
-    /\.audio-lesson > \.audio-player\s*\{[^}]*order:\s*1/s,
-  )
-  assert.match(
-    styles,
-    /\.audio-lesson > \.lesson-slides\s*\{[^}]*order:\s*2/s,
+    /\.lesson-slide__bar\s*\{[^}]*border-top:\s*1px solid var\(--line\)/s,
   )
   assert.doesNotMatch(
     styles,
-    /\.explanation-switcher\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
+    /\.lesson-slide__bar\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
   )
-  assert.doesNotMatch(
-    styles,
-    /\.audio-player\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
-  )
+  assert.doesNotMatch(styles, /\.explanation-switcher\s*\{/s)
   assert.match(
     lessonRoute,
     /find\(\(resource\) => resource\.kind === ["']manual["']\)[\s\S]*resource\.kind === ["']presentation["'][\s\S]*resource\.kind === ["']pdf["']/,

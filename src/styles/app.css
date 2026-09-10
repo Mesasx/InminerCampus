@@ -1794,6 +1794,19 @@ span {
   font-size: clamp(2rem, 4vw, 3.2rem);
 }
 
+/* Dentro de una lección la protagonista es la diapositiva: el titular baja a
+   tamaño de subtítulo y el aire bajo la cabecera se reduce a la mitad. */
+.dashboard-heading--lesson {
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.dashboard-heading--lesson h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+}
+
 .dashboard-heading p {
   margin-bottom: 0;
   color: var(--muted);
@@ -2583,29 +2596,18 @@ span {
   }
 }
 
+/* Pantalla de lección ------------------------------------------------------
+   La diapositiva manda, el reproductor la acompaña y la explicación la
+   desarrolla. Por eso el visor y la barra de audio comparten una sola caja y
+   el resto del contenido fluye debajo con separadores muy tenues, en lugar de
+   repartirse en tarjetas independientes. */
+
 .audio-lesson {
   display: grid;
+  /* minmax(0, 1fr) evita que una fila con texto sin cortes (el rastro de
+     contexto) ensanche la columna y desborde la diapositiva en móvil. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
-}
-
-.audio-lesson > .explanation-switcher {
-  order: 0;
-}
-
-.audio-lesson > .audio-player {
-  order: 1;
-}
-
-.audio-lesson > .lesson-slides {
-  order: 2;
-}
-
-.audio-lesson > .lesson-notes {
-  order: 3;
-}
-
-.audio-lesson > .audio-lesson__navigation {
-  order: 4;
 }
 
 .audio-lesson--empty {
@@ -2615,6 +2617,8 @@ span {
 }
 
 .audio-lesson__progress-track {
+  flex: 1;
+  min-width: 90px;
   height: 4px;
   overflow: hidden;
   border-radius: 999px;
@@ -2629,240 +2633,92 @@ span {
   transition: width 240ms ease;
 }
 
-.explanation-switcher {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 14px;
-  padding: 12px;
-}
-
-.explanation-switcher__content {
-  display: grid;
-  min-width: 0;
-  gap: 8px;
-}
-
-.explanation-switcher__meta {
+/* Contexto: una sola línea, sin tarjeta ni sombra, para no robarle altura
+   ni atención a la diapositiva. */
+.lesson-context {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px 18px;
+  width: min(100%, 1280px);
+  margin-inline: auto;
+}
+
+.lesson-context__trail {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  overflow: hidden;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
-.explanation-switcher__select {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
-}
-
-.explanation-switcher__select > span {
-  color: var(--ink-soft);
-  font-size: 0.86rem;
-  font-weight: 750;
-}
-
-.explanation-switcher__select select {
-  width: 100%;
+.lesson-context__course {
   min-width: 0;
-  height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 0 34px 0 11px;
-  background: var(--surface-soft);
-  color: var(--ink);
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.explanation-switcher__arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 40px;
-  border: 0;
-  border-radius: 10px;
-  padding: 0 11px;
-  background: var(--surface-soft);
-  color: var(--ink);
-  cursor: pointer;
-  font-weight: 750;
-  transition:
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.explanation-switcher__arrow:not(:disabled):hover {
-  transform: translateY(-1px);
-  background: var(--orange-soft);
-  color: var(--orange-strong);
-}
-
-.explanation-switcher__arrow:disabled {
-  cursor: not-allowed;
-  opacity: 0.42;
-}
-
-.audio-player {
-  display: grid;
-  grid-template-columns: minmax(160px, auto) minmax(320px, 1fr);
-  align-items: center;
-  gap: 8px 18px;
-  padding: 9px 12px;
-  background: var(--surface);
-}
-
-.audio-player__heading {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.audio-player__label {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 9px;
-}
-
-.audio-player__label > svg {
-  display: grid;
-  flex: none;
-  color: var(--orange-strong);
-}
-
-.audio-player__label strong {
-  display: block;
   overflow: hidden;
-  margin-top: 1px;
-  font-size: 0.86rem;
+  color: var(--ink-soft);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.audio-player__controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
+.lesson-context__trail i {
+  flex: none;
+  width: 1px;
+  height: 13px;
+  background: var(--line-strong);
 }
 
-.audio-player__controls input[type='range'] {
+.lesson-context__tracking {
+  display: flex;
   flex: 1;
-  accent-color: var(--orange);
-}
-
-.audio-player__play,
-.icon-button {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.audio-player__play {
-  width: 36px;
-  height: 36px;
-  background: var(--orange);
-  color: white;
-  box-shadow: 0 7px 16px rgba(244, 122, 22, 0.24);
-}
-
-.audio-player__rewind {
-  width: 34px;
-  height: 34px;
-}
-
-.icon-button {
-  width: 40px;
-  height: 40px;
-  background: var(--surface-soft);
-  color: var(--ink);
-}
-
-.audio-player__notice {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: var(--orange-deep);
-  font-size: 0.86rem;
-  font-weight: 700;
-}
-
-.audio-player__preview {
-  grid-column: 1 / -1;
-  margin: 0;
-}
-
-.audio-lesson__navigation {
-  display: flex;
+  min-width: 240px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
 }
 
-.audio-player__script {
-  grid-column: 1 / -1;
-  margin-top: 2px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 20px;
-  background: var(--surface-soft);
-}
-
-.audio-player__script p {
-  margin: 10px 0 0;
-  color: var(--ink-soft);
-  line-height: 1.75;
-  white-space: pre-line;
-}
-
-.audio-player__script-content {
-  margin-top: 16px;
-}
-
-.lesson-notes__expand {
-  margin-top: 4px;
-}
-
-.lesson-notes__expanded {
-  margin-top: 22px;
-}
-
-.lesson-slides {
-  width: min(100%, 1400px);
-  margin-inline: auto;
-}
-
-.lesson-slides__heading {
+.lesson-context__jump {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 8px;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
 }
 
-.lesson-slides__heading h2 {
-  margin: 2px 0 0;
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
+.lesson-context__jump select {
+  max-width: 320px;
+  min-width: 0;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 26px 0 9px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.lesson-slides__counter {
+.lesson-context__count {
   flex: none;
   color: var(--muted);
+  font-size: 0.78rem;
   font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El ancho del visor se limita también por la altura disponible, de forma que
+   la diapositiva completa y su barra de audio quepan en pantalla sin
+   desplazamientos absurdos. */
+.lesson-slides {
+  width: min(100%, 1280px, max(560px, calc((100dvh - 330px) * 16 / 9)));
+  margin-inline: auto;
 }
 
 .lesson-slide {
@@ -2887,44 +2743,54 @@ span {
 }
 
 .lesson-slide__identity {
-  display: grid;
-  gap: 6px;
-  padding: 14px 20px 13px;
-  border-left: 5px solid var(--orange);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding: 10px 16px 9px;
+  border-left: 4px solid var(--orange);
   border-bottom: 1px solid var(--line);
   background: var(--paper);
   color: var(--ink);
 }
 
 .lesson-slide__identity strong {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 9px;
   overflow: hidden;
-  font-size: clamp(0.94rem, 1.8vw, 1.15rem);
-  line-height: 1.2;
+  font-size: clamp(0.92rem, 1.6vw, 1.08rem);
+  line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.lesson-slide__identity b {
+  flex: none;
+  color: var(--orange-deep);
+  font-size: 0.86em;
+  font-variant-numeric: tabular-nums;
+}
+
 .lesson-slide__identity span {
   display: flex;
+  flex: none;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   color: var(--muted);
-  font-size: clamp(0.72rem, 1.4vw, 0.88rem);
+  font-size: 0.74rem;
   font-weight: 650;
 }
 
 .lesson-slide__identity i {
   width: 1px;
-  height: 18px;
+  height: 12px;
   background: var(--line-strong);
 }
 
-.lesson-slide__identity b {
-  color: var(--orange-deep);
-  font-size: 1.05em;
-}
-
 .lesson-slide__canvas {
+  position: relative;
   display: grid;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -2946,61 +2812,229 @@ span {
   color: rgba(255, 255, 255, 0.72);
 }
 
-.lesson-slide__toolbar {
+/* Flechas de diapositiva sobre el propio visor: evitan una fila de controles
+   adicional cuando un apartado tiene varias diapositivas. */
+.lesson-slide__step {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: rgba(17, 25, 30, 0.55);
+  color: white;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    opacity 160ms ease;
+}
+
+.lesson-slide__step:not(:disabled):hover {
+  background: var(--orange);
+}
+
+.lesson-slide__step:disabled {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.lesson-slide__step--prev {
+  left: 10px;
+}
+
+.lesson-slide__step--next {
+  right: 10px;
+}
+
+/* Barra de audio: pegada al visor, sin tarjeta propia ni título. Es el
+   elemento que convierte diapositiva y locución en una sola unidad. */
+.lesson-slide__bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 5px 10px;
+  gap: 10px 16px;
+  min-height: 46px;
+  padding: 5px 12px;
   border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.audio-player__controls {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.audio-player__controls input[type='range'] {
+  flex: 1;
+  min-width: 60px;
+  height: 4px;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+
+.audio-player__time {
+  flex: none;
+  min-width: 34px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.audio-player__volume {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  width: 92px;
+}
+
+.audio-player__volume input[type='range'] {
+  flex: 1;
+  min-width: 0;
+  width: 52px;
+}
+
+.audio-player__play,
+.icon-button {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.audio-player__play {
+  width: 36px;
+  height: 36px;
+  background: var(--orange);
+  color: white;
+  box-shadow: 0 7px 16px rgba(244, 122, 22, 0.24);
+}
+
+.audio-player__play:disabled {
+  cursor: not-allowed;
+  background: var(--line-strong);
+  box-shadow: none;
+}
+
+.audio-player__rewind,
+.audio-player__mute {
+  width: 30px;
+  height: 30px;
+}
+
+.icon-button {
+  width: 34px;
+  height: 34px;
+  background: var(--surface-soft);
+  color: var(--ink);
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.icon-button:not(:disabled):hover {
+  background: var(--orange-soft);
+  color: var(--orange-strong);
+}
+
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.lesson-slide__toolbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
 }
 
 .lesson-slide__toolbar > span {
-  min-width: 54px;
+  min-width: 48px;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.76rem;
   font-weight: 750;
   text-align: center;
 }
 
-.lesson-slide__download {
-  margin-left: auto;
-}
-
 .lesson-slide__toolbar--single {
-  justify-content: flex-end;
+  gap: 6px;
 }
 
-.lesson-slide__toolbar--single .lesson-slide__download {
-  margin-left: 0;
+.audio-player__notice {
+  margin: 8px 0 0;
+  color: var(--orange-deep);
+  font-size: 0.86rem;
+  font-weight: 700;
 }
 
-.lesson-slide__source,
-.lesson-notes__source {
-  display: block;
-  margin-top: 18px;
-  color: var(--muted);
+.audio-player__preview {
+  margin: 10px 0 0;
+}
+
+/* Lectura: una sola columna de ancho cómodo, separada del visor por una línea
+   tenue en vez de por otra tarjeta. */
+.lesson-reading {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 780px);
+  margin-inline: auto;
+  padding-top: 6px;
+}
+
+.lesson-reading__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.lesson-notes {
+  display: grid;
+  gap: 14px;
+}
+
+.lesson-notes__title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw, 1.32rem);
+  line-height: 1.3;
 }
 
 .lesson-notes p,
 .lesson-notes li {
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .lesson-notes__content {
   display: grid;
-  gap: 24px;
+  gap: 22px;
 }
 
 .lesson-notes__content section {
   display: grid;
-  gap: 10px;
+  gap: 9px;
 }
 
 .lesson-notes__content h3 {
   margin: 0;
-  font-size: 1.05rem;
+  color: var(--orange-deep);
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .lesson-notes__content p,
@@ -3008,11 +3042,30 @@ span {
   margin: 0;
 }
 
+/* Rótulos propios del manual dentro de una sección: pesan menos que el h3 y
+   ordenan la lectura sin volver a fragmentar la página. */
+.lesson-notes__content h4 {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.lesson-notes__content h4:first-child {
+  margin-top: 0;
+}
+
 .lesson-notes__key {
   border-left: 4px solid var(--orange);
   border-radius: 0 12px 12px 0;
   padding: 14px 18px;
   background: rgba(244, 122, 22, 0.08);
+}
+
+.lesson-notes__key strong {
+  color: var(--orange-deep);
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .lesson-notes__key p {
@@ -3027,7 +3080,6 @@ span {
 }
 
 .lesson-notes__stop {
-  margin-top: 22px;
   border-left: 4px solid var(--orange);
   border-radius: 0 12px 12px 0;
   padding: 14px 18px;
@@ -3038,8 +3090,73 @@ span {
   margin: 5px 0 0;
 }
 
+.lesson-slide__source,
+.lesson-notes__source {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .lesson-notes__pdf {
-  margin-top: 18px;
+  flex: none;
+}
+
+/* La transcripción existe, pero un escalón por debajo de la explicación. */
+.lesson-disclosure {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.lesson-disclosure__toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: 9px;
+  padding: 7px 8px;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 750;
+  text-align: left;
+}
+
+.lesson-disclosure__toggle:hover {
+  background: var(--surface-soft);
+  color: var(--orange-strong);
+}
+
+.lesson-disclosure__chevron {
+  flex: none;
+  transition: transform 160ms ease;
+}
+
+.lesson-disclosure__chevron--open {
+  transform: rotate(90deg);
+}
+
+.audio-player__script {
+  margin-top: 8px;
+  border-left: 3px solid var(--line-strong);
+  padding: 2px 0 2px 16px;
+}
+
+.audio-player__script p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+.audio-lesson__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100%, 780px);
+  margin-inline: auto;
+  padding-top: 4px;
 }
 
 .lesson-slide-modal,
@@ -4350,10 +4467,6 @@ button.admin-list__item {
 }
 
 @media (max-width: 900px) {
-  .audio-player {
-    grid-template-columns: 1fr;
-  }
-
   .content-editor__create {
     grid-template-columns: 1fr;
   }
@@ -4415,6 +4528,72 @@ button.admin-list__item {
 }
 
 @media (max-width: 680px) {
+  /* En móvil la diapositiva ocupa todo el ancho y la barra de audio se parte
+     en dos filas finas, sin salirse nunca de pantalla. */
+  .lesson-slides {
+    width: 100%;
+  }
+
+  .lesson-slide__bar {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    padding: 6px 10px;
+  }
+
+  .audio-player__controls {
+    flex: 1 0 100%;
+    flex-wrap: nowrap;
+  }
+
+  /* iOS ignora por completo el volumen fijado por programación y el móvil ya
+     tiene botones físicos, así que la barra se queda en dos filas finas:
+     transporte arriba y utilidades de diapositiva debajo. */
+  .audio-player__volume {
+    display: none;
+  }
+
+  .lesson-slide__toolbar {
+    flex: 1 0 100%;
+    justify-content: space-between;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .lesson-slide__toolbar > span {
+    min-width: 0;
+  }
+
+  .lesson-slide__identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .lesson-slide__identity strong {
+    max-width: 100%;
+    /* En móvil el título cabe en dos líneas: es preferible a recortarlo. */
+    align-items: baseline;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .lesson-context__tracking {
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  .lesson-context__jump {
+    flex: 1;
+  }
+
+  .lesson-context__jump select {
+    flex: 1;
+  }
+
+  .lesson-context__count {
+    display: none;
+  }
+
   .container {
     width: min(100% - 24px, 1180px);
   }
@@ -4461,6 +4640,22 @@ button.admin-list__item {
     font-size: clamp(2rem, 10vw, 2.55rem);
   }
 
+  /* En la lección el titular no puede comerse la primera pantalla del móvil:
+     baja a tamaño de subtítulo y el enlace de vuelta se queda a su lado en
+     lugar de ocupar una fila entera. */
+  .dashboard-heading--lesson h1 {
+    font-size: clamp(1.05rem, 4.6vw, 1.35rem);
+  }
+
+  /* Misma especificidad que la regla en columna de más abajo, así que se
+     refuerza con la clase base para que la excepción gane. */
+  .dashboard-heading.dashboard-heading--lesson {
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
   .section-heading,
   .dashboard-heading {
     align-items: start;
@@ -4475,6 +4670,14 @@ button.admin-list__item {
   .dashboard-heading > .button,
   .course-assessment-card > .button {
     width: 100%;
+  }
+
+  /* Excepción: dentro de una lección el enlace de vuelta comparte fila con el
+     titular en lugar de ocupar el ancho completo. */
+  .dashboard-heading--lesson > .button {
+    flex: none;
+    width: auto;
+    padding-inline: 14px;
   }
 
   .feature-grid,
@@ -4743,31 +4946,6 @@ button.admin-list__item {
     grid-template-columns: 1fr;
   }
 
-  .explanation-switcher {
-    gap: 8px;
-    padding: 10px;
-  }
-
-  .explanation-switcher__arrow {
-    width: 40px;
-    padding: 0;
-  }
-
-  .explanation-switcher__arrow span {
-    display: none;
-  }
-
-  .explanation-switcher__select {
-    grid-template-columns: 1fr;
-    gap: 5px;
-  }
-
-  .explanation-switcher__meta {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 2px;
-  }
-
   .lesson-slide-modal,
   .lesson-pdf-modal {
     padding: max(10px, env(safe-area-inset-top)) 10px
@@ -4819,17 +4997,6 @@ button.admin-list__item {
     flex-direction: column;
   }
 
-  .audio-player__controls {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .audio-player__controls input[type='range'] {
-    order: 5;
-    flex-basis: 100%;
-    min-height: 32px;
-  }
-
   .audio-lesson__navigation {
     align-items: stretch;
     flex-direction: column;
@@ -4837,24 +5004,6 @@ button.admin-list__item {
 
   .audio-lesson__navigation .button {
     width: 100%;
-  }
-
-  .lesson-slides__heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .lesson-slide__toolbar {
-    justify-content: space-between;
-  }
-
-  .lesson-slide__toolbar > span {
-    min-width: 0;
-  }
-
-  .lesson-slide__fullscreen {
-    margin-left: 0;
   }
 
   .slide-deck__stage {

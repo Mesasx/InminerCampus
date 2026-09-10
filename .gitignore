@@ -10,3 +10,4 @@ supabase/.temp/
 *.log
 Contenido Cursos/
 .work/
+tmp/
