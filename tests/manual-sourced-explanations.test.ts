@@ -116,3 +116,79 @@ test('el reproductor conserva los rótulos propios del manual', async () => {
   assert.match(player, /\/\^\[•\\-–—\\d\]\//)
   assert.match(player, /<h4 key=\{`sub-\$\{block\.subheading\}`\}/)
 })
+
+const arranque20Url = new URL(
+  '../supabase/migrations/20260910140000_arranque_20h_explicaciones_bloques_2_a_5.sql',
+  import.meta.url,
+)
+const siliceUrl = new URL(
+  '../supabase/migrations/20260910150000_silice_explicaciones_y_titulos.sql',
+  import.meta.url,
+)
+
+test('arranque 20 h completa los bloques 2 a 5 sin tocar el 1 ni el reciclaje', async () => {
+  const sql = await readFile(arranque20Url, 'utf8')
+
+  assert.equal(
+    (sql.match(/^update public\.lesson_segment_slides/gm) ?? []).length,
+    40,
+  )
+  assert.doesNotMatch(sql, /m\.position = 1 and seg\.position/)
+  assert.doesNotMatch(sql, /m\.position = 6 and seg\.position/)
+  for (const heading of [
+    'Objetivo',
+    'Explicación de base',
+    'Profundización técnica y criterio preventivo',
+    'Secuencia operativa recomendada',
+    'Caso práctico razonado',
+    'Errores críticos que deben evitarse',
+    'Comprobación antes de continuar',
+    'Idea clave',
+  ]) {
+    assert.ok(sql.includes(heading), `falta el encabezado ${heading}`)
+  }
+  // El bloque 1 ya tenía su propia redacción y no puede perderla.
+  assert.match(sql, /partes del bloque 1 han perdido su explicación/)
+  // Las dos modalidades de arranque conservan redacciones distintas.
+  assert.match(sql, /idénticas en las dos modalidades/)
+})
+
+test('polvo y sílice recupera explicaciones y acentos sin tocar el bloque 6', async () => {
+  const sql = await readFile(siliceUrl, 'utf8')
+
+  assert.equal(
+    (sql.match(/^update public\.lesson_segment_slides/gm) ?? []).length,
+    50,
+  )
+  assert.equal(
+    (sql.match(/^update public\.lesson_audio_segments/gm) ?? []).length,
+    50,
+  )
+  assert.match(sql, /Qué es el polvo/)
+  assert.match(sql, /Cuándo existe riesgo de exposición/)
+  assert.match(sql, /siguen sin acentuar/)
+  assert.match(sql, /diapositivas del bloque 6 han sido sobrescritas/)
+  // La lista de verificación repetía la secuencia: se conserva una sola vez.
+  assert.match(sql, /Secuencia de aplicación/)
+  assert.doesNotMatch(sql, /Comprobación antes de continuar\$b\$/)
+})
+
+test('el reproductor conoce el vocabulario de encabezados de todos los manuales', async () => {
+  const player = await readFile(playerUrl, 'utf8')
+
+  for (const heading of [
+    'Explicación vinculada al audio',
+    'Profundización técnica',
+    'Secuencia de aplicación',
+    'Errores críticos',
+  ]) {
+    assert.ok(
+      player.includes(`'${heading}'`),
+      `el reproductor no reconoce ${heading}`,
+    )
+  }
+  // Las dos secuencias y las dos listas de errores se pintan como lista.
+  const listSet = player.split('detailedInformationListHeadings')[1] ?? ''
+  assert.match(listSet, /'Secuencia de aplicación'/)
+  assert.match(listSet, /'Errores críticos'/)
+})

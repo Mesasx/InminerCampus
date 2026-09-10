@@ -113,6 +113,11 @@ const detailedInformationHeadings = new Set([
   'Objetivo',
   'Explicación detallada',
   'Explicación de base',
+  // Vocabulario propio del material de polvo y sílice.
+  'Explicación vinculada al audio',
+  'Profundización técnica',
+  'Secuencia de aplicación',
+  'Errores críticos',
   'Profundización técnica y criterio preventivo',
   'Aplicación práctica',
   'Secuencia operativa recomendada',
@@ -132,6 +137,8 @@ const detailedInformationHeadings = new Set([
 
 const detailedInformationListHeadings = new Set([
   'Secuencia operativa recomendada',
+  'Secuencia de aplicación',
+  'Errores críticos',
   'Riesgos y errores que deben evitarse',
   'Errores críticos que deben evitarse',
   'Comprobación antes de continuar',
