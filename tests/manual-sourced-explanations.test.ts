@@ -24,6 +24,10 @@ const slidesScriptUrl = new URL(
   '../scripts/copy-beneficio-20h-slides.mjs',
   import.meta.url,
 )
+const deckSyncScriptUrl = new URL(
+  '../scripts/sync-two-slide-course-decks.mjs',
+  import.meta.url,
+)
 const beneficioImporterUrl = new URL(
   '../scripts/import-establecimientos-master-content.mjs',
   import.meta.url,
@@ -103,9 +107,10 @@ test('perforadora explica las dos modalidades y deja la locución pendiente', as
 })
 
 test('los scripts de beneficio separan las dos modalidades y sus carpetas', async () => {
-  const [audio, slides, importer] = await Promise.all([
+  const [audio, slides, deckSync, importer] = await Promise.all([
     readFile(audioScriptUrl, 'utf8'),
     readFile(slidesScriptUrl, 'utf8'),
+    readFile(deckSyncScriptUrl, 'utf8'),
     readFile(beneficioImporterUrl, 'utf8'),
   ])
 
@@ -116,9 +121,14 @@ test('los scripts de beneficio separan las dos modalidades y sus carpetas', asyn
   assert.match(audio, /es el mismo audio en/)
   assert.match(audio, /--dry-run/)
   assert.match(slides, new RegExp(V_BENEFICIO_20))
-  assert.match(slides, /copied !== 100/)
+  assert.match(slides, /copied !== 50/)
+  assert.match(deckSync, /Que-es-un-Establecimiento-de-Beneficio\.pdf/)
+  assert.match(deckSync, /durationHours: 5/)
+  assert.match(deckSync, /durationHours: 20/)
+  assert.match(deckSync, /pages !== 50/)
   assert.match(importer, /baseExplanation: `Explicación detallada/)
   assert.match(importer, /appliedExplanation/)
+  assert.match(importer, /\.gt\('position', 1\)/)
   assert.match(importer, /onConflict: 'segment_id,position'/)
   assert.match(
     importer,
