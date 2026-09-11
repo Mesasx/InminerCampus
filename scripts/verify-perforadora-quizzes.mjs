@@ -1,14 +1,14 @@
-// Comprueba que los tests cargados de Establecimientos de beneficio reproducen exactamente el
+// Comprueba que los tests cargados de Perforadora reproducen exactamente el
 // libro de preguntas aportado: mismo enunciado, mismas cuatro opciones, misma
 // respuesta correcta y misma justificación, bloque por bloque.
 //
-// Uso: node scripts/verify-beneficio-quizzes.mjs
+// Uso: node scripts/verify-perforadora-quizzes.mjs
 import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
 import { readWorkbook } from './import-administracion-quizzes.mjs'
-import { WORKBOOK, collectQuestions } from './import-beneficio-quizzes.mjs'
+import { WORKBOOK, collectQuestions } from './import-perforadora-quizzes.mjs'
 
-const COURSE_SLUG = 'operadores-establecimientos-beneficio'
+const COURSE_SLUG = 'operadores-perforacion-corte-exterior'
 
 const supabaseUrl = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
