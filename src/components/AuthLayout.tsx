@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { InminerLink } from './InminerLink'
 import { Logo } from './Logo'
 
 export function AuthLayout({
@@ -24,7 +25,9 @@ export function AuthLayout({
             formación técnica organizada.
           </p>
         </div>
-        <small className="auth-side__credit">Inmíner Ingeniería, S.L.</small>
+        <small className="auth-side__credit">
+          <InminerLink className="auth-side__credit-link" suffix=", S.L." />
+        </small>
       </aside>
       <section className="auth-main">
         <div className="auth-card">

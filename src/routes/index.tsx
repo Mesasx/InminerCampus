@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 import { CourseSlider } from '../components/CourseSlider'
 import { Hero } from '../components/Hero'
+import { InminerLink } from '../components/InminerLink'
 import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
@@ -179,8 +180,9 @@ function CampusIntro() {
           Formación técnica desde la ingeniería.
         </h2>
         <p className="campus-section__copy">
-          Inmíner Campus es la plataforma de formación de INMINER INGENIERÍA,
-          una ingeniería multidisciplinar con sede en Ciudad Real. Reunimos
+          Inmíner Campus es la plataforma de formación de{' '}
+          <InminerLink>INMINER INGENIERÍA</InminerLink>, una ingeniería
+          multidisciplinar con sede en Ciudad Real. Reunimos
           aquí la formación preventiva y técnica que antes solo llegaba a
           través de nuestros propios proyectos, para ponerla al alcance de
           operadores, técnicos y empresas del sector minero e industrial.
