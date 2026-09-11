@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Mail, MapPin, Phone } from 'lucide-react'
+import { InminerLink } from '../components/InminerLink'
 import { StaticPage } from '../components/StaticPage'
 import { seoHead } from '../lib/seo'
 
@@ -47,8 +48,8 @@ function ContactPage() {
         </article>
       </div>
       <div className="alert alert--info" style={{ marginTop: 28 }}>
-        Horario de atención publicado por Inmíner: lunes a viernes, de 07:30 a
-        15:30.
+        Horario de atención publicado por{' '}
+        <InminerLink>Inmíner</InminerLink>: lunes a viernes, de 07:30 a 15:30.
       </div>
     </StaticPage>
   )

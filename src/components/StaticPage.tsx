@@ -9,7 +9,9 @@ export function StaticPage({
 }: {
   eyebrow: string
   title: string
-  description: string
+  // Admite marcado además de texto, para poder enlazar una mención dentro de
+  // la entradilla sin partirla en trozos.
+  description: ReactNode
   children: ReactNode
 }) {
   return (

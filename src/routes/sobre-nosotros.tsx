@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Waves,
 } from 'lucide-react'
+import { InminerLink } from '../components/InminerLink'
 import { StaticPage } from '../components/StaticPage'
 import { seoHead } from '../lib/seo'
 
@@ -58,7 +59,14 @@ function AboutPage() {
     <StaticPage
       eyebrow="Sobre InmínerCampus"
       title="Ingeniería que enseña desde la experiencia."
-      description="InmínerCampus es la plataforma de formación de INMINER INGENIERÍA, S.L., una firma multidisciplinar de Ciudad Real que trabaja en minería, industria, seguridad industrial, medioambiente y energía."
+      description={
+        <>
+          InmínerCampus es la plataforma de formación de{" "}
+          <InminerLink>INMINER INGENIERÍA, S.L.</InminerLink>, una firma
+          multidisciplinar de Ciudad Real que trabaja en minería, industria,
+          seguridad industrial, medioambiente y energía.
+        </>
+      }
     >
       <div className="feature-grid">
         <article className="feature-card">

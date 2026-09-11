@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { InminerLink } from './InminerLink'
 import { Logo } from './Logo'
 
 export function Footer() {
@@ -49,8 +50,8 @@ export function Footer() {
             © {new Date().getFullYear()} Inmíner Ingeniería, S.L.
           </span>
           <span>
-            InmínerCampus es la plataforma de formación de Inmíner Ingeniería,
-            S.L.
+            InmínerCampus es la plataforma de formación de{' '}
+            <InminerLink suffix=", S.L." />
           </span>
           <span>
             Plataforma creada por{' '}

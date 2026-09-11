@@ -1406,6 +1406,20 @@ span {
   color: rgba(251, 248, 242, 0.5);
 }
 
+/* Sobre el panel oscuro del acceso, el enlace a la web corporativa hereda el
+   tono tenue del crédito en vez del naranja de marca, que ahí chillaría. */
+.auth-side__credit-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 160ms ease;
+}
+
+.auth-side__credit-link:hover,
+.auth-side__credit-link:focus-visible {
+  color: var(--sand-50);
+}
+
 .auth-main {
   display: grid;
   min-height: 100%;
