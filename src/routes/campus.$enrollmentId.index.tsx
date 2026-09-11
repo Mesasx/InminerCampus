@@ -22,6 +22,7 @@ import {
   type Relation,
 } from '../lib/course-content'
 import { requestInternalCompletion } from '../lib/internal-completion'
+import { quizIntroCopy } from '../lib/quiz-copy'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 
@@ -382,14 +383,12 @@ function CourseContent({
                     <span className="eyebrow">Evaluación incluida</span>
                     <h2>{finalAssessment.quiz.title}</h2>
                     <p>
-                      Test de {finalAssessment.quiz.question_count} preguntas al
-                      100%. Necesitas{' '}
-                      {finalAssessment.quiz.required_perfect_streak} rondas
-                      perfectas
-                      {finalAssessment.quiz.completion_mode ===
-                      'cumulative_perfect'
-                        ? ' acumulativas.'
-                        : ' consecutivas.'}{' '}
+                      {quizIntroCopy({
+                        questionCount: finalAssessment.quiz.question_count,
+                        requiredPerfectRounds:
+                          finalAssessment.quiz.required_perfect_streak,
+                        completionMode: finalAssessment.quiz.completion_mode,
+                      })}{' '}
                       Se habilita al completar todo el contenido anterior.
                     </p>
                   </div>

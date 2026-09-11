@@ -2,20 +2,23 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
-  ExternalLink,
   FileText,
-  Maximize2,
   Pause,
   Play,
   RotateCcw,
   Volume2,
   VolumeX,
-  X,
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { DetailedExplanation } from './DetailedExplanation'
+import {
+  ReadingProgressBadge,
+  ReadingProgressIndicator,
+} from './ReadingProgressIndicator'
+import { buildExplanation, complementaryNote } from '../lib/lesson-explanation'
 import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
+import { useReadingProgress } from '../lib/use-reading-progress'
 
 export type LessonSlide = {
   id: string
@@ -55,6 +58,7 @@ export type AudioProgress = {
   segment_id: string
   max_position_seconds: number
   completed_at: string | null
+  explanation_read_at?: string | null
 }
 
 export type LessonAudioSegment = {
@@ -69,6 +73,7 @@ export type LessonAudioSegment = {
   durationSeconds: number
   maxPositionSeconds: number
   completed: boolean
+  explanationRead: boolean
   note: {
     summary: string
     keyPoints: string[]
@@ -89,15 +94,10 @@ export type LessonAudioSegment = {
   }>
 }
 
-export type CoursePdfResource = {
-  title: string
-  storagePath: string | null
-  resolvedUrl: string
-}
-
 type SegmentState = {
   max: number
   completed: boolean
+  read: boolean
 }
 
 // Todas las diapositivas del campus se generan en 1600×900 (16:9). Fijar el
@@ -110,155 +110,6 @@ function formatTime(seconds: number) {
   return `${Math.floor(safeSeconds / 60)}:${String(safeSeconds % 60).padStart(2, '0')}`
 }
 
-const detailedInformationHeadings = new Set([
-  'Objetivo',
-  'Explicación detallada',
-  'Explicación de base',
-  // Vocabulario propio del material de polvo y sílice.
-  'Explicación vinculada al audio',
-  'Profundización técnica',
-  'Secuencia de aplicación',
-  'Errores críticos',
-  'Profundización técnica y criterio preventivo',
-  'Aplicación práctica',
-  'Secuencia operativa recomendada',
-  'Caso práctico razonado',
-  'Riesgos y errores que deben evitarse',
-  'Errores críticos que deben evitarse',
-  'Comprobación antes de continuar',
-  'Idea clave',
-  'Idea central',
-  'Definición y alcance',
-  'Fundamento técnico ampliado',
-  'Riesgo que debe comprenderse',
-  'Aplicación operativa',
-  'Criterio de actuación',
-  'Caso razonado',
-])
-
-const detailedInformationListHeadings = new Set([
-  'Secuencia operativa recomendada',
-  'Secuencia de aplicación',
-  'Errores críticos',
-  'Riesgos y errores que deben evitarse',
-  'Errores críticos que deben evitarse',
-  'Comprobación antes de continuar',
-])
-
-// Los manuales maestros titulan sus propios apartados dentro de cada sección
-// («Riesgos vinculados a las interfaces», «Puestos comprendidos»…). Esos
-// rótulos son distintos en cada unidad, así que no caben en una lista cerrada:
-// se reconocen por forma. Se excluyen explícitamente las viñetas y las líneas
-// numeradas, que sí abren bloque pero son contenido, no título.
-function looksLikeSubheading(line: string, rest: string[]) {
-  if (!rest.length) return false
-  if (line.length < 3 || line.length > 94) return false
-  if (/^[•\-–—\d]/.test(line)) return false
-  return !/[.:;,]$/.test(line)
-}
-
-function DetailedSpecificInformation({ text }: { text: string }) {
-  const blocks = text
-    .split(/\n{2,}/)
-    .map((block) => block.trim())
-    .filter(Boolean)
-
-  if (blocks.length === 1) return <p>{text}</p>
-
-  const sections: Array<{
-    heading: string | null
-    blocks: Array<string | { subheading: string }>
-  }> = []
-
-  for (const block of blocks) {
-    const lines = block
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean)
-    const heading = lines[0]
-
-    if (detailedInformationHeadings.has(heading)) {
-      sections.push({ heading, blocks: lines.slice(1) })
-      continue
-    }
-
-    const activeSection = sections.at(-1)
-    const rest = lines.slice(1)
-    // Un rótulo propio del manual se conserva como subtítulo dentro de la
-    // sección abierta, en vez de disolverse en el párrafo anterior.
-    const nested =
-      activeSection?.heading && looksLikeSubheading(heading, rest)
-        ? [{ subheading: heading }, ...rest]
-        : null
-
-    if (activeSection && nested) {
-      activeSection.blocks.push(...nested)
-    } else if (activeSection?.heading) {
-      activeSection.blocks.push(block)
-    } else {
-      sections.push({ heading: null, blocks: [block] })
-    }
-  }
-
-  return (
-    <div className="lesson-notes__content">
-      {sections.map((section, sectionIndex) => {
-        const { heading } = section
-
-        const paragraphs = section.blocks.map((block) =>
-          typeof block === 'string' ? (
-            <p key={block}>{block}</p>
-          ) : (
-            <h4 key={`sub-${block.subheading}`}>{block.subheading}</h4>
-          ),
-        )
-
-        if (heading && detailedInformationListHeadings.has(heading)) {
-          const items = section.blocks.flatMap((block) =>
-            (typeof block === 'string' ? block : block.subheading)
-              .split('\n')
-              .map((line) => line.trim().replace(/^[-•]\s*/, ''))
-              .filter(Boolean),
-          )
-          return (
-            <section key={`${heading}-${sectionIndex}`}>
-              <h3>{heading}</h3>
-              <ul>
-                {items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-          )
-        }
-
-        if (heading === 'Idea clave' || heading === 'Idea central') {
-          return (
-            <aside
-              className="lesson-notes__key"
-              key={`${heading}-${sectionIndex}`}
-            >
-              <strong>{heading}</strong>
-              {paragraphs}
-            </aside>
-          )
-        }
-
-        if (heading) {
-          return (
-            <section key={`${heading}-${sectionIndex}`}>
-              <h3>{heading}</h3>
-              {paragraphs}
-            </section>
-          )
-        }
-
-        return paragraphs
-      })}
-    </div>
-  )
-}
-
 export function AudioLessonPlayer({
   enrollmentId,
   segments: sourceSegments,
@@ -267,7 +118,6 @@ export function AudioLessonPlayer({
   blockPosition = 1,
   courseTitle = 'Curso Inmíner',
   regulationLabel = 'Formación preventiva',
-  pdfResource = null,
   onLessonProgress,
   previewMode = false,
 }: {
@@ -278,7 +128,6 @@ export function AudioLessonPlayer({
   blockPosition?: number
   courseTitle?: string
   regulationLabel?: string
-  pdfResource?: CoursePdfResource | null
   onLessonProgress?: () => void
   previewMode?: boolean
 }) {
@@ -332,12 +181,14 @@ export function AudioLessonPlayer({
             segment_id: segment.id,
             max_position_seconds: segment.maxPositionSeconds,
             completed_at: segment.completed ? new Date(0).toISOString() : null,
+            explanation_read_at: segment.explanationRead
+              ? new Date(0).toISOString()
+              : null,
           }))
         : (sourceProgress ?? []),
     [initialSegments, sourceProgress],
   )
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const dialogRef = useRef<HTMLDivElement | null>(null)
   const lastReportedRef = useRef(0)
   const touchStartXRef = useRef<number | null>(null)
   const initialActiveIndex = segments.findIndex((segment) => {
@@ -352,8 +203,6 @@ export function AudioLessonPlayer({
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [notice, setNotice] = useState('')
-  const [expandedSlideId, setExpandedSlideId] = useState<string | null>(null)
-  const [pdfOpen, setPdfOpen] = useState(false)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
   // El volumen vive en React y no sólo en el elemento <audio> para que
   // sobreviva al cambio de unidad, que reinicia la reproducción.
@@ -372,7 +221,6 @@ export function AudioLessonPlayer({
       ) ?? [],
     ),
   )
-  const [pdfSource, setPdfSource] = useState(pdfResource?.resolvedUrl ?? '')
   const [segmentState, setSegmentState] = useState<
     Record<string, SegmentState>
   >(() =>
@@ -384,16 +232,20 @@ export function AudioLessonPlayer({
           {
             max: row?.max_position_seconds ?? 0,
             completed: Boolean(row?.completed_at),
+            // Compatibilidad con quien ya avanzó antes de que existiera el
+            // requisito de lectura: una unidad escuchada cuenta como leída.
+            read: Boolean(row?.explanation_read_at || row?.completed_at),
           },
         ]
       }),
     ),
   )
 
+  const emptyState: SegmentState = { max: 0, completed: false, read: false }
   const activeSegment = segments[activeIndex]
   const activeState = activeSegment
-    ? (segmentState[activeSegment.id] ?? { max: 0, completed: false })
-    : { max: 0, completed: false }
+    ? (segmentState[activeSegment.id] ?? emptyState)
+    : emptyState
 
   const firstIncompleteIndex = useMemo(() => {
     const index = segments.findIndex(
@@ -402,6 +254,48 @@ export function AudioLessonPlayer({
     return index === -1 ? Math.max(segments.length - 1, 0) : index
   }, [segmentState, segments])
 
+  // La explicación de la unidad activa, ya interpretada: el mismo intérprete
+  // para los seis manuales, de modo que el alumno lee siempre con la misma
+  // jerarquía aunque cada curso se cargara con un vocabulario distinto.
+  // Cuando una unidad tiene varias diapositivas, la explicación acompaña a la
+  // que se está viendo, igual que antes de unificar el pintado.
+  const explanationSource = useMemo(() => {
+    const note = activeSegment?.lesson_segment_notes?.[0]
+    const slide = activeSegment?.lesson_segment_slides?.[activeSlideIndex]
+    return {
+      slideBody: slide?.body ?? '',
+      noteSummary: note?.summary ?? '',
+      noteKeyPoints: note?.key_points ?? [],
+      noteStopCriterion: note?.stop_criterion ?? '',
+    }
+  }, [activeSegment, activeSlideIndex])
+
+  const explanation = useMemo(
+    () => buildExplanation(explanationSource),
+    [explanationSource],
+  )
+  const extraNote = useMemo(
+    () => complementaryNote(explanation, explanationSource),
+    [explanation, explanationSource],
+  )
+
+  // Sin explicación que recorrer no hay requisito de lectura que exigir.
+  const hasExplanation = explanation.sections.length > 0
+  const readingAlreadyDone = activeState.read || !hasExplanation || previewMode
+
+  const reading = useReadingProgress({
+    contentKey: `${activeSegment?.id ?? ''}:${activeSlideIndex}`,
+    enabled: hasExplanation && !previewMode,
+    initiallyCompleted: readingAlreadyDone,
+    onCompleted: () => {
+      const segmentId = activeSegment?.id
+      if (!segmentId || activeState.read) return
+      void reportExplanationRead(segmentId)
+    },
+  })
+
+  const readingDone = readingAlreadyDone || reading.completed
+
   useEffect(() => {
     let cancelled = false
     const supabase = getSupabaseBrowserClient()
@@ -409,9 +303,9 @@ export function AudioLessonPlayer({
     const client = supabase
 
     async function refreshSignedSources() {
-      // Una sola llamada por lotes para todos los audios, diapositivas y el
-      // PDF de esta lección. La caché compartida hace que, si nada está a
-      // punto de caducar, esta llamada no genere tráfico de red alguno.
+      // Una sola llamada por lotes para todos los audios y diapositivas de
+      // esta lección. La caché compartida hace que, si nada está a punto de
+      // caducar, esta llamada no genere tráfico de red alguno.
       const storagePaths = [
         ...segments.map((segment) => segment.audio_storage_path),
         ...segments.flatMap((segment) =>
@@ -419,7 +313,6 @@ export function AudioLessonPlayer({
             (slide) => slide.image_storage_path,
           ),
         ),
-        pdfResource?.storagePath ?? null,
       ]
       const signedUrls = await resolveSignedUrls(
         client,
@@ -442,12 +335,6 @@ export function AudioLessonPlayer({
           return [slide.id, url] as const
         }),
       )
-      const resolvedPdf = pdfResource
-        ? pdfResource.storagePath
-          ? (signedUrls[pdfResource.storagePath] ?? '')
-          : pdfResource.resolvedUrl
-        : ''
-
       setSources((current) => ({
         ...current,
         ...Object.fromEntries(
@@ -460,7 +347,6 @@ export function AudioLessonPlayer({
           imageEntries.filter(([, value]) => Boolean(value)),
         ),
       }))
-      if (resolvedPdf) setPdfSource(resolvedPdf)
     }
 
     void refreshSignedSources()
@@ -473,7 +359,7 @@ export function AudioLessonPlayer({
       cancelled = true
       window.clearInterval(refreshTimer)
     }
-  }, [pdfResource, segments])
+  }, [segments])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -483,7 +369,6 @@ export function AudioLessonPlayer({
     lastReportedRef.current = 0
     setCurrentTime(0)
     setPlaying(false)
-    setExpandedSlideId(null)
     setActiveSlideIndex(0)
     setTranscriptOpen(false)
   }, [activeSegment?.id])
@@ -492,48 +377,6 @@ export function AudioLessonPlayer({
     const audio = audioRef.current
     if (audio) audio.volume = muted ? 0 : volume
   }, [muted, volume])
-
-  useEffect(() => {
-    const dialogOpen = Boolean(expandedSlideId || pdfOpen)
-    if (!dialogOpen) return
-    const dialog = dialogRef.current
-    const previousFocus = document.activeElement as HTMLElement | null
-    const previousBodyOverflow = document.body.style.overflow
-    const previousRootOverflow = document.documentElement.style.overflow
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
-    const focusable = dialog?.querySelectorAll<HTMLElement>(
-      'button:not(:disabled), a[href], iframe, [tabindex]:not([tabindex="-1"])',
-    )
-    const initialFocusTarget = focusable?.[0] ?? dialog
-    initialFocusTarget?.focus()
-
-    function handleDialogKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setExpandedSlideId(null)
-        setPdfOpen(false)
-        return
-      }
-      if (event.key !== 'Tab' || !focusable?.length) return
-      const first = focusable[0]
-      const last = focusable[focusable.length - 1]
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault()
-        last.focus()
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault()
-        first.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleDialogKey)
-    return () => {
-      document.removeEventListener('keydown', handleDialogKey)
-      document.body.style.overflow = previousBodyOverflow
-      document.documentElement.style.overflow = previousRootOverflow
-      previousFocus?.focus()
-    }
-  }, [expandedSlideId, pdfOpen])
 
   async function reportProgress(position: number, completed = false) {
     if (!activeSegment || previewMode) return
@@ -567,11 +410,36 @@ export function AudioLessonPlayer({
     setSegmentState((current) => ({
       ...current,
       [activeSegment.id]: {
+        ...(current[activeSegment.id] ?? emptyState),
         max: result.maxPositionSeconds ?? Math.floor(position),
         completed: Boolean(result.completed),
       },
     }))
     if (result.lessonAudioCompleted) onLessonProgress?.()
+  }
+
+  // La lectura se guarda en la misma fila de progreso que el audio, con su
+  // propia marca de tiempo. Si la escritura falla, el avance de la sesión se
+  // conserva en memoria: el alumno no se queda bloqueado por un fallo de red,
+  // y la próxima vez que llegue al final volverá a intentarse.
+  async function reportExplanationRead(segmentId: string) {
+    setSegmentState((current) => ({
+      ...current,
+      [segmentId]: { ...(current[segmentId] ?? emptyState), read: true },
+    }))
+    if (previewMode) return
+    const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
+    const { error } = await supabase.rpc('record_explanation_read', {
+      p_enrollment_id: enrollmentId,
+      p_segment_id: segmentId,
+    })
+    if (error) {
+      console.error('[audio-player] No se pudo guardar la lectura', {
+        segmentId,
+        error,
+      })
+    }
   }
 
   function selectSegment(index: number) {
@@ -756,7 +624,6 @@ export function AudioLessonPlayer({
 
   useEffect(() => {
     function handleSlideKeys(event: KeyboardEvent) {
-      if (expandedSlideId || pdfOpen) return
       const target = event.target as HTMLElement | null
       if (target?.matches('input, textarea, select, button, a')) return
       if (event.key === 'ArrowLeft') {
@@ -770,15 +637,7 @@ export function AudioLessonPlayer({
     }
     document.addEventListener('keydown', handleSlideKeys)
     return () => document.removeEventListener('keydown', handleSlideKeys)
-  }, [
-    activeIndex,
-    expandedSlideId,
-    firstIncompleteIndex,
-    pdfOpen,
-    previewMode,
-    segmentState,
-    segments,
-  ])
+  }, [activeIndex, firstIncompleteIndex, previewMode, segmentState, segments])
 
   if (!segments.length) {
     return (
@@ -799,33 +658,25 @@ export function AudioLessonPlayer({
     (segment) => segmentState[segment.id]?.completed,
   ).length
   const overallPercent = Math.round((completedParts / segments.length) * 100)
-  const activeNote = activeSegment.lesson_segment_notes?.[0]
   const activeSlide = activeSegment.lesson_segment_slides[activeSlideIndex]
-  const expandedSlide = activeSegment.lesson_segment_slides.find(
-    (slide) => slide.id === expandedSlideId,
-  )
-  const activeSpecificText =
-    activeSlide?.body?.trim() || activeNote?.summary || ''
-  const activeSpecificPoints = (activeNote?.key_points ?? []).filter(
-    (point) => !activeSpecificText.includes(point),
-  )
-  const activeSourceLabel =
-    activeSlide?.source_label || activeNote?.source_label
-  const activeSourcePages = [
-    activeSlide?.source_page ? `Diapositiva ${activeSlide.source_page}` : null,
-    activeNote?.source_pages,
-  ]
-    .filter(Boolean)
-    .join(' · ')
-  const pdfPage = activeSlide?.source_page?.match(/\d+/)?.[0]
-  const pdfLabel = pdfPage
-    ? `Ver PDF · página ${pdfPage}`
-    : 'Ver PDF · consulta general'
-  const pdfViewerUrl = pdfSource
-    ? `${pdfSource}${pdfPage ? `#page=${pdfPage}` : ''}`
-    : ''
   const activeCode =
     activeSegment.lesson_code ?? `${blockPosition}.${activeSegment.position}`
+
+  // «Siguiente» exige las dos cosas: haber escuchado la locución completa y
+  // haber recorrido la explicación hasta el final. El botón dice siempre cuál
+  // de las dos falta, en vez de quedarse gris sin explicación.
+  const audioDone = previewMode || activeState.completed
+  const isLastSegment = activeIndex >= segments.length - 1
+  const nextBlocked = !isLastSegment && !(audioDone && readingDone)
+  const nextLabel = isLastSegment
+    ? 'Siguiente parte'
+    : audioDone && readingDone
+      ? 'Siguiente parte'
+      : !audioDone && !readingDone
+        ? 'Completa el audio y la explicación'
+        : audioDone
+          ? 'Continúa leyendo la explicación'
+          : 'Escucha el audio para continuar'
 
   return (
     <section className="audio-lesson" aria-label="Lección en audio">
@@ -1061,18 +912,6 @@ export function AudioLessonPlayer({
               >
                 <Download size={16} />
               </button>
-              <button
-                aria-label={`Ver la diapositiva ${blockPosition}.${activeIndex + 1} a pantalla completa`}
-                className="icon-button lesson-slide__fullscreen"
-                disabled={!activeSlide}
-                onClick={() =>
-                  activeSlide ? setExpandedSlideId(activeSlide.id) : undefined
-                }
-                title="Pantalla completa"
-                type="button"
-              >
-                <Maximize2 size={16} />
-              </button>
             </div>
           </div>
         </article>
@@ -1088,8 +927,12 @@ export function AudioLessonPlayer({
       {/* Lectura continua: la explicación desarrolla la diapositiva y se ve
           sin abrir nada; la transcripción queda un escalón por debajo. */}
       <div className="lesson-reading">
-        {activeSpecificText ? (
-          <section className="lesson-notes" aria-label="Explicación detallada">
+        {hasExplanation ? (
+          <section
+            className="lesson-notes"
+            aria-label="Explicación detallada"
+            ref={reading.containerRef}
+          >
             <span className="eyebrow">
               Información específica de la diapositiva · Unidad {activeCode}
             </span>
@@ -1097,20 +940,28 @@ export function AudioLessonPlayer({
               Explicación detallada ·{' '}
               {activeSegment.manual_chapter || activeSegment.title}
             </h2>
-            <DetailedSpecificInformation text={activeSpecificText} />
-            {activeSpecificPoints.length ? (
-              <ul>
-                {activeSpecificPoints.map((point) => (
+            <DetailedExplanation document={explanation} />
+            {extraNote.keyPoints.length ? (
+              <ul className="lesson-notes__points">
+                {extraNote.keyPoints.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
               </ul>
             ) : null}
-            {activeNote?.stop_criterion ? (
+            {extraNote.stopCriterion ? (
               <div className="lesson-notes__stop">
                 <strong>Criterio preventivo o de parada</strong>
-                <p>{activeNote.stop_criterion}</p>
+                <p>{extraNote.stopCriterion}</p>
               </div>
             ) : null}
+            {/* Centinela de lectura: al entrar en pantalla, el alumno ha
+                llegado al final de la explicación. */}
+            <span
+              aria-hidden="true"
+              className="lesson-notes__end"
+              ref={reading.sentinelRef}
+            />
+            <ReadingProgressBadge completed={readingDone} />
           </section>
         ) : null}
 
@@ -1137,24 +988,6 @@ export function AudioLessonPlayer({
             ) : null}
           </div>
         ) : null}
-
-        {activeSourceLabel || activeSourcePages || pdfViewerUrl ? (
-          <footer className="lesson-reading__meta">
-            <span className="lesson-notes__source">
-              {[activeSourceLabel, activeSourcePages]
-                .filter(Boolean)
-                .join(' · ')}
-            </span>
-            <button
-              className="button button--outline lesson-notes__pdf"
-              disabled={!pdfViewerUrl}
-              onClick={() => setPdfOpen(true)}
-              type="button"
-            >
-              <FileText size={17} /> {pdfLabel}
-            </button>
-          </footer>
-        ) : null}
       </div>
 
       <div className="audio-lesson__navigation">
@@ -1167,95 +1000,31 @@ export function AudioLessonPlayer({
           <ChevronLeft size={18} /> Parte anterior
         </button>
         <button
+          aria-describedby={nextBlocked ? 'lesson-next-reason' : undefined}
           className="button button--primary"
-          disabled={
-            activeIndex >= segments.length - 1 ||
-            (!previewMode && !activeState.completed)
-          }
+          disabled={isLastSegment || nextBlocked}
           onClick={() => selectSegment(activeIndex + 1)}
           type="button"
         >
-          Siguiente parte <ChevronRight size={18} />
+          {nextLabel} <ChevronRight size={18} />
         </button>
       </div>
-
-      {expandedSlide && typeof document !== 'undefined'
-        ? createPortal(
-            <div
-              aria-label={`Diapositiva a pantalla completa: ${expandedSlide.title}`}
-              aria-modal="true"
-              className="lesson-slide-modal"
-              ref={dialogRef}
-              role="dialog"
-              tabIndex={-1}
-            >
-              <button
-                aria-label="Cerrar pantalla completa"
-                className="icon-button lesson-slide-modal__close"
-                onClick={() => setExpandedSlideId(null)}
-                title="Cerrar"
-                type="button"
-              >
-                <X size={24} />
-              </button>
-              <div className="lesson-slide--expanded">
-                {slideSources[expandedSlide.id] ? (
-                  <img
-                    alt={expandedSlide.alt_text ?? expandedSlide.title}
-                    height={SLIDE_INTRINSIC_HEIGHT}
-                    src={slideSources[expandedSlide.id]}
-                    width={SLIDE_INTRINSIC_WIDTH}
-                  />
-                ) : null}
-              </div>
-            </div>,
-            document.body,
-          )
-        : null}
-
-      {pdfOpen && pdfViewerUrl ? (
-        <div
-          aria-label="Visor del manual del curso"
-          aria-modal="true"
-          className="lesson-pdf-modal"
-          ref={dialogRef}
-          role="dialog"
-        >
-          <div className="lesson-pdf-modal__panel">
-            <div className="lesson-pdf-modal__header">
-              <div>
-                <span className="eyebrow">Manual complementario</span>
-                <h2>{pdfResource?.title ?? 'PDF del curso'}</h2>
-              </div>
-              <div className="lesson-pdf-modal__actions">
-                <a
-                  className="button button--outline"
-                  href={pdfViewerUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Abrir en otra pestaña <ExternalLink size={17} />
-                </a>
-                <button
-                  aria-label="Cerrar PDF"
-                  className="icon-button"
-                  onClick={() => setPdfOpen(false)}
-                  type="button"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-            </div>
-            <iframe
-              src={pdfViewerUrl}
-              title={pdfResource?.title ?? 'Manual del curso'}
-            />
-            <p className="muted">
-              Si el visor no carga, utiliza «Abrir en otra pestaña».
-            </p>
-          </div>
-        </div>
+      {nextBlocked ? (
+        <p className="audio-lesson__requirement" id="lesson-next-reason">
+          {audioDone
+            ? 'Has escuchado la locución completa. Recorre la explicación detallada hasta el final para desbloquear la siguiente diapositiva.'
+            : readingDone
+              ? 'Has recorrido la explicación. Escucha la locución completa para desbloquear la siguiente diapositiva.'
+              : 'Escucha la locución completa y recorre la explicación detallada hasta el final para desbloquear la siguiente diapositiva.'}
+        </p>
       ) : null}
+
+      <ReadingProgressIndicator
+        audioPending={!audioDone}
+        completed={readingDone}
+        percent={reading.percent}
+        visible={hasExplanation && !previewMode}
+      />
     </section>
   )
 }

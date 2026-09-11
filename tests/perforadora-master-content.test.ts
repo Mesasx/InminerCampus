@@ -132,7 +132,7 @@ test('los materiales privados se administran y resuelven mediante URLs firmadas'
     panel,
     /storage[\s\S]*\.from\(["']course-materials["']\)[\s\S]*\.remove/,
   )
-  assert.match(panel, /MATERIAL DESCARGABLE/)
+  assert.match(panel, /Material del curso/)
   assert.match(panel, /Descargar libro de texto/)
   assert.match(panel, /Sustituir archivo/)
   assert.match(panel, /is_published/)

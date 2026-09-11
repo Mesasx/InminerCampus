@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FileDown, ShieldCheck } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { ShieldCheck } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   AudioLessonPlayer,
   type LessonAudioSegment,
 } from '../components/AudioLessonPlayer'
+import { CourseDownloads } from '../components/CourseDownloads'
 import {
   SlideDeckViewer,
   type DeckChapter,
@@ -12,6 +13,8 @@ import {
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { relationArray, type Relation } from '../lib/course-content'
+import { selectCourseDownloads } from '../lib/course-downloads'
+import { quizIntroCopy } from '../lib/quiz-copy'
 import { resolveSignedUrls } from '../lib/signed-url-cache'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
@@ -44,7 +47,8 @@ type LessonData = {
   courseSlug: string
   regulationLabel: string
   contentMode: ContentMode
-  resources: Resource[]
+  versionResources: Resource[]
+  lessonResources: Resource[]
   quiz: {
     id: string
     questionCount: number
@@ -71,10 +75,12 @@ type LessonRow = {
     course_versions: Relation<{
       id: string
       duration_hours: number
+      accreditation_reference: string | null
       course_materials: Relation<Resource>
       courses: Relation<{
         title: string
         slug: string
+        specialty: string | null
       }>
     }>
   }>
@@ -137,7 +143,7 @@ function Lesson({
             supabase
               .from('lessons')
               .select(
-                'id, title, content_mode, course_modules(position, title, course_versions(id, duration_hours, course_materials(id, kind, title, storage_path, external_url, downloadable), courses(title, slug))), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
+                'id, title, content_mode, course_modules(position, title, course_versions(id, duration_hours, accreditation_reference, course_materials(id, kind, title, storage_path, external_url, downloadable), courses(title, slug, specialty))), lesson_resources(id, kind, title, storage_path, external_url, downloadable), quizzes(id, question_count, required_perfect_streak, completion_mode, active)',
               )
               .eq('id', lessonId)
               .maybeSingle(),
@@ -150,7 +156,7 @@ function Lesson({
             supabase
               .from('lesson_audio_segments')
               .select(
-                'id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at)',
+                'id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url, source_label, source_page, alt_text), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages), lesson_audio_progress(max_position_seconds, completed_at, explanation_read_at)',
               )
               .eq('lesson_id', lessonId)
               .eq('lesson_audio_progress.enrollment_id', enrollmentId)
@@ -178,10 +184,11 @@ function Lesson({
           const quizzes = relationArray(row.quizzes).filter(
             (quiz) => quiz.active,
           )
-          const resources = [
-            ...relationArray(row.lesson_resources),
-            ...relationArray(courseVersion?.course_materials),
-          ]
+          const versionResources = relationArray(
+            courseVersion?.course_materials,
+          )
+          const lessonResources = relationArray(row.lesson_resources)
+          const resources = [...lessonResources, ...versionResources]
           const segmentRows = (segmentResponse.data ??
             []) as unknown as SegmentRow[]
 
@@ -214,9 +221,18 @@ function Lesson({
             blockPosition: courseModule?.position ?? 1,
             courseTitle: course?.title ?? 'Curso Inmíner',
             courseSlug: course?.slug ?? '',
-            regulationLabel: getRegulationLabel(course?.slug ?? ''),
+            regulationLabel: getRegulationLabel({
+              accreditationReference: courseVersion?.accreditation_reference,
+              specialty: course?.specialty,
+              slug: course?.slug ?? '',
+            }),
             contentMode,
-            resources: resolvedResources,
+            versionResources: resolvedResources.filter((resource) =>
+              versionResources.some((item) => item.id === resource.id),
+            ),
+            lessonResources: resolvedResources.filter((resource) =>
+              lessonResources.some((item) => item.id === resource.id),
+            ),
             quiz: quiz
               ? {
                   id: quiz.id,
@@ -298,10 +314,16 @@ function Lesson({
     Boolean(lesson && !isAdministrator),
   )
 
-  const pdfResource =
-    lesson?.resources.find((resource) => resource.kind === 'manual') ??
-    lesson?.resources.find((resource) => resource.kind === 'presentation') ??
-    lesson?.resources.find((resource) => resource.kind === 'pdf')
+  // Sólo el libro de texto y la presentación del curso. Lo demás que exista
+  // (transcripciones, PDF por bloque, copias repetidas en cada lección) sigue
+  // guardado, pero no se ofrece como descarga al alumno.
+  const downloads = useMemo(
+    () =>
+      lesson
+        ? selectCourseDownloads(lesson.versionResources, lesson.lessonResources)
+        : [],
+    [lesson],
+  )
   const isSlideLesson = lesson?.contentMode === 'slides'
 
   return (
@@ -362,61 +384,11 @@ function Lesson({
               enrollmentId={enrollmentId}
               initialSegments={segments}
               onLessonProgress={() => setContentCompleted(true)}
-              pdfResource={
-                pdfResource
-                  ? {
-                      title: pdfResource.title,
-                      storagePath: pdfResource.storage_path,
-                      resolvedUrl: pdfResource.resolvedUrl,
-                    }
-                  : null
-              }
               previewMode={isAdministrator}
               regulationLabel={lesson.regulationLabel}
             />
           )}
-          {lesson.resources.length ? (
-            <section className="panel">
-              <div className="panel__header">
-                <h2>Contenido para utilizar</h2>
-              </div>
-              <p className="muted">
-                Documentación de partida de la formación. Puedes descargarla y
-                consultarla siempre que la necesites.
-              </p>
-              <div className="app-course-list">
-                {lesson.resources.map((resource) => (
-                  <article className="app-course" key={resource.id}>
-                    <span className="app-course__number">
-                      <FileDown size={20} />
-                    </span>
-                    <div>
-                      <h3>{resource.title}</h3>
-                      <p>{resource.kind}</p>
-                    </div>
-                    <span className="status">
-                      {resource.downloadable ? 'Descargable' : 'Consulta'}
-                    </span>
-                    {resource.resolvedUrl ? (
-                      <a
-                        className="button button--outline"
-                        download={resource.downloadable ? '' : undefined}
-                        href={resource.resolvedUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {resource.downloadable ? 'Descargar' : 'Abrir'}
-                      </a>
-                    ) : (
-                      <button className="button button--outline" disabled>
-                        Protegido
-                      </button>
-                    )}
-                  </article>
-                ))}
-              </div>
-            </section>
-          ) : null}
+          <CourseDownloads downloads={downloads} />
           {lesson.quiz && contentCompleted ? (
             <section className="panel">
               <div className="panel__header">
@@ -427,13 +399,11 @@ function Lesson({
                 <ShieldCheck color="var(--orange)" size={28} />
               </div>
               <p className="muted">
-                {lesson.quiz.questionCount === 15
-                  ? 'Este test consta de 15 preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarlo debes acertar las 15 preguntas. El siguiente bloque se desbloqueará cuando hayas completado tres intentos perfectos; no es necesario que sean consecutivos.'
-                  : `Esta evaluación consta de ${lesson.quiz.questionCount} preguntas. Debes acertarlas todas y completar ${lesson.quiz.requiredPerfectRounds} intentos perfectos${
-                      lesson.quiz.completionMode === 'cumulative_perfect'
-                        ? '; no es necesario que sean consecutivos.'
-                        : ' consecutivos.'
-                    }`}
+                {quizIntroCopy({
+                  questionCount: lesson.quiz.questionCount,
+                  requiredPerfectRounds: lesson.quiz.requiredPerfectRounds,
+                  completionMode: lesson.quiz.completionMode,
+                })}
               </p>
               <Link
                 className="button button--primary"
@@ -466,7 +436,25 @@ function Lesson({
   )
 }
 
-function getRegulationLabel(courseSlug: string) {
+// La referencia normativa es un dato del curso, no una tabla de slugs: cada
+// versión declara la suya y la especialidad la respalda. La correspondencia por
+// slug se conserva sólo como último recurso para los cursos antiguos que
+// todavía no tuvieran ninguna de las dos.
+function getRegulationLabel({
+  accreditationReference,
+  specialty,
+  slug,
+}: {
+  accreditationReference?: string | null
+  specialty?: string | null
+  slug: string
+}) {
+  const declared = accreditationReference?.trim() || specialty?.trim()
+  if (declared) return declared
+  return getRegulationLabelFromSlug(slug)
+}
+
+function getRegulationLabelFromSlug(courseSlug: string) {
   if (courseSlug.includes('polvo') || courseSlug.includes('silice')) {
     return 'ITC 02.0.02 · Orden TED/723/2021'
   }
@@ -521,6 +509,7 @@ type SegmentRow = {
   lesson_audio_progress: Relation<{
     max_position_seconds: number
     completed_at: string | null
+    explanation_read_at: string | null
   }>
 }
 
@@ -564,6 +553,11 @@ function resolveSegments(
       durationSeconds: segment.duration_seconds,
       maxPositionSeconds: segmentProgress?.max_position_seconds ?? 0,
       completed: Boolean(segmentProgress?.completed_at),
+      // Quien ya escuchó una unidad antes de que existiera el requisito de
+      // lectura la conserva completada: el avance no retrocede.
+      explanationRead: Boolean(
+        segmentProgress?.explanation_read_at ?? segmentProgress?.completed_at,
+      ),
       note: note
         ? {
             summary: note.summary,

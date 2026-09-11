@@ -168,15 +168,11 @@ test('el reproductor conserva la diapositiva, la numeración real y el PDF prote
   )
   assert.match(player, /handleSlideTouchEnd/)
   assert.match(player, /event\.key === ["']ArrowLeft["']/)
-  assert.match(player, /event\.key === ["']Escape["']/)
   assert.match(
     player,
     /resolveSignedUrls\(\s*client,\s*["']course-materials["'],\s*storagePaths,\s*\)/,
   )
-  assert.match(player, /pdfResource\?\.storagePath \?\? null/)
   assert.match(player, /5 \* 60 \* 1000/)
-  assert.match(player, /Ver PDF · página/)
-  assert.match(player, /rel="noopener noreferrer"/)
   assert.match(player, /aria-label="Cambiar explicación"/)
   // La diapositiva abre la pantalla y la barra de audio cuelga de ella dentro
   // del mismo artículo, antes de la lectura de apoyo.

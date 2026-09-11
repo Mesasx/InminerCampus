@@ -28,7 +28,8 @@ test('mobile layouts cover learning, forms, certificates, and wide data', () => 
   assert.match(styles, /@media \(max-width: 680px\)/)
   assert.match(styles, /\.audio-player__controls input\[type='range'\]/)
   assert.match(styles, /\.audio-lesson__navigation \.button/)
-  assert.match(styles, /\.lesson-pdf-modal__panel[\s\S]*100dvh/)
+  // El indicador de lectura también tiene que caber en móvil sin tapar nada.
+  assert.match(styles, /\.reading-progress__panel \{[\s\S]*?flex-wrap: wrap/)
   assert.match(styles, /\.slide-deck__controls \.button/)
   assert.match(styles, /\.certificate-card \.button/)
   assert.match(styles, /\.data-table[\s\S]*min-width: 640px/)

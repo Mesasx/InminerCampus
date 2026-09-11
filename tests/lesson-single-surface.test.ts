@@ -66,17 +66,39 @@ test('el visor aprovecha el ancho de la lección y conserva la proporción', asy
   assert.match(styles, /\.audio-lesson \{[^}]*grid-template-columns: minmax\(0, 1fr\)/s)
 })
 
-test('fullscreen muestra sólo la imagen completa y un cierre discreto', async () => {
+test('la ampliación de diapositiva ya no existe en ninguna capa', async () => {
   const [player, styles] = await Promise.all([
     readFile(playerUrl, 'utf8'),
     readFile(stylesUrl, 'utf8'),
   ])
 
-  const fullscreen = player.slice(player.indexOf('{expandedSlide &&'))
-  assert.match(fullscreen, /className="lesson-slide--expanded"/)
-  assert.doesNotMatch(fullscreen.split('{pdfOpen')[0], /<SlideIdentity/)
-  assert.match(styles, /\.lesson-slide--expanded img \{[^}]*object-fit: contain/s)
-  assert.match(styles, /\.lesson-slide-modal \{[^}]*overflow: hidden/s)
+  // Ni botón, ni icono, ni modal, ni el bloqueo de scroll que lo acompañaba.
+  for (const trace of [
+    'Maximize2',
+    'expandedSlide',
+    'lesson-slide__fullscreen',
+    'pantalla completa',
+    'createPortal',
+    "document.body.style.overflow = 'hidden'",
+  ]) {
+    assert.ok(!player.includes(trace), `el visor conserva «${trace}»`)
+  }
+  for (const rule of [
+    '.lesson-slide-modal',
+    '.lesson-slide--expanded',
+    '.lesson-pdf-modal',
+  ]) {
+    assert.ok(!styles.includes(rule), `los estilos conservan «${rule}»`)
+  }
+})
+
+test('la diapositiva conserva su tamaño y proporción al quitar el fullscreen', async () => {
+  const styles = await readFile(stylesUrl, 'utf8')
+
+  // El visor mantiene el ancho y la relación de aspecto que tenía: quitar la
+  // ampliación no debía encoger la diapositiva.
+  assert.match(styles, /\.lesson-slides \{[^}]*1500px/s)
+  assert.match(styles, /\.lesson-slide__canvas \{[^}]*aspect-ratio: 16 \/ 9/s)
 })
 
 test('la cabecera de la lección no compite con la diapositiva', async () => {

@@ -136,15 +136,26 @@ test('los scripts de beneficio separan las dos modalidades y sus carpetas', asyn
   )
 })
 
-test('el reproductor conserva los rótulos propios del manual', async () => {
-  const player = await readFile(playerUrl, 'utf8')
+test('el intérprete conserva los rótulos propios del manual', async () => {
+  const [explanation, component] = await Promise.all([
+    readFile(
+      new URL('../src/lib/lesson-explanation.ts', import.meta.url),
+      'utf8',
+    ),
+    readFile(
+      new URL('../src/components/DetailedExplanation.tsx', import.meta.url),
+      'utf8',
+    ),
+  ])
 
   // Los manuales titulan apartados dentro de cada sección con rótulos distintos
   // en cada unidad, así que se reconocen por forma y no por lista cerrada.
-  assert.match(player, /function looksLikeSubheading/)
-  // Las viñetas abren bloque pero son contenido: nunca deben ascender a título.
-  assert.match(player, /\/\^\[•\\-–—\\d\]\//)
-  assert.match(player, /<h4 key=\{`sub-\$\{block\.subheading\}`\}/)
+  assert.match(explanation, /function looksLikeSubheading/)
+  // Las viñetas y las líneas numeradas abren bloque pero son contenido: nunca
+  // deben ascender a título.
+  assert.match(explanation, /if \(BULLET\.test\(line\) \|\| NUMBERED\.test\(line\)\) return false/)
+  assert.match(component, /block\.type === 'subheading'/)
+  assert.match(component, /<h4 key=\{`sub-\$\{index\}-\$\{block\.text\}`\}/)
 })
 
 const arranque20Url = new URL(
@@ -203,8 +214,11 @@ test('polvo y sílice recupera explicaciones y acentos sin tocar el bloque 6', a
   assert.doesNotMatch(sql, /Comprobación antes de continuar\$b\$/)
 })
 
-test('el reproductor conoce el vocabulario de encabezados de todos los manuales', async () => {
-  const player = await readFile(playerUrl, 'utf8')
+test('el intérprete conoce el vocabulario de encabezados de todos los manuales', async () => {
+  const explanation = await readFile(
+    new URL('../src/lib/lesson-explanation.ts', import.meta.url),
+    'utf8',
+  )
 
   for (const heading of [
     'Explicación vinculada al audio',
@@ -213,12 +227,11 @@ test('el reproductor conoce el vocabulario de encabezados de todos los manuales'
     'Errores críticos',
   ]) {
     assert.ok(
-      player.includes(`'${heading}'`),
-      `el reproductor no reconoce ${heading}`,
+      explanation.includes(`'${heading}'`),
+      `el intérprete no reconoce ${heading}`,
     )
   }
-  // Las dos secuencias y las dos listas de errores se pintan como lista.
-  const listSet = player.split('detailedInformationListHeadings')[1] ?? ''
-  assert.match(listSet, /'Secuencia de aplicación'/)
-  assert.match(listSet, /'Errores críticos'/)
+  // Las secuencias se pintan como procedimiento y los errores como aviso.
+  assert.match(explanation, /\['Secuencia de aplicación', 'procedure'\]/)
+  assert.match(explanation, /\['Errores críticos', 'warning'\]/)
 })

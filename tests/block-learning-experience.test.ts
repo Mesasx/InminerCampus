@@ -35,7 +35,7 @@ test('single-slide explanations hide useless slide navigation', () => {
   assert.match(player, /Descargar diapositiva/)
 })
 
-test('keyboard arrows navigate explanations and fullscreen has accessible exits', () => {
+test('keyboard arrows navigate explanations without any fullscreen layer', () => {
   assert.match(
     player,
     /event\.key === ["']ArrowLeft["'][\s\S]*selectSegment\(activeIndex - 1\)/,
@@ -44,11 +44,11 @@ test('keyboard arrows navigate explanations and fullscreen has accessible exits'
     player,
     /event\.key === ["']ArrowRight["'][\s\S]*selectSegment\(activeIndex \+ 1\)/,
   )
-  assert.match(player, /event\.key === ["']Escape["']/)
-  assert.match(player, /aria-label="Cerrar pantalla completa"/)
-  assert.match(player, /document\.body\.style\.overflow = 'hidden'/)
-  assert.match(player, /document\.body\.style\.overflow = previousBodyOverflow/)
-  assert.match(player, /createPortal/)
+  // Retirada la ampliación, no queda ni modal, ni ESC propio del visor, ni
+  // bloqueo de scroll asociado.
+  assert.doesNotMatch(player, /event\.key === ["']Escape["']/)
+  assert.doesNotMatch(player, /createPortal/)
+  assert.doesNotMatch(player, /style\.overflow = 'hidden'/)
 })
 
 test('slides show and download their course, regulation, and block numbering', () => {
@@ -66,9 +66,12 @@ test('slides show and download their course, regulation, and block numbering', (
 test('audio transcript and unique specific information are separate sections', () => {
   assert.match(player, /Transcripción del audio/)
   assert.match(player, /Información específica de la diapositiva/)
-  assert.match(player, /activeSlide\?\.body\?\.trim\(\)/)
-  assert.match(player, /activeSlide\?\.source_page\?\.match/)
-  assert.match(lessonRoute, /resource\.kind === ["']presentation["']/)
+  assert.match(player, /buildExplanation\(explanationSource\)/)
+  // La procedencia editorial (página del PDF, nombre del fichero) ya no se
+  // pinta: sigue en los datos, pero no llega al alumno.
+  assert.doesNotMatch(player, /activeSlide\?\.source_page\?\.match/)
+  assert.doesNotMatch(player, /lesson-reading__meta/)
+  assert.doesNotMatch(player, /Ver PDF/)
   assert.match(
     migration,
     /Every playable segment must have an audio transcript/,
