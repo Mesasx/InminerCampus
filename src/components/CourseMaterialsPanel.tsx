@@ -211,18 +211,23 @@ export function CourseMaterialsPanel({
     return () => window.removeEventListener('keydown', close)
   }, [preview])
 
+  // El alumno sólo encuentra dos documentos: libro de texto y presentación.
+  // El resto sigue guardado y lo sigue viendo y gestionando administración,
+  // pero no se ofrece como descarga en el curso.
   const groupedMaterials = useMemo(
     () => ({
       manuals: materials.filter((material) => material.kind === 'manual'),
       presentations: materials.filter(
         (material) => material.kind === 'presentation',
       ),
-      supporting: materials.filter(
-        (material) =>
-          material.kind !== 'manual' && material.kind !== 'presentation',
-      ),
+      supporting: admin
+        ? materials.filter(
+            (material) =>
+              material.kind !== 'manual' && material.kind !== 'presentation',
+          )
+        : [],
     }),
-    [materials],
+    [admin, materials],
   )
 
   function resolvedUrl(material: CourseMaterial) {
@@ -642,30 +647,38 @@ export function CourseMaterialsPanel({
       <div className="panel__header">
         <div>
           <span className="eyebrow">Documentación</span>
-          <h2 id={`materials-${versionId}`}>MATERIAL DESCARGABLE</h2>
+          <h2 id={`materials-${versionId}`}>Material del curso</h2>
           <p>Documentos oficiales de estudio y consulta de esta formación.</p>
         </div>
         <FileArchive color="var(--orange)" size={30} />
       </div>
 
-      <div className="course-materials__group">
-        <h3>A. Libro de texto</h3>
-        {groupedMaterials.manuals.length ? (
+      {groupedMaterials.manuals.length ? (
+        <div className="course-materials__group">
+          <h3>Libro de texto / Manual</h3>
           <div className="course-materials__list">
             {groupedMaterials.manuals.map(renderMaterial)}
           </div>
-        ) : (
+        </div>
+      ) : admin ? (
+        <div className="course-materials__group">
+          <h3>Libro de texto / Manual</h3>
           <p className="muted">El libro de texto todavía no está publicado.</p>
-        )}
-      </div>
+        </div>
+      ) : null}
 
-      <div className="course-materials__group">
-        <h3>B. Presentación del curso</h3>
-        {groupedMaterials.presentations.length ? (
+      {groupedMaterials.presentations.length ? (
+        <div className="course-materials__group">
+          <h3>Presentación del curso</h3>
           <div className="course-materials__list">
             {groupedMaterials.presentations.map(renderMaterial)}
           </div>
-        ) : (
+        </div>
+      ) : admin ? (
+        // Al alumno no se le anuncia un documento que no existe; a quien lo
+        // gestiona sí, porque es quien puede subirlo.
+        <div className="course-materials__group">
+          <h3>Presentación del curso</h3>
           <article className="course-materials__pending">
             <FileText aria-hidden="true" size={22} />
             <div>
@@ -675,8 +688,8 @@ export function CourseMaterialsPanel({
               </p>
             </div>
           </article>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       {groupedMaterials.supporting.length ? (
         <div className="course-materials__group">

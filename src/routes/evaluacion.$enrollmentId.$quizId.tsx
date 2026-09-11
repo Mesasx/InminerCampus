@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { requestInternalCompletion } from '../lib/internal-completion'
+import { quizIntroCopy, quizRoundsLabel, QUIZ_INTRO_TITLE } from '../lib/quiz-copy'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
@@ -52,22 +53,17 @@ type AttemptResult = {
   evaluationCompleted: boolean
 }
 
+// La mecánica es común a todos los tests; sólo cambian las cifras, que salen
+// del propio intento. Ningún número está escrito a mano.
 function getEvaluationInstructions(attempt: Attempt | null) {
   if (!attempt) return 'Lee atentamente cada pregunta antes de responder.'
 
-  const questionCount = attempt.questions.length
-  const requiredRounds =
-    attempt.requiredPerfectRounds ?? attempt.requiredStreak
-
-  if (attempt.completionMode === 'consecutive_perfect') {
-    return `Este test consta de ${questionCount} preguntas. Para superarlo debes acertarlas todas y completar ${requiredRounds} intentos perfectos consecutivos.`
-  }
-
-  if (questionCount === 15) {
-    return 'Este test consta de 15 preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarlo debes acertar las 15 preguntas. El siguiente bloque se desbloqueará cuando hayas completado tres intentos perfectos; no es necesario que sean consecutivos.'
-  }
-
-  return `Esta evaluación consta de ${questionCount} preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarla debes acertarlas todas y completar ${requiredRounds} intentos perfectos; no es necesario que sean consecutivos.`
+  return quizIntroCopy({
+    questionCount: attempt.questions.length,
+    requiredPerfectRounds:
+      attempt.requiredPerfectRounds ?? attempt.requiredStreak,
+    completionMode: attempt.completionMode ?? 'cumulative_perfect',
+  })
 }
 
 function EvaluationPage() {
@@ -189,7 +185,7 @@ function Evaluation({
     <AppShell user={user} title="Evaluación">
       <div className="dashboard-heading">
         <div>
-          <span className="label-industrial">Evaluación</span>
+          <span className="label-industrial">{QUIZ_INTRO_TITLE}</span>
           <h1>{attempt?.title || 'Comprueba tus conocimientos'}</h1>
           <p>{getEvaluationInstructions(attempt)}</p>
         </div>
@@ -230,9 +226,7 @@ function Evaluation({
             </article>
             <article className="stat-card">
               <span className="stat-card__label">
-                {result.completionMode === 'consecutive_perfect'
-                  ? 'Racha perfecta'
-                  : 'Rondas perfectas'}
+                {quizRoundsLabel(result.completionMode ?? 'cumulative_perfect')}
               </span>
               <span className="stat-card__value">
                 {result.completionMode === 'consecutive_perfect'
@@ -246,9 +240,11 @@ function Evaluation({
             <div className="evaluation-review">
               <h2>Partes que conviene repasar</h2>
               <ul>
+                {/* El bloque lo define el curso, no el código: aquí sólo se
+                    identifica la parte por su número dentro de la lección. */}
                 {result.reviewParts.map((part) => (
                   <li key={part.position}>
-                    <strong>Parte 1.{part.position}</strong> · {part.title}
+                    <strong>Parte {part.position}</strong> · {part.title}
                   </li>
                 ))}
               </ul>

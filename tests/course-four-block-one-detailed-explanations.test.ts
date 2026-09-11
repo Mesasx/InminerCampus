@@ -34,10 +34,19 @@ test('cada explicación conserva objetivo, aplicación, riesgos e idea clave', a
 })
 
 test('el reproductor presenta el contenido detallado con estructura legible', async () => {
-  const player = await readFile(playerUrl, 'utf8')
+  const [player, explanation, component] = await Promise.all([
+    readFile(playerUrl, 'utf8'),
+    readFile(new URL('../src/lib/lesson-explanation.ts', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../src/components/DetailedExplanation.tsx', import.meta.url),
+      'utf8',
+    ),
+  ])
 
-  assert.match(player, /function DetailedSpecificInformation/)
-  assert.match(player, /lesson-notes__content/)
-  assert.match(player, /Riesgos y errores que deben evitarse/)
-  assert.match(player, /lesson-notes__key/)
+  // El pintado dejó de vivir dentro del reproductor: ahora es un componente
+  // común que usan todos los cursos.
+  assert.match(player, /<DetailedExplanation document=\{explanation\}/)
+  assert.match(component, /lesson-notes__content/)
+  assert.match(component, /lesson-notes__key/)
+  assert.match(explanation, /'Riesgos y errores que deben evitarse'/)
 })

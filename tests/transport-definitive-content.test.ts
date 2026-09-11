@@ -178,10 +178,9 @@ test('la interfaz muestra audio, transcripción y diapositiva en el orden format
     /\.lesson-slide__bar\s*\{[^}]*(?:^|[;{])\s*border\s*:/s,
   )
   assert.doesNotMatch(styles, /\.explanation-switcher\s*\{/s)
-  assert.match(
-    lessonRoute,
-    /find\(\(resource\) => resource\.kind === ["']manual["']\)[\s\S]*resource\.kind === ["']presentation["'][\s\S]*resource\.kind === ["']pdf["']/,
-  )
+  // El material que ve el alumno lo elige el selector común, que sólo ofrece
+  // libro de texto y presentación, con el título que cada curso les dé.
+  assert.match(lessonRoute, /selectCourseDownloads\(/)
   assert.match(courseSeo, /Reciclaje periódico/)
   assert.match(courseRoute, /versionLabel\(course, version\)/)
   assert.match(courseRoute, /Renovación máxima cada/)

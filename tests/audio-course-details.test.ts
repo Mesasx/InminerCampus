@@ -32,7 +32,10 @@ test('el alumno puede ver el detalle de la parte y recibe un error útil si fall
   assert.doesNotMatch(player, /previewMode && activeSegment\.narration_text/)
   assert.match(player, /Transcripción del audio/)
   assert.match(player, /Información específica de la diapositiva/)
-  assert.match(player, /activeSlide\?\.body\?\.trim\(\)/)
+  // La explicación la arma el intérprete común a partir del cuerpo de la
+  // diapositiva y de la nota del manual, no una lectura directa del cuerpo.
+  assert.match(player, /buildExplanation\(explanationSource\)/)
+  assert.match(player, /slideBody: slide\?\.body/)
   assert.match(player, /onError=\{\(\) => \{/)
   assert.match(player, /No se ha podido reproducir el audio/)
 })

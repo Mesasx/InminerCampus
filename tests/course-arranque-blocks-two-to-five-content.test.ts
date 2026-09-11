@@ -13,6 +13,10 @@ const player = readFileSync(
   new URL('../src/components/AudioLessonPlayer.tsx', import.meta.url),
   'utf8',
 )
+const explanationLib = readFileSync(
+  new URL('../src/lib/lesson-explanation.ts', import.meta.url),
+  'utf8',
+)
 const evaluation = readFileSync(
   new URL(
     '../src/routes/evaluacion.$enrollmentId.$quizId.tsx',
@@ -77,12 +81,14 @@ test('muestra las explicaciones detalladas y el criterio formal del test', () =>
     'Errores críticos que deben evitarse',
     'Comprobación antes de continuar',
   ]) {
-    assert.match(player, new RegExp(heading))
+    assert.match(explanationLib, new RegExp(heading))
   }
 
-  const expected =
-    'Este test consta de 15 preguntas, cada una con cuatro opciones de respuesta y una única respuesta correcta. Para superarlo debes acertar las 15 preguntas. El siguiente bloque se desbloqueará cuando hayas completado tres intentos perfectos; no es necesario que sean consecutivos.'
-  assert.ok(evaluation.includes(expected))
-  assert.ok(lesson.includes(expected))
+  // El texto de la evaluación ya no se escribe a mano para un número concreto
+  // de preguntas: sale del mismo redactor común con las cifras del test.
+  assert.doesNotMatch(evaluation, /consta de 15 preguntas/)
+  assert.doesNotMatch(lesson, /consta de 15 preguntas/)
+  assert.match(evaluation, /quizIntroCopy\(/)
+  assert.match(lesson, /quizIntroCopy\(/)
   assert.doesNotMatch(evaluation, /cada parte del Bloque 1/)
 })
