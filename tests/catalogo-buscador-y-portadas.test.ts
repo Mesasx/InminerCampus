@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { access, readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { matchesQuery, normalizeForSearch, searchableText } from '../src/lib/course-search.ts'
 
@@ -94,4 +94,40 @@ test('la sombra superior no apaga el título de la portada', () => {
   const height = shade.match(/height: (\d+)%;/)
   assert.ok(height, 'la sombra declara una altura')
   assert.ok(Number(height![1]) <= 40, `la sombra cubre ${height![1]} %`)
+})
+
+test('cada curso del catálogo tiene su portada propia, y el archivo existe', async () => {
+  const { courseImage } = await import('../src/lib/course-image.ts')
+
+  const slugs = [
+    'administracion-personal-servicios-no-mantenimiento',
+    'operador-maquinaria-arranque-carga-viales',
+    'operador-maquinaria-transporte-camion-volquete',
+    'operadores-establecimientos-beneficio',
+    'operadores-perforacion-corte-exterior',
+    'prevencion-polvo-silice-cristalina-respirable',
+    'formacion-stvh',
+  ]
+
+  const seen = new Set<string>()
+  for (const slug of slugs) {
+    const image = courseImage({ slug, cover_storage_path: null })
+    // Ninguno cae en la imagen de reserva.
+    assert.notEqual(image, '/images/inminer-campus-hero-engineering.png', slug)
+    // Ni comparte portada con otro curso.
+    assert.equal(seen.has(image), false, `${slug} repite ${image}`)
+    seen.add(image)
+    // Y el archivo está publicado.
+    await access(new URL(`../public${image}`, import.meta.url))
+  }
+})
+
+test('la portada de sílice es la nueva, no la foto genérica del carrusel', async () => {
+  const { courseImage } = await import('../src/lib/course-image.ts')
+  const image = courseImage({
+    slug: 'prevencion-polvo-silice-cristalina-respirable',
+    cover_storage_path: null,
+  })
+  assert.equal(image, '/images/curso-silice-portada.png')
+  assert.doesNotMatch(image, /campus-carousel/)
 })
