@@ -1,10 +1,15 @@
 import type { PublicCourse } from './types'
 
+// Portadas oficiales del catálogo. Las tres primeras sustituyen a las fotos
+// genéricas del carrusel (`campus-carousel-*`), que se conservan porque la
+// home las sigue usando como imágenes de sección.
 const imagesBySlug: Record<string, string> = {
   'operador-maquinaria-arranque-carga-viales':
-    '/images/campus-carousel-operacion.jpg',
+    '/images/curso-maquinaria-arranque-portada.png',
   'operador-maquinaria-transporte-camion-volquete':
-    '/images/campus-carousel-inspeccion.jpg',
+    '/images/curso-maquinaria-transporte-portada.png',
+  'administracion-personal-servicios-no-mantenimiento':
+    '/images/curso-administracion-portada.png',
   'prevencion-polvo-silice-cristalina-respirable':
     '/images/campus-carousel-silice.jpg',
   'formacion-stvh': '/images/curso-stvh-portada.jpg',

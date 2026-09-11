@@ -6,8 +6,8 @@ import {
   isMissingCourseAccessColumnsError,
 } from '../src/lib/course-access.ts'
 
-const seedMigrationUrl = new URL(
-  '../supabase/migrations/202608110002_seed_course_formacion_stvh.sql',
+const hideMigrationUrl = new URL(
+  '../supabase/migrations/20260910161000_hide_formacion_stvh_from_catalog.sql',
   import.meta.url,
 )
 
@@ -35,10 +35,10 @@ test('reconoce el esquema anterior para mantener visibles los cursos existentes'
   )
 })
 
-test('muestra STVH por invitación aunque el seed anterior lo hubiera ocultado', () => {
+test('ningún slug tiene ya una excepción que lo muestre pese a estar oculto', () => {
   assert.equal(
     isCourseVisibleInCatalog({ slug: 'formacion-stvh', listed: false }),
-    true,
+    false,
   )
   assert.equal(isCourseVisibleInCatalog({ slug: 'curso-publicado' }), true)
   assert.equal(
@@ -47,11 +47,17 @@ test('muestra STVH por invitación aunque el seed anterior lo hubiera ocultado',
   )
 })
 
-test('publica Formación STVH en el catálogo pero conserva el acceso por invitación', async () => {
-  const sql = await readFile(seedMigrationUrl, 'utf8')
+test('STVH queda oculta sin despublicarse ni perder las matrículas', async () => {
+  const sql = await readFile(hideMigrationUrl, 'utf8')
 
-  assert.match(
-    sql,
-    /'published',\s*'access_code',\s*true,\s*'\/images\/curso-stvh-portada\.jpg'/,
-  )
+  // Oculta, no eliminada: sólo cambia `listed`.
+  assert.match(sql, /update public\.courses\s+set listed = false/)
+  assert.match(sql, /where slug = 'formacion-stvh'/)
+  assert.doesNotMatch(sql, /delete from public\.(courses|enrollments|access_codes)/i)
+  assert.doesNotMatch(sql, /set\s+status\s*=\s*'(draft|archived)'/i)
+
+  // El alumno matriculado conserva la lectura del curso aunque deje de estar
+  // listado, que es lo que sostiene «Mis cursos» y la pantalla de lección.
+  assert.match(sql, /create policy courses_enrolled_select/)
+  assert.match(sql, /current_user_is_enrolled/)
 })

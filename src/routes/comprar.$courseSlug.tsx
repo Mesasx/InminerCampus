@@ -98,6 +98,9 @@ function Checkout({
       .eq('status', 'published')
       .eq('courses.slug', courseSlug)
       .eq('courses.status', 'published')
+      // Las formaciones por invitación no tienen compra: se obtienen canjeando
+      // un código, así que su URL de compra no debe resolver a nada.
+      .eq('courses.access_mode', 'purchase')
     if (versionId) {
       query = query.eq('id', versionId)
     }

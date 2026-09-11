@@ -9,5 +9,9 @@ supabase/.temp/
 .DS_Store
 *.log
 Contenido Cursos/
+Cursos Carricoche/
 .work/
 tmp/
+# Configuración local de herramientas y parches sueltos de trabajo.
+.mcp.json
+*.patch

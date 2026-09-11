@@ -1,6 +1,8 @@
 import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
 
+// `blocks` es el número de módulos del itinerario. Los cursos de cinco bloques
+// pueden omitirlo; Administración sigue la ET 2004-1-10, que tiene seis.
 const targets = [
   {
     slug: 'operadores-establecimientos-beneficio',
@@ -15,6 +17,14 @@ const targets = [
     durations: [20],
     expectedSegments: 50,
     expectedSlides: 50,
+  },
+  {
+    slug: 'administracion-personal-servicios-no-mantenimiento',
+    label: 'Administración y personal de servicios',
+    durations: [5, 20],
+    expectedSegments: 50,
+    expectedSlides: 50,
+    blocks: 6,
   },
 ]
 
@@ -53,7 +63,7 @@ async function auditVersion(course, target, version) {
     )
     .eq('course_version_id', version.id)
     .gte('position', 1)
-    .lte('position', 5)
+    .lte('position', target.blocks ?? 5)
     .order('position')
   if (error) throw error
 

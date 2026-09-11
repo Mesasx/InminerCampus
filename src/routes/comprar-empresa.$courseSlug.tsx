@@ -83,7 +83,13 @@ function CompanyCheckout({ user, courseSlug, versionId }: { user: SessionUser; c
     if (!supabase) return
     let versionQuery = supabase.from('course_versions').select(
       'id, version_number, duration_hours, modality, requirements, practice_required, accreditation_reference, price_net, currency, tax_rate, courses!inner(title, slug, status)',
-    ).eq('status', 'published').eq('courses.slug', courseSlug).eq('courses.status', 'published')
+    )
+      .eq('status', 'published')
+      .eq('courses.slug', courseSlug)
+      .eq('courses.status', 'published')
+      // Las formaciones por invitación no se comercializan tampoco por licencia
+      // de empresa: el acceso pasa siempre por el canje de un código.
+      .eq('courses.access_mode', 'purchase')
     if (versionId) versionQuery = versionQuery.eq('id', versionId)
     const organizationQuery = user.roles.includes('superadministrador')
       ? supabase.from('organizations').select('id, legal_name, tax_id, billing_email, billing_address')

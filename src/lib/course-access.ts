@@ -10,10 +10,20 @@ type CatalogCourseVisibility = {
   listed?: boolean
 }
 
+/**
+ * `listed = false` retira el curso de todas las superficies públicas: catálogo,
+ * home, buscador, cursos relacionados, sitemap y ficha.
+ *
+ * Formación STVH tuvo aquí una excepción que la mostraba siempre. Se ha
+ * retirado: es una formación privada que sólo se obtiene canjeando un código,
+ * así que no debe aparecer en el catálogo ni responder por su URL a quien no
+ * tenga acceso. Ocultarla no toca las matrículas existentes, que se leen desde
+ * `enrollments` y siguen apareciendo en «Mis cursos».
+ */
 export function isCourseVisibleInCatalog(
   course: CatalogCourseVisibility,
 ): boolean {
-  return course.slug === 'formacion-stvh' || course.listed !== false
+  return course.listed !== false
 }
 
 export function isMissingCourseAccessColumnsError(error: unknown): boolean {

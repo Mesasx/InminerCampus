@@ -93,11 +93,15 @@ export const Route = createFileRoute('/api/checkout')({
         const { data: version, error: versionError } = await supabase
           .from('course_versions')
           .select(
-            'id, version_number, duration_hours, modality, price_net, tax_rate, currency, status, courses!inner(title, slug, status)',
+            'id, version_number, duration_hours, modality, price_net, tax_rate, currency, status, courses!inner(title, slug, status, access_mode)',
           )
           .eq('id', body.courseVersionId)
           .eq('status', 'published')
           .eq('courses.status', 'published')
+          // Las formaciones por invitación no se comercializan: sólo se obtienen
+          // canjeando un código. Filtrarlo aquí cierra también la ruta de compra
+          // por URL directa, que no pasa por la ficha ni por el catálogo.
+          .eq('courses.access_mode', 'purchase')
           .maybeSingle()
 
         if (

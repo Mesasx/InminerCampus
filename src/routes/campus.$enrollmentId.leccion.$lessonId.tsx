@@ -482,6 +482,11 @@ function getRegulationLabel(courseSlug: string) {
   ) {
     return 'ITC 02.1.02 · ET 2003-1-10'
   }
+  // Administración (grupo 5.5.d) y establecimientos de beneficio (grupo 5.4)
+  // comparten especificación técnica.
+  if (courseSlug.includes('administracion') || courseSlug.includes('beneficio')) {
+    return 'ITC 02.1.02 · ET 2004-1-10'
+  }
   return 'Formación preventiva minera'
 }
 
