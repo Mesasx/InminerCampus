@@ -566,6 +566,64 @@ revoke all on function public.retry_invoice_jobs(uuid, text)
 grant execute on function public.retry_invoice_jobs(uuid, text)
   to service_role;
 
+-- Keep this migration deployable on projects where the shared rate-limit
+-- hardening migration has not been applied yet. The objects are deliberately
+-- idempotent so the dedicated migration can still be applied afterwards.
+create table if not exists app_private.rate_limit_hits (
+  id bigint generated always as identity primary key,
+  scope text not null,
+  subject uuid not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists rate_limit_hits_scope_subject_idx
+  on app_private.rate_limit_hits (scope, subject, created_at desc);
+
+alter table app_private.rate_limit_hits enable row level security;
+revoke all on table app_private.rate_limit_hits
+  from public, anon, authenticated;
+
+create or replace function app_private.check_rate_limit(
+  p_scope text,
+  p_subject uuid,
+  p_max_attempts integer,
+  p_window interval
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_count integer;
+begin
+  delete from app_private.rate_limit_hits
+  where scope = p_scope
+    and subject = p_subject
+    and created_at < now() - p_window;
+
+  select count(*) into v_count
+  from app_private.rate_limit_hits
+  where scope = p_scope
+    and subject = p_subject
+    and created_at >= now() - p_window;
+
+  if v_count >= p_max_attempts then
+    return false;
+  end if;
+
+  insert into app_private.rate_limit_hits (scope, subject)
+  values (p_scope, p_subject);
+
+  return true;
+end;
+$$;
+
+revoke all on function app_private.check_rate_limit(
+  text, uuid, integer, interval
+)
+  from public, anon, authenticated;
+
 create or replace function public.check_archive_agent_rate_limit(
   p_subject uuid
 )
