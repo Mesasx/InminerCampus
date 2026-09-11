@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { BookOpen, SlidersHorizontal } from 'lucide-react'
+import { BookOpen, Search, SlidersHorizontal, X } from 'lucide-react'
 import { useState } from 'react'
 import { Breadcrumbs } from '../components/Breadcrumbs'
 import { CourseCard } from '../components/CourseCard'
 import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { categoryLabels, categoryOf, type CourseCategory } from '../lib/course-category'
+import { matchesQuery } from '../lib/course-search'
 import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
 import { breadcrumbSchema, type BreadcrumbItem } from '../lib/schema'
 import { seoHead } from '../lib/seo'
@@ -107,19 +108,17 @@ function CatalogPage() {
       : []),
   ]
 
+  // Se busca sobre lo que el alumno tiene delante en la ficha: el nombre, la
+  // descripción, la especialidad y la referencia normativa.
   const filtered = courses.filter((course) => {
     const matchesCategory = !categoria || categoryOf(course) === categoria
     const matchesDuration =
       duration === 'all' || String(course.duration_hours) === duration
-    const normalizedQuery = query.trim().toLocaleLowerCase('es')
-    const matchesQuery =
-      !normalizedQuery ||
-      course.title.toLocaleLowerCase('es').includes(normalizedQuery) ||
-      course.short_description
-        ?.toLocaleLowerCase('es')
-        .includes(normalizedQuery)
-    return matchesCategory && matchesDuration && matchesQuery
+    return matchesCategory && matchesDuration && matchesQuery(course, query)
   })
+
+  const resultsLabel =
+    filtered.length === 1 ? '1 curso disponible' : `${filtered.length} cursos disponibles`
 
   return (
     <PublicLayout>
@@ -166,28 +165,36 @@ function CatalogPage() {
             ))}
           </div>
 
-          <div
-            className="panel"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr minmax(180px, 240px)',
-              gap: 16,
-              marginBottom: 28,
-            }}
-          >
-            <div className="field">
-              <label htmlFor="catalog-search">Buscar curso</label>
+          <div className="catalog-search">
+            <div className="catalog-search__field">
+              <Search
+                aria-hidden="true"
+                className="catalog-search__icon"
+                size={18}
+              />
               <input
                 id="catalog-search"
                 type="search"
-                placeholder="Nombre o especialidad"
+                aria-label="Buscar curso por nombre, especialidad o normativa"
+                autoComplete="off"
+                placeholder="Buscar por nombre, especialidad o normativa"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
+              {query ? (
+                <button
+                  className="catalog-search__clear"
+                  type="button"
+                  aria-label="Borrar la búsqueda"
+                  onClick={() => setQuery('')}
+                >
+                  <X size={16} />
+                </button>
+              ) : null}
             </div>
-            <div className="field">
+            <div className="catalog-search__duration">
               <label htmlFor="duration-filter">
-                <SlidersHorizontal size={14} /> Duración
+                <SlidersHorizontal aria-hidden="true" size={14} /> Duración
               </label>
               <select
                 id="duration-filter"
@@ -202,6 +209,12 @@ function CatalogPage() {
               </select>
             </div>
           </div>
+
+          {/* El recuento se anuncia para que quien navegue con lector de
+              pantalla sepa que la lista ha cambiado al escribir. */}
+          <p className="catalog-search__count" role="status">
+            {resultsLabel}
+          </p>
 
           {filtered.length ? (
             <div className="course-grid">

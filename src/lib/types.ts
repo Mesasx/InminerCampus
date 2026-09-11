@@ -17,6 +17,9 @@ export interface PublicCourse {
   title: string
   short_description: string | null
   specialty: string | null
+  // Referencia de la especificación técnica de la versión (p. ej. «ET 2004-1-10»).
+  // La tarjeta no la pinta, pero el buscador del catálogo busca por ella.
+  accreditation_reference: string | null
   duration_hours: number
   modality: CourseModality
   cover_storage_path: string | null
