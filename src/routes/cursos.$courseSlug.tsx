@@ -402,6 +402,7 @@ function toCardCourse(course: PublicCourseDetail): PublicCourse {
     title: course.title,
     short_description: course.short_description,
     specialty: course.specialty,
+    accreditation_reference: version.accreditation_reference,
     cover_storage_path: null,
     access_mode: course.access_mode,
     versionId: version.id,
