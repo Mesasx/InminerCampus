@@ -22,12 +22,12 @@ import { defineConfig } from 'vite'
 // añade soporte de nonce para poder retirar 'unsafe-inline'.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
+  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://va.vercel-scripts.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https://*.supabase.co https://inminer.es",
   "media-src 'self' blob: https://*.supabase.co",
-  "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com",
+  "connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://vitals.vercel-insights.com",
   "frame-src 'self' https://*.supabase.co https://challenges.cloudflare.com",
   "object-src 'none'",
   "base-uri 'self'",
