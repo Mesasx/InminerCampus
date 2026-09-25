@@ -1,4 +1,4 @@
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown, CirclePlay } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Logo } from './Logo'
 
@@ -9,6 +9,8 @@ export function Hero({
   subtitle,
   ctaLabel,
   ctaTargetId,
+  guideTargetId,
+  guideLabel = 'Ver guía rápida',
 }: {
   machineImage: string
   eyebrow: string
@@ -16,6 +18,8 @@ export function Hero({
   subtitle: string
   ctaLabel: string
   ctaTargetId: string
+  guideTargetId?: string
+  guideLabel?: string
 }) {
   return (
     <section className="campus-hero">
@@ -57,6 +61,27 @@ export function Hero({
           {ctaLabel}
         </a>
       </div>
+
+      {guideTargetId ? (
+        <a
+          className="campus-hero__guide"
+          href={`#${guideTargetId}`}
+          onClick={(event) => {
+            const target = document.getElementById(guideTargetId)
+            if (target) {
+              event.preventDefault()
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          }}
+        >
+          <CirclePlay aria-hidden="true" size={28} strokeWidth={1.7} />
+          <span>
+            <small>¿Primera vez en el Campus?</small>
+            <strong>{guideLabel}</strong>
+          </span>
+          <ArrowDown aria-hidden="true" size={16} />
+        </a>
+      ) : null}
 
       <a className="campus-hero__scroll" href={`#${ctaTargetId}`}>
         <span>Descubrir</span>
