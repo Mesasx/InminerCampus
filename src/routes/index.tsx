@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowRight } from 'lucide-react'
+import {
+  ArrowRight,
+  Award,
+  KeyRound,
+  LogIn,
+  PlayCircle,
+  ShoppingCart,
+  UserPlus,
+} from 'lucide-react'
 import { CourseSlider } from '../components/CourseSlider'
 import { Hero } from '../components/Hero'
 import { InminerLink } from '../components/InminerLink'
@@ -101,6 +109,49 @@ const howItWorks = [
     number: '04',
     title: 'Completa la evaluación',
     text: 'Cada curso incluye un test final. Al superarlo se emite el certificado de la formación.',
+  },
+]
+
+const campusGuideSteps = [
+  {
+    number: '01',
+    title: 'Crea tu cuenta',
+    text: 'Pulsa «Crear cuenta» y completa nombre, apellidos, DNI o NIE, correo y contraseña. El documento de identidad es imprescindible para emitir correctamente tus certificados. Acepta la política de privacidad y las condiciones de uso antes de continuar.',
+  },
+  {
+    number: '02',
+    title: 'Confirma tu correo e inicia sesión',
+    text: 'Abre el mensaje de confirmación que recibirás por correo y valida tu cuenta. Después, entra en «Iniciar sesión» con el correo y la contraseña que acabas de registrar.',
+  },
+  {
+    number: '03',
+    title: 'Localiza tu formación',
+    text: 'En «Mis cursos» verás todas las formaciones que hayas comprado o canjeado, incluidas las ya finalizadas. Desde allí puedes continuar exactamente donde lo dejaste.',
+  },
+  {
+    number: '04',
+    title: 'Canjea el código de tu empresa',
+    text: 'Entra en «Explorar cursos» y pulsa «Canjéalo aquí». Introduce el código de acceso facilitado por tu empresa y selecciona «Canjear código». El curso aparecerá automáticamente en «Mis cursos».',
+  },
+  {
+    number: '05',
+    title: 'Compra un curso',
+    text: 'Abre la ficha del curso, elige la modalidad disponible —formación inicial de 20 horas o reciclaje de 5 horas— y selecciona si la compra es para ti o para una empresa.',
+  },
+  {
+    number: '06',
+    title: 'Completa cada bloque',
+    text: 'Cada bloque combina diapositivas, explicación oral y una explicación detallada. Para avanzar debes escuchar el audio y leer la explicación detallada de cada apartado.',
+  },
+  {
+    number: '07',
+    title: 'Supera los test',
+    text: 'Cada pregunta ofrece cuatro respuestas. Para desbloquear el siguiente bloque debes completar el test sin fallos tres veces. Los resultados son acumulativos: no tienen que ser tres intentos consecutivos. Todas las respuestas están en las diapositivas y explicaciones del bloque.',
+  },
+  {
+    number: '08',
+    title: 'Descarga materiales y certificado',
+    text: 'Al final de la página del curso puedes descargar el manual y las diapositivas para repasar. Cuando completes la formación, Inmíner genera el certificado y lo guarda en «Certificados», junto al resto de títulos obtenidos.',
   },
 ]
 
@@ -359,6 +410,109 @@ function CategoriesTeaser() {
   )
 }
 
+function CampusGuide() {
+  const { ref, isVisible } = useSectionReveal<HTMLElement>()
+
+  return (
+    <section
+      aria-labelledby="campus-guide-title"
+      className={`campus-section campus-section--guide${isVisible ? ' is-visible' : ''}`}
+      id="guia-campus"
+      ref={ref}
+    >
+      <div className="campus-section__inner">
+        <div className="campus-guide__intro">
+          <div>
+            <span className="campus-section__eyebrow">Guía de acceso</span>
+            <h2 className="campus-section__heading" id="campus-guide-title">
+              Empieza en Inmíner Campus, paso a paso.
+            </h2>
+          </div>
+          <p className="campus-section__copy">
+            En tres minutos te enseñamos a crear tu cuenta, conseguir una
+            formación, avanzar por el contenido y descargar tus certificados.
+          </p>
+        </div>
+
+        <div className="campus-guide__media">
+          <div className="campus-guide__video-shell">
+            <video
+              aria-label="Guía en vídeo para usar Inmíner Campus"
+              controls
+              playsInline
+              poster="/images/guia-inminer-campus-poster.jpg"
+              preload="metadata"
+            >
+              <source src="/videos/guia-inminer-campus.mp4" type="video/mp4" />
+              <track
+                default
+                kind="captions"
+                label="Español"
+                src="/videos/guia-inminer-campus-es.vtt"
+                srcLang="es"
+              />
+              Tu navegador no puede reproducir este vídeo. Consulta la guía
+              escrita que aparece a continuación.
+            </video>
+            <span className="campus-guide__duration">
+              <PlayCircle aria-hidden="true" size={15} /> Guía completa · 3 min
+            </span>
+          </div>
+
+          <aside className="campus-guide__shortcuts" aria-label="Accesos rápidos">
+            <span className="campus-guide__shortcuts-label">Accesos rápidos</span>
+            <Link to="/registro">
+              <UserPlus aria-hidden="true" size={19} />
+              <span>Crear una cuenta</span>
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+            <Link to="/acceso">
+              <LogIn aria-hidden="true" size={19} />
+              <span>Iniciar sesión</span>
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+            <Link to="/canjear-codigo">
+              <KeyRound aria-hidden="true" size={19} />
+              <span>Canjear un código</span>
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+            <Link to="/catalogo">
+              <ShoppingCart aria-hidden="true" size={19} />
+              <span>Comprar un curso</span>
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+            <Link to="/certificados">
+              <Award aria-hidden="true" size={19} />
+              <span>Mis certificados</span>
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+          </aside>
+        </div>
+
+        <div className="campus-guide__written">
+          <div className="campus-guide__written-head">
+            <span>Guía escrita</span>
+            <h3>Todo el proceso, sin saltarte ningún paso.</h3>
+          </div>
+          <ol className="campus-guide__steps">
+            {campusGuideSteps.map((step) => (
+              <li className="campus-guide__step" key={step.number}>
+                <span className="campus-guide__step-number" aria-hidden="true">
+                  {step.number}
+                </span>
+                <div>
+                  <h4>{step.title}</h4>
+                  <p>{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function FormationSection({ courses }: { courses: Array<PublicCourse> }) {
   const { ref, isVisible } = useSectionReveal<HTMLElement>()
 
@@ -527,6 +681,8 @@ function HomePage() {
         ctaLabel="Explorar cursos"
         ctaTargetId="campus-formacion"
         eyebrow="Inmíner Campus · Formación preventiva"
+        guideLabel="Ver guía de acceso · 3 min"
+        guideTargetId="guia-campus"
         machineImage={heroMachineImage}
         subtitle="Cursos para minería e industria"
         title={
@@ -547,6 +703,7 @@ function HomePage() {
       <SafetySection />
       <MiningSection />
       <CategoriesTeaser />
+      <CampusGuide />
       <FormationSection courses={courses} />
       <HowItWorks />
       <AboutInminer />
