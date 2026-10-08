@@ -5,6 +5,7 @@ import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 import { requestInternalCompletion } from '../lib/internal-completion'
 import { quizIntroCopy, quizRoundsLabel, QUIZ_INTRO_TITLE } from '../lib/quiz-copy'
+import { stripSourceReferences } from '../lib/quiz-text'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { SessionUser } from '../lib/types'
 import { useLearningActivityHeartbeat } from '../lib/use-activity-heartbeat'
@@ -292,7 +293,12 @@ function Evaluation({
               <span className="quiz-question__index label-industrial">
                 Pregunta {index + 1}/{attempt.questions.length}
               </span>
-              <legend className="quiz-question__prompt">{question.prompt}</legend>
+              {/* Algunos bancos arrastran su procedencia («Diapositiva 8»,
+                  «Tema 2»…). Se conserva en Supabase para mantenimiento,
+                  pero el alumno sólo ve la pregunta. */}
+              <legend className="quiz-question__prompt">
+                {stripSourceReferences(question.prompt)}
+              </legend>
               <div className="quiz-options">
                 {question.options.map((option) => {
                   const selected = answers[question.id]?.includes(option.id)
@@ -311,7 +317,7 @@ function Evaluation({
                           updateAnswer(question, option.id, event.target.checked)
                         }
                       />
-                      <span>{option.text}</span>
+                      <span>{stripSourceReferences(option.text)}</span>
                     </label>
                   )
                 })}

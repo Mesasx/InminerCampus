@@ -15,6 +15,7 @@ import {
   courseSchema,
   faqSchema,
   jsonLdGraph,
+  inminerIngenieriaSchema,
   organizationSchema,
   webSiteSchema,
 } from '../src/lib/schema.ts'
@@ -157,6 +158,25 @@ test('buildTitle no duplica la marca ni recorta un título propio', () => {
     buildTitle('InmínerCampus | Formación preventiva'),
     'InmínerCampus | Formación preventiva',
   )
+  // Un título largo prescinde del sufijo antes que cortarse en resultados.
+  const long = 'Curso Prevención frente al polvo y la sílice cristalina respirable'
+  assert.equal(buildTitle(long), long)
+})
+
+test('las descripciones escritas a mano caben en el fragmento de resultados', async () => {
+  const files = (await readdir(routesDir)).filter((file) => /\.tsx?$/.test(file))
+  for (const file of files) {
+    const source = await readFile(new URL(file, routesDir), 'utf8')
+    for (const match of source.matchAll(/description:\s*'([^']+)'/g)) {
+      assert.ok(
+        match[1].length <= 158,
+        `${file}: descripción de ${match[1].length} caracteres`,
+      )
+    }
+    for (const match of source.matchAll(/const DESCRIPTION =\s*'([^']+)'/g)) {
+      assert.ok(match[1].length <= 158, `${file}: DESCRIPTION de ${match[1].length}`)
+    }
+  }
 })
 
 test('clampDescription corta por palabra completa', () => {
@@ -276,7 +296,42 @@ test('la organización declara el NAP verificable y la relación con INMÍNER', 
     (organization.parentOrganization as unknown as Record<string, string>).name,
     'INMINER INGENIERÍA, S.L.',
   )
-  assert.equal(organization.vatID as unknown as string, 'ESB13476148')
+  // Los datos fiscales pertenecen a la entidad jurídica, no a la plataforma.
+  const company = inminerIngenieriaSchema() as Record<string, unknown>
+  assert.equal(company.vatID, 'ESB13476148')
+  assert.equal(company.legalName, 'INMINER INGENIERÍA, S.L.')
+  assert.equal(company.url, 'https://inminer.es')
+  assert.equal(
+    (organization.parentOrganization as unknown as Record<string, string>)['@id'],
+    company['@id'],
+  )
+})
+
+test('Course cumple los campos que exige Google y no inventa acreditaciones', () => {
+  const schema = courseSchema({
+    slug: 'operador-maquinaria-arranque-carga-viales',
+    title: 'Operador de maquinaria de arranque, carga y viales',
+    description: 'Formación preventiva.',
+    purchasable: true,
+    image: '/images/curso-maquinaria-arranque-portada.png',
+    teaches: ['Identificar riesgos'],
+    normativeReference: 'ITC 02.1.02 · ET 2001-1-08',
+    versions: [
+      { durationHours: 20, modality: 'hybrid', priceNet: 259, currency: 'EUR' },
+    ],
+  }) as Record<string, any>
+
+  // El proveedor lleva nombre propio aunque la página no repita la organización.
+  assert.equal(schema.provider.name, 'InmínerCampus')
+  assert.equal(schema.offers[0].category, 'Paid')
+  assert.equal(
+    schema.image,
+    'https://inminercampus.com/images/curso-maquinaria-arranque-portada.png',
+  )
+  assert.equal(schema.about.name, 'ITC 02.1.02 · ET 2001-1-08')
+  // Ni valoraciones ni reseñas inventadas.
+  const serialized = JSON.stringify(schema)
+  assert.doesNotMatch(serialized, /aggregateRating|review|homologad|oficial/i)
 })
 
 test('la ficha de ITC 02.1.02 explica que la formación es presencial', () => {
@@ -352,7 +407,10 @@ test('las rutas privadas se reconocen como noindex y las públicas no', () => {
     '/sobre-nosotros',
     // `/empresas` es la landing pública y no debe confundirse con `/empresa`.
     '/empresas',
-    '/formacion-preventiva-oficial',
+    '/formacion-minera',
+    '/itc-02-1-02',
+    '/itc-02-1-02/formacion-inicial-y-reciclaje',
+    '/itc-02-0-02',
   ]) {
     assert.equal(isNoindexPath(path), false, `${path} debería indexarse`)
   }

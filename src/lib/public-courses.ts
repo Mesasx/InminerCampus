@@ -222,19 +222,9 @@ export async function fetchPublicCourse(
     : null
 }
 
-/**
- * Cursos que deben entrar en el sitemap y ser indexables.
- *
- * Se excluyen los de acceso por invitación (`access_mode = 'access_code'`): no
- * se comercializan, su ficha sólo explica que el acceso se obtiene con un
- * código y no responden a ninguna búsqueda real, así que no aportan nada al
- * índice y diluyen el foco temático del dominio.
- */
-export function isIndexableCourse(course: {
-  access_mode: 'purchase' | 'access_code'
-}): boolean {
-  return course.access_mode !== 'access_code'
-}
+// Se define en `course-access.ts` (módulo sin dependencias de entorno) para
+// que las guías y los tests puedan usarlo; se reexporta por compatibilidad.
+export { isIndexableCourse } from './course-access.ts'
 
 /**
  * Aplana el catálogo a una tarjeta por versión publicada, que es la forma que
@@ -246,7 +236,7 @@ export function toCourseCards(
 ): Array<PublicCourse> {
   return courses
     .flatMap((course) =>
-      course.versions.map((version) => ({
+      course.versions.map((version, index) => ({
         id: course.id,
         slug: course.slug,
         title: course.title,
@@ -257,6 +247,8 @@ export function toCourseCards(
         access_mode: course.access_mode,
         versionId: version.id,
         versionNumber: version.version_number,
+        // `versions` llega ordenado como lo selecciona la ficha por defecto.
+        isDefaultVersion: index === 0,
         duration_hours: version.duration_hours,
         modality: version.modality,
         price_net: version.price_net,
@@ -265,3 +257,4 @@ export function toCourseCards(
     )
     .sort((a, b) => a.duration_hours - b.duration_hours)
 }
+

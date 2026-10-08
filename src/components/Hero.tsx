@@ -42,10 +42,12 @@ export function Hero({
         <div className="campus-hero__brand">
           <Logo />
         </div>
-        <p className="campus-hero__eyebrow label-industrial">{eyebrow}</p>
-        {/* Es el titular real de la página, no sólo un bloque grande:
-            debe ser el H1 para que la home tenga encabezado principal. */}
-        <h1 className="campus-hero__count">{title}</h1>
+        {/* El H1 describe de qué trata la página (lo que se busca); el
+            eslogan grande es un recurso de marca y va en un párrafo. Las dos
+            clases fijan tipografía y márgenes, así que el aspecto no cambia
+            respecto a cuando el eslogan era el H1. */}
+        <h1 className="campus-hero__eyebrow label-industrial">{eyebrow}</h1>
+        <p className="campus-hero__count">{title}</p>
         <p className="campus-hero__subtitle label-industrial">{subtitle}</p>
         <a
           className="campus-hero__cta"

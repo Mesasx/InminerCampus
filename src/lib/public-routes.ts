@@ -9,12 +9,36 @@ export type StaticRoute = {
   changefreq: 'daily' | 'weekly' | 'monthly' | 'yearly'
 }
 
+/**
+ * Guías normativas de formación minera. Forman un clúster: la guía general
+ * enlaza a las de cada instrucción, y éstas a las fichas de curso.
+ */
+export const GUIDE_PATHS = {
+  hub: '/formacion-minera',
+  itc020102: '/itc-02-1-02',
+  initialAndRefresher: '/itc-02-1-02/formacion-inicial-y-reciclaje',
+  itc020002: '/itc-02-0-02',
+} as const
+
+/**
+ * URLs retiradas que redirigen con 301 a su sustituta. El sitemap nunca debe
+ * listarlas.
+ */
+export const REDIRECTED_PATHS: Record<string, string> = {
+  // La guía general sustituye a la antigua página «oficial»: el término no
+  // está definido por la ITC 02.1.02 y la página se ha ampliado.
+  '/formacion-preventiva-oficial': GUIDE_PATHS.hub,
+}
+
 /** Páginas públicas con contenido propio que deben entrar en el índice. */
 export const INDEXABLE_STATIC_ROUTES: Array<StaticRoute> = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/catalogo', priority: 0.9, changefreq: 'weekly' },
   { path: '/catalogo?categoria=mineria', priority: 0.9, changefreq: 'weekly' },
-  { path: '/formacion-preventiva-oficial', priority: 0.9, changefreq: 'monthly' },
+  { path: GUIDE_PATHS.hub, priority: 0.9, changefreq: 'monthly' },
+  { path: GUIDE_PATHS.itc020102, priority: 0.9, changefreq: 'monthly' },
+  { path: GUIDE_PATHS.initialAndRefresher, priority: 0.8, changefreq: 'monthly' },
+  { path: GUIDE_PATHS.itc020002, priority: 0.8, changefreq: 'monthly' },
   { path: '/sobre-nosotros', priority: 0.7, changefreq: 'monthly' },
   { path: '/empresas', priority: 0.7, changefreq: 'monthly' },
   { path: '/como-funciona', priority: 0.6, changefreq: 'monthly' },

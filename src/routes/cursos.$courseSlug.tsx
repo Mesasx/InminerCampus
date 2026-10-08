@@ -10,12 +10,13 @@ import { CourseCard } from '../components/CourseCard'
 import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { categoryLabels, categoryOf } from '../lib/course-category'
-import { courseImage } from '../lib/course-image'
+import { courseSocialImage } from '../lib/course-image'
 import {
   ITC_02_1_02_PRESENCIAL,
   courseFaqs,
   courseMetaDescription,
   courseMetaTitle,
+  isItc020002,
   isItc020102,
   normativeReference,
   versionLabel,
@@ -33,6 +34,7 @@ import {
   faqSchema,
   type BreadcrumbItem,
 } from '../lib/schema'
+import { GUIDE_PATHS } from '../lib/public-routes'
 import { seoHead } from '../lib/seo'
 import type { PublicCourse } from '../lib/types'
 
@@ -74,7 +76,7 @@ export const Route = createFileRoute('/cursos/$courseSlug')({
       path: `/cursos/${course.slug}`,
       // Cada curso tiene ya una imagen propia en el catálogo: se reutiliza
       // como tarjeta social en vez de repetir el logotipo en todas las fichas.
-      image: courseImage({ slug: course.slug, cover_storage_path: null }),
+      image: courseSocialImage({ slug: course.slug, cover_storage_path: null }),
       // Las fichas de acceso por invitación no se comercializan y no
       // responden a ninguna búsqueda: se sirven, pero no se indexan.
       noindex: !isIndexableCourse(course),
@@ -119,6 +121,12 @@ function CourseDetailPage() {
               priceNet: item.price_net,
               currency: item.currency,
             })),
+            // Mismos datos que la ficha muestra para la versión seleccionada.
+            image: courseSocialImage({ slug: course.slug, cover_storage_path: null }),
+            teaches: version.objectives,
+            audience: version.target_audience,
+            prerequisites: version.requirements,
+            normativeReference: reference,
           }),
           breadcrumbSchema(breadcrumbs),
           ...(faqs.length ? [faqSchema(faqs)] : []),
@@ -227,12 +235,31 @@ function CourseDetailPage() {
                   </a>
                 </p>
               ) : null}
-              <a
-                className="text-link"
-                href={`/contacto?curso=${encodeURIComponent(course.slug)}`}
-              >
-                ¿Necesitáis modalidad o apoyo presencial?
-              </a>
+              <div className="guide-links" style={{ marginTop: 10 }}>
+                {isItc020102(course) ? (
+                  <>
+                    <Link className="text-link" to={GUIDE_PATHS.itc020102}>
+                      Qué exige la ITC 02.1.02
+                    </Link>
+                    {course.versions.length > 1 ? (
+                      <Link className="text-link" to={GUIDE_PATHS.initialAndRefresher}>
+                        Formación inicial y reciclaje
+                      </Link>
+                    ) : null}
+                  </>
+                ) : null}
+                {isItc020002(course) ? (
+                  <Link className="text-link" to={GUIDE_PATHS.itc020002}>
+                    Qué exige la ITC 02.0.02
+                  </Link>
+                ) : null}
+                <a
+                  className="text-link"
+                  href={`/contacto?curso=${encodeURIComponent(course.slug)}`}
+                >
+                  ¿Necesitáis modalidad o apoyo presencial?
+                </a>
+              </div>
             </div>
             {faqs.length ? (
               <div style={{ marginTop: 42 }}>
@@ -264,7 +291,17 @@ function CourseDetailPage() {
                         className="offering-option"
                         key={option.id}
                         params={{ courseSlug }}
-                        search={{ version: option.id }}
+                        // La versión por defecto se enlaza con la URL limpia
+                        // (canónica); sólo las demás añaden `?version=`.
+                        search={
+                          option.id === course.versions[0].id
+                            ? { version: undefined }
+                            : { version: option.id }
+                        }
+                        // Comparación exacta de la búsqueda: sin ella, el
+                        // enlace limpio contaría como activo también en
+                        // `?version=…` y se marcarían las dos opciones.
+                        activeOptions={{ exact: true, explicitUndefined: true }}
                         to="/cursos/$courseSlug"
                       >
                         <span>
@@ -407,6 +444,7 @@ function toCardCourse(course: PublicCourseDetail): PublicCourse {
     access_mode: course.access_mode,
     versionId: version.id,
     versionNumber: version.version_number,
+    isDefaultVersion: true,
     duration_hours: version.duration_hours,
     modality: version.modality,
     price_net: version.price_net,

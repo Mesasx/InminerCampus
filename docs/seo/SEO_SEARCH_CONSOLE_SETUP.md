@@ -76,11 +76,20 @@ En este orden exacto:
 | 1 | `/cursos/operador-maquinaria-arranque-carga-viales` | `<h1>` con el nombre del curso, `Course` en JSON-LD, canónica sin `?version=` |
 | 2 | `/cursos/operador-maquinaria-transporte-camion-volquete` | Ídem |
 | 3 | `/cursos/prevencion-polvo-silice-cristalina-respirable` | Ídem |
-| 4 | `/catalogo?categoria=mineria` | Los tres cursos listados con enlaces `/cursos/...` |
-| 5 | `/formacion-preventiva-oficial` | Título propio, no el genérico del sitio |
-| 6 | `/` | `<h1>` presente, `EducationalOrganization` en JSON-LD |
-| 7 | `/catalogo` | Enlaces a las tres fichas |
-| 8 | `/sobre-nosotros` | Entidad INMÍNER, NAP |
+| 4 | `/formacion-minera` | Guía general: tabla puesto → especificación técnica → curso |
+| 5 | `/itc-02-1-02` | `Article`, `FAQPage`, `ItemList`; enlaces al BOE |
+| 6 | `/itc-02-1-02/formacion-inicial-y-reciclaje` | Tabla comparativa 20 h / 5 h |
+| 7 | `/itc-02-0-02` | Valores límite y formación anual |
+| 8 | `/` | `<h1>` «Inmíner Campus · Cursos de minería y formación preventiva»; `EducationalOrganization` + `Organization` (INMINER INGENIERÍA, S.L.) + `WebSite` |
+| 9 | `/catalogo` | Enlaces a todas las fichas, `ItemList` |
+| 10 | `/sobre-nosotros` | Entidad INMINER INGENIERÍA, S.L., `Person`, NAP |
+
+Resto de fichas de curso (perforadora, establecimientos de beneficio,
+administración): inspeccionarlas también; están todas en el sitemap.
+
+`/formacion-preventiva-oficial` responde **301 → `/formacion-minera`**. Si
+aparece en Search Console como «Página con redirección», es lo esperado. No
+hace falta solicitar su indexación.
 
 Las tres primeras son las que sostienen el negocio. Si alguna sigue mostrando
 «Cargando la información del curso…», el despliegue no ha entrado.
@@ -123,9 +132,16 @@ Objetivos en móvil: LCP < 2,5 s · CLS < 0,1 · INP < 200 ms.
 - Pestaña **Consultas** para ver por qué se está entrando.
 - Pestaña **Páginas** para ver qué URL recibe cada impresión.
 
-Primeras consultas a vigilar: `ITC 02.1.02`, `curso operador maquinaria
-arranque carga viales`, `ET 2001-1-08`, `ET 2000-1-08`, `curso sílice
-cristalina respirable`, `ITC 02.0.02`, `camión y volquete minería`.
+Primeras consultas a vigilar: `ITC 02.1.02`, `ITC 02.01.02`, `curso operador
+maquinaria arranque carga viales`, `curso pala cargadora minería`, `ET
+2001-1-08`, `ET 2000-1-08`, `curso perforista`, `establecimientos de
+beneficio formación`, `reciclaje 5 horas minería`, `curso sílice cristalina
+respirable`, `ITC 02.0.02`, `camión y volquete minería`, `inminer campus`.
+
+Para la marca, filtra también por consultas que contengan `inminer`: si
+aparecen impresiones de otras entidades homónimas, la desambiguación (pie con
+NAP, `Organization` con CIF y dirección, enlace a inminer.es) debe ir
+ganando terreno con el tiempo.
 
 ## 8. Detectar canibalización
 
@@ -133,11 +149,18 @@ En **Rendimiento**, filtra por una consulta concreta y mira la pestaña
 **Páginas**. Si dos URLs reciben impresiones para la misma consulta, compiten
 entre sí.
 
-El riesgo conocido está entre `/formacion-preventiva-oficial` y
-`/catalogo?categoria=mineria`. Si ambas aparecen para «formación preventiva
-minería», decide cuál es la principal y reorienta la otra —la primera debe ser
-informacional (qué exige la norma) y la segunda comercial (qué se puede
-comprar).
+Riesgos conocidos:
+
+- `/formacion-minera` (informacional: qué exige la norma) frente a
+  `/catalogo` (comercial: qué se puede comprar) para «formación preventiva
+  minería». Si compiten, reforzar la intención de cada una en vez de fusionar.
+- `/itc-02-1-02` frente a `/itc-02-1-02/formacion-inicial-y-reciclaje` para
+  «reciclaje ITC 02.1.02». La segunda debe ganar las consultas de horas y
+  plazos; la primera, las de «qué es».
+- `/catalogo?categoria=mineria` declara hoy como canónica `/catalogo` porque
+  lista exactamente los mismos cursos. Si se publica un curso de otra
+  categoría, la categoría recupera su canónica propia y vuelve al sitemap sin
+  tocar código.
 
 ## 9. Controlar errores
 

@@ -1,5 +1,89 @@
 # SEO Changelog — InmínerCampus
 
+## 2026-10-08 — Clúster normativo, entidad, rendimiento y test sin referencias
+
+Rama: `claude/stoic-wright-oz4far`
+
+### Preguntas de los tests sin referencias de origen
+
+Los bancos de preguntas se importan de libros editoriales y algunos enunciados
+u opciones arrastraban su procedencia («…según la diapositiva?», «(Diapositiva
+8)», «Tema 2 ·»…). El alumno sólo recibe enunciado y opciones a través de la RPC
+`start_quiz_attempt` (nunca `explanation`), así que la limpieza se hace al
+pintar: `src/lib/quiz-text.ts` → `stripSourceReferences()`, aplicada en
+`src/routes/evaluacion.$enrollmentId.$quizId.tsx`. Supabase no se toca: la
+procedencia sigue disponible para administración y mantenimiento. Pruebas en
+`tests/quiz-sin-referencias-de-origen.test.ts`, incluido el caso real
+`EB-20H-B4-Q02` y textos legítimos que no deben alterarse («conforme al
+manual», «lámina de agua»…).
+
+### Clúster de guías normativas (nuevo)
+
+| URL | Intención |
+|---|---|
+| `/formacion-minera` | Qué formación necesita cada puesto (pilar general) |
+| `/itc-02-1-02` | Qué es la ITC 02.1.02, especificaciones técnicas, presencialidad, cartilla |
+| `/itc-02-1-02/formacion-inicial-y-reciclaje` | 20 h frente a 5 h, periodicidad, qué curso elegir |
+| `/itc-02-0-02` | Polvo y sílice: valores límite y formación anual |
+
+- Datos normativos en una única fuente: `src/lib/mining-regulation.ts` (BOE,
+  identificadores, citas literales, fecha de revisión visible).
+- Los cursos de cada guía salen del catálogo publicado (`src/lib/guide-courses.ts`):
+  no hay slugs escritos a mano.
+- `/formacion-preventiva-oficial` → **301** a `/formacion-minera`.
+- JSON-LD: `Article` (autor INMINER INGENIERÍA, S.L.), `BreadcrumbList`,
+  `FAQPage` con las mismas preguntas visibles, `ItemList` de cursos.
+
+### Entidad
+
+- `Organization` para INMINER INGENIERÍA, S.L. (CIF, dirección, inminer.es) y
+  `EducationalOrganization` para InmínerCampus con `parentOrganization`,
+  `alternateName` y `subOrganization` cruzados.
+- `WebSite.alternateName` con las variantes «Inmíner Campus / Inminer Campus».
+- Pie con razón social, CIF y dirección (mismos datos que el aviso legal).
+- `/sobre-nosotros`: `Person` (sólo datos visibles en la página).
+
+### Fichas de curso y catálogo
+
+- `Course`: `provider` con nombre, `offers.category = "Paid"` (vocabulario de
+  Google), `image`, `teaches`, `audience`, `coursePrerequisites`, `about` (norma)
+  y `educationalCredentialAwarded` («Certificado de formación»).
+- Tarjetas y selector: la versión por defecto enlaza la URL limpia; sólo la otra
+  duración usa `?version=` (canónica siempre limpia).
+- Corregido el selector de duración: con `?version=` las dos opciones quedaban
+  marcadas como activas (`aria-current="page"`) y ninguna se resaltaba.
+- `/catalogo?categoria=mineria` canonicaliza a `/catalogo` mientras liste los
+  mismos cursos, y sale del sitemap en ese caso.
+- Enlaces contextuales ficha → guía de su ITC.
+
+### Metadatos y encabezados
+
+- Home: H1 «Inmíner Campus · Cursos de minería y formación preventiva» (la
+  línea ya visible del hero; el eslogan pasa a párrafo con la misma clase, sin
+  cambio visual).
+- Títulos y descripciones nuevos en home, catálogo, guías y «Sobre nosotros»;
+  todas las descripciones ≤ 158 caracteres (test).
+- `buildTitle` omite « | InmínerCampus» si el título superaría 70 caracteres.
+
+### Rendimiento
+
+| Recurso | Antes | Después |
+|---|---|---|
+| Imagen del hero (LCP de la home) | PNG de 2,56 MB con extensión `.webp` | WebP real, 398 KB |
+| Portadas de curso (×6) | PNG ~2 MB | WebP 1280 px, ~80–100 KB |
+| Logotipo en cabecera | PNG 1338 px, 403 KB | WebP 420 px, 15 KB (`<picture>` con PNG de reserva) |
+
+Los PNG originales se mantienen para Open Graph, correo y PDF.
+
+### Verificación
+
+```
+npm run check → 327 pruebas: 325 pasan, 0 fallan, 2 omitidas (requieren servidor)
+SEO_SMOKE_BASE_URL contra build local con Supabase simulado → 4/4
+```
+
+---
+
 ## 2026-09-04 — Indexabilidad, metadatos y datos estructurados
 
 Rama: `feat/seo-ssr-indexabilidad`

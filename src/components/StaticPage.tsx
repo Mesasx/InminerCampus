@@ -1,10 +1,13 @@
 import type { ReactNode } from 'react'
+import type { BreadcrumbItem } from '../lib/schema'
+import { Breadcrumbs } from './Breadcrumbs'
 import { PublicLayout } from './PublicLayout'
 
 export function StaticPage({
   eyebrow,
   title,
   description,
+  breadcrumbs,
   children,
 }: {
   eyebrow: string
@@ -12,12 +15,15 @@ export function StaticPage({
   // Admite marcado además de texto, para poder enlazar una mención dentro de
   // la entradilla sin partirla en trozos.
   description: ReactNode
+  /** Migas visibles; la página emite aparte el `BreadcrumbList` equivalente. */
+  breadcrumbs?: Array<BreadcrumbItem>
   children: ReactNode
 }) {
   return (
     <PublicLayout>
       <header className="page-hero">
         <div className="container">
+          {breadcrumbs ? <Breadcrumbs items={breadcrumbs} /> : null}
           <span className="eyebrow">{eyebrow}</span>
           <h1>{title}</h1>
           <p>{description}</p>

@@ -3,6 +3,7 @@ import {
   fetchPublicCourses,
   isIndexableCourse,
 } from '../lib/public-courses'
+import { sameAsFullCatalog } from '../lib/course-category'
 import { INDEXABLE_STATIC_ROUTES, isNoindexPath } from '../lib/public-routes'
 import { absoluteUrl, canonicalPath } from '../lib/seo'
 
@@ -57,6 +58,14 @@ export const Route = createFileRoute('/sitemap.xml')({
 
         try {
           const courses = await fetchPublicCourses()
+          // Una categoría que lista exactamente el catálogo completo declara
+          // como canónica `/catalogo` (ver `catalogo.tsx`): no se envía.
+          if (sameAsFullCatalog(courses, 'mineria')) {
+            const index = entries.findIndex((entry) =>
+              entry.loc.endsWith('/catalogo?categoria=mineria'),
+            )
+            if (index >= 0) entries.splice(index, 1)
+          }
           for (const course of courses) {
             if (!isIndexableCourse(course)) continue
             entries.push({

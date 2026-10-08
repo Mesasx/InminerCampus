@@ -40,3 +40,17 @@ export function isMissingCourseAccessColumnsError(error: unknown): boolean {
     /\b(access_mode|listed)\b/i.test(errorText)
   )
 }
+
+/**
+ * Cursos que deben entrar en el sitemap y ser indexables.
+ *
+ * Se excluyen los de acceso por invitación (`access_mode = 'access_code'`): no
+ * se comercializan, su ficha sólo explica que el acceso se obtiene con un
+ * código y no responden a ninguna búsqueda real, así que no aportan nada al
+ * índice y diluyen el foco temático del dominio.
+ */
+export function isIndexableCourse(course: {
+  access_mode: 'purchase' | 'access_code'
+}): boolean {
+  return course.access_mode !== 'access_code'
+}

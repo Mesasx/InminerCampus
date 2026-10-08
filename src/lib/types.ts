@@ -13,6 +13,12 @@ export interface PublicCourse {
   id: string
   versionId: string
   versionNumber: number
+  /**
+   * `true` para la versión que la ficha muestra sin parámetros. Su enlace
+   * apunta a la URL limpia `/cursos/<slug>`; sólo las demás versiones añaden
+   * `?version=`.
+   */
+  isDefaultVersion?: boolean
   slug: string
   title: string
   short_description: string | null

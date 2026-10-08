@@ -23,7 +23,22 @@ const imagesBySlug: Record<string, string> = {
     '/images/curso-perforadora-portada.png',
 }
 
-export function courseImage(
+// Las portadas PNG pesan unos 2 MB cada una. Para pintarlas en pantalla
+// (catálogo, carrusel, fichas) se sirve una copia WebP de 1280 px generada a
+// partir del mismo original, que pesa en torno a 90 KB. Los PNG se conservan
+// como imagen social: algunos rastreadores de Open Graph todavía no aceptan
+// WebP.
+const webpCovers = new Set([
+  '/images/curso-maquinaria-arranque-portada.png',
+  '/images/curso-maquinaria-transporte-portada.png',
+  '/images/curso-administracion-portada.png',
+  '/images/curso-silice-portada.png',
+  '/images/curso-establecimientos-beneficio-portada.png',
+  '/images/curso-perforadora-portada.png',
+])
+
+/** Imagen original del curso, apta para Open Graph y datos estructurados. */
+export function courseSocialImage(
   course: Pick<PublicCourse, 'cover_storage_path' | 'slug'>,
 ) {
   if (course.cover_storage_path?.startsWith('/')) {
@@ -31,4 +46,12 @@ export function courseImage(
   }
 
   return imagesBySlug[course.slug] ?? '/images/inminer-campus-hero-engineering.png'
+}
+
+/** Imagen del curso optimizada para mostrarla en la interfaz. */
+export function courseImage(
+  course: Pick<PublicCourse, 'cover_storage_path' | 'slug'>,
+) {
+  const original = courseSocialImage(course)
+  return webpCovers.has(original) ? original.replace(/\.png$/, '.webp') : original
 }
