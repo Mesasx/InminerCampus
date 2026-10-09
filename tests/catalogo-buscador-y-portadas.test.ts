@@ -128,6 +128,7 @@ test('la portada de sílice es la nueva, no la foto genérica del carrusel', asy
     slug: 'prevencion-polvo-silice-cristalina-respirable',
     cover_storage_path: null,
   })
-  assert.equal(image, '/images/curso-silice-portada.png')
+  // En pantalla se sirve la copia WebP; el PNG original queda como imagen social.
+  assert.equal(image, '/images/curso-silice-portada.webp')
   assert.doesNotMatch(image, /campus-carousel/)
 })

@@ -623,6 +623,12 @@ span {
   min-width: 0;
 }
 
+/* El <picture> del logotipo no debe crear una caja propia: la imagen sigue
+   siendo el elemento flexible del enlace, como antes de servir WebP. */
+.brand picture {
+  display: contents;
+}
+
 .brand__image {
   width: auto;
   height: 46px;
@@ -1274,7 +1280,10 @@ span {
   font-size: 0.96rem;
 }
 
-.offering-option[aria-current='true'] {
+/* `true` lo pone la ficha; `page` lo pone el Link de TanStack cuando la URL
+   coincide exactamente con la opción. Las dos significan «seleccionada». */
+.offering-option[aria-current='true'],
+.offering-option[aria-current='page'] {
   border-color: var(--orange);
   background: var(--orange-soft);
   box-shadow: 0 8px 20px rgba(233, 120, 36, 0.14);
@@ -7169,4 +7178,116 @@ button.admin-list__item {
 .course-faq dd {
   margin: 0;
   line-height: 1.8;
+}
+
+/* === Guías normativas (formación minera, ITC) ===
+   Reutilizan los tokens y componentes del sitio; sólo añaden ritmo vertical
+   y tablas con texto que puede partirse en móvil. */
+.guide-section {
+  margin-top: 52px;
+  max-width: 920px;
+}
+
+.guide-section h2 {
+  margin-bottom: 14px;
+}
+
+.guide-section h3 {
+  margin: 26px 0 8px;
+  font-size: 1.15rem;
+}
+
+.guide-section p,
+.guide-section li {
+  color: var(--ink-soft);
+  line-height: 1.75;
+}
+
+.guide-section ul,
+.guide-section ol {
+  padding-left: 20px;
+}
+
+.guide-answer {
+  max-width: 920px;
+  padding: 22px 24px;
+  border-left: 4px solid var(--orange);
+  border-radius: 0 12px 12px 0;
+  background: var(--orange-soft);
+  line-height: 1.75;
+}
+
+.guide-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.guide-quote {
+  margin: 18px 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--navy);
+  background: var(--navy-soft);
+  color: var(--ink);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.guide-quote cite {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: .86rem;
+  font-style: normal;
+}
+
+.data-table--wrap th,
+.data-table--wrap td {
+  white-space: normal;
+  vertical-align: top;
+}
+
+.data-table--wrap .nowrap {
+  white-space: nowrap;
+}
+
+.data-table--wrap th {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.guide-sources ul {
+  display: grid;
+  gap: 8px;
+}
+
+.guide-sources a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.guide-review-note {
+  margin-top: 40px;
+  max-width: 920px;
+}
+
+.guide-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+/* Texto sólo para lectores de pantalla y rastreadores (encabezados de lista). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }

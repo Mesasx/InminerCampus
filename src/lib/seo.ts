@@ -113,12 +113,21 @@ export function seoHead(input: SeoInput): {
   return { meta, links }
 }
 
-/** Añade el sufijo de marca salvo que el título ya lo incluya. */
+/** Longitud máxima del título con marca antes de prescindir del sufijo. */
+const MAX_BRANDED_TITLE = 70
+
+/**
+ * Añade el sufijo de marca salvo que el título ya lo incluya o que, con él,
+ * el título se fuese a cortar en los resultados. Google muestra el nombre del
+ * sitio aparte (sale del `WebSite` y de `og:site_name`), así que en los
+ * títulos largos se prioriza el texto propio de la página.
+ */
 export function buildTitle(title: string): string {
   const trimmed = title.trim()
   if (!trimmed) return SITE_NAME
   if (trimmed.toLowerCase().includes(SITE_NAME.toLowerCase())) return trimmed
-  return `${trimmed} | ${SITE_NAME}`
+  const branded = `${trimmed} | ${SITE_NAME}`
+  return branded.length <= MAX_BRANDED_TITLE ? branded : trimmed
 }
 
 /**

@@ -57,7 +57,14 @@ Todo lo que impedía físicamente que Google viera o entendiera el sitio.
 
 ## P2 — Crecimiento: hub editorial
 
-Ninguna de estas páginas existe. **No generar 100 artículos con IA.** Estas
+> **Actualización 2026-10-08.** Implementadas con otra arquitectura de URL
+> (sin `/guias/`, ver `SEO_KEYWORD_MAP.md`): la 1 y la 2 se resuelven en
+> `/itc-02-1-02` (sección de presencialidad + FAQ), la 3 en
+> `/itc-02-1-02/formacion-inicial-y-reciclaje`, la 4 en `/formacion-minera`,
+> la 5 en `/itc-02-0-02`, la 6 en la tabla de especificaciones de
+> `/itc-02-1-02` y la 7 en su sección «Cartilla». Pendiente: la 8.
+
+Texto original del plan: **No generar 100 artículos con IA.** Estas
 ocho responden preguntas reales que hoy nadie contesta bien en español.
 
 Para cada una: keyword, intención, dificultad, URL, H1, esquema, enlaces y CTA.

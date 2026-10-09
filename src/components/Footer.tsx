@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { ORGANIZATION } from '../lib/seo'
 import { InminerLink } from './InminerLink'
 import { Logo } from './Logo'
 
@@ -26,7 +27,9 @@ export function Footer() {
             <strong>Categorías</strong>
             <Link to="/catalogo" search={{ categoria: 'mineria' }}>Minería</Link>
             <Link to="/catalogo" search={{ categoria: 'otros' }}>Otros</Link>
-            <Link to="/formacion-preventiva-oficial">Formación Preventiva Oficial</Link>
+            <Link to="/formacion-minera">Formación minera</Link>
+            <Link to="/itc-02-1-02">ITC 02.1.02</Link>
+            <Link to="/itc-02-0-02">ITC 02.0.02 · polvo y sílice</Link>
             <Link to="/verificar-certificado">Verificar certificado</Link>
           </div>
           <div className="footer__links">
@@ -52,6 +55,14 @@ export function Footer() {
           <span>
             InmínerCampus es la plataforma de formación de{' '}
             <InminerLink suffix=", S.L." />
+          </span>
+          {/* Datos de la empresa titular, idénticos a los del aviso legal y a
+              los datos estructurados: identifican sin ambigüedad a la entidad
+              española frente a otras con nombres parecidos. */}
+          <span>
+            {ORGANIZATION.legalName} · CIF {ORGANIZATION.taxID} ·{' '}
+            {ORGANIZATION.streetAddress}, {ORGANIZATION.postalCode}{' '}
+            {ORGANIZATION.addressLocality} (España)
           </span>
           <span>
             Plataforma creada por{' '}

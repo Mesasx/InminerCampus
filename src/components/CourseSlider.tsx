@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { courseImage } from '../lib/course-image'
+import { courseLinkSearch } from '../lib/course-url'
 import { modalityLabel } from '../lib/format'
 import type { PublicCourse } from '../lib/types'
 
@@ -170,7 +171,7 @@ export function CourseSlider({ courses }: { courses: PublicCourse[] }) {
               }}
             >
               <img
-                alt={`Imagen del curso ${course.title}`}
+                alt={`Portada del curso ${course.title}`}
                 className="course-slider__image"
                 decoding="async"
                 draggable={false}
@@ -193,7 +194,7 @@ export function CourseSlider({ courses }: { courses: PublicCourse[] }) {
                 <Link
                   className="editorial-cta editorial-cta--solid"
                   params={{ courseSlug: course.slug }}
-                  search={{ version: course.versionId }}
+                  search={courseLinkSearch(course)}
                   to="/cursos/$courseSlug"
                 >
                   Ver curso <ArrowRight aria-hidden="true" size={17} />

@@ -44,3 +44,14 @@ export function categoryOf(
 
   return 'otros'
 }
+
+/**
+ * `true` si filtrar por la categoría no deja fuera ningún curso: la vista
+ * filtrada sería una copia del catálogo completo y no debe competir con él.
+ */
+export function sameAsFullCatalog(
+  courses: Array<Pick<PublicCourse, 'specialty' | 'title'>>,
+  categoria: CourseCategory,
+): boolean {
+  return courses.length > 0 && courses.every((course) => categoryOf(course) === categoria)
+}

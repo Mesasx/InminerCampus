@@ -173,20 +173,33 @@ prevención o de RRHH.
 
 ---
 
-## Resumen de arquitectura de destino
+## Resumen de arquitectura (implementada el 2026-10-08)
 
 ```
-/                                          ← marca + entidad
-/catalogo                                  ← catálogo general
-/catalogo?categoria=mineria                ← categoría minería (canónica propia)
-/cursos/operador-maquinaria-arranque-carga-viales
-/cursos/operador-maquinaria-transporte-camion-volquete
-/cursos/prevencion-polvo-silice-cristalina-respirable
-/formacion-preventiva-oficial              ← pilar normativo (existente)
-/empresas                                  ← B2B
-/sobre-nosotros                            ← E-E-A-T, entidad INMÍNER
-/guias/…                                   ← hub editorial (P2, aún no creado)
+/                                              ← marca + entidad (InmínerCampus → INMINER INGENIERÍA, S.L.)
+/formacion-minera                              ← pilar: qué formación necesita cada puesto
+  /itc-02-1-02                                 ← pilar normativo ITC 02.1.02 + especificaciones técnicas
+    /itc-02-1-02/formacion-inicial-y-reciclaje ← 20 h frente a 5 h, periodicidad
+  /itc-02-0-02                                 ← polvo y sílice
+/catalogo                                      ← comercial (canónica de la categoría mientras coincidan)
+/cursos/<slug>                                 ← transaccional, una URL por curso
+/empresas                                      ← B2B
+/sobre-nosotros                                ← E-E-A-T, entidad y responsable técnico
 ```
 
-Las URLs `/guias/...` **todavía no existen**: son la propuesta del hub editorial,
-detallada en [`SEO_IMPLEMENTATION_PLAN.md`](./SEO_IMPLEMENTATION_PLAN.md).
+Enlazado: home → guía → ITC → curso, y en sentido inverso ficha → ITC → guía →
+catálogo. `/formacion-preventiva-oficial` redirige con 301 a `/formacion-minera`.
+
+Asignación actualizada de los clusters a URLs:
+
+| Cluster | URL principal |
+|---|---|
+| A — Formación minera general | `/formacion-minera` (informacional), `/catalogo` (comercial) |
+| B — ITC 02.1.02 | `/itc-02-1-02`; reciclaje e inicial → `/itc-02-1-02/formacion-inicial-y-reciclaje`; «online» → FAQ y sección de presencialidad de ambas |
+| C — Arranque, carga y viales | ficha del curso |
+| D — Transporte | ficha del curso |
+| E — Establecimientos de beneficio | ficha `operadores-establecimientos-beneficio` (ya existe producto: 5 h) |
+| E bis — Perforadora / perforista | ficha `operadores-perforacion-corte-exterior` |
+| E ter — Administración de centros mineros | ficha `administracion-personal-servicios-no-mantenimiento` |
+| F — Polvo y sílice | `/itc-02-0-02` (informacional) + ficha del curso (transaccional) |
+| G — Empresa | `/empresas` |

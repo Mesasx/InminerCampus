@@ -15,7 +15,12 @@ import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
 import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
-import { organizationSchema, webSiteSchema } from '../lib/schema'
+import { GUIDE_PATHS } from '../lib/public-routes'
+import {
+  inminerIngenieriaSchema,
+  organizationSchema,
+  webSiteSchema,
+} from '../lib/schema'
 import { seoHead } from '../lib/seo'
 import type { PublicCourse } from '../lib/types'
 
@@ -28,10 +33,9 @@ export const Route = createFileRoute('/')({
   loader: async () => ({ courses: toCourseCards(await fetchPublicCourses()) }),
   head: () => {
     const seo = seoHead({
-      title:
-        'Formación preventiva para minería | InmínerCampus',
+      title: 'Cursos de minería y formación preventiva | InmínerCampus',
       description:
-        'Campus de formación preventiva de INMINER INGENIERÍA para actividades extractivas: ITC 02.1.02 por puesto de trabajo e ITC 02.0.02 frente al polvo y la sílice cristalina respirable.',
+        'Cursos de formación preventiva minera de INMINER INGENIERÍA, S.L. (España): ITC 02.1.02 por puesto de trabajo e ITC 02.0.02 frente a polvo y sílice.',
       path: '/',
     })
     return {
@@ -348,6 +352,21 @@ function MiningSection() {
           >
             Ver cursos de minería <ArrowRight aria-hidden="true" size={17} />
           </Link>
+          <p className="campus-section__copy" style={{ marginTop: 22 }}>
+            ¿Qué formación exige la norma para tu puesto? Lo explicamos en la{' '}
+            <Link className="text-link" to={GUIDE_PATHS.hub}>
+              guía de formación minera
+            </Link>
+            , con la{' '}
+            <Link className="text-link" to={GUIDE_PATHS.itc020102}>
+              ITC 02.1.02
+            </Link>{' '}
+            por puesto de trabajo y la{' '}
+            <Link className="text-link" to={GUIDE_PATHS.itc020002}>
+              ITC 02.0.02
+            </Link>{' '}
+            de polvo y sílice.
+          </p>
         </div>
       </div>
     </section>
@@ -369,7 +388,7 @@ function CategoriesTeaser() {
       label: 'Otros',
       title: 'Formación técnica complementaria',
       text: 'Programas técnicos que no se encuadran en minería, como formaciones internas por invitación.',
-      image: '/images/campus-carousel-topografia.png',
+      image: '/images/campus-carousel-topografia.webp',
     },
   ]
 
@@ -676,11 +695,13 @@ function HomePage() {
     <PublicLayout heroFull>
       {/* La identidad de la empresa se declara una sola vez, en la home; el
           resto de páginas la referencian por `@id` desde sus propios nodos. */}
-      <JsonLd nodes={[organizationSchema(), webSiteSchema()]} />
+      <JsonLd
+        nodes={[organizationSchema(), inminerIngenieriaSchema(), webSiteSchema()]}
+      />
       <Hero
         ctaLabel="Explorar cursos"
         ctaTargetId="campus-formacion"
-        eyebrow="Inmíner Campus · Formación preventiva"
+        eyebrow="Inmíner Campus · Cursos de minería y formación preventiva"
         guideLabel="Ver guía de acceso · 3 min"
         guideTargetId="guia-campus"
         machineImage={heroMachineImage}

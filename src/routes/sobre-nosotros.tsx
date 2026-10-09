@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   BadgeCheck,
   Building2,
@@ -14,14 +14,28 @@ import {
   Waves,
 } from 'lucide-react'
 import { InminerLink } from '../components/InminerLink'
+import { JsonLd } from '../components/JsonLd'
 import { StaticPage } from '../components/StaticPage'
+import { GUIDE_PATHS } from '../lib/public-routes'
+import {
+  breadcrumbSchema,
+  inminerIngenieriaSchema,
+  organizationSchema,
+  personSchema,
+  type BreadcrumbItem,
+} from '../lib/schema'
 import { seoHead } from '../lib/seo'
+
+const breadcrumbs: Array<BreadcrumbItem> = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Sobre nosotros', path: '/sobre-nosotros' },
+]
 
 export const Route = createFileRoute('/sobre-nosotros')({
   head: () => seoHead({
-    title: 'Sobre Inmíner Ingeniería',
+    title: 'Sobre nosotros: INMINER INGENIERÍA, S.L.',
     description:
-      'Quién está detrás de InmínerCampus: INMINER INGENIERÍA, S.L., ingeniería y prevención en minería e industria desde Ciudad Real.',
+      'Quién está detrás de InmínerCampus: INMINER INGENIERÍA, S.L., ingeniería de minas e industrial de Ciudad Real (España) con proyectos mineros reales.',
     path: '/sobre-nosotros',
   }),
   component: AboutPage,
@@ -57,8 +71,9 @@ const projectHighlights = [
 function AboutPage() {
   return (
     <StaticPage
+      breadcrumbs={breadcrumbs}
       eyebrow="Sobre InmínerCampus"
-      title="Ingeniería que enseña desde la experiencia."
+      title="Inmíner Ingeniería: ingeniería que enseña desde la experiencia."
       description={
         <>
           InmínerCampus es la plataforma de formación de{" "}
@@ -68,6 +83,24 @@ function AboutPage() {
         </>
       }
     >
+      {/* Sólo datos que esta misma página muestra: empresa (aviso legal),
+          plataforma y la persona que dirige el área técnica. */}
+      <JsonLd
+        nodes={[
+          inminerIngenieriaSchema(),
+          organizationSchema(),
+          personSchema({
+            name: 'Pedro Mesas Riballo',
+            jobTitle: 'Director de Ingeniería de INMÍNER',
+            description:
+              'Ingeniero especializado en proyectos mineros e industriales. Dirige el área de Ingeniería de INMÍNER desde marzo de 2008.',
+            image: '/images/pedro-mesas-riballo.jpg',
+            path: '/sobre-nosotros',
+            alumniOf: 'Universidad de Castilla-La Mancha',
+          }),
+          breadcrumbSchema(breadcrumbs),
+        ]}
+      />
       <div className="feature-grid">
         <article className="feature-card">
           <span className="feature-card__icon">
@@ -285,7 +318,11 @@ function AboutPage() {
           duración, el precio de esa versión y si necesita prácticas,
           asistencia o adaptación al centro. Superar la teoría online no
           equivale por sí sola a completar una formación con requisitos
-          presenciales.
+          presenciales. Lo explicamos con detalle en la{' '}
+          <Link className="text-link" to={GUIDE_PATHS.hub}>
+            guía de formación minera
+          </Link>
+          .
         </p>
         <a
           className="button button--outline"

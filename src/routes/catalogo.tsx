@@ -5,10 +5,20 @@ import { Breadcrumbs } from '../components/Breadcrumbs'
 import { CourseCard } from '../components/CourseCard'
 import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
-import { categoryLabels, categoryOf, type CourseCategory } from '../lib/course-category'
+import {
+  categoryLabels,
+  categoryOf,
+  sameAsFullCatalog,
+  type CourseCategory,
+} from '../lib/course-category'
 import { matchesQuery } from '../lib/course-search'
 import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
-import { breadcrumbSchema, type BreadcrumbItem } from '../lib/schema'
+import { GUIDE_PATHS } from '../lib/public-routes'
+import {
+  breadcrumbSchema,
+  itemListSchema,
+  type BreadcrumbItem,
+} from '../lib/schema'
 import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/catalogo')({
@@ -34,7 +44,14 @@ export const Route = createFileRoute('/catalogo')({
       // Los filtros son vistas del mismo catálogo: cada categoría declara su
       // propia canónica con el parámetro, y el resto de combinaciones
       // (búsqueda, duración) se resuelven en cliente sin cambiar la URL.
-      path: categoria ? `/catalogo?categoria=${categoria}` : '/catalogo',
+      // Si la categoría lista exactamente lo mismo que el catálogo completo
+      // (hoy todos los cursos publicados son de minería), sería una copia:
+      // entonces declara como canónica la URL del catálogo.
+      path:
+        categoria &&
+        !(loaderData && sameAsFullCatalog(loaderData.courses, categoria))
+          ? `/catalogo?categoria=${categoria}`
+          : '/catalogo',
       // Una categoría sin cursos publicados es una página vacía: se sirve, pero
       // no se indexa. El catálogo cambia con el tiempo y una categoría puede
       // quedarse sin programas sin que eso deba dejar una URL pobre en Google.
@@ -51,16 +68,16 @@ export const Route = createFileRoute('/catalogo')({
 })
 
 const catalogMeta = {
-  title: 'Catálogo de formación preventiva en minería',
+  title: 'Cursos de minería y formación preventiva ITC',
   description:
-    'Cursos de formación preventiva para puestos de trabajo en actividades extractivas: ITC 02.1.02, ITC 02.0.02, duración, modalidad y prácticas de cada programa.',
+    'Cursos de formación preventiva minera en España: maquinaria, perforación, plantas de beneficio y personal de centros mineros. ITC 02.1.02 e ITC 02.0.02.',
 }
 
 const categoryMeta: Record<CourseCategory, { title: string; description: string }> = {
   mineria: {
     title: 'Cursos de formación preventiva para minería',
     description:
-      'Formación preventiva para operadores de maquinaria y trabajadores de actividades extractivas: ITC 02.1.02, especificaciones técnicas y prevención frente al polvo y la sílice.',
+      'Formación preventiva para operadores de maquinaria y trabajadores de actividades extractivas: ITC 02.1.02 por puesto e ITC 02.0.02 de polvo y sílice.',
   },
   otros: {
     title: 'Otra formación técnica',
@@ -74,7 +91,7 @@ const allCategories: Array<CourseCategory> = ['mineria', 'otros']
 // H1 propio por categoría: la vista filtrada es una URL indexable distinta y
 // necesita un encabezado que describa exactamente lo que lista.
 const categoryHeadings: Record<CourseCategory, string> = {
-  mineria: 'Formación preventiva para minería y actividades extractivas.',
+  mineria: 'Cursos de formación preventiva para minería y actividades extractivas.',
   otros: 'Otra formación técnica de Inmíner Ingeniería.',
 }
 
@@ -122,15 +139,38 @@ function CatalogPage() {
 
   return (
     <PublicLayout>
-      <JsonLd nodes={[breadcrumbSchema(breadcrumbs)]} />
+      <JsonLd
+        nodes={[
+          breadcrumbSchema(breadcrumbs),
+          // Una entrada por curso (no por versión), con la URL canónica de la
+          // ficha: es la lista que puede alimentar el carrusel de cursos.
+          itemListSchema(
+            'Cursos de InmínerCampus',
+            [...new Map(
+              courses
+                .filter((course) => !categoria || categoryOf(course) === categoria)
+                .filter((course) => course.access_mode !== 'access_code')
+                .map((course) => [course.slug, course]),
+            ).values()].map((course) => ({
+              name: course.title,
+              path: `/cursos/${course.slug}`,
+            })),
+          ),
+        ]}
+      />
       <header className="page-hero">
         <div className="container">
           <Breadcrumbs items={breadcrumbs} />
           <span className="eyebrow">Catálogo formativo</span>
-          <h1>{categoria ? categoryHeadings[categoria] : 'Formación técnica para avanzar con seguridad.'}</h1>
+          <h1>{categoria ? categoryHeadings[categoria] : 'Cursos de minería y formación preventiva.'}</h1>
           <p>
             Consulta los programas disponibles. Cada ficha identifica la ITC,
             la especificación técnica, la modalidad y las prácticas aplicables.
+            ¿No sabes qué formación corresponde a tu puesto? Consulta la{' '}
+            <Link className="text-link" to={GUIDE_PATHS.hub}>
+              guía de formación minera
+            </Link>
+            .
           </p>
           <p className="muted">
             ¿Ya tienes un código de acceso de tu empresa?{' '}
@@ -212,6 +252,9 @@ function CatalogPage() {
 
           {/* El recuento se anuncia para que quien navegue con lector de
               pantalla sepa que la lista ha cambiado al escribir. */}
+          {/* Encabezado de la lista: las tarjetas usan H3 y necesitan un H2
+              por encima para que la jerarquía no salte niveles. */}
+          <h2 className="visually-hidden">Cursos disponibles</h2>
           <p className="catalog-search__count" role="status">
             {resultsLabel}
           </p>

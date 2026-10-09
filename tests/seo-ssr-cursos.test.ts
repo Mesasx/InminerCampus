@@ -152,7 +152,9 @@ test(
       )
       assert.doesNotMatch(
         loc,
-        /\/(acceso|registro|perfil|mis-cursos|facturas|campus|admin|empresa\/|comprar|pago|api)/,
+        // Segmentos completos: `/admin` no debe confundirse con el slug
+        // `/cursos/administracion-…`.
+        /^https:\/\/[^/]+\/(acceso|registro|perfil|mis-cursos|facturas|campus|admin|empresa|comprar|comprar-empresa|pago|api)(\/|\?|$)/,
         `${loc} es una ruta privada y no debe estar en el sitemap`,
       )
       assert.doesNotMatch(loc, /version=/, `${loc} incluye un id de versión`)

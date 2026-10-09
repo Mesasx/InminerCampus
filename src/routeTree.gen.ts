@@ -21,7 +21,9 @@ import { Route as DudasRouteImport } from './routes/dudas'
 import { Route as EmpresaRouteImport } from './routes/empresa'
 import { Route as EmpresasRouteImport } from './routes/empresas'
 import { Route as FacturasRouteImport } from './routes/facturas'
+import { Route as FormacionMineraRouteImport } from './routes/formacion-minera'
 import { Route as FormacionPreventivaOficialRouteImport } from './routes/formacion-preventiva-oficial'
+import { Route as Itc02002RouteImport } from './routes/itc-02-0-02'
 import { Route as MisCursosRouteImport } from './routes/mis-cursos'
 import { Route as NuevaContrasenaRouteImport } from './routes/nueva-contrasena'
 import { Route as PerfilRouteImport } from './routes/perfil'
@@ -60,6 +62,8 @@ import { Route as DudasThreadIdRouteImport } from './routes/dudas.$threadId'
 import { Route as EmpresaIndexRouteImport } from './routes/empresa.index'
 import { Route as EmpresaCompanySectionRouteImport } from './routes/empresa.$companySection'
 import { Route as EmpresaCodigosRouteImport } from './routes/empresa.codigos'
+import { Route as Itc02102IndexRouteImport } from './routes/itc-02-1-02.index'
+import { Route as Itc02102FormacionInicialYReciclajeRouteImport } from './routes/itc-02-1-02.formacion-inicial-y-reciclaje'
 import { Route as LegalLegalSlugRouteImport } from './routes/legal.$legalSlug'
 import { Route as PagoConfirmadoRouteImport } from './routes/pago.confirmado'
 import { Route as AdminCursosIndexRouteImport } from './routes/admin.cursos.index'
@@ -136,12 +140,22 @@ const FacturasRoute = FacturasRouteImport.update({
   path: '/facturas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FormacionMineraRoute = FormacionMineraRouteImport.update({
+  id: '/formacion-minera',
+  path: '/formacion-minera',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FormacionPreventivaOficialRoute =
   FormacionPreventivaOficialRouteImport.update({
     id: '/formacion-preventiva-oficial',
     path: '/formacion-preventiva-oficial',
     getParentRoute: () => rootRouteImport,
   } as any)
+const Itc02002Route = Itc02002RouteImport.update({
+  id: '/itc-02-0-02',
+  path: '/itc-02-0-02',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MisCursosRoute = MisCursosRouteImport.update({
   id: '/mis-cursos',
   path: '/mis-cursos',
@@ -333,6 +347,17 @@ const EmpresaCodigosRoute = EmpresaCodigosRouteImport.update({
   path: '/codigos',
   getParentRoute: () => EmpresaRoute,
 } as any)
+const Itc02102IndexRoute = Itc02102IndexRouteImport.update({
+  id: '/itc-02-1-02/',
+  path: '/itc-02-1-02/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Itc02102FormacionInicialYReciclajeRoute =
+  Itc02102FormacionInicialYReciclajeRouteImport.update({
+    id: '/itc-02-1-02/formacion-inicial-y-reciclaje',
+    path: '/itc-02-1-02/formacion-inicial-y-reciclaje',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LegalLegalSlugRoute = LegalLegalSlugRouteImport.update({
   id: '/legal/$legalSlug',
   path: '/legal/$legalSlug',
@@ -431,7 +456,9 @@ export interface FileRoutesByFullPath {
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
   '/facturas': typeof FacturasRoute
+  '/formacion-minera': typeof FormacionMineraRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
+  '/itc-02-0-02': typeof Itc02002Route
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -467,11 +494,13 @@ export interface FileRoutesByFullPath {
   '/dudas/$threadId': typeof DudasThreadIdRoute
   '/empresa/$companySection': typeof EmpresaCompanySectionRoute
   '/empresa/codigos': typeof EmpresaCodigosRoute
+  '/itc-02-1-02/formacion-inicial-y-reciclaje': typeof Itc02102FormacionInicialYReciclajeRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
   '/admin/': typeof AdminIndexRoute
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
+  '/itc-02-1-02/': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
@@ -496,7 +525,9 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/empresas': typeof EmpresasRoute
   '/facturas': typeof FacturasRoute
+  '/formacion-minera': typeof FormacionMineraRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
+  '/itc-02-0-02': typeof Itc02002Route
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -530,11 +561,13 @@ export interface FileRoutesByTo {
   '/dudas/$threadId': typeof DudasThreadIdRoute
   '/empresa/$companySection': typeof EmpresaCompanySectionRoute
   '/empresa/codigos': typeof EmpresaCodigosRoute
+  '/itc-02-1-02/formacion-inicial-y-reciclaje': typeof Itc02102FormacionInicialYReciclajeRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
   '/admin': typeof AdminIndexRoute
   '/dudas': typeof DudasIndexRoute
   '/empresa': typeof EmpresaIndexRoute
+  '/itc-02-1-02': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
@@ -563,7 +596,9 @@ export interface FileRoutesById {
   '/empresa': typeof EmpresaRouteWithChildren
   '/empresas': typeof EmpresasRoute
   '/facturas': typeof FacturasRoute
+  '/formacion-minera': typeof FormacionMineraRoute
   '/formacion-preventiva-oficial': typeof FormacionPreventivaOficialRoute
+  '/itc-02-0-02': typeof Itc02002Route
   '/mis-cursos': typeof MisCursosRoute
   '/nueva-contrasena': typeof NuevaContrasenaRoute
   '/perfil': typeof PerfilRoute
@@ -599,11 +634,13 @@ export interface FileRoutesById {
   '/dudas/$threadId': typeof DudasThreadIdRoute
   '/empresa/$companySection': typeof EmpresaCompanySectionRoute
   '/empresa/codigos': typeof EmpresaCodigosRoute
+  '/itc-02-1-02/formacion-inicial-y-reciclaje': typeof Itc02102FormacionInicialYReciclajeRoute
   '/legal/$legalSlug': typeof LegalLegalSlugRoute
   '/pago/confirmado': typeof PagoConfirmadoRoute
   '/admin/': typeof AdminIndexRoute
   '/dudas/': typeof DudasIndexRoute
   '/empresa/': typeof EmpresaIndexRoute
+  '/itc-02-1-02/': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
@@ -633,7 +670,9 @@ export interface FileRouteTypes {
     | '/empresa'
     | '/empresas'
     | '/facturas'
+    | '/formacion-minera'
     | '/formacion-preventiva-oficial'
+    | '/itc-02-0-02'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -669,11 +708,13 @@ export interface FileRouteTypes {
     | '/dudas/$threadId'
     | '/empresa/$companySection'
     | '/empresa/codigos'
+    | '/itc-02-1-02/formacion-inicial-y-reciclaje'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
     | '/admin/'
     | '/dudas/'
     | '/empresa/'
+    | '/itc-02-1-02/'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
@@ -698,7 +739,9 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/empresas'
     | '/facturas'
+    | '/formacion-minera'
     | '/formacion-preventiva-oficial'
+    | '/itc-02-0-02'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -732,11 +775,13 @@ export interface FileRouteTypes {
     | '/dudas/$threadId'
     | '/empresa/$companySection'
     | '/empresa/codigos'
+    | '/itc-02-1-02/formacion-inicial-y-reciclaje'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
     | '/admin'
     | '/dudas'
     | '/empresa'
+    | '/itc-02-1-02'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
@@ -764,7 +809,9 @@ export interface FileRouteTypes {
     | '/empresa'
     | '/empresas'
     | '/facturas'
+    | '/formacion-minera'
     | '/formacion-preventiva-oficial'
+    | '/itc-02-0-02'
     | '/mis-cursos'
     | '/nueva-contrasena'
     | '/perfil'
@@ -800,11 +847,13 @@ export interface FileRouteTypes {
     | '/dudas/$threadId'
     | '/empresa/$companySection'
     | '/empresa/codigos'
+    | '/itc-02-1-02/formacion-inicial-y-reciclaje'
     | '/legal/$legalSlug'
     | '/pago/confirmado'
     | '/admin/'
     | '/dudas/'
     | '/empresa/'
+    | '/itc-02-1-02/'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
     | '/campus/$enrollmentId/confidencialidad'
@@ -833,7 +882,9 @@ export interface RootRouteChildren {
   EmpresaRoute: typeof EmpresaRouteWithChildren
   EmpresasRoute: typeof EmpresasRoute
   FacturasRoute: typeof FacturasRoute
+  FormacionMineraRoute: typeof FormacionMineraRoute
   FormacionPreventivaOficialRoute: typeof FormacionPreventivaOficialRoute
+  Itc02002Route: typeof Itc02002Route
   MisCursosRoute: typeof MisCursosRoute
   NuevaContrasenaRoute: typeof NuevaContrasenaRoute
   PerfilRoute: typeof PerfilRoute
@@ -858,8 +909,10 @@ export interface RootRouteChildren {
   ComprarEmpresaCourseSlugRoute: typeof ComprarEmpresaCourseSlugRoute
   ComprarCourseSlugRoute: typeof ComprarCourseSlugRoute
   CursosCourseSlugRoute: typeof CursosCourseSlugRoute
+  Itc02102FormacionInicialYReciclajeRoute: typeof Itc02102FormacionInicialYReciclajeRoute
   LegalLegalSlugRoute: typeof LegalLegalSlugRoute
   PagoConfirmadoRoute: typeof PagoConfirmadoRoute
+  Itc02102IndexRoute: typeof Itc02102IndexRoute
   ApiCronBillingRoute: typeof ApiCronBillingRoute
   EvaluacionEnrollmentIdQuizIdRoute: typeof EvaluacionEnrollmentIdQuizIdRoute
   ApiInternalArchivePendingRoute: typeof ApiInternalArchivePendingRoute
@@ -955,11 +1008,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FacturasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/formacion-minera': {
+      id: '/formacion-minera'
+      path: '/formacion-minera'
+      fullPath: '/formacion-minera'
+      preLoaderRoute: typeof FormacionMineraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/formacion-preventiva-oficial': {
       id: '/formacion-preventiva-oficial'
       path: '/formacion-preventiva-oficial'
       fullPath: '/formacion-preventiva-oficial'
       preLoaderRoute: typeof FormacionPreventivaOficialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/itc-02-0-02': {
+      id: '/itc-02-0-02'
+      path: '/itc-02-0-02'
+      fullPath: '/itc-02-0-02'
+      preLoaderRoute: typeof Itc02002RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mis-cursos': {
@@ -1228,6 +1295,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmpresaCodigosRouteImport
       parentRoute: typeof EmpresaRoute
     }
+    '/itc-02-1-02/': {
+      id: '/itc-02-1-02/'
+      path: '/itc-02-1-02'
+      fullPath: '/itc-02-1-02/'
+      preLoaderRoute: typeof Itc02102IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/itc-02-1-02/formacion-inicial-y-reciclaje': {
+      id: '/itc-02-1-02/formacion-inicial-y-reciclaje'
+      path: '/itc-02-1-02/formacion-inicial-y-reciclaje'
+      fullPath: '/itc-02-1-02/formacion-inicial-y-reciclaje'
+      preLoaderRoute: typeof Itc02102FormacionInicialYReciclajeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/legal/$legalSlug': {
       id: '/legal/$legalSlug'
       path: '/legal/$legalSlug'
@@ -1445,7 +1526,9 @@ const rootRouteChildren: RootRouteChildren = {
   EmpresaRoute: EmpresaRouteWithChildren,
   EmpresasRoute: EmpresasRoute,
   FacturasRoute: FacturasRoute,
+  FormacionMineraRoute: FormacionMineraRoute,
   FormacionPreventivaOficialRoute: FormacionPreventivaOficialRoute,
+  Itc02002Route: Itc02002Route,
   MisCursosRoute: MisCursosRoute,
   NuevaContrasenaRoute: NuevaContrasenaRoute,
   PerfilRoute: PerfilRoute,
@@ -1470,8 +1553,11 @@ const rootRouteChildren: RootRouteChildren = {
   ComprarEmpresaCourseSlugRoute: ComprarEmpresaCourseSlugRoute,
   ComprarCourseSlugRoute: ComprarCourseSlugRoute,
   CursosCourseSlugRoute: CursosCourseSlugRoute,
+  Itc02102FormacionInicialYReciclajeRoute:
+    Itc02102FormacionInicialYReciclajeRoute,
   LegalLegalSlugRoute: LegalLegalSlugRoute,
   PagoConfirmadoRoute: PagoConfirmadoRoute,
+  Itc02102IndexRoute: Itc02102IndexRoute,
   ApiCronBillingRoute: ApiCronBillingRoute,
   EvaluacionEnrollmentIdQuizIdRoute: EvaluacionEnrollmentIdQuizIdRoute,
   ApiInternalArchivePendingRoute: ApiInternalArchivePendingRoute,

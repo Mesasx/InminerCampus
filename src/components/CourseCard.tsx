@@ -3,13 +3,14 @@ import { CategoryBadge } from './CategoryBadge'
 import { categoryOf } from '../lib/course-category'
 import { courseImage } from '../lib/course-image'
 import { formatCurrency, modalityLabel } from '../lib/format'
+import { courseLinkSearch } from '../lib/course-url'
 import type { PublicCourse } from '../lib/types'
 
 export function CourseCard({ course }: { course: PublicCourse }) {
   return (
     <article className="course-card">
       <div className="course-card__visual">
-        <img alt="" loading="lazy" src={courseImage(course)} />
+        <img alt="" decoding="async" loading="lazy" src={courseImage(course)} />
         <div className="course-card__visual-shade" aria-hidden="true" />
         <CategoryBadge category={categoryOf(course)} />
         <span className="course-card__hours">{course.duration_hours} h</span>
@@ -33,7 +34,7 @@ export function CourseCard({ course }: { course: PublicCourse }) {
             className="text-link"
             to="/cursos/$courseSlug"
             params={{ courseSlug: course.slug }}
-            search={{ version: course.versionId }}
+            search={courseLinkSearch(course)}
           >
             Ver curso →
           </Link>

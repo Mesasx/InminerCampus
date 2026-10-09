@@ -24,6 +24,12 @@ export const ITC_02_1_02_PRESENCIAL = {
   url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2011-15940',
 } as const
 
+/** `true` si la ficha cita la ITC 02.0.02 (polvo y sílice). */
+export function isItc020002(course: PublicCourseDetail): boolean {
+  return [course.specialty, ...course.versions.map((v) => v.accreditation_reference ?? '')]
+    .some((text) => /itc\s*02\.?0\.?02|TED\/723\/2021/i.test(text ?? ''))
+}
+
 /** `true` si la ficha cita la ITC 02.1.02 en su referencia normativa. */
 export function isItc020102(course: PublicCourseDetail): boolean {
   return course.versions.some((version) =>
@@ -63,7 +69,13 @@ function durationsLabel(course: PublicCourseDetail): string {
  * de la denominación de la especificación técnica.
  */
 export function courseMetaTitle(course: PublicCourseDetail): string {
-  return `Curso ${course.title}`
+  const base = `Curso ${course.title}`
+  // La instrucción (p. ej. «ITC 02.1.02») es parte de la búsqueda real, pero
+  // sólo se añade si el título sigue cabiendo en lo que Google muestra; en los
+  // nombres largos ya aparece en la descripción y en el cuerpo de la ficha.
+  const itc = normativeReference(course)?.match(/ITC\s*\d{2}\.\d\.\d{2}/)?.[0]
+  const withItc = itc ? `${base} · ${itc}` : base
+  return withItc.length <= 60 ? withItc : base
 }
 
 /**
