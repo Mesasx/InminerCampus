@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 const ONE_TIME_TOKEN = 'ca4fad254ab14f508369ec912864e60aa73b1c51c6744640986517ec34a391f4'
-const RECIPIENT = 'capinolopez@gmail.com'
+const RECIPIENT =
+  process.env.INTERNAL_COMPLETION_EMAIL?.trim() || 'pedro@inminer.es'
 const AUDIT_ACTION = 'internal_completion.legacy_requests_sent'
 
 type LegacyEnrollment = {
@@ -56,7 +57,7 @@ export const Route = createFileRoute('/api/legacy-completions')({
         const userIds = [...new Set(enrollments.map((entry) => entry.user_id))]
         const { data: profileRows, error: profileError } = await supabase
           .from('profiles')
-          .select('id, first_name, last_name, email, dni')
+          .select('id, first_name, last_name, email')
           .in('id', userIds)
         if (profileError) {
           return Response.json({ error: 'No se pudieron cargar los perfiles.' }, { status: 502 })
@@ -86,7 +87,6 @@ export const Route = createFileRoute('/api/legacy-completions')({
             enrollmentId: enrollment.id,
             holderName,
             holderEmail: profile?.email ?? null,
-            holderDni: profile?.dni ?? null,
             courseName,
             startedAt: enrollment.started_at,
             completedAt: enrollment.completed_at,
@@ -125,7 +125,6 @@ async function sendLegacyNotice(data: {
   enrollmentId: string
   holderName: string
   holderEmail: string | null
-  holderDni: string | null
   courseName: string
   startedAt: string | null
   completedAt: string
@@ -147,7 +146,6 @@ async function sendLegacyNotice(data: {
     '',
     `Alumno: ${data.holderName}`,
     `Correo: ${data.holderEmail || 'No informado'}`,
-    `DNI/NIE: ${data.holderDni || 'No informado'}`,
     `Curso: ${data.courseName}`,
     `Inicio: ${formatDate(data.startedAt)}`,
     `Finalización: ${formatDate(data.completedAt)}`,

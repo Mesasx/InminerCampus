@@ -65,8 +65,12 @@ export const Route = createRootRoute({
     </RootDocument>
   ),
   errorComponent: ({ error }) => {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Se ha producido un error inesperado al cargar la página.'
     const isStaleBundle = /dynamically imported module|Failed to fetch/i.test(
-      error.message,
+      errorMessage,
     )
     return (
       <RootDocument>
@@ -76,7 +80,7 @@ export const Route = createRootRoute({
           <p className="muted">
             {isStaleBundle
               ? 'Es probable que se haya publicado una actualización de la plataforma mientras tenías esta pestaña abierta. Recarga la página para obtener la última versión.'
-              : error.message}
+              : errorMessage}
           </p>
           <button
             className="button button--primary"

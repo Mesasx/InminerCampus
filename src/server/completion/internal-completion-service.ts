@@ -360,7 +360,7 @@ async function sendInternalCompletionEmail(
 ): Promise<string> {
   const apiKey = process.env.RESEND_API_KEY?.trim()
   const recipient =
-    process.env.INTERNAL_COMPLETION_EMAIL?.trim() || 'capinolopez@gmail.com'
+    process.env.INTERNAL_COMPLETION_EMAIL?.trim() || 'pedro@inminer.es'
   const sender =
     process.env.INTERNAL_COMPLETION_FROM?.trim() ||
     process.env.ADMIN_NOTIFICATION_FROM?.trim() ||
@@ -370,14 +370,13 @@ async function sendInternalCompletionEmail(
   }
 
   const data = prepared.snapshot
+  const appUrl = applicationBaseUrl()
+  const adminUrl = `${appUrl}/admin/certificados?enrollment=${encodeURIComponent(job.enrollment_id)}`
   const text = [
     'Un alumno ha completado una formación en InmínerCampus.',
     '',
     'Alumno:',
     data.holderName,
-    '',
-    'DNI/NIE:',
-    data.holderDni,
     '',
     'Curso:',
     data.courseName,
@@ -391,8 +390,40 @@ async function sendInternalCompletionEmail(
     'Tiempo activo:',
     formatInternalActiveTime(data.activeSeconds),
     '',
-    'Se adjunta el registro interno de finalización para la tramitación del certificado definitivo.',
+    'La documentación requerida está completa. Puedes revisar la matrícula y subir el certificado desde:',
+    adminUrl,
   ].join('\n')
+  const html = `<!doctype html>
+<html lang="es">
+  <body style="margin:0;background:#f4f1ec;font-family:Arial,sans-serif;color:#17202a">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f1ec;padding:32px 16px">
+      <tr><td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e5dfd6">
+          <tr><td style="background:#17202a;padding:24px 30px;color:#ffffff">
+            <strong style="font-size:21px">InmínerCampus</strong>
+            <div style="margin-top:6px;color:#f2a23a;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Formación finalizada</div>
+          </td></tr>
+          <tr><td style="padding:30px">
+            <h1 style="font-size:24px;line-height:1.25;margin:0 0 18px">Certificado pendiente de emisión</h1>
+            <p style="line-height:1.6;margin:0 0 20px">La documentación requerida está completa y la formación puede tramitarse.</p>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f8f6f2;border-radius:10px;margin-bottom:24px">
+              <tr><td style="padding:18px">
+                <div style="font-size:12px;color:#6b7280;text-transform:uppercase;font-weight:700">Alumno</div>
+                <div style="margin-top:4px;font-weight:700">${escapeHtml(data.holderName)}</div>
+                <div style="font-size:12px;color:#6b7280;text-transform:uppercase;font-weight:700;margin-top:14px">Curso</div>
+                <div style="margin-top:4px;font-weight:700">${escapeHtml(data.courseName)}</div>
+                <div style="font-size:12px;color:#6b7280;text-transform:uppercase;font-weight:700;margin-top:14px">Finalización</div>
+                <div style="margin-top:4px">${escapeHtml(formatInternalDateTime(data.completedAt))}</div>
+              </td></tr>
+            </table>
+            <a href="${escapeHtml(adminUrl)}" style="display:inline-block;background:#e87722;color:#ffffff;text-decoration:none;font-weight:700;padding:13px 20px;border-radius:8px">Revisar y subir certificado</a>
+            <p style="font-size:12px;line-height:1.5;color:#6b7280;margin:24px 0 0">Por seguridad, los datos de identidad y el registro interno no se incluyen en este correo.</p>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body>
+</html>`
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -405,12 +436,7 @@ async function sendInternalCompletionEmail(
       to: [recipient],
       subject: `Formación finalizada - ${data.holderName} - ${data.courseName}`,
       text,
-      attachments: [
-        {
-          filename: prepared.fileName,
-          content: Buffer.from(prepared.bytes).toString('base64'),
-        },
-      ],
+      html,
     }),
   })
   const payload = (await response.json().catch(() => ({}))) as {
@@ -429,14 +455,7 @@ async function sendInternalCompletionEmail(
 }
 
 async function loadBrandLogo(): Promise<Uint8Array> {
-  const appUrl = (
-    process.env.INTERNAL_APP_URL?.trim() ||
-    process.env.VITE_APP_URL?.trim() ||
-    ''
-  ).replace(/\/+$/, '')
-  if (!appUrl) {
-    throw new InternalCompletionJobError('Application URL is not configured', false)
-  }
+  const appUrl = applicationBaseUrl()
   const response = await fetch(`${appUrl}/brand/inminer-campus-logo.png`, {
     signal: AbortSignal.timeout(5_000),
   })
@@ -444,6 +463,28 @@ async function loadBrandLogo(): Promise<Uint8Array> {
     throw new InternalCompletionJobError('Brand logo could not be loaded', true)
   }
   return new Uint8Array(await response.arrayBuffer())
+}
+
+function applicationBaseUrl(): string {
+  const appUrl = (
+    process.env.INTERNAL_APP_URL?.trim() ||
+    process.env.VITE_APP_URL?.trim() ||
+    process.env.APP_URL?.trim() ||
+    ''
+  ).replace(/\/+$/, '')
+  if (!appUrl) {
+    throw new InternalCompletionJobError('Application URL is not configured', false)
+  }
+  return appUrl
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"]/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+  })[character] ?? character)
 }
 
 function isCompletionSnapshot(value: unknown): value is InternalCompletionPdfData {

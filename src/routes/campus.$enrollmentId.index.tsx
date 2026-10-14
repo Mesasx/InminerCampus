@@ -114,6 +114,7 @@ function CourseContent({
   const [enrollmentStatus, setEnrollmentStatus] = useState('')
   const [courseVersionId, setCourseVersionId] = useState('')
   const [modules, setModules] = useState<Module[]>([])
+  const [hasIdentity, setHasIdentity] = useState<boolean | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const isAdministrator = user.roles.some((role) =>
@@ -127,14 +128,17 @@ function CourseContent({
       const supabase = getSupabaseBrowserClient()
       if (!supabase) return
 
-      const { data: enrollment } = await supabase
-        .from('enrollments')
-        .select(
-          'id, status, course_version_id, course_versions!inner(courses!inner(title, cover_storage_path))',
-        )
-        .eq('id', enrollmentId)
-        .eq('user_id', user.id)
-        .maybeSingle()
+      const [{ data: enrollment }, { data: profile }] = await Promise.all([
+        supabase
+          .from('enrollments')
+          .select(
+            'id, status, course_version_id, course_versions!inner(courses!inner(title, cover_storage_path))',
+          )
+          .eq('id', enrollmentId)
+          .eq('user_id', user.id)
+          .maybeSingle(),
+        supabase.from('profiles').select('dni').eq('id', user.id).maybeSingle(),
+      ])
 
       if (!active) return
       if (!enrollment) {
@@ -151,6 +155,7 @@ function CourseContent({
         }
       }
       setEnrollmentStatus(typedEnrollment.status)
+      setHasIdentity(Boolean(profile?.dni?.trim()))
       setCourseVersionId(typedEnrollment.course_version_id)
       setCoverUrl(
         typedEnrollment.course_versions.courses.cover_storage_path?.startsWith(
@@ -220,10 +225,10 @@ function CourseContent({
   }, [enrollmentId, user.id])
 
   useEffect(() => {
-    if (enrollmentStatus === 'completed') {
+    if (enrollmentStatus === 'completed' && hasIdentity) {
       void requestInternalCompletion(enrollmentId)
     }
-  }, [enrollmentId, enrollmentStatus])
+  }, [enrollmentId, enrollmentStatus, hasIdentity])
 
   const courseTotals = useMemo(
     () =>
@@ -292,7 +297,21 @@ function CourseContent({
           />
         </div>
       ) : null}
-      {enrollmentStatus === 'completed' ? (
+      {enrollmentStatus === 'completed' && hasIdentity === false ? (
+        <section className="panel completion-screen" aria-live="polite">
+          <span className="completion-screen__icon" aria-hidden="true">
+            <FileSignature size={34} />
+          </span>
+          <div>
+            <span className="eyebrow">Dato obligatorio</span>
+            <h2>Completa tu DNI/NIE para tramitar el certificado</h2>
+            <p>La formación está finalizada, pero necesitamos este dato antes de avisar a administración.</p>
+          </div>
+          <Link className="button button--primary" to="/perfil">
+            Completar mis datos
+          </Link>
+        </section>
+      ) : enrollmentStatus === 'completed' && hasIdentity ? (
         <section className="panel completion-screen" aria-live="polite">
           <span className="completion-screen__icon" aria-hidden="true">
             <CheckCircle2 size={34} />

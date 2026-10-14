@@ -48,6 +48,9 @@ Variables exclusivas del servidor:
 - `ADMIN_NOTIFICATION_EMAIL` (por defecto `administracion@inminer.es`)
 - `ADMIN_NOTIFICATION_FROM`
 - `ADMIN_APP_URL`
+- `INTERNAL_COMPLETION_EMAIL` (por defecto `pedro@inminer.es`)
+- `INTERNAL_COMPLETION_FROM`
+- `INTERNAL_APP_URL`
 
 Nunca se debe añadir el prefijo `VITE_` a secretos. Configure las variables en
 los entornos Preview y Production de Vercel sin copiar valores reales al
@@ -137,6 +140,9 @@ códigos.
 3. Use una dirección verificada en `ADMIN_NOTIFICATION_FROM`.
 4. Mantenga `ADMIN_NOTIFICATION_EMAIL=administracion@inminer.es` o cambie el
    destinatario explícitamente por entorno.
+5. Para las finalizaciones de cursos, configure
+   `INTERNAL_COMPLETION_EMAIL=pedro@inminer.es` y `INTERNAL_APP_URL` con la URL
+   pública del campus.
 
 El envío utiliza la clave de idempotencia `purchase-paid/{purchaseId}` y la base
 de datos evita que dos ejecuciones reclamen simultáneamente el mismo aviso.
