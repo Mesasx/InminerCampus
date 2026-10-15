@@ -35,6 +35,7 @@ import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
+import { Route as AdminCertificadosRouteImport } from './routes/admin.certificados'
 import { Route as AdminCodigosRouteImport } from './routes/admin.codigos'
 import { Route as AdminCursosRouteImport } from './routes/admin.cursos'
 import { Route as AdminEvaluacionesRouteImport } from './routes/admin.evaluaciones'
@@ -43,8 +44,10 @@ import { Route as AdminMensajesRouteImport } from './routes/admin.mensajes'
 import { Route as AdminPracticasRouteImport } from './routes/admin.practicas'
 import { Route as AdminUsuariosRouteImport } from './routes/admin.usuarios'
 import { Route as ApiAdminBillingRouteImport } from './routes/api.admin-billing'
+import { Route as ApiAdminCertificatesRouteImport } from './routes/api.admin-certificates'
 import { Route as ApiAdminUsersRouteImport } from './routes/api.admin-users'
 import { Route as ApiCertificadoStvhRouteImport } from './routes/api.certificado-stvh'
+import { Route as ApiCertificatesRouteImport } from './routes/api.certificates'
 import { Route as ApiCheckoutRouteImport } from './routes/api.checkout'
 import { Route as ApiCompanyAccessCodesRouteImport } from './routes/api.company-access-codes'
 import { Route as ApiCompanyLicensesRouteImport } from './routes/api.company-licenses'
@@ -72,6 +75,7 @@ import { Route as ApiCronBillingRouteImport } from './routes/api.cron.billing'
 import { Route as CampusEnrollmentIdIndexRouteImport } from './routes/campus.$enrollmentId.index'
 import { Route as CampusEnrollmentIdConfidencialidadRouteImport } from './routes/campus.$enrollmentId.confidencialidad'
 import { Route as EvaluacionEnrollmentIdQuizIdRouteImport } from './routes/evaluacion.$enrollmentId.$quizId'
+import { Route as ApiCertificatesDocumentIdDownloadRouteImport } from './routes/api.certificates.$documentId.download'
 import { Route as ApiInternalArchivePendingRouteImport } from './routes/api.internal.archive.pending'
 import { Route as ApiInvoicesInvoiceIdDownloadRouteImport } from './routes/api.invoices.$invoiceId.download'
 import { Route as CampusEnrollmentIdLeccionLessonIdRouteImport } from './routes/campus.$enrollmentId.leccion.$lessonId'
@@ -211,6 +215,11 @@ const AdminAdminSectionRoute = AdminAdminSectionRouteImport.update({
   path: '/$adminSection',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCertificadosRoute = AdminCertificadosRouteImport.update({
+  id: '/certificados',
+  path: '/certificados',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCodigosRoute = AdminCodigosRouteImport.update({
   id: '/codigos',
   path: '/codigos',
@@ -251,6 +260,11 @@ const ApiAdminBillingRoute = ApiAdminBillingRouteImport.update({
   path: '/api/admin-billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminCertificatesRoute = ApiAdminCertificatesRouteImport.update({
+  id: '/api/admin-certificates',
+  path: '/api/admin-certificates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminUsersRoute = ApiAdminUsersRouteImport.update({
   id: '/api/admin-users',
   path: '/api/admin-users',
@@ -259,6 +273,11 @@ const ApiAdminUsersRoute = ApiAdminUsersRouteImport.update({
 const ApiCertificadoStvhRoute = ApiCertificadoStvhRouteImport.update({
   id: '/api/certificado-stvh',
   path: '/api/certificado-stvh',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCertificatesRoute = ApiCertificatesRouteImport.update({
+  id: '/api/certificates',
+  path: '/api/certificates',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCheckoutRoute = ApiCheckoutRouteImport.update({
@@ -400,6 +419,12 @@ const EvaluacionEnrollmentIdQuizIdRoute =
     path: '/evaluacion/$enrollmentId/$quizId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiCertificatesDocumentIdDownloadRoute =
+  ApiCertificatesDocumentIdDownloadRouteImport.update({
+    id: '/$documentId/download',
+    path: '/$documentId/download',
+    getParentRoute: () => ApiCertificatesRoute,
+  } as any)
 const ApiInternalArchivePendingRoute =
   ApiInternalArchivePendingRouteImport.update({
     id: '/api/internal/archive/pending',
@@ -469,6 +494,7 @@ export interface FileRoutesByFullPath {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/codigos': typeof AdminCodigosRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
@@ -477,8 +503,10 @@ export interface FileRoutesByFullPath {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-certificates': typeof ApiAdminCertificatesRoute
   '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
+  '/api/certificates': typeof ApiCertificatesRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
@@ -507,6 +535,7 @@ export interface FileRoutesByFullPath {
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
+  '/api/certificates/$documentId/download': typeof ApiCertificatesDocumentIdDownloadRoute
   '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
   '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
@@ -538,6 +567,7 @@ export interface FileRoutesByTo {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/codigos': typeof AdminCodigosRoute
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
   '/admin/facturacion': typeof AdminFacturacionRoute
@@ -545,8 +575,10 @@ export interface FileRoutesByTo {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-certificates': typeof ApiAdminCertificatesRoute
   '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
+  '/api/certificates': typeof ApiCertificatesRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
@@ -574,6 +606,7 @@ export interface FileRoutesByTo {
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId': typeof CampusEnrollmentIdIndexRoute
+  '/api/certificates/$documentId/download': typeof ApiCertificatesDocumentIdDownloadRoute
   '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
   '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
@@ -609,6 +642,7 @@ export interface FileRoutesById {
   '/sobre-nosotros': typeof SobreNosotrosRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
+  '/admin/certificados': typeof AdminCertificadosRoute
   '/admin/codigos': typeof AdminCodigosRoute
   '/admin/cursos': typeof AdminCursosRouteWithChildren
   '/admin/evaluaciones': typeof AdminEvaluacionesRoute
@@ -617,8 +651,10 @@ export interface FileRoutesById {
   '/admin/practicas': typeof AdminPracticasRoute
   '/admin/usuarios': typeof AdminUsuariosRoute
   '/api/admin-billing': typeof ApiAdminBillingRoute
+  '/api/admin-certificates': typeof ApiAdminCertificatesRoute
   '/api/admin-users': typeof ApiAdminUsersRoute
   '/api/certificado-stvh': typeof ApiCertificadoStvhRoute
+  '/api/certificates': typeof ApiCertificatesRouteWithChildren
   '/api/checkout': typeof ApiCheckoutRoute
   '/api/company-access-codes': typeof ApiCompanyAccessCodesRoute
   '/api/company-licenses': typeof ApiCompanyLicensesRoute
@@ -647,6 +683,7 @@ export interface FileRoutesById {
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
   '/campus/$enrollmentId/': typeof CampusEnrollmentIdIndexRoute
+  '/api/certificates/$documentId/download': typeof ApiCertificatesDocumentIdDownloadRoute
   '/api/internal/archive/pending': typeof ApiInternalArchivePendingRoute
   '/api/invoices/$invoiceId/download': typeof ApiInvoicesInvoiceIdDownloadRoute
   '/campus/$enrollmentId/leccion/$lessonId': typeof CampusEnrollmentIdLeccionLessonIdRoute
@@ -683,6 +720,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/certificados'
     | '/admin/codigos'
     | '/admin/cursos'
     | '/admin/evaluaciones'
@@ -691,8 +729,10 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-certificates'
     | '/api/admin-users'
     | '/api/certificado-stvh'
+    | '/api/certificates'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
@@ -721,6 +761,7 @@ export interface FileRouteTypes {
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
+    | '/api/certificates/$documentId/download'
     | '/api/internal/archive/pending'
     | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
@@ -752,6 +793,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/certificados'
     | '/admin/codigos'
     | '/admin/evaluaciones'
     | '/admin/facturacion'
@@ -759,8 +801,10 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-certificates'
     | '/api/admin-users'
     | '/api/certificado-stvh'
+    | '/api/certificates'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
@@ -788,6 +832,7 @@ export interface FileRouteTypes {
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos'
     | '/campus/$enrollmentId'
+    | '/api/certificates/$documentId/download'
     | '/api/internal/archive/pending'
     | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
@@ -822,6 +867,7 @@ export interface FileRouteTypes {
     | '/sobre-nosotros'
     | '/verificar-certificado'
     | '/admin/$adminSection'
+    | '/admin/certificados'
     | '/admin/codigos'
     | '/admin/cursos'
     | '/admin/evaluaciones'
@@ -830,8 +876,10 @@ export interface FileRouteTypes {
     | '/admin/practicas'
     | '/admin/usuarios'
     | '/api/admin-billing'
+    | '/api/admin-certificates'
     | '/api/admin-users'
     | '/api/certificado-stvh'
+    | '/api/certificates'
     | '/api/checkout'
     | '/api/company-access-codes'
     | '/api/company-licenses'
@@ -860,6 +908,7 @@ export interface FileRouteTypes {
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
     | '/campus/$enrollmentId/'
+    | '/api/certificates/$documentId/download'
     | '/api/internal/archive/pending'
     | '/api/invoices/$invoiceId/download'
     | '/campus/$enrollmentId/leccion/$lessonId'
@@ -895,8 +944,10 @@ export interface RootRouteChildren {
   SobreNosotrosRoute: typeof SobreNosotrosRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
   ApiAdminBillingRoute: typeof ApiAdminBillingRoute
+  ApiAdminCertificatesRoute: typeof ApiAdminCertificatesRoute
   ApiAdminUsersRoute: typeof ApiAdminUsersRoute
   ApiCertificadoStvhRoute: typeof ApiCertificadoStvhRoute
+  ApiCertificatesRoute: typeof ApiCertificatesRouteWithChildren
   ApiCheckoutRoute: typeof ApiCheckoutRoute
   ApiCompanyAccessCodesRoute: typeof ApiCompanyAccessCodesRoute
   ApiCompanyLicensesRoute: typeof ApiCompanyLicensesRoute
@@ -1106,6 +1157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminSectionRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/certificados': {
+      id: '/admin/certificados'
+      path: '/certificados'
+      fullPath: '/admin/certificados'
+      preLoaderRoute: typeof AdminCertificadosRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/codigos': {
       id: '/admin/codigos'
       path: '/codigos'
@@ -1162,6 +1220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminBillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin-certificates': {
+      id: '/api/admin-certificates'
+      path: '/api/admin-certificates'
+      fullPath: '/api/admin-certificates'
+      preLoaderRoute: typeof ApiAdminCertificatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin-users': {
       id: '/api/admin-users'
       path: '/api/admin-users'
@@ -1174,6 +1239,13 @@ declare module '@tanstack/react-router' {
       path: '/api/certificado-stvh'
       fullPath: '/api/certificado-stvh'
       preLoaderRoute: typeof ApiCertificadoStvhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/certificates': {
+      id: '/api/certificates'
+      path: '/api/certificates'
+      fullPath: '/api/certificates'
+      preLoaderRoute: typeof ApiCertificatesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/checkout': {
@@ -1365,6 +1437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvaluacionEnrollmentIdQuizIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/certificates/$documentId/download': {
+      id: '/api/certificates/$documentId/download'
+      path: '/$documentId/download'
+      fullPath: '/api/certificates/$documentId/download'
+      preLoaderRoute: typeof ApiCertificatesDocumentIdDownloadRouteImport
+      parentRoute: typeof ApiCertificatesRoute
+    }
     '/api/internal/archive/pending': {
       id: '/api/internal/archive/pending'
       path: '/api/internal/archive/pending'
@@ -1433,6 +1512,7 @@ const AdminCursosRouteWithChildren = AdminCursosRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAdminSectionRoute: typeof AdminAdminSectionRoute
+  AdminCertificadosRoute: typeof AdminCertificadosRoute
   AdminCodigosRoute: typeof AdminCodigosRoute
   AdminCursosRoute: typeof AdminCursosRouteWithChildren
   AdminEvaluacionesRoute: typeof AdminEvaluacionesRoute
@@ -1445,6 +1525,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminSectionRoute: AdminAdminSectionRoute,
+  AdminCertificadosRoute: AdminCertificadosRoute,
   AdminCodigosRoute: AdminCodigosRoute,
   AdminCursosRoute: AdminCursosRouteWithChildren,
   AdminEvaluacionesRoute: AdminEvaluacionesRoute,
@@ -1483,6 +1564,19 @@ const EmpresaRouteChildren: EmpresaRouteChildren = {
 
 const EmpresaRouteWithChildren =
   EmpresaRoute._addFileChildren(EmpresaRouteChildren)
+
+interface ApiCertificatesRouteChildren {
+  ApiCertificatesDocumentIdDownloadRoute: typeof ApiCertificatesDocumentIdDownloadRoute
+}
+
+const ApiCertificatesRouteChildren: ApiCertificatesRouteChildren = {
+  ApiCertificatesDocumentIdDownloadRoute:
+    ApiCertificatesDocumentIdDownloadRoute,
+}
+
+const ApiCertificatesRouteWithChildren = ApiCertificatesRoute._addFileChildren(
+  ApiCertificatesRouteChildren,
+)
 
 interface ApiInvoicesRouteChildren {
   ApiInvoicesInvoiceIdDownloadRoute: typeof ApiInvoicesInvoiceIdDownloadRoute
@@ -1539,8 +1633,10 @@ const rootRouteChildren: RootRouteChildren = {
   SobreNosotrosRoute: SobreNosotrosRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
   ApiAdminBillingRoute: ApiAdminBillingRoute,
+  ApiAdminCertificatesRoute: ApiAdminCertificatesRoute,
   ApiAdminUsersRoute: ApiAdminUsersRoute,
   ApiCertificadoStvhRoute: ApiCertificadoStvhRoute,
+  ApiCertificatesRoute: ApiCertificatesRouteWithChildren,
   ApiCheckoutRoute: ApiCheckoutRoute,
   ApiCompanyAccessCodesRoute: ApiCompanyAccessCodesRoute,
   ApiCompanyLicensesRoute: ApiCompanyLicensesRoute,

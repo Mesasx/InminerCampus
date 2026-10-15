@@ -134,6 +134,10 @@ function AdminDashboard({ user }: { user: SessionUser }) {
             <h3>Validar prácticas</h3>
             <p>Registra asistencia, evidencias y resultado.</p>
           </Link>
+          <Link className="feature-card" to="/admin/certificados">
+            <h3>Entregar certificados</h3>
+            <p>Revisa finalizaciones y publica los PDF para cada alumno.</p>
+          </Link>
         </div>
       </section>
     </AppShell>

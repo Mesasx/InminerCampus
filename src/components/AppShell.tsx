@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import {
   ArrowLeft,
+  Award,
   BookOpen,
   ClipboardCheck,
   KeyRound,
@@ -31,6 +32,7 @@ const adminNav = [
   { href: '/admin/evaluaciones', label: 'Evaluaciones', icon: ShieldCheck },
   { href: '/admin/codigos', label: 'Códigos de acceso', icon: KeyRound },
   { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
+  { href: '/admin/certificados', label: 'Certificados', icon: Award },
   {
     href: '/admin/facturacion',
     label: 'Pagos y facturación',

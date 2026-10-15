@@ -155,7 +155,7 @@ const campusGuideSteps = [
   {
     number: '08',
     title: 'Descarga materiales y certificado',
-    text: 'Al final de la página del curso puedes descargar el manual y las diapositivas para repasar. Cuando completes la formación, Inmíner genera el certificado y lo guarda en «Certificados», junto al resto de títulos obtenidos.',
+    text: 'Al final de la página del curso puedes descargar el manual y las diapositivas para repasar. Cuando completes la formación y se validen los requisitos, Inmíner tramita el certificado y lo publica de forma privada en «Certificados», junto al resto de títulos obtenidos.',
   },
 ]
 

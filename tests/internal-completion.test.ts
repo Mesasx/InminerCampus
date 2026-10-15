@@ -146,7 +146,7 @@ test('la migración mantiene PDF y cola fuera del alcance del alumno', async () 
   assert.match(sql, /for update skip locked/)
 })
 
-test('el backend acepta solo la matrícula y Resend usa idempotencia', async () => {
+test('el backend acepta solo la matrícula y Resend avisa a administración sin exponer el DNI', async () => {
   const [route, service, certificates] = await Promise.all([
     readFile(completionRouteUrl, 'utf8'),
     readFile(serviceUrl, 'utf8'),
@@ -155,8 +155,14 @@ test('el backend acepta solo la matrícula y Resend usa idempotencia', async () 
   assert.match(route, /enrollmentId: z\.uuid\(\)/)
   assert.doesNotMatch(route, /holderName|holderDni|activeSeconds|courseName/)
   assert.match(service, /'Idempotency-Key': `internal-completion\/\$\{job\.enrollment_id\}`/)
-  assert.match(service, /capinolopez@gmail\.com/)
-  assert.doesNotMatch(service, /pedro@inminer\.es/)
-  assert.doesNotMatch(certificates, /Descargar certificado|Descargar PDF/)
+  assert.match(service, /pedro@inminer\.es/)
+  assert.doesNotMatch(service, /capinolopez@gmail\.com/)
+  const emailSection = service.slice(
+    service.indexOf('async function sendInternalCompletionEmail'),
+    service.indexOf('async function loadBrandLogo'),
+  )
+  assert.doesNotMatch(emailSection, /data\.holderDni|attachments/)
+  assert.match(emailSection, /\/admin\/certificados\?enrollment=/)
+  assert.match(certificates, /Descargar/)
   assert.doesNotMatch(certificates, /createSignedUrl|downloadCertificate/)
 })
