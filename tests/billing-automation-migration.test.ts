@@ -32,3 +32,21 @@ test('protege PDF, RLS, cola con backoff y reembolsos rectificativos', async () 
   assert.match(sql, /interval '6 hours'/)
   assert.match(sql, /refund_requires_credit_note = true/)
 })
+
+test('incluye el rate limiter requerido por el agente de archivo', async () => {
+  const sql = await readFile(migrationUrl, 'utf8')
+  const rateLimitDefinition = sql.indexOf(
+    'create or replace function app_private.check_rate_limit',
+  )
+  const archiveRateLimitUsage = sql.indexOf(
+    'create or replace function public.check_archive_agent_rate_limit',
+  )
+
+  assert.match(sql, /create table if not exists app_private\.rate_limit_hits/)
+  assert.ok(rateLimitDefinition >= 0)
+  assert.ok(archiveRateLimitUsage > rateLimitDefinition)
+  assert.match(
+    sql,
+    /revoke all on function app_private\.check_rate_limit\([\s\S]*?from public, anon, authenticated/,
+  )
+})
