@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Award, Download, FileCheck2, UserRoundPen } from 'lucide-react'
+import { Award, Download, FileCheck2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -11,7 +11,7 @@ type CertificateCourse = {
   enrollment_id: string
   course_title: string
   completed_at: string
-  status: 'pending_identity' | 'pending_certificate' | 'available'
+  status: 'pending_certificate' | 'available'
   documents: Array<{
     id: string
     name: string
@@ -128,18 +128,7 @@ function Certificates({ user }: { user: SessionUser }) {
                 <span className="status">{studentStatusLabel(course.status)}</span>
               </div>
 
-              {course.status === 'pending_identity' ? (
-                <div className="certificate-action-note">
-                  <UserRoundPen size={24} />
-                  <div>
-                    <h3>Completa tu DNI/NIE</h3>
-                    <p>Necesitamos este dato para tramitar el certificado.</p>
-                  </div>
-                  <Link className="button button--primary" to="/perfil">
-                    Completar datos
-                  </Link>
-                </div>
-              ) : course.status === 'pending_certificate' ? (
+              {course.status === 'pending_certificate' ? (
                 <div className="certificate-action-note">
                   <Award size={24} />
                   <div>
@@ -196,7 +185,6 @@ async function accessToken(): Promise<string | null> {
 
 function studentStatusLabel(status: CertificateCourse['status']): string {
   return {
-    pending_identity: 'Datos pendientes',
     pending_certificate: 'En preparación',
     available: 'Disponible',
   }[status]

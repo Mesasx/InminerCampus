@@ -9,7 +9,6 @@ import type { SessionUser } from '../lib/types'
 const adminRoles = ['administrador', 'superadministrador'] as const
 
 type WorkflowStatus =
-  | 'pending_identity'
   | 'pending_certificate'
   | 'available'
   | 'course_processing'
@@ -94,7 +93,7 @@ function AdminCertificates({ user }: { user: SessionUser }) {
   }, [course, query, rows, status])
 
   const uploadableRows = rows.filter(
-    (row) => row.enrollment_status === 'completed' && row.learner.dni,
+    (row) => row.enrollment_status === 'completed',
   )
 
   async function loadRows() {
@@ -232,7 +231,6 @@ function AdminCertificates({ user }: { user: SessionUser }) {
             <span>Estado</span>
             <select onChange={(event) => setStatus(event.target.value as typeof status)} value={status}>
               <option value="all">Todos</option>
-              <option value="pending_identity">Faltan datos</option>
               <option value="pending_certificate">Pendiente de certificado</option>
               <option value="available">Disponible</option>
               <option value="course_processing">Curso en tramitación</option>
@@ -296,7 +294,6 @@ async function accessToken(): Promise<string | null> {
 
 function workflowLabel(status: WorkflowStatus): string {
   return {
-    pending_identity: 'Faltan datos',
     pending_certificate: 'Pendiente de certificado',
     available: 'Disponible',
     course_processing: 'Curso en tramitación',

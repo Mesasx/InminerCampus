@@ -225,7 +225,7 @@ async function loadAndValidateContext(
 
   const profile = profileResult.data
   const holderName = `${profile.first_name ?? ''} ${profile.last_name ?? ''}`.trim()
-  const holderDni = profile.dni?.trim().toUpperCase() ?? ''
+  const holderDni = profile.dni?.trim().toUpperCase() || 'No informado'
   let holderEmail = profile.email?.trim().toLowerCase() ?? ''
   if (!holderEmail) {
     const { data: authData, error: authError } =
@@ -235,9 +235,9 @@ async function loadAndValidateContext(
     }
     holderEmail = authData.user?.email?.trim().toLowerCase() ?? ''
   }
-  if (!holderName || !holderDni || !holderEmail) {
+  if (!holderName || !holderEmail) {
     throw new InternalCompletionJobError(
-      'Student name, DNI/NIE or email is missing from the profile',
+      'Student name or email is missing from the profile',
       true,
     )
   }
