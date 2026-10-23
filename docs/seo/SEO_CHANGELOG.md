@@ -1,5 +1,20 @@
 # SEO Changelog — InmínerCampus
 
+## 2026-10-23 — Empresas, calculadora de reciclaje y marco normativo por curso
+
+| Cambio | Archivos |
+|---|---|
+| `/empresas` pasa a ser una landing B2B: cursos y precio por plaza desde el catálogo, descuento por volumen calculado con la misma función del checkout, proceso de compra, documentación, FAQ. JSON-LD `Service`, `ItemList`, `FAQPage`, `BreadcrumbList` | `src/routes/empresas.tsx` |
+| Nueva herramienta `/calculadora-reciclaje-formacion-minera`: fecha límite de la siguiente actualización por puesto (ET) o riesgo (ITC 02.0.02). Cálculo sólo en el navegador, sin guardar datos | `src/routes/calculadora-reciclaje-formacion-minera.tsx`, `src/lib/mining-regulation.ts` |
+| Ficha de curso: sección «Marco normativo del puesto» (ET, puestos y máquinas que cubre, plazo de reciclaje) y bloque «¿Formas a varios trabajadores?» con el descuento real | `src/routes/cursos.$courseSlug.tsx` |
+| Menú: «Otros» (categoría sin cursos) sale; entran «Normativa» y «Empresas». En la home, la tarjeta de «Otros» se sustituye por «Formación para empresas» mientras no tenga cursos | `src/components/PublicHeader.tsx`, `src/components/Footer.tsx`, `src/routes/index.tsx` |
+| Sitemap: calculadora nueva y `/empresas` con prioridad 0,9 | `src/lib/public-routes.ts` |
+| `package-lock.json` resincronizado: `npm ci` fallaba | `package-lock.json` |
+
+Estrategia no técnica: [`ESTRATEGIA_CRECIMIENTO.md`](./ESTRATEGIA_CRECIMIENTO.md).
+
+---
+
 ## 2026-10-08 — Clúster normativo, entidad, rendimiento y test sin referencias
 
 Rama: `claude/stoic-wright-oz4far`
