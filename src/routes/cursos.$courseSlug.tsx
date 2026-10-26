@@ -21,7 +21,9 @@ import {
   normativeReference,
   versionLabel,
 } from '../lib/course-seo'
+import { getCompanyVolumeDiscountBasisPoints } from '../lib/billing'
 import { formatCurrency, modalityLabel } from '../lib/format'
+import { refresherRuleFor, specificationsIn } from '../lib/mining-regulation'
 import {
   fetchPublicCourse,
   fetchPublicCourses,
@@ -261,6 +263,36 @@ function CourseDetailPage() {
                 </a>
               </div>
             </div>
+            <CourseRegulationSection
+              reference={reference ?? course.specialty}
+            />
+            {course.access_mode === 'purchase' ? (
+              <div className="course-company" style={{ marginTop: 42 }}>
+                <h2>¿Formas a varios trabajadores?</h2>
+                <p className="muted" style={{ lineHeight: 1.8 }}>
+                  Con la compra para empresa adquieres varias plazas, las
+                  repartes entre tu plantilla con códigos de acceso
+                  individuales y recibes una única factura a nombre de la
+                  empresa. El descuento por volumen se aplica solo:{' '}
+                  {getCompanyVolumeDiscountBasisPoints(6) / 100} % desde 6
+                  plazas y {getCompanyVolumeDiscountBasisPoints(8) / 100} %
+                  desde 8.
+                </p>
+                <div className="guide-links">
+                  <Link
+                    className="button button--outline"
+                    params={{ courseSlug }}
+                    search={{ version: version.id }}
+                    to="/comprar-empresa/$courseSlug"
+                  >
+                    Comprar plazas para la empresa
+                  </Link>
+                  <Link className="text-link" to="/empresas">
+                    Cómo funciona la formación para empresas
+                  </Link>
+                </div>
+              </div>
+            ) : null}
             {faqs.length ? (
               <div style={{ marginTop: 42 }}>
                 <h2>Preguntas frecuentes</h2>
@@ -450,4 +482,51 @@ function toCardCourse(course: PublicCourseDetail): PublicCourse {
     price_net: version.price_net,
     currency: version.currency,
   }
+}
+
+/**
+ * Marco normativo del puesto: qué especificación técnica aplica, qué puestos
+ * y máquinas cubre y cada cuánto hay que actualizar la formación. Todo sale de
+ * `mining-regulation.ts`, de modo que cada ficha tiene contenido propio y
+ * verificable sin escribir nada a mano en Supabase.
+ */
+function CourseRegulationSection({ reference }: { reference: string | null }) {
+  const specs = specificationsIn(reference).filter(
+    (spec) => spec.code !== 'ET 2005-1-11',
+  )
+  const rule = refresherRuleFor(reference)
+  if (!specs.length && !rule) return null
+
+  return (
+    <div style={{ marginTop: 42 }}>
+      <h2>Marco normativo del puesto</h2>
+      {specs.map((spec) => (
+        <div key={spec.code} style={{ marginBottom: 14 }}>
+          <h3 style={{ fontSize: '1.05rem', marginBottom: 6 }}>
+            <a href={spec.url} rel="noopener noreferrer" target="_blank">
+              {spec.code}
+            </a>{' '}
+            · {spec.title}
+          </h3>
+          <p className="muted" style={{ lineHeight: 1.8 }}>
+            Cubre: {spec.scope.replace(/^[A-ZÁÉÍÓÚ]/, (letter) => letter.toLocaleLowerCase('es'))}{' '}
+            Aprobada por {spec.instrument.replace(/^R/, 'r')}.
+          </p>
+        </div>
+      ))}
+      {rule ? (
+        <p className="muted" style={{ lineHeight: 1.8 }}>
+          {rule.basis === 'silica'
+            ? `La ${rule.source} obliga a repetir esta formación al menos una vez al año.`
+            : rule.basis === 'specification'
+              ? `Actualización o reciclaje: como máximo cada ${rule.years} años, según la ${rule.source}.`
+              : `Actualización o reciclaje: con la periodicidad que fije la especificación técnica del puesto, nunca superior a ${rule.years} años (${rule.source}).`}{' '}
+          <Link className="text-link" to={GUIDE_PATHS.refresherCalculator}>
+            Calcula cuándo vence tu formación
+          </Link>
+          .
+        </p>
+      ) : null}
+    </div>
+  )
 }

@@ -26,10 +26,11 @@ export function Footer() {
           <div className="footer__links">
             <strong>Categorías</strong>
             <Link to="/catalogo" search={{ categoria: 'mineria' }}>Minería</Link>
-            <Link to="/catalogo" search={{ categoria: 'otros' }}>Otros</Link>
             <Link to="/formacion-minera">Formación minera</Link>
             <Link to="/itc-02-1-02">ITC 02.1.02</Link>
             <Link to="/itc-02-0-02">ITC 02.0.02 · polvo y sílice</Link>
+            <Link to="/calculadora-reciclaje-formacion-minera">Calculadora de reciclaje</Link>
+            <Link to="/empresas">Formación para empresas</Link>
             <Link to="/verificar-certificado">Verificar certificado</Link>
           </div>
           <div className="footer__links">

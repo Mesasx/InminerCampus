@@ -6,13 +6,19 @@ import { AccountMenu } from './AccountMenu'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import { getSupabaseBrowserClient } from '../lib/supabase'
 
+// La categoría «Otros» salió del menú: hoy no tiene cursos publicados y el
+// enlace llevaba a un listado vacío. Sigue accesible desde el catálogo cuando
+// tenga programas. En su lugar, el menú enlaza la guía normativa y la
+// formación para empresas, que son las dos entradas con más intención.
 const categoryNavItems: Array<{
   label: string
   categoria: 'mineria' | 'otros'
-}> = [
-  { label: 'Minería', categoria: 'mineria' },
-  { label: 'Otros', categoria: 'otros' },
-]
+}> = [{ label: 'Minería', categoria: 'mineria' }]
+
+const pageNavItems = [
+  { label: 'Normativa', to: '/formacion-minera' },
+  { label: 'Empresas', to: '/empresas' },
+] as const
 
 export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -70,6 +76,15 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
               {item.label}
             </Link>
           ))}
+          {pageNavItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeProps={{ 'aria-current': 'page' }}
+            >
+              {item.label}
+            </Link>
+          ))}
           <Link to="/sobre-nosotros" activeProps={{ 'aria-current': 'page' }}>
             Sobre nosotros
           </Link>
@@ -113,6 +128,11 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
               search={{ categoria: item.categoria }}
               onClick={() => setMobileOpen(false)}
             >
+              {item.label}
+            </Link>
+          ))}
+          {pageNavItems.map((item) => (
+            <Link key={item.to} to={item.to} onClick={() => setMobileOpen(false)}>
               {item.label}
             </Link>
           ))}

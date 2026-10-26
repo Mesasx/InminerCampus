@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccesoRouteImport } from './routes/acceso'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CalculadoraReciclajeFormacionMineraRouteImport } from './routes/calculadora-reciclaje-formacion-minera'
 import { Route as CanjearCodigoRouteImport } from './routes/canjear-codigo'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as CertificadosRouteImport } from './routes/certificados'
@@ -99,6 +100,12 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalculadoraReciclajeFormacionMineraRoute =
+  CalculadoraReciclajeFormacionMineraRouteImport.update({
+    id: '/calculadora-reciclaje-formacion-minera',
+    path: '/calculadora-reciclaje-formacion-minera',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CanjearCodigoRoute = CanjearCodigoRouteImport.update({
   id: '/canjear-codigo',
   path: '/canjear-codigo',
@@ -472,6 +479,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
+  '/calculadora-reciclaje-formacion-minera': typeof CalculadoraReciclajeFormacionMineraRoute
   '/canjear-codigo': typeof CanjearCodigoRoute
   '/catalogo': typeof CatalogoRoute
   '/certificados': typeof CertificadosRoute
@@ -547,6 +555,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
+  '/calculadora-reciclaje-formacion-minera': typeof CalculadoraReciclajeFormacionMineraRoute
   '/canjear-codigo': typeof CanjearCodigoRoute
   '/catalogo': typeof CatalogoRoute
   '/certificados': typeof CertificadosRoute
@@ -620,6 +629,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/acceso': typeof AccesoRoute
   '/admin': typeof AdminRouteWithChildren
+  '/calculadora-reciclaje-formacion-minera': typeof CalculadoraReciclajeFormacionMineraRoute
   '/canjear-codigo': typeof CanjearCodigoRoute
   '/catalogo': typeof CatalogoRoute
   '/certificados': typeof CertificadosRoute
@@ -698,6 +708,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acceso'
     | '/admin'
+    | '/calculadora-reciclaje-formacion-minera'
     | '/canjear-codigo'
     | '/catalogo'
     | '/certificados'
@@ -773,6 +784,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/acceso'
+    | '/calculadora-reciclaje-formacion-minera'
     | '/canjear-codigo'
     | '/catalogo'
     | '/certificados'
@@ -845,6 +857,7 @@ export interface FileRouteTypes {
     | '/'
     | '/acceso'
     | '/admin'
+    | '/calculadora-reciclaje-formacion-minera'
     | '/canjear-codigo'
     | '/catalogo'
     | '/certificados'
@@ -922,6 +935,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesoRoute: typeof AccesoRoute
   AdminRoute: typeof AdminRouteWithChildren
+  CalculadoraReciclajeFormacionMineraRoute: typeof CalculadoraReciclajeFormacionMineraRoute
   CanjearCodigoRoute: typeof CanjearCodigoRoute
   CatalogoRoute: typeof CatalogoRoute
   CertificadosRoute: typeof CertificadosRoute
@@ -994,6 +1008,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculadora-reciclaje-formacion-minera': {
+      id: '/calculadora-reciclaje-formacion-minera'
+      path: '/calculadora-reciclaje-formacion-minera'
+      fullPath: '/calculadora-reciclaje-formacion-minera'
+      preLoaderRoute: typeof CalculadoraReciclajeFormacionMineraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/canjear-codigo': {
@@ -1611,6 +1632,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesoRoute: AccesoRoute,
   AdminRoute: AdminRouteWithChildren,
+  CalculadoraReciclajeFormacionMineraRoute:
+    CalculadoraReciclajeFormacionMineraRoute,
   CanjearCodigoRoute: CanjearCodigoRoute,
   CatalogoRoute: CatalogoRoute,
   CertificadosRoute: CertificadosRoute,

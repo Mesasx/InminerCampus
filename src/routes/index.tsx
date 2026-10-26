@@ -15,6 +15,7 @@ import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { useSectionReveal } from '../hooks/useSectionReveal'
 import { fetchPublicCourses, toCourseCards } from '../lib/public-courses'
+import { categoryOf } from '../lib/course-category'
 import { GUIDE_PATHS } from '../lib/public-routes'
 import {
   inminerIngenieriaSchema,
@@ -373,9 +374,9 @@ function MiningSection() {
   )
 }
 
-function CategoriesTeaser() {
+function CategoriesTeaser({ hasOtherCourses }: { hasOtherCourses: boolean }) {
   const { ref, isVisible } = useSectionReveal<HTMLElement>()
-  const categories = [
+  const allCategories = [
     {
       categoria: 'mineria' as const,
       label: 'Minería',
@@ -391,6 +392,12 @@ function CategoriesTeaser() {
       image: '/images/campus-carousel-topografia.webp',
     },
   ]
+  // «Otros» no tiene hoy cursos publicados: su tarjeta llevaba a un listado
+  // vacío. Mientras siga así, el hueco lo ocupa la formación para empresas,
+  // con el mismo diseño.
+  const categories = hasOtherCourses
+    ? allCategories
+    : allCategories.filter((category) => category.categoria !== 'otros')
 
   return (
     <section
@@ -423,6 +430,24 @@ function CategoriesTeaser() {
               </div>
             </Link>
           ))}
+          {!hasOtherCourses ? (
+            <Link className="category-teaser" to="/empresas">
+              <div className="category-teaser__visual">
+                <img alt="" loading="lazy" src="/images/campus-carousel-topografia.webp" />
+                <span className="category-badge category-badge--otros">Empresas</span>
+              </div>
+              <div className="category-teaser__body">
+                <h3>Formación para empresas</h3>
+                <p>
+                  Plazas para toda la plantilla, una licencia por trabajador y
+                  descuento por volumen desde 6 plazas.
+                </p>
+                <span className="text-link">
+                  Ver formación para empresas <ArrowRight aria-hidden="true" size={16} />
+                </span>
+              </div>
+            </Link>
+          ) : null}
         </div>
       </div>
     </section>
@@ -723,7 +748,9 @@ function HomePage() {
       <WhatIsCampus />
       <SafetySection />
       <MiningSection />
-      <CategoriesTeaser />
+      <CategoriesTeaser
+        hasOtherCourses={courses.some((course) => categoryOf(course) === 'otros')}
+      />
       <CampusGuide />
       <FormationSection courses={courses} />
       <HowItWorks />

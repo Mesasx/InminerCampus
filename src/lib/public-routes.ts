@@ -18,6 +18,7 @@ export const GUIDE_PATHS = {
   itc020102: '/itc-02-1-02',
   initialAndRefresher: '/itc-02-1-02/formacion-inicial-y-reciclaje',
   itc020002: '/itc-02-0-02',
+  refresherCalculator: '/calculadora-reciclaje-formacion-minera',
 } as const
 
 /**
@@ -39,8 +40,9 @@ export const INDEXABLE_STATIC_ROUTES: Array<StaticRoute> = [
   { path: GUIDE_PATHS.itc020102, priority: 0.9, changefreq: 'monthly' },
   { path: GUIDE_PATHS.initialAndRefresher, priority: 0.8, changefreq: 'monthly' },
   { path: GUIDE_PATHS.itc020002, priority: 0.8, changefreq: 'monthly' },
+  { path: GUIDE_PATHS.refresherCalculator, priority: 0.7, changefreq: 'monthly' },
   { path: '/sobre-nosotros', priority: 0.7, changefreq: 'monthly' },
-  { path: '/empresas', priority: 0.7, changefreq: 'monthly' },
+  { path: '/empresas', priority: 0.9, changefreq: 'monthly' },
   { path: '/como-funciona', priority: 0.6, changefreq: 'monthly' },
   { path: '/contacto', priority: 0.6, changefreq: 'yearly' },
   { path: '/verificar-certificado', priority: 0.4, changefreq: 'yearly' },

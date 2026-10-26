@@ -174,3 +174,99 @@ export const REFRESHER_RULES = {
   } as Record<string, number>,
   minimumHours: 5,
 } as const
+
+/**
+ * La ITC 02.0.02 obliga a repetir la formación frente al polvo y la sílice al
+ * menos una vez al año.
+ */
+export const SILICA_REFRESHER_YEARS = 1
+
+export type RefresherRule = {
+  /** Años máximos entre una formación y su actualización. */
+  years: number
+  /**
+   * `specification`: plazo fijado por la ET del puesto.
+   * `general`: máximo general de la ITC 02.1.02 (la ET puede fijar uno menor).
+   * `silica`: periodicidad anual de la ITC 02.0.02.
+   */
+  basis: 'specification' | 'general' | 'silica'
+  /** Norma de la que sale el plazo, para citarla junto al dato. */
+  source: string
+}
+
+/**
+ * Plazo de reciclaje aplicable a una formación a partir de su referencia
+ * normativa («ITC 02.1.02 · ET 2001-1-08», «ITC 02.0.02 · Orden TED/723/2021»).
+ * Devuelve `null` si la referencia no cita ninguna de las dos instrucciones.
+ */
+export function refresherRuleFor(reference: string | null | undefined): RefresherRule | null {
+  if (!reference) return null
+  if (/ITC\s*02\.?0\.?02|TED\/723\/2021/i.test(reference)) {
+    return { years: SILICA_REFRESHER_YEARS, basis: 'silica', source: ITC_02_0_02.code }
+  }
+  for (const spec of specificationsIn(reference)) {
+    const years = REFRESHER_RULES.bySpecification[spec.code]
+    if (years) return { years, basis: 'specification', source: spec.code }
+  }
+  if (/ITC\s*02\.?1\.?02/i.test(reference)) {
+    return {
+      years: REFRESHER_RULES.generalMaxYears,
+      basis: 'general',
+      source: ITC_02_1_02.code,
+    }
+  }
+  return null
+}
+
+export type RefresherOption = {
+  /** Identificador estable para formularios (código de la norma). */
+  id: string
+  /** Puestos o riesgo, tal como los describe la norma. */
+  label: string
+  rule: RefresherRule
+  url: string
+}
+
+/**
+ * Opciones de la calculadora de vencimiento: una por especificación formativa
+ * de la ITC 02.1.02 y otra para la ITC 02.0.02. La ET 2005-1-11 no es un
+ * itinerario (regula la cartilla) y no se ofrece.
+ */
+export function refresherOptions(): Array<RefresherOption> {
+  const specs = TECHNICAL_SPECIFICATIONS.filter((spec) => spec.code !== 'ET 2005-1-11').map(
+    (spec) => ({
+      id: spec.code,
+      label: `${spec.code} · ${spec.scope.replace(/\.$/, '')}`,
+      rule: refresherRuleFor(`ITC 02.1.02 · ${spec.code}`) as RefresherRule,
+      url: spec.url,
+    }),
+  )
+  return [
+    ...specs,
+    {
+      id: ITC_02_0_02.code,
+      label: `${ITC_02_0_02.code} · Exposición a polvo y sílice cristalina respirable`,
+      rule: refresherRuleFor(ITC_02_0_02.code) as RefresherRule,
+      url: ITC_02_0_02.url,
+    },
+  ]
+}
+
+/**
+ * Fecha límite de la siguiente actualización: la de la última formación más
+ * los años del plazo. Trabaja con fechas ISO (AAAA-MM-DD) sin zona horaria,
+ * para que servidor y navegador den el mismo resultado. Un 29 de febrero que
+ * cae en año no bisiesto pasa al 28.
+ */
+export function refresherDueDate(lastTrainingIso: string, years: number): string | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(lastTrainingIso)
+  if (!match) return null
+  const [year, month, day] = match.slice(1).map(Number)
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null
+  const targetYear = year + years
+  const daysInMonth = new Date(Date.UTC(targetYear, month, 0)).getUTCDate()
+  const safeDay = Math.min(day, daysInMonth)
+  // Una fecha inexistente en el año de origen (31 de abril) no es válida.
+  if (day > new Date(Date.UTC(year, month, 0)).getUTCDate()) return null
+  return `${targetYear}-${String(month).padStart(2, '0')}-${String(safeDay).padStart(2, '0')}`
+}
