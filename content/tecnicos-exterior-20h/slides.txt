@@ -1,0 +1,1249 @@
+INMÍNERCAMPUS · TÉCNICOS DE EXTERIOR
+
+ANTICIPAR, SUPERVISAR Y PODER PARAR
+Anticipar exige diseñar secuencias, viales, zonas de exclusión y recursos antes
+de movilizar equipos. Estar en campo permite comprobar que terreno,
+máquinas y personas siguen dentro de lo previsto.
+Supervisar pierde eficacia si se limita a firmar después o a corregir conductas
+sin revisar causas de diseño y organización.
+
+Cinco preguntas de toda decisión
+   Qué puede causar daño y quién queda expuesto.
+   Qué barreras lo impiden y cómo sabemos que funcionan.
+   Quién puede parar o reanudar.
+La decisión se apoya en inspecciones, mediciones, registros, comunicaciones y
+permisos.
+DE PELIGRO A EVIDENCIA
+
+
+ Peligro                            Exposición                 Riesgo
+ Fuente o situación con capacidad   Presencia dentro de la     Probabilidad y consecuencia,
+ de causar daño.                    trayectoria del peligro.   considerando exposición y
+                                                               controles.
+
+
+
+ Control                            Verificación               Evidencia
+ Barrera que impide el suceso.      Prueba de que la barrera   Inspección, medición, registro de
+                                    funciona.                  mantenimiento, comunicación o
+                                                               permiso.
+ARQUITECTURA DOCUMENTAL DE LA EXPLOTACIÓN
+
+Proyecto de explotación
+Define método, geometría, fases, equipos, escombreras y drenaje.
+
+Documento sobre Seguridad y Salud (DSS)
+Integra organización preventiva, evaluación, medidas, emergencias,
+coordinación y seguimiento.
+
+Disposición Interna de Seguridad (DIS)
+Concreta tráfico, mantenimiento, defectos, señalización, inspecciones y
+trabajos especiales.
+Prevalencia: legislación, autoridad minera, proyecto, DSS, DIS e
+instrucciones del fabricante.
+PROCEDIMIENTOS, INSTRUCCIONES Y PERMISOS
+
+
+
+  Procedimiento                             Instrucción                              Permiso
+  Secuencia, responsables,                  Pasos operativos,                        Determina quién acepta una
+  condiciones previas, puntos de            prohibiciones, comunicaciones            tarea no rutinaria o de alto
+  parada y registros.                       y anomalías.                             riesgo.
+
+
+La consignación, la electricidad, la altura, el izado o una intervención especial pueden requerir permiso.
+
+
+  Cada documento responde a una pregunta distinta y se concreta en el centro.
+JERARQUÍA DE CONTROLES
+
+CONTROL        APLICACIÓN                                          VERIFICACIÓN
+
+Eliminar       Reubicar un tránsito para que no cruce la zona      ¿Ha desaparecido la interacción?
+               de carga.
+
+Sustituir      Método que genere menos polvo o proyección.         ¿El residual es menor y no crea otro?
+
+Ingeniería     Barrera, drenaje, ROPS, captación o                 ¿Está dimensionada, mantenida y probada?
+               enclavamiento.
+
+Organización   Plan de tráfico, permiso, vigía.                    ¿La regla es clara y supervisada?
+
+EPI            Casco, gafas, protección auditiva o respiratoria.   ¿Es adecuado, compatible, ajustado y
+                                                                   usado?
+GESTIÓN DEL CAMBIO: ANTES DE SEGUIR TRABAJANDO
+
+
+ Terreno o geología               Agua o meteorología                 Equipo o implemento
+ Estabilidad, discontinuidades,   Escorrentías, erosión, blandones,   Dimensiones, masa, alcance,
+ caída de rocas, drenaje y        visibilidad y adherencia.           frenado, visibilidad y formación.
+ exclusión.
+
+
+
+ Secuencia o producción           Personal o empresa                  Entorno
+ Interacciones, simultaneidad y   Competencia, acogida,               Líneas, carreteras, terceros y
+ comunicación.                    coordinación de actividades         vibraciones.
+                                  empresariales (CAE) y
+                                  autorizaciones.
+ACTIVIDAD DEL ALUMNO · 10 MINUTOS
+
+CASO 0A. UN CAMBIO PEQUEÑO CON EFECTO GRANDE
+
+Una motoniveladora eleva el borde interior de una pista. Tras la lluvia, el
+agua queda retenida, hay barro en una curva y los volquetes invaden el
+carril contrario.
+
+Reconocer cómo una corrección menor altera el sistema
+   Identificad el cambio y las exposiciones.
+   Definid las medidas inmediatas.
+   Decidid quién autoriza la reapertura.
+Puesta en común por grupos. Se valoran cambio identificado, expuestos,
+medidas y autoridad correcta.
+RESOLUCIÓN DEL CASO 0A
+
+La corrección ha alterado el drenaje y el tráfico.
+
+01                                       02                                   03
+
+Controlar                                Restablecer                          Verificar
+Controlar o detener movimientos y        Recuperar el drenaje de la pista.    Comprobar firme y visibilidad antes
+señalar.                                                                      de reabrir.
+
+
+
+
+  Autoriza el responsable definido por el DSS o la DIS, no el primer conductor que pasa.
+BLOQUE 0. COMPROBACIÓN
+
+1. ¿Qué medida de la jerarquía ofrece más fiabilidad: eliminar la exposición,
+   instruir al operador, usar EPI o señalizar?
+2. Razona si es verdadero o falso: «El DSS es la regla interna que gobierna una
+   operación concreta».
+3. Llega un equipo mayor al tajo. ¿Qué compruebas antes de continuar?
+4. Enumera tres cambios que invalidan una evaluación previa.
+BLOQUE 0. RESPUESTAS RAZONADAS
+
+ Eliminar la exposición o cambiar el diseño es más fiable que depender de
+ que alguien recuerde una regla.
+ Falso. La regla interna obligatoria es la DIS; el DSS integra organización,
+ evaluación y medidas.
+ Para un equipo mayor se revisan dimensiones, masa, alcance, radios, frenado,
+ visibilidad, compatibilidad y formación.
+ Terreno, agua, equipo, secuencia, personal y entorno pueden invalidar una
+ evaluación.
+EL CICLO DE TRABAJO EN EXTERIOR
+FASES E INTERACCIONES CRÍTICAS
+
+FASE            INTERACCIONES QUE DEBEN QUEDAR DESCRITAS
+
+Preparación     Terreno no reconocido, servicios y terceros.
+
+Arranque        Talud, proyecciones, barrenos, polvo y ruido.
+
+Carga           Frente, giro, caída y comunicación pala-volquete.
+
+Transporte      Velocidad, frenado, visibilidad, firme y bordes.
+
+Tratamiento     Atrapamiento, atascos, energía, polvo y tolvas.
+
+Mantenimiento   Consignación, elevación, presión, calor, gravedad e incendio.
+
+Cierre          Accesos, inestabilidad diferida, agua y terceros.
+FICHA MÍNIMA DE DEFINICIÓN DE UNA TAREA
+
+CAMPO                 QUÉ DEBE QUEDAR DEFINIDO
+
+Objeto y resultado    Qué se pretende y cómo se sabe que terminó bien.
+
+Ubicación             Tajo, banco, plataforma, pista o planta; límites
+                      inequívocos.
+
+Secuencia             Preparación, ejecución, comprobaciones, entrega y
+                      cierre.
+
+Personas              Responsable, ejecutantes, operadores, empresas y
+                      terceros.
+
+Condiciones previas   Autorizaciones, estabilidad, accesos, iluminación y
+                      comunicaciones.
+
+Parada y evidencias   Criterios; lista, permiso, medición, registro o plano.
+PERSONAS, EQUIPOS Y ENERGÍAS
+
+Personas
+Responsable, ejecutantes, operadores, empresas y terceros
+expuestos.
+
+Equipos
+Máquinas, sustancias y herramientas de la tarea.
+
+Condiciones previas
+Estabilidad, accesos, iluminación, meteorología y comunicaciones.
+Una descripción incompleta oculta exposiciones y produce
+controles genéricos.
+ENERGÍA, TRAYECTORIA Y EXPUESTO
+
+El análisis sigue el trabajo, no una lista genérica.
+
+01                                        02                                     03
+
+Energía                                   Trayectoria                            Expuesto
+En cada paso, ¿qué energía puede          ¿Qué recorrido seguiría?               ¿Quién entraría en ella?
+liberarse?
+
+Caída de rocas, desplazamiento de máquina, arco eléctrico, proyección, chorro a presión, rodadura, caída a distinto
+nivel, nube de polvo o propagación de incendio.
+INTERFERENCIAS ENTRE TAREAS
+
+Hay interferencia cuando una actividad modifica las condiciones de
+otra o comparte su trayectoria.
+Considerar tráfico, voladura, mantenimiento, peatones, servicios y
+contratas.
+   Mantenimiento energiza una línea que producción considera
+   aislada.
+   Una contrata cruza una zona de voladura.
+   Una carretera pública queda expuesta a polvo o proyecciones.
+CRITERIOS DE PARADA Y EVIDENCIAS
+
+No se inicia una tarea si no se conocen ubicación, secuencia, responsables,
+equipos, interacciones, criterios de parada y autoridad de reanudación.
+
+Criterio de parada
+Defecto o variación que obliga a detener, aislar y escalar.
+
+Evidencias
+Lista, permiso, medición, registro, parte, plano o comunicación formal.
+ACTIVIDAD DEL ALUMNO · 20 MINUTOS
+
+ACTIVIDAD 1. DESCRIBIR ANTES DE EVALUAR
+
+Describid el trabajo real de una operación: carga de volquetes,
+mantenimiento de una cinta o limpieza de una tolva.
+
+Una ficha de una página
+   Incluid todos los campos de la ficha mínima.
+   Marcado con asterisco cada dato por confirmar en campo.
+   Registrad las diferencias con el procedimiento existente.
+Puesta en común por parejas. Se valoran la ficha completa y las diferencias
+registradas.
+BLOQUE 1. COMPROBACIÓN
+
+1. Ordena las fases: transporte, preparación, tratamiento, arranque, carga.
+2. Una ficha no incluye criterios de parada ni autoridad de reanudación. ¿Qué
+   falta?
+3. ¿Puede iniciarse una tarea si no se conoce quién reanuda?
+4. ¿Qué energía no es mecánica, eléctrica, hidráulica, térmica, química ni
+   gravitatoria?
+BLOQUE 1. RESPUESTAS RAZONADAS
+
+ El orden es preparación, arranque, carga, transporte y tratamiento.
+ Sin criterios de parada y autoridad de reanudación, la ficha no sirve para
+ evaluar.
+ No se inicia la tarea sin autoridad de reanudación conocida.
+ Las seis energías son mecánica, eléctrica, hidráulica, térmica, química y
+ gravitatoria.
+MÉTODO OPERATIVO DE EVALUACIÓN
+
+01                                                          02
+
+Peligro concreto                                            Exposición y trayectoria
+¿Qué situación o energía puede causar daño?                 ¿A quién o qué alcanza y por qué vía?
+
+03                                                          04
+
+Escenario                                                   Controles
+¿Qué máximo razonable puede ocurrir?                        ¿Cuáles existen y de qué dependen?
+
+05                                                          06
+
+Prueba de eficacia                                          Revisión y parada
+Criterio, frecuencia y responsable de cada barrera.         ¿Qué cambio invalida el análisis?
+
+Una baja frecuencia histórica no justifica controles débiles ante colapso de talud, atropello, vuelco, explosión o
+contacto eléctrico.
+TALUDES, BANCOS, BERMAS Y PLATAFORMAS
+
+La estabilidad depende de geología, discontinuidades, meteorización,
+agua, geometría, daños de voladura y cargas próximas al borde.
+El proyecto define alturas, ángulos, bermas, secuencia y drenaje. La
+berma definitiva responde a un estudio geotécnico.
+En trabajo normal, distancia mínima de 5 m al borde del banco. En
+situaciones especiales, topes o barreras no franqueables.
+Un talud sin caída visible puede estar degradándose.
+
+
+
+
+Referencia reglamentaria: ITC del capítulo VII. Geometría según proyecto y estudio geotécnico.
+INDICADORES DE INESTABILIDAD
+
+INDICADOR                     RESPUESTA
+
+Grietas nuevas o crecientes   Aislar, señalar, comparar y comunicar.
+
+Caída de fragmentos           Retirar personas y equipos; no sanear sin
+                              método autorizado.
+
+Abombamiento en el pie        Ampliar exclusión y pedir evaluación.
+
+Agua turbia o surgencia       Controlar evolución; no bloquear sin
+                              análisis.
+
+Escalón, hundimiento o        Cerrar y verificar.
+berma deformada
+
+Cambio tras lluvia, hielo o   Inspección extraordinaria.
+voladura
+INSPECCIÓN GEOTÉCNICA EN TRES NIVELES
+
+
+
+   Operativa                                        Técnica                         Especializada
+   Personal y supervisión al inicio                 Personal competente con         Profesional geotécnico cuando
+   y durante el turno; detecta                      frecuencia definida y tras      el riesgo o el cambio lo exija;
+   cambios visibles, caída, agua y                  eventos; compara con diseño,    analiza mecanismo, medidas y
+   exposición inmediata.                            registros, instrumentación y    reapertura.
+                                                    umbrales.
+
+
+Los métodos observacionales priorizan y detectan; no sustituyen cálculos ni instrumentación.
+Referencia técnica: MITECO. Frecuencias y umbrales definidos para la explotación.
+AGUA, DRENAJE Y METEOROLOGÍA
+
+ El agua reduce resistencia, aumenta presiones, erosiona, oculta
+ defectos y degrada pistas.
+ Control desde aguas arriba mediante cunetas de guarda, drenajes,
+ bombeos y vertidos.
+ Cada umbral de lluvia, nivel, caudal, visibilidad, viento o tormenta debe
+ tener una acción. Valores según diseño y evaluación.
+ Tras episodios intensos: blandones, erosión, socavación y roderas.
+ No desviar agua sin comprobar capacidad del receptor.
+ Delimitar balsas y excavaciones inundadas; prever rescate sin entrada
+ impulsiva.
+ACTIVIDAD DEL ALUMNO · 15 MINUTOS
+
+CASO 2A. LLUVIA DESPUÉS DE LA VOLADURA
+
+Tras una voladura nocturna llueve intensamente. A primera hora hay agua
+turbia en el pie, material suelto en una berma y una grieta nueva.
+Producción propone cargar desde abajo mientras se revisa desde un
+vehículo ligero.
+
+Decisión del grupo
+   ¿Puede iniciarse la carga?
+   Definid zona, información y autoridad.
+Puesta en común en plenario. Criterios: exclusión, evaluación competente y
+reapertura documentada.
+TRÁFICO MINERO Y GEOMETRÍA DE PISTAS
+
+ ELEMENTO                        CRITERIO REGLAMENTARIO
+
+ Plataforma                      Al menos 5 m al borde en trabajo normal.
+
+ Arcén frente a talud            Al menos 2 m; ampliar y proteger si hay
+                                 desprendimiento.
+
+ Un carril                       1,5 veces el ancho del mayor vehículo; 2 veces
+                                 con tráfico intenso y pesado.
+
+ Dos carriles                    3 veces el ancho del vehículo más ancho.
+
+ Pendiente                       Media ≤ 10 %; máximos puntuales 15 %; acceso
+                                 especial ≤ 20 %, con medidas específicas.
+
+Curvas sin maniobras ni peralte inverso; borde con caída balizado y con tope o barrera.
+ITC 07.1.03. Comprobar proyecto y DIS.
+INTERACCIÓN VEHÍCULO Y PERSONA
+
+    Prohibir presencia en la zona de acción de maquinaria y definir
+    exclusiones visibles.
+    Limitar tránsito peatonal y usar accesos seguros; en pista, arcén o
+    lado opuesto al tráfico.
+    Volquete cargado en operación normal: no acercarse a menos de 5
+    m. Si es imprescindible, por delante, con comunicación y detención
+    aseguradas.
+    Separar vehículos ligeros y pesados.
+    Adaptar la operación a polvo, niebla, lluvia, oscuridad o
+    deslumbramiento.
+
+
+
+Manual InmínerCampus · Tráfico minero; comprobar proyecto y DIS.
+CONTACTO POSITIVO Y MARCHA ATRÁS
+
+Antes de entrar en una maniobra, el operador:
+
+01                                         02                               03
+
+Confirma                                   Detiene                          Autoriza
+Confirma que ha visto a la persona.        Detiene la maniobra.             Autoriza la entrada.
+
+Ver la máquina u oír la alarma no basta.
+     El plan de tráfico minimiza la marcha atrás.
+     Sin visibilidad suficiente, detener o aplicar un sistema autorizado.
+     Definir espera segura para peatones y vehículos ligeros.
+PUNTOS CIEGOS
+
+ No estacionar en puntos ciegos; definir espera segura.
+ Cámaras y alarmas ayudan, pero no eliminan un diseño
+ deficiente.
+ Verificar cristales, espejos, cámaras, radar, luces y limpieza.
+ Una alarma de marcha atrás no sustituye la segregación.
+ Los puntos ciegos de cargadora y volquete son riesgo
+ dominante de atropello.
+PERFORACIÓN Y VOLADURA: QUÉ COORDINA EL TÉCNICO
+
+
+  Perforación                                                Antes
+  Área reconocida, estable y preparada; equipo               Plan autorizado, área, horario, interferencias,
+  frenado o bloqueado; captación de polvo integrada          meteorología, accesos, refugios y recuento.
+  en el método.
+
+
+
+
+  Exclusión                                                  Tras el disparo
+  Barreras, vigilantes, comunicación y equipos               Tiempo prescrito, inspección autorizada, humos y
+  retirados.                                                 estabilidad.
+
+
+Carga, conexión y disparo corresponden a personal autorizado. El curso no
+habilita como artillero.
+Real Decreto 130/2017.
+BARRENO SOSPECHOSO: EXCLUIR Y AVISAR
+
+Nunca perforar, manipular o excavar en una zona con posible barreno
+fallido sin identificación y autorización específicas.
+    Mantener la exclusión e impedir improvisaciones.
+    Aplicar el procedimiento de barreno fallido por personal autorizado,
+    conforme al Reglamento de Explosivos y a las DIS.
+    El técnico coordina y delimita; no sustituye al artillero.
+
+
+
+
+Reglamento de Explosivos y DIS del centro.
+MANTENIMIENTO Y ENERGÍAS PELIGROSAS
+
+Parar un mando no elimina la energía
+Puede quedar presión hidráulica o neumática, tensión eléctrica,
+calor, partes suspendidas, tensión mecánica o material atascado.
+La consignación convierte el equipo en una condición controlada y
+verificable.
+   Una etiqueta informa.
+   Un bloqueo eficaz impide la maniobra.
+   La verificación demuestra que funciona.
+CONSIGNACIÓN EN NUEVE PASOS
+
+1   Preparar alcance, fuentes, aislamiento y personas.    2     Parar de forma normal y comunicar.
+
+
+
+
+3   Separar o aislar todas las fuentes de energía.        4     Bloquear órganos de aislamiento e identificar al
+                                                                titular.
+
+
+5   Disipar, descargar, purgar, enfriar, calzar o         6     Verificar ausencia de energía; prueba de intento
+    soportar energías acumuladas.                               cuando proceda.
+
+
+7   Ejecutar controlando herramientas, piezas y           8     Reponer protecciones y retirar bloqueos con
+    cambios de alcance.                                         control.
+
+
+9   Comunicar, reenergizar y comprobar.
+
+                                                         Referencia técnica: INSST, NTP 1117.
+ACTIVIDAD DEL ALUMNO · 15 MINUTOS
+
+CASO 2B. ATASCO EN UNA CINTA
+
+Una cinta se detiene por atasco. El mando está en cero, la banda conserva
+tensión, hay material sobre ella y otro trabajador puede rearmar desde un
+cuadro remoto.
+
+Definir consignación y verificaciones
+Puesta en común tras el trabajo del grupo.
+   Alcance con equipos aguas arriba y abajo.
+   Bloqueos.
+   Energía mecánica estabilizada.
+   Ausencia de energía verificada.
+POLVO Y SÍLICE CRISTALINA RESPIRABLE (SCR)
+
+El polvo visible indica emisión, pero la fracción respirable no se valora a
+simple vista.
+Se genera en perforación, arranque, trituración, transferencia, limpieza,
+circulación y mantenimiento.
+El marco de agentes cancerígenos exige reducir la exposición al nivel más
+bajo técnicamente posible.
+Valor límite ambiental de exposición diaria (VLA-ED), publicado por el
+INSST: 0,05 mg/m³.
+Se exige muestreo representativo, método reconocido y acciones ante
+desviaciones. No se presume cumplimiento por usar mascarilla o riego.
+
+ITC 02.0.02; INSST.
+CONTROLAR EL POLVO EN CUATRO NIVELES
+
+
+ Fuente                                              Trayectoria
+ Método húmedo, captación localizada, cerramiento,   Cabinas cerradas y filtradas, ventilación,
+ automatización, filtros mantenidos y menos caída    segregación, estabilización de viales y limpieza sin
+ libre.                                              redispersar.
+
+
+
+
+ Organización                                        Persona
+ Plan de medición, zonas, tiempos, mantenimiento,    Protección respiratoria seleccionada por evaluación,
+ señalización, formación y vigilancia de salud.      con ajuste, compatibilidad y conservación.
+RUIDO, VIBRACIONES Y CALOR
+
+ EXPOSICIÓN                             CONTROL Y CRITERIO
+
+ Ruido                                  Equipos menos ruidosos, encapsulado, silenciadores, mantenimiento, distancia y
+                                        tiempo. El EPI complementa.
+
+ Vibración de cuerpo entero             Máquina y asiento adecuados. Acción: 0,5 m/s²; límite: 1,15 m/s².
+
+ Vibración mano-brazo                   Herramienta adecuada. Acción: 2,5 m/s²; límite: 5 m/s².
+
+ Calor y sol                            Sombra, climatización, agua, aclimatación, pausas y WBGT (índice de temperatura de
+                                        globo y bulbo húmedo), cuando proceda.
+
+Se evalúa la exposición A(8), normalizada a ocho horas, no una lectura
+instantánea.
+Referencia: INSST. Valores de vibración referidos a A(8).
+ELECTRICIDAD, INCENDIO Y SUSTANCIAS
+
+    Las líneas aéreas pueden alcanzarse con cajas elevadas, brazos,
+    perforadoras, grúas o cargas. Inventariar líneas, tensión, gálibos y
+    cruces.
+    No estimar una distancia a ojo desde la cabina.
+    Trabajo sin tensión por personal autorizado: desconectar, impedir
+    realimentación, verificar ausencia y poner a tierra.
+    Ante incendio: separar fuentes de ignición, almacenamiento compatible
+    y contención de derrames.
+    El extintor no compensa una fuga activa.
+
+
+
+Real Decreto 614/2001. Condiciones de trabajo según evaluación y personal autorizado.
+EMERGENCIAS, PRIMEROS AUXILIOS Y CIERRE
+
+
+
+Proteger                                Avisar                                  Socorrer
+Reconocer energía, tráfico, rocas,      Ubicación, tipo, afectados, riesgos y   Consciencia y respiración, dentro de
+electricidad, fuego, atmósfera y        mejor acceso.                           la formación.
+acceso.
+
+
+
+
+Recibir                                                     Preservar y aprender
+Guía a servicios externos e información de sustancias y     Controlar la zona y comunicar.
+energías.
+
+Nunca entrar en tolva, hueco o atmósfera sospechosa para un rescate improvisado. Cierre sin energías, huecos,
+derrames ni defectos para el siguiente turno.
+BLOQUE 2. COMPROBACIÓN
+
+1. Ordena: bloquear, verificar, aislar, disipar energía.
+2. Razona si es verdadero o falso: «Una alarma de marcha atrás elimina el punto
+   ciego».
+3. Señala tres riesgos en una pista con borde sin protección.
+4. Detecta el error: se desatasca una cinta con el mando en cero y sin bloqueo.
+5. Decide ante una grieta nueva en coronación tras la lluvia.
+BLOQUE 2. RESOLUCIONES Y RESPUESTAS
+
+Caso 2A
+No trabajar bajo la trayectoria potencial. Excluir, documentar desde lugar seguro,
+revisar drenajes y obtener evaluación competente. Reabrir solo con criterio
+documentado.
+
+Caso 2B
+Aislar alimentaciones y movimientos asociados; bloquear, estabilizar energía y
+material, y verificar ausencia.
+   Consignación: preparar, aislar, bloquear, disipar y verificar.
+   Falso: la alarma ayuda; no elimina el punto ciego.
+   Grieta nueva: aislar y comunicar.
+CICLO DE VIDA DEL EQUIPO
+
+
+
+
+Real Decreto 1215/1997.
+RIESGOS: PERFORADORA, EXCAVADORA, CARGADORA
+
+
+ Perforadora                      Excavadora                       Cargadora
+ Vuelco, borde, polvo, ruido,     Colapso de frente, alcance,      Atropello, vuelco, material,
+ atrapamiento, barras y           vuelco, golpe, caída y líneas.   articulación y punto ciego.
+ mangueras.
+                                  Posición, zona de giro,          Plan de carga, contacto
+ Plataforma estable, captación,   visibilidad y límites.           positivo, cinturón y exclusión.
+ exclusión, guardas y método de
+ cambio.
+RIESGOS: VOLQUETE, BULLDÓCER, MOTONIVELADORA
+
+
+ Volquete                            Bulldócer                          Motoniveladora
+ Colisión, vuelco, borde, frenado,   Vuelco, borde, material oculto y   Colisión, vuelco, cuchilla,
+ carga y caja elevada.               marcha atrás.                      visibilidad y tráfico.
+ Ruta, descarga nivelada,            Trabajo seguro respecto al         Corte de zona, señales,
+ cinturón, alarmas y frenos.         borde, referencias, ROPS y         comunicación, luces y
+                                     apoyo firme.                       separación.
+RIESGOS: TRITURACIÓN, CINTAS Y VEHÍCULOS LIGEROS
+
+
+ Trituradora y criba              Cinta                           Vehículo ligero
+ Atrapamiento, proyección,        Atrapamiento, arranque, caída   Aplastamiento por equipo
+ caída, atasco, polvo y ruido.    de material y altura.           pesado, vuelco y acceso
+                                                                  indebido.
+ Guardas, acceso, consignación,   Guardas, emergencia,
+ captación y desatasco.           consignación, pasarelas y       Segregación, visibilidad,
+                                  limpieza segura.                comunicación y
+                                                                  estacionamiento.
+DOCUMENTACIÓN, CONFORMIDAD Y MARCADO CE
+
+    Identificación inequívoca: fabricante, modelo, número, año y capacidad.
+    Manual disponible en idioma comprensible; declaración de conformidad
+    cuando sea exigible.
+    Inspecciones reglamentarias y adicionales; historial de defectos,
+    reparaciones y pruebas.
+    El marcado CE no sustituye la evaluación del lugar ni garantiza aptitud
+    para cualquier pendiente, material o accesorio.
+    Una modificación sustancial o un accesorio no previsto altera estabilidad,
+    visibilidad y conformidad.
+Conformidad cuando sea exigible; aptitud de uso según evaluación, fabricante y condiciones del centro.
+ROPS, FOPS Y CINTURÓN
+
+ROPS, estructura de protección en caso de vuelco, y FOPS, estructura de
+protección frente a caída de objetos, protegen según diseño.
+   Comprobar integridad, anclajes, corrosión y reparaciones.
+   El cinturón mantiene al ocupante en el volumen protegido.
+   Comprobar anclaje, hebilla, cinta, enrollado y uso.
+ROPS y cinturón funcionan como un sistema.
+Un cinturón con riesgo de vuelco es defecto crítico.
+FRENOS, DIRECCIÓN, VISIBILIDAD Y AVISADORES
+
+
+  Frenos                                                  Dirección
+  Servicio, emergencia y estacionamiento. Prueba          Holguras, respuesta, fugas y prueba.
+  prescrita, alarmas y fugas.
+
+
+
+
+  Visibilidad                                             Avisos
+  Cristales, espejos, cámaras, radar, luces y limpieza.   Acústicos y luminosos; no sustituyen la separación.
+
+
+Fallo de frenado o dirección: condición de parada.
+Las pruebas son las prescritas para el equipo.
+GUARDAS Y PARADAS DE EMERGENCIA
+
+Guardas
+Impiden acceso a partes móviles o proyecciones. Comprobar presencia,
+fijación, abertura, enclavamiento y ausencia de puentes.
+
+Parada de emergencia
+Detiene con rapidez. Comprobar acceso, identificación, prueba, rearme y
+alcance.
+Guarda crítica inoperativa o protección activada: condición de parada.
+Rearmar sin investigar la causa normaliza la desviación.
+INSPECCIÓN ANTES DEL USO
+
+Recorrido estable, con el equipo inmovilizado y sin entrar bajo elementos elevados.
+
+ ZONA                  COMPROBAR
+
+ Entorno               Suelo, borde, personas, líneas, iluminación y ruta.
+
+ Exterior e            Fugas, daños, neumáticos u orugas, pasadores,
+ implemento            bloqueos y latiguillos.
+
+ Cabina y arranque     Cinturón, cristales, espejos, cámara, extintor,
+                       indicadores, frenos, dirección y emergencia.
+
+ Documentación         Chequeo, autorización y defectos previos.
+
+Defecto crítico abierto o falta de autorización: no se usa.
+DEFECTOS: CRÍTICO, LIMITANTE, MENOR
+
+
+
+  Crítico                                 Limitante                               Menor
+  Inmovilizar, señalar, aislar y          Solo con evaluación y                   Registrar y programar
+  reparar antes de usar.                  autorización documentadas,              corrección sin pérdida de
+                                          con restricción y plazo.                función de seguridad.
+  Freno o dirección, cinturón con
+  riesgo de vuelco, daño
+  estructural, fuga caliente o
+  guarda crítica.
+
+
+Criterio conservador: si no se conoce función o consecuencia, no es menor. Consultar y mantener fuera de servicio.
+ACTIVIDAD DEL ALUMNO · 30 MINUTOS
+
+ACTIVIDAD DE INSPECCIÓN EN CAMPO
+
+Aplicad el recorrido de inspección previa sobre una máquina real o
+fotografías de una máquina minera.
+   Recorred entorno, exterior, implemento, cabina, arranque y
+   documentación.
+   Registrad los defectos observados.
+   Clasificad cada defecto.
+   Justificad la decisión de inmovilización.
+Puesta en común por equipos. Se valora la clasificación razonada y la
+decisión de uso, no solo completar casillas.
+MANTENIMIENTO SEGURO Y FLUIDOS A PRESIÓN
+
+ Planificar lugar, acceso, limpieza, iluminación, herramientas, repuestos,
+ izado y fluidos.
+ Liberar presión según el manual del fabricante.
+ Una manguera puede inyectar fluido bajo la piel sin herida aparente
+ importante: tratar como urgencia médica.
+ No buscar fugas con la mano; usar un método seguro.
+ Neumáticos y ruedas requieren procedimiento específico y exclusión.
+IMPLEMENTOS ELEVADOS Y TRABAJOS EN CALIENTE
+
+ Bajar los implementos. Si deben elevarse, usar soportes mecánicos
+ diseñados.
+ Nunca confiar en la hidráulica; un tablón no es un soporte calculado.
+ Para soldar o cortar: retirar combustibles, limpiar, controlar atmósfera y
+ fuego, y mantener vigilancia.
+ Tras reparar: reponer guardas, retirar bloqueos con control, probar en
+ zona segura y comunicar el retorno.
+EPI: EL ÚLTIMO CONTROL
+
+El equipo de protección individual protege frente al riesgo residual y se
+selecciona a partir de la evaluación.
+    La certificación no asegura compatibilidad: casco, gafas, orejeras,
+    respirador y ropa pueden interferir.
+    El ajuste real, el estado y la limpieza forman parte de la protección.
+    Ninguna medida de EPI sustituye controles de orden superior.
+
+
+
+
+Real Decreto 773/1997.
+EPI POR RIESGO: SELECCIÓN Y AJUSTE
+
+ RIESGO O               SELECCIÓN Y COMPROBACIÓN
+ ZONA
+ Cabeza                 Casco; barboqueo cuando proceda.
+ Ojos y cara            Gafas cerradas o pantalla según impacto, polvo o
+                        salpicadura.
+ Ruido                  Tapón, orejera o doble protección; atenuación real y
+                        ajuste.
+ Polvo / SCR            Protección respiratoria definida por evaluación; filtro,
+                        ajuste, barba y prueba.
+ Pies y manos           Calzado de seguridad; guante según agente.
+ Alta visibilidad y     Prenda certificada; sistema completo anticaída,
+ caída                  priorizando la protección colectiva.
+
+Referencia técnica: INSST, NTP 733.
+ESCALERAS, ANDAMIOS Y PLATAFORMAS ELEVADORAS
+
+
+ Escalera                                               Andamio o plataforma
+ Tipo, longitud, apoyo, sujeción, ángulo y estado. No   Montaje, inspección, nivel, barandilla, acceso, carga
+ usar como puesto de trabajo.                           y exclusión.
+
+
+
+
+ Plataforma elevadora                                   Punto de anclaje
+ Terreno, estabilizadores, alcance, viento, rescate y   Diseño o cálculo, ubicación e inspección.
+ operador.
+IZADO, ESLINGAS Y ACCESORIOS
+
+El plan de izado define masa y centro de gravedad, equipo y accesorios,
+configuración, capacidad, terreno, exclusión, señalista, comunicaciones
+y respuesta ante fallo.
+
+Eslinga y accesorio
+Identificación, capacidad, ángulo, aristas, estado y compatibilidad.
+
+Gato y soporte
+Capacidad, apoyo y estabilidad; nunca solo el gato.
+Nadie se sitúa bajo carga suspendida.
+ACTIVIDAD DEL ALUMNO · 20 MINUTOS
+
+CASOS 3A Y 3B
+
+3A. Cámara averiada
+Falla la cámara trasera de un volquete. Hay alarma, la descarga exige
+marcha atrás junto a un borde y circulan contratas.
+Clasificad el defecto y decidid si hay alternativa admisible.
+
+3B. Cambio de latiguillo
+Un latiguillo pierde aceite; la cuchara está elevada y el motor parado. Se
+propone un tablón bajo el brazo.
+Enumerad las energías y el método seguro. Puesta en común.
+BLOQUE 3. COMPROBACIÓN
+
+1. Clasifica como crítico, limitante o menor: fallo de freno, daño cosmético,
+   cinturón con riesgo de vuelco y elemento secundario sin función necesaria.
+2. Razona si es verdadero o falso: «El marcado CE vale para cualquier terreno».
+3. ¿Con qué se asegura un implemento elevado?
+4. Una trituradora dispara la protección varias veces por semana y se rearma sin
+   investigar. ¿Qué decides?
+BLOQUE 3. RESOLUCIONES Y RESPUESTAS
+
+3A. La pérdida de visibilidad en una maniobra crítica no se compensa con alarma.
+Inmovilizar para reparar o rediseñar con ruta sin marcha atrás, zona cerrada o
+señalista competente, si evaluación y DIS lo permiten.
+3B. Energía gravitatoria e hidráulica y posible arranque. Bajar implemento o instalar
+soporte diseñado; consignar, descargar presión y verificar.
+   Freno y cinturón: críticos. Cosmético: menor.
+   Falso: el CE no sustituye la evaluación del uso.
+   Implemento elevado: soporte diseñado.
+OBJETIVOS DE LA VIGILANCIA Y QUÉ VIGILAR
+
+Controlar es comparar el estado real con un estándar, actuar ante
+desviaciones y comprobar el cierre.
+   Frentes, bancos, bermas y escombreras.
+   Pistas, accesos y bordes; plataformas y tajos.
+   Planta e instalaciones.
+   Polvo, ruido y vibración.
+   Entorno exterior: terceros, obras vecinas y meteorología.
+FRECUENCIAS Y DISPARADORES EXTRAORDINARIOS
+
+ ÁMBITO                    VIGILANCIA                   DISPARADORES
+                           PREVISTA
+
+ Frentes y                                                                                            Según         Lluvia,
+ escombreras                                                                                          riesgo,       hielo,
+                                                                                                      turno y       sismo,
+                                                                                                      programa      voladura,
+                                                                                                      geotécnico.   caída,
+                                                                                                                    grieta,
+                                                                                                                    excavación
+                                                                                                                    o drenaje.
+
+ Pistas y accesos          Antes y durante la           Tormenta, derrame, daño, equipo mayor o
+                           operación.                   incidente.
+
+ Planta                    Rondas definidas.            Atasco, protección activada, fuga o
+                                                        reparación.
+
+ Polvo, ruido y            Programa.                    Cambio de material, proceso, cabina, filtro
+ vibración                                              o síntoma.
+
+Las frecuencias son orientativas; las fija el centro.
+INSPECCIÓN QUE PRODUCE DECISIONES
+
+01                                                    02
+
+Preparar el estándar                                  Observar desde zona segura
+Plano, proyecto, DIS, elementos críticos y defectos   Flujos, terreno, personas, energía, polvo y agua.
+abiertos.
+
+03                                                    04
+
+Recorrer                                              Clasificar
+Secuencia fija y conversación con ejecutantes.        Control inmediato, parada, aislamiento o seguimiento.
+
+05                                                    06
+
+Asignar                                               Verificar
+Responsable, plazo y criterio de cierre.              Cierre en campo y análisis de repetición o tendencia.
+REGISTRO DE DESVIACIONES Y ACCIONES CORRECTORAS
+
+Cada desviación se clasifica y recibe responsable, plazo y criterio de     TARJETA DE DESVIACIÓN
+cierre.
+                                                                           Clasificación
+Una foto no siempre prueba la función recuperada: se verifica en
+campo.                                                                     Responsable
+Analizar la repetición: repetir el parche no cierra la causa.
+                                                                           Plazo
+Herramientas docentes del manual
+                                                                           Criterio de cierre
+Lista diaria del técnico, tarjeta de parada y reevaluación, e inspección
+geotécnica visual.                                                         Verificación en campo
+
+Son modelos que deben adaptarse, aprobarse y validarse en el centro.
+NORMAL, ALERTA Y ALARMA
+
+
+  Normal                                  Alerta                                 Alarma
+  Dentro de criterios.                    Cambio o tendencia.                    Criterio superado o fallo.
+  Operar y registrar.                     Aumentar control, limitar,             Parar, aislar, excluir, evaluar
+                                          preparar medida y comunicar.           y corregir. Reapertura con
+                                          Vuelta a criterios y validación.       autorización documentada y
+                                                                                 seguimiento.
+
+
+
+
+Los valores proceden del diseño, instrumentación, fabricante, evaluación o plan de emergencia. No se inventan
+durante una incidencia.
+DERECHO Y DEBER DE PARADA
+
+La parada debe ser una capacidad operativa
+El centro define:
+   Cómo avisar y dejar el equipo seguro.
+   Cómo controlar la zona y evaluar.
+   Quién autoriza la reanudación.
+Quien comunica recibe respuesta y cierre.
+REAPERTURA DOCUMENTADA
+
+Reanudar por presión, por ausencia de daño previo o por normalización de la desviación equivale a aceptar riesgo sin
+base.
+
+ REGISTRO                CONTENIDO
+ MÍNIMO
+
+ Identificación          Fecha, hora y ubicación; condición observada.
+
+ Exposición              Riesgo y expuestos; acción inmediata y zona
+                         aislada.
+
+ Corrección              Evaluación y medida; prueba de eficacia.
+
+ Reapertura              Autoridad y hora; seguimiento.
+
+Autoriza quien define el DSS o la DIS.
+ACTIVIDAD DEL ALUMNO · 15 MINUTOS
+
+CASO 4A. DEFECTO REPETIDO
+
+Durante tres semanas se rellena el mismo bache en una pendiente. La
+reparación falla y los conductores invaden el carril contrario.
+
+Definir una acción que cierre la causa
+Puesta en común tras el trabajo del grupo.
+   Control del tráfico.
+   Análisis de drenaje, base, carga, pendiente y método.
+   Verificación posterior.
+BLOQUE 4. COMPROBACIÓN
+
+1. Elección múltiple: ¿qué hace el nivel de alarma?
+2. Ordenación: ordena la inspección: verificar cierre, preparar estándar, clasificar,
+   observar desde zona segura
+3. Decisión: producción presiona para reanudar una zona cerrada. ¿Quién puede
+   autorizarlo?
+4. Verdadero o falso razonado: «Una foto basta para cerrar una desviación»
+BLOQUE 4. RESOLUCIÓN Y RESPUESTAS
+
+4A. Controlar el tráfico y analizar drenaje, base, carga, pendiente y método. La
+acción restaura estructura y evacuación, y se verifica durante un periodo. Repetir el
+relleno no cierra la causa.
+   Alarma: parar, aislar, excluir, evaluar y corregir.
+   Orden: preparar, observar, clasificar y verificar el cierre.
+   Reanuda la autoridad definida, con documentación.
+   Falso: el cierre exige función recuperada.
+INTERFERENCIA Y RIESGO EMERGENTE
+
+Hay interferencia cuando una actividad modifica las condiciones de
+otra o comparte su trayectoria.
+Dos procedimientos correctos pueden ser incompatibles.
+   Un equipo bloquea una salida; una contrata cruza una voladura.
+   Mantenimiento energiza una línea que producción considera
+   aislada.
+   Una carretera pública queda expuesta a polvo o proyecciones.
+DIMENSIONES DE LA INTERFERENCIA
+
+DIMENSIÓN     PREGUNTA DE COORDINACIÓN
+
+Espacio       ¿Comparten zona, ruta, altura, banco o área
+              de caída o proyección?
+
+Tiempo                                                      ¿La
+                                                            simultaneidad
+                                                            crea
+                                                            exposición?
+                                                            ¿Puede
+                                                            secuenciarse?
+
+Energía       ¿Quién controla aislamiento, arranque,
+              presión, carga, electricidad o explosivo?
+
+Información   ¿Todos conocen cambios, restricciones,
+              idioma y señales?
+
+Autoridad     ¿Quién puede parar, modificar y autorizar
+              reanudación?
+
+Emergencia    ¿Son compatibles alarma, evacuación,
+              recuento, acceso y rescate?
+COORDINACIÓN DE ACTIVIDADES EMPRESARIALES
+
+
+   Empresa titular                        Empresas concurrentes             Empresa principal
+   Informa de riesgos y medidas           Informan de sus riesgos           Vigila a contratistas y
+   del centro.                            específicos que puedan afectar    subcontratistas dentro del
+                                          a otras.                          alcance legal.
+
+
+Medios proporcionales: reunión, recurso preventivo, coordinador, permiso,
+plan común, consignación, control de acceso o secuencia exclusiva.
+No se agota en intercambiar documentos.
+Real Decreto 171/2004.
+LA COORDINACIÓN EN CINCO MOMENTOS
+
+1   Antes de contratar
+    Alcance, interfaces, competencia, equipos y controles críticos.
+
+2   Antes de entrar
+    Documentación relevante, acogida, comunicación, emergencia y autorización.
+
+3   Antes de cada trabajo
+    Condiciones reales, simultaneidad, zona, energía, tráfico y cambios.
+
+4   Durante
+    Supervisar barreras; canal único para modificaciones.
+
+5   Al cerrar
+    Entregar instalación, retirar aislamientos y materiales, informar defectos y verificar estado.
+REUNIÓN PREVIA DE COORDINACIÓN
+
+ CAMPO                       ACUERDO NECESARIO
+
+ Alcance y límites           Plano o referencia física; tareas excluidas.
+
+ Responsables y              Nombres, sustitución, orden, hitos e
+ secuencia                   incompatibilidades.
+
+ Energía y tráfico           Puntos, bloqueos, custodios; rutas,
+                             prioridad, señalista y cortes.
+
+ Cambios                                                                    Qué
+                                                                            obliga a
+                                                                            parar y
+                                                                            quién
+                                                                            aprueba.
+
+ Emergencia y cierre         Alarma, recuento, rescate, estado final y
+                             aceptación.
+
+Modelo del anexo C del manual: adaptar y validar en cada centro.
+PERMISOS Y CONSIGNACIONES COMPARTIDAS
+
+La prueba de un equipo puede introducir energía o material en otro.
+   Consignación conjunta de equipos relacionados, aguas arriba y abajo.
+   Custodia de bloqueos y cambio de turno definidos.
+   Procedimiento de prueba y retorno acordado.
+Ninguna parte modifica unilateralmente el aislamiento.
+INTERFERENCIAS FRECUENTES EN EXTERIOR
+
+ Voladura con mantenimiento, tráfico, perforación, drones o terceros.
+ Carga y transporte con peatones, topografía, muestreo, vehículos
+ ligeros o limpieza.
+ Producción con mantenimiento en cintas, tolvas, trituradoras o
+ cuadros.
+ Excavación con líneas aéreas, tuberías, cables o edificaciones.
+ Vertido con equipos al pie, agua o circulación por coronación.
+ Trabajo en caliente con combustibles; trabajo nocturno con poca
+ iluminación.
+COORDINACIÓN DE EMERGENCIAS
+
+
+
+
+Alarma, evacuación, recuento, acceso y rescate deben ser compatibles
+entre empresas.
+   Número interno y 112, ubicación y coordenadas, punto de acceso y
+   guía.
+   Alarma y canales alternativos; reunión y recuento.
+   Riesgos que impiden el acceso; medios, primeros auxilios y rescate
+   específico.
+   Información de sustancias y energías; responsable designado.
+ACTIVIDAD DEL ALUMNO · 15 MINUTOS
+
+CASO 5A. MANTENIMIENTO Y PRODUCCIÓN
+
+Una contrata cambia un rodamiento en un transportador. Producción quiere
+probar el triturador aguas arriba. La contrata ha bloqueado solo el motor
+local.
+
+Identificar el control común y quién decide
+Puesta en común después del trabajo del grupo.
+   Consignación conjunta.
+   Custodia de bloqueos.
+   Comunicación.
+   Procedimiento de prueba.
+BLOQUE 5. COMPROBACIÓN, RESOLUCIÓN Y RESPUESTAS
+
+Comprobación
+Clasifica interferencias en tres escenarios; verdadero o falso sobre la CAE; decisión
+ante un trabajo simultáneo.
+
+Resolución 5A
+La prueba puede introducir energía o material. Se necesita consignación conjunta
+de equipos relacionados, custodia de bloqueos, comunicación y procedimiento de
+prueba.
+Ninguna parte modifica unilateralmente el aislamiento.
+La CAE eficaz controla interferencias; no intercambia solo papeles.
+MARCO NORMATIVO POR NIVELES
+
+Cada decisión del técnico tiene una norma que la gobierna. Agrupe las referencias por nivel y
+tradúzcalas en obligaciones, documentos y verificaciones.
+
+ NIVEL                         NORMAS PRINCIPALES               APLICACIÓN
+
+ Minería                       Ley de Minas; RGNBSM; ITC VII;   Diseño, operación, organización,
+                               ITC 02.1.02; ET 2003-1-10; ITC   formación, polvo y reglas específicas
+                               02.0.02
+
+ Prevención                    Ley 31/1995 y Real Decreto       Principios, evaluación, planificación,
+                               39/1997                          formación y organización
+
+ Extractivas                   Real Decreto 1389/1997           Disposiciones mínimas para minería
+                                                                por sondeos y explotaciones
+
+ Equipos y EPI                 Reales Decretos 1215/1997 y      Adecuación, uso, comprobación y
+                               773/1997                         protección personal
+
+ Coordinación                  Real Decreto 171/2004            Concurrencia, titular, principal y
+                                                                medios
+
+ Agentes                       RD 665/1997, RD 286/2006 y RD    Sílice y cancerígenos, ruido,
+                               1311/2005                        vibraciones y vigilancia
+
+ Explosivos y                  RD 130/2017 y RD 614/2001        Habilitaciones, coordinación y riesgo
+ electricidad                                                   eléctrico
+
+Referencia: manual InmínerCampus, Capítulo 6, tabla 6.1.
+LA ITC 02.1.02 Y LA ET 2003-1-10
+
+La ITC 02.1.02 regula la formación preventiva para los puestos mineros. Para el
+grupo 5.2.a, la ET 2003-1-10 fija un curso inicial de veinte horas con este reparto:
+
+ BLOQUE OFICIAL                                              HORAS          CAPÍTULO
+
+ 1. Definición de los trabajos                               1              Capítulo 1
+
+ 2. Técnicas preventivas y de protección                     7              Capítulo 2
+
+ 3. Equipos de trabajo, EPI y medios                         7              Capítulo 3
+
+ 4. Control y vigilancia del entorno                         2              Capítulo 4
+
+ 5. Interferencias con otras actividades                     2              Capítulo 5
+
+ 6. Normativa y legislación                                  1              Capítulo 6
+
+Referencia: ITC 02.1.02; ET 2003-1-10; manual InmínerCampus, trazabilidad del programa.
+FORMACIÓN PRESENCIAL, RECICLAJE Y PERIODICIDAD
+
+La formación reglada de la ITC 02.1.02 tiene requisitos que el técnico y la empresa
+deben cumplir:
+    Modalidad: la ITC establece formación presencial.
+    Reciclaje: mínimo de cinco horas.
+    Periodicidad: máximo cuatro años para técnicos titulados de exterior, grupo
+    5.2.a.
+    Registro: la empresa registra y certifica la formación según el sistema
+    aplicable.
+Audios, diapositivas y pruebas no sustituyen la asistencia presencial. Son
+repaso y preparación.
+Referencia: ITC 02.1.02; ET 2003-1-10; manual InmínerCampus, 6.2.
+REGLAMENTO MINERO E ITC APLICABLES
+
+El nivel minero fija reglas de diseño, operación y organización que deben
+comprobarse siempre contra el proyecto aprobado.
+    Reglamento General de Normas Básicas de Seguridad Minera (RGNBSM).
+    ITC del capítulo VII: trabajos a cielo abierto, con distancias y bermas.
+    ITC 02.0.02: protección frente al polvo.
+    Ley de Minas y la ITC 02.1.02 de formación.
+Cuando la ITC fija un límite, ese límite prevalece sobre la costumbre de la
+explotación.
+
+Referencia: RGNBSM (RD 863/1985); ITC capítulo VII; ITC 02.0.02.
+LEY 31/1995 Y SU DESARROLLO
+
+La prevención de riesgos laborales es el marco general sobre el que se apoyan las
+normas mineras.
+    Ley 31/1995: principios de la acción preventiva, evaluación, planificación,
+    formación y organización.
+    Real Decreto 39/1997: desarrollo de la organización de la prevención.
+    Real Decreto 1389/1997: disposiciones mínimas para la minería por sondeos y
+    explotaciones.
+La evaluación de riesgos y la planificación de la actividad son obligaciones de la
+empresa, no decisiones individuales del técnico.
+Referencia: Ley 31/1995; RD 39/1997; RD 1389/1997 (manual, Capítulo 6).
+EQUIPOS DE TRABAJO, EPI Y COORDINACIÓN
+
+Tres normas regulan lo que el técnico maneja, protege y coordina en el puesto.
+
+Equipos de trabajo: RD 1215/1997
+Adecuación del equipo, uso y comprobación periódica.
+
+EPI: RD 773/1997
+Protección personal: selección, uso y mantenimiento de los equipos de protección.
+
+Coordinación: RD 171/2004
+Concurrencia de empresas: titular, principal y medios compartidos.
+Referencia: RD 1215/1997; RD 773/1997; RD 171/2004.
+POLVO, SÍLICE, RUIDO Y VIBRACIONES
+
+Los agentes físicos y químicos se regulan con normas de exposición, medición y
+vigilancia.
+
+ AGENTE                           NORMA                    QUÉ REGULA
+
+ Sílice y cancerígenos            RD 665/1997              Exposición, control y vigilancia
+
+ Ruido                            RD 286/2006              Evaluación, protección y
+                                                           vigilancia
+
+ Vibraciones                      RD 1311/2005             Evaluación, límites y vigilancia
+
+ Polvo minero                     ITC 02.0.02              Protección frente al polvo en
+                                                           la explotación
+
+Referencia: RD 665/1997; RD 286/2006; RD 1311/2005; ITC 02.0.02.
+EXPLOSIVOS Y ELECTRICIDAD: QUÉ NO HABILITA EL CURSO
+
+Explosivos: RD 130/2017
+Las operaciones con explosivos corresponden al personal habilitado en el marco
+del Reglamento de Explosivos.
+
+Electricidad: RD 614/2001
+Riesgo eléctrico en líneas, proximidades y equipos energizados.
+
+Qué no habilita el curso
+    Ser artillero ni manipular explosivos.
+    Realizar trabajos eléctricos sin la cualificación exigida.
+El técnico coordina, delimita interferencias y verifica condiciones.
+Referencia: RD 130/2017; RD 614/2001; manual InmínerCampus, Anexo A.
+NORMA, GUÍA, NTP, FABRICANTE Y REGLA INTERNA
+
+ TIPO                     VALOR                                 USO CORRECTO
+
+ Norma jurídica           Obligatoria en su ámbito              Comprobar texto consolidado,
+                                                                fecha y ámbito
+
+ Guía oficial             Criterio técnico; puede no ser        No convertir recomendaciones
+                          vinculante                            en obligación literal
+
+ NTP o documento          Buena práctica no vinculante          Adaptar a riesgo y tecnología
+                          salvo incorporación                   actuales
+
+ Manual del               Instrucción esencial del              Integrar con la evaluación; no
+ fabricante               equipo                                anular protecciones
+
+ Regla interna            Obligatoria en el centro              Mantener coherencia, formar y
+                          cuando se establece                   supervisar
+                          válidamente
+
+Regla de prevalencia: legislación vigente, condiciones de la autoridad minera,
+proyecto aprobado, DSS, disposiciones internas y fabricante.
+Referencia: manual InmínerCampus, 6.3 y regla de prevalencia.
+REVISIÓN NORMATIVA EN CINCO PASOS
+
+1. Registrar cada norma con enlace oficial, versión, responsable y fecha.
+2. Vigilar BOE, autoridad autonómica, MITECO e INSST.
+3. Analizar el impacto en proyecto, DSS, DIS, formación, equipos y mediciones.
+4. Aprobar, comunicar, formar y conservar la evidencia.
+5. Retirar las versiones obsoletas del uso, conservando el archivo.
+
+
+
+
+Referencia: manual InmínerCampus, 6.4 y 6.5.
+

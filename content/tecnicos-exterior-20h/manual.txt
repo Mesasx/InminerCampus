@@ -1,0 +1,2328 @@
+FORMACIÓN MINERA · ITC 02.1.02
+
+
+Formación preventiva para técnicos
+titulados en actividades extractivas de
+exterior
+Manual del alumno para el curso inicial de 20 horas
+
+ITC 02.1.02 · GRUPO 5.2.a · ET 2003-1-10
+Edición 1.1
+Revisión normativa y técnica cerrada a 23 de octubre de 2026
+
+
+
+
+Uso docente
+Este manual desarrolla el programa oficial y lo convierte en criterios de decisión, prácticas de inspección y
+herramientas de trabajo para técnicos titulados. No sustituye el proyecto de explotación, el Documento
+sobre Seguridad y Salud, las disposiciones internas de seguridad, las instrucciones del fabricante ni las
+autorizaciones específicas exigibles.
+                                                                       FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+Control documental
+                               Campo                                                     Contenido
+
+                                                                 Formación preventiva para técnicos titulados en actividades
+ Título
+                                                                 extractivas de exterior
+
+ Itinerario                                                      ITC 02.1.02, grupo 5.2.a
+
+ Programa                                                        Especificación técnica 2003-1-10
+
+ Duración inicial                                                20 horas, modalidad presencial
+
+                                                                 5 horas como mínimo, con periodicidad máxima de cuatro
+ Reciclaje
+                                                                 años para el grupo 5.2.a
+
+ Edición                                                         1.1
+
+ Fecha de revisión                                               23 de octubre de 2026
+
+ Responsable editorial                                           InmínerCampus
+
+
+
+Alcance y reglas de uso
+  El manual sirve de soporte al curso inicial presencial de 20 horas. La formación reglada de la ITC
+   02.1.02 debe impartirse de forma presencial; el estudio autónomo, las diapositivas y los futuros audios
+   son apoyo, no sustitución de las horas obligatorias.
+  Las dimensiones, límites y reglas de la explotación deben comprobarse siempre contra el proyecto
+   aprobado, las disposiciones internas de seguridad y la evaluación actualizada. Este manual no autoriza
+   desviaciones.
+  Las operaciones con explosivos corresponden al personal habilitado y al marco específico del
+   Reglamento de Explosivos. El técnico formado con este curso coordina, delimita interferencias y verifica
+   condiciones; no adquiere por ello la condición de artillero.
+  Cuando cambien el terreno, el agua, el método, la secuencia, el equipo, la organización o el entorno,
+   debe revisarse el riesgo antes de continuar.
+Regla de prevalencia. Ante cualquier diferencia, prevalecen la legislación vigente, las condiciones
+impuestas por la autoridad minera, el proyecto aprobado, el Documento sobre Seguridad y Salud, las
+disposiciones internas de seguridad y las instrucciones del fabricante.
+
+Qué acredita y qué no acredita este curso
+                              Sí aporta                                            No aporta por sí solo
+
+ Formación preventiva específica para el puesto de técnico
+                                                                 Autorización para manejar cada máquina minera móvil.
+ titulado de exterior dentro del grupo 5.2.a.
+
+ Criterios para planificar, supervisar, inspeccionar y detener
+                                                                 Carné o habilitación para el uso de explosivos.
+ trabajos inseguros.
+
+ Comprensión del DSS, de las DIS y de la coordinación            Competencia automática para firmar cualquier proyecto,
+ entre actividades.                                              estudio geotécnico o documento reglamentario.
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                     Página 2
+                                                                          FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                              Sí aporta                                                  No aporta por sí solo
+
+ Base para integrar seguridad, salud, producción y                   Sustitución de la formación práctica, de acogida o
+ mantenimiento.                                                      específica del centro y del equipo.
+
+
+
+Trazabilidad del programa oficial
+               Bloque oficial                                   Horas                            Desarrollo en este manual
+
+ 1. Definición de los trabajos                     1                                       Capítulo 1
+
+ 2. Técnicas preventivas y de protección
+                                                   7                                       Capítulo 2
+ específicas
+
+ 3. Equipos de trabajo, EPI y medios
+                                                   7                                       Capítulo 3
+ auxiliares
+
+ 4. Control y vigilancia del lugar y su
+                                                   2                                       Capítulo 4
+ entorno
+
+ 5. Interferencias con otras actividades           2                                       Capítulo 5
+
+ 6. Normativa y legislación                        1                                       Capítulo 6
+
+                                                                                           Evaluación y anexos incluidos como
+                     Total                         20
+                                                                                           soporte docente
+
+
+Fuente: BOE. ITC 02.1.02, formación preventiva para el desempeño del puesto de trabajo
+
+Fuente: BOE. Especificación técnica 2003-1-10
+
+
+Cómo trabajar con el manual
+1. Antes de cada bloque, lea los resultados de aprendizaje y relacione cada uno con una tarea real de su
+    explotación.
+2. Durante la explicación, anote qué documento del centro concreta cada criterio: proyecto, DSS, DIS, plan
+    de tráfico, procedimiento, permiso o instrucción.
+3. Resuelva las actividades con datos del centro. Una respuesta general no sustituye una decisión basada
+    en el terreno y en la máquina reales.
+4. Utilice las listas de comprobación para aprender el orden de una inspección, pero no las implante sin
+    validarlas para el centro.
+5. Cierre cada bloque identificando una condición de parada, una verificación crítica y una evidencia que
+    deba quedar registrada.
+
+
+Mapa de contenidos
+   0. El técnico titulado y el sistema preventivo minero
+   1. Definición de los trabajos 1 hora
+   2. Técnicas preventivas y de protección específicas 7 horas
+   3. Equipos de trabajo, EPI y medios auxiliares 7 horas
+   4. Control y vigilancia del lugar de trabajo y su entorno 2 horas
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                           Página 3
+                                                            FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+   5. Interferencias con otras actividades 2 horas
+   6. Normativa y legislación 1 hora
+   Anexos operativos, casos, evaluación, soluciones, glosario y fuentes
+
+Abreviaturas
+                            Abreviatura                                          Significado
+
+ DSS                                                   Documento sobre Seguridad y Salud
+
+ DIS                                                   Disposición Interna de Seguridad
+
+ EPI                                                   Equipo de protección individual
+
+ ET                                                    Especificación técnica
+
+ ITC                                                   Instrucción técnica complementaria
+
+ LOTO                                                  Bloqueo y consignación de energías
+
+ PRL                                                   Prevención de riesgos laborales
+
+ SCR                                                   Sílice cristalina respirable
+
+ VLA ED                                                Valor límite ambiental de exposición diaria
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                         Página 4
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 0 · Marco de partida
+
+
+El técnico titulado y el sistema preventivo minero
+La seguridad en una explotación exterior no se consigue acumulando normas, sino
+convirtiendo el proyecto y la evaluación de riesgos en condiciones de trabajo verificables. El
+técnico conecta diseño, producción, mantenimiento, contratas y respuesta ante cambios.
+
+Resultados de aprendizaje
+  Distinguir peligro, riesgo, control, verificación y evidencia.
+  Explicar la relación entre proyecto de explotación, DSS, DIS, procedimientos e instrucciones.
+  Aplicar una jerarquía de controles antes de recurrir al EPI.
+  Reconocer cuándo una variación obliga a detener, reevaluar y autorizar de nuevo.
+
+0.1 La función técnica
+La función del técnico titulado combina anticipación y presencia en campo. Anticipar significa diseñar
+secuencias, viales, zonas de exclusión, recursos y controles antes de movilizar equipos. Estar presente
+significa comprobar que el terreno, las máquinas y las personas siguen dentro de lo previsto. La supervisión
+pierde eficacia cuando se limita a firmar documentos después del trabajo o a corregir conductas sin revisar
+las causas de diseño y organización.
+Una buena decisión técnica responde, como mínimo, a cinco preguntas: qué puede causar daño; quién o
+qué puede quedar expuesto; qué barreras impiden el suceso; cómo se sabe que esas barreras funcionan; y
+quién tiene autoridad para parar o reanudar. La respuesta se apoya en evidencias observables:
+inspecciones, mediciones, registros de mantenimiento, comunicaciones, permisos y comprobaciones de
+campo.
+
+0.2 Arquitectura documental
+                 Documento                                  Pregunta que resuelve                           Aplicación práctica
+
+                                                                                                 Método, geometría, fases, equipos,
+ Proyecto de explotación                           Cómo se diseña y desarrolla la explotación    escombreras, drenaje y condicionantes
+                                                                                                 técnicos.
+
+                                                                                                 Organización preventiva, evaluación,
+                     DSS                           Cómo se identifican y controlan los riesgos   medidas, emergencias, coordinación y
+                                                                                                 seguimiento.
+
+                                                                                                 Tráfico, mantenimiento, defectos,
+                                                   Qué regla interna obligatoria gobierna una
+                      DIS                                                                        señalización, inspecciones y trabajos
+                                                   operación
+                                                                                                 especiales.
+
+                                                                                                 Secuencia, responsables, condiciones
+                Procedimiento                      Cómo se ejecuta una tarea con control
+                                                                                                 previas, puntos de parada y registros.
+
+                                                                                                 Pasos operativos, prohibiciones,
+                  Instrucción                      Qué debe hacer el ejecutante
+                                                                                                 comunicaciones y anomalías.
+
+                                                   Quién acepta una tarea no rutinaria o de      Consignación, electricidad, altura, izado o
+                   Permiso
+                                                   alto riesgo                                   intervención especial.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                      Página 5
+                                                                             FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+0.3 Jerarquía de controles
+Los controles se seleccionan de arriba abajo. Eliminar la exposición o cambiar el diseño ofrece más
+fiabilidad que depender de que una persona recuerde una regla. Cuando una medida de orden inferior sea
+necesaria, debe integrarse en un conjunto de barreras y verificarse.
+
+            Prioridad                               Tipo                           Ejemplo                    Pregunta de verificación
+
+                                                                       Reubicar un tránsito para que       ¿Ha desaparecido la
+                 1                   Eliminar
+                                                                       no cruce la zona de carga.          interacción?
+
+                                                                       Usar un método que genere           ¿El residual es menor y no crea
+                 2                   Sustituir
+                                                                       menos polvo o proyección.           otro?
+
+                                                                       Barrera, drenaje, ROPS,             ¿Está dimensionada,
+                 3                   Ingeniería
+                                                                       captación o enclavamiento.          mantenida y probada?
+
+                                                                       Plan de tráfico, permiso, vigía o   ¿La regla es clara, practicable y
+                 4                   Organización
+                                                                       secuencia separada.                 supervisada?
+
+                                                                       Casco, gafas, protección            ¿Es adecuado, compatible,
+                 5                   EPI
+                                                                       auditiva o respiratoria.            ajustado y usado?
+
+
+
+
+0.4 Gestión del cambio
+Una explotación es dinámica. El avance modifica caras libres, bancos, distancias, drenajes, visibilidad,
+firme, radios de giro y trayectorias. Un control que era suficiente puede dejar de serlo después de una
+voladura, lluvia o entrada de un equipo mayor. La gestión del cambio se activa antes de seguir trabajando.
+
+                               Cambio                                                        Comprobación mínima
+
+                                                                       Estabilidad, discontinuidades, caída de rocas, drenaje,
+ Terreno o geología
+                                                                       exclusión y necesidad de evaluación geotécnica.
+
+                                                                       Escorrentías, erosión, blandones, visibilidad, adherencia,
+ Agua o meteorología
+                                                                       balsas y tormenta.
+
+                                                                       Dimensiones, masa, alcance, radios, frenado, visibilidad,
+ Equipo o implemento
+                                                                       compatibilidad y formación.
+
+                                                                       Interacciones, simultaneidad, zonas de espera, comunicación y
+ Secuencia o producción
+                                                                       supervisión.
+
+                                                                       Competencia, acogida, CAE, idioma, autorizaciones y reglas
+ Personal o empresa
+                                                                       locales.
+
+                                                                       Líneas, carreteras, viviendas, terceros, trabajos colindantes,
+ Entorno
+                                                                       vibraciones y proyecciones.
+
+
+Caso 0A Cambio pequeño con efecto grande
+Situación. Una motoniveladora eleva el borde interior de una pista para corregir roderas. Después de una lluvia, el agua queda
+retenida, aparece barro en una curva y los volquetes invaden el carril contrario.
+Trabajo del alumno. Identifique el cambio, las exposiciones y las medidas inmediatas. Determine quién autoriza la reapertura.
+Criterio de resolución. La corrección ha alterado el drenaje y el tráfico. Se controlan o detienen movimientos, se señaliza, se
+restablece el drenaje y se verifica firme y visibilidad antes de reabrir. Autoriza el responsable definido por el DSS o la DIS, no el
+primer conductor que pasa.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                    Página 6
+                                                                                    FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 1 · 1 hora
+
+
+Definición de los trabajos
+Antes de evaluar el riesgo hay que describir el trabajo real: qué se hace, dónde, con qué
+medios, en qué secuencia y con qué interacciones. Una descripción incompleta oculta
+exposiciones y produce controles genéricos.
+
+Resultados de aprendizaje
+  Descomponer el ciclo de una explotación exterior en operaciones y tareas.
+  Relacionar cada tarea con lugar, equipo, energía, personal y condicionantes.
+  Identificar tareas rutinarias, no rutinarias y situaciones de emergencia.
+  Preparar una definición de trabajo apta para evaluación y planificación.
+
+1.1 El ciclo de trabajo en exterior
+La actividad puede comprender investigación y preparación; retirada de tierra vegetal y desmonte;
+perforación; voladura; saneo; arranque; carga; transporte; vertido; tratamiento; acopios; expedición;
+mantenimiento; gestión de aguas; restauración y vigilancia ambiental. No todas las explotaciones utilizan
+explosivos ni la misma maquinaria, pero todas deben describir sus interfaces y estados no productivos.
+
+                     Fase                                         Tareas típicas                             Interacciones críticas
+
+                                                   Replanteo, accesos, desbroce, drenajes,        Terreno no reconocido, servicios, terceros
+                 Preparación
+                                                   vallado y servicios.                           y equipos de obra.
+
+                                                   Perforación, voladura, ripado, excavación o    Talud, proyecciones, barrenos, polvo, ruido
+                   Arranque
+                                                   corte.                                         y posición del equipo.
+
+                                                   Saneo, formación de pila, posicionamiento      Frente, giro, caída, comunicación pala-
+                    Carga
+                                                   y llenado.                                     volquete y peatones.
+
+                                                                                                  Velocidad, frenado, visibilidad, firme,
+                  Transporte                       Circulación, cruces, rampas y descarga.
+                                                                                                  bordes y prioridad.
+
+                                                   Trituración, cribado, cintas y                 Atrapamiento, atascos, energía, polvo,
+                 Tratamiento
+                                                   almacenamiento.                                ruido y tolvas.
+
+                                                   Inspección, reparación, limpieza, repostaje    Consignación, elevación, presión, calor,
+                Mantenimiento
+                                                   y útiles.                                      gravedad e incendio.
+
+                                                   Parada, abandono temporal, rehabilitación      Accesos, inestabilidad diferida, agua,
+                 Cierre parcial
+                                                   y control.                                     equipos y terceros.
+
+
+
+
+1.2 Ficha mínima de definición
+                                  Campo                                                    Contenido que debe quedar claro
+
+                                                                            Qué se pretende y cómo se reconoce que ha terminado
+ Objeto y resultado
+                                                                            correctamente.
+
+                                                                            Tajo, banco, plataforma, pista, planta o zona con límites
+ Ubicación
+                                                                            inequívocos.
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                        Página 7
+                                                                        FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                               Campo                                            Contenido que debe quedar claro
+
+ Secuencia                                                        Preparación, ejecución, comprobaciones, entrega y cierre.
+
+                                                                  Responsable, ejecutantes, operadores, empresas y terceros
+ Personas
+                                                                  expuestos.
+
+                                                                  Máquinas, sustancias y energías mecánica, eléctrica,
+ Equipos y energías
+                                                                  hidráulica, térmica, química y gravitatoria.
+
+                                                                  Autorizaciones, estabilidad, accesos, iluminación, meteorología
+ Condiciones previas
+                                                                  y comunicaciones.
+
+                                                                  Tráfico, voladura, mantenimiento, peatones, servicios,
+ Interferencias
+                                                                  contratas y entorno.
+
+ Criterios de parada                                              Defectos o variaciones que obligan a detener, aislar y escalar.
+
+                                                                  Lista, permiso, medición, registro, parte, plano o comunicación
+ Evidencias
+                                                                  formal.
+
+
+
+
+1.3 De la descripción al análisis
+El análisis debe seguir el trabajo y no una lista genérica. En cada paso se pregunta qué energía puede
+liberarse, qué trayectoria seguiría y quién entraría en ella. Las trayectorias incluyen caída de rocas,
+desplazamiento de máquina, arco eléctrico, proyección, chorro a presión, rodadura, caída a distinto nivel,
+nube de polvo o propagación de incendio.
+Condición de parada del bloque. No se inicia una tarea si no se conocen ubicación, secuencia,
+responsables, equipos, interacciones, criterios de parada y autoridad de reanudación.
+Actividad 1 Describir antes de evaluar
+Seleccione una operación real: carga de volquetes, mantenimiento de una cinta o limpieza de una tolva.
+Redacte una ficha de una página con los nueve campos anteriores. Marque con un asterisco cada dato que
+deba confirmarse en campo. Compare la ficha con el procedimiento existente y registre las diferencias.
+Fuente: BOE. Reglamento General de Normas Básicas de Seguridad Minera
+
+Fuente: BOE. ITC del capítulo VII para trabajos a cielo abierto
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                           Página 8
+                                                                              FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 2 · 7 horas
+
+
+Técnicas preventivas y de protección específicas
+Este bloque desarrolla el razonamiento preventivo aplicado a taludes, tráfico, perforación,
+voladura, mantenimiento, higiene industrial y emergencias. El objetivo es decidir con
+información suficiente y no normalizar señales de degradación.
+
+Resultados de aprendizaje
+  Aplicar la jerarquía de controles a los riesgos característicos de exterior.
+  Reconocer indicadores de inestabilidad y activar una respuesta proporcionada.
+  Diseñar controles para tráfico, puntos ciegos y vuelco.
+  Planificar trabajos con energías peligrosas y verificar su consignación.
+  Controlar exposición a polvo y sílice, ruido, vibraciones y calor.
+  Organizar la respuesta inicial ante emergencias sin aumentar el número de víctimas.
+
+2.1 Método operativo de evaluación
+La evaluación combina severidad, probabilidad y exposición, pero la cifra final no debe ocultar el escenario.
+En sucesos de consecuencias catastróficas, como colapso de talud, atropello, vuelco, explosión o contacto
+eléctrico, una baja frecuencia histórica no justifica controles débiles. Deben identificarse las barreras
+críticas y comprobarse antes y durante el trabajo.
+
+                     Paso                                         Pregunta                                  Producto
+
+                                                   ¿Qué situación o energía puede causar
+                       1                                                                    Peligro descrito de forma concreta.
+                                                   daño?
+
+                       2                           ¿A quién o qué alcanza y por qué vía?    Exposición y trayectoria.
+
+                                                   ¿Qué escenario máximo razonable
+                       3                                                                    Consecuencia y alcance.
+                                                   puede ocurrir?
+
+                                                   ¿Qué controles existen y de qué          Barreras de diseño, técnicas,
+                       4
+                                                   dependen?                                organizativas y personales.
+
+                                                   ¿Qué prueba que cada barrera             Criterio de aceptación, frecuencia y
+                       5
+                                                   funciona?                                responsable.
+
+                       6                           ¿Qué cambio invalida el análisis?        Disparadores de revisión y parada.
+
+
+
+
+2.2 Taludes, bancos, bermas y plataformas
+La estabilidad depende de la geología, discontinuidades, meteorización, agua, geometría, excavación,
+daños de voladura, vibraciones, cargas próximas al borde y evolución temporal. Un talud que no muestra
+caída visible puede estar degradándose. Por eso el diseño geotécnico y la observación sistemática son
+complementarios.
+El proyecto define alturas, ángulos, bermas, secuencia y drenaje. La ITC del capítulo VII exige que las
+bermas definitivas respondan a un estudio geotécnico y que las plataformas permitan maniobrar sin
+aproximaciones innecesarias. En el trabajo normal establece una distancia mínima de cinco metros al
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                              Página 9
+                                                                                FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+borde del banco; situaciones especiales requieren topes o barreras no franqueables. Estas referencias no
+sustituyen condiciones más restrictivas del proyecto.
+
+                  Indicador                                  Qué puede significar                            Respuesta inicial
+
+                                                   Apertura de mecanismo de rotura o            Aislar, señalizar, comparar y comunicar al
+ Grietas nuevas o crecientes
+                                                   asiento.                                     responsable geotécnico.
+
+                                                   Descalce, meteorización o daño de            Retirar personas y equipos; no sanear sin
+ Caída de fragmentos
+                                                   voladura.                                    método autorizado.
+
+                                                                                                Ampliar exclusión y pedir evaluación
+ Abombamiento en el pie                            Deformación o desplazamiento del macizo.
+                                                                                                especializada.
+
+                                                                                                Controlar evolución; no bloquear sin
+ Agua turbia o surgencia                           Cambio de presión, erosión o nueva vía.
+                                                                                                análisis; revisar drenajes.
+
+                                                   Movimiento diferencial o pérdida de
+ Escalón, hundimiento o berma deformada                                                         Cerrar y verificar geometría y estabilidad.
+                                                   capacidad.
+
+                                                                                                Planificar limpieza sin exponer equipo bajo
+ Material acumulado en berma                       Pérdida de retención y drenaje.
+                                                                                                el frente.
+
+                                                   Reducción de resistencia o                   Inspección extraordinaria antes de
+ Cambio tras lluvia, hielo o voladura
+                                                   discontinuidades.                            reanudar.
+
+
+
+Inspección geotécnica en tres niveles
+
+                     Nivel                                     Quién y cuándo                                    Objetivo
+
+                                                   Personal y supervisión al inicio y durante   Detectar cambios visibles, caída, agua y
+                  Operativa
+                                                   el turno.                                    exposición inmediata.
+
+                                                   Personal competente con frecuencia           Comparar con diseño, registros,
+                   Técnica
+                                                   definida y tras eventos.                     instrumentación y umbrales.
+
+                                                   Profesional geotécnico cuando el riesgo      Analizar mecanismo, medidas y
+                Especializada
+                                                   o cambio lo exija.                           condiciones de reapertura.
+
+
+La guía de MITECO sobre control geotécnico insiste en que la explotación modifica continuamente las
+condiciones y que el seguimiento no puede limitarse a la comprobación inicial. Los métodos
+observacionales sirven para priorizar y detectar; no sustituyen cálculos, instrumentación ni juicio
+especializado cuando son necesarios.
+Fuente: MITECO. Guía sobre control geotécnico en minería a cielo abierto
+
+
+2.3 Agua, drenaje y meteorología
+El agua puede reducir la resistencia, aumentar presiones, erosionar, ocultar defectos, degradar pistas y
+disminuir adherencia. El control comienza aguas arriba: cunetas de guarda, drenajes, bombeos,
+mantenimiento y vigilancia de puntos de vertido. Una solución improvisada puede trasladar el problema al
+pie de un talud o a una vía.
+  Mantener libres cunetas, pasos y desagües sin colocar a personas en trayectorias de caída o arrastre.
+  Definir umbrales por lluvia, nivel, caudal, visibilidad, viento o tormenta y asociar una acción.
+  Revisar plataformas y pistas después de episodios intensos: blandones, erosión, socavación, roderas,
+   arrastres y pérdida de protección.
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                     Página 10
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+  No bombear ni desviar agua hacia ladera, escombrera o estructura sin comprobar capacidad y
+   estabilidad del receptor.
+  Tratar balsas, lodos y excavaciones inundadas como riesgos geotécnicos y de ahogamiento; delimitar y
+   prever rescate sin entrada impulsiva.
+
+2.4 Tráfico, puntos ciegos y vuelco
+La seguridad vial interna depende del sistema, no solo del conductor. El plan separa flujos, minimiza
+marcha atrás, dimensiona rutas para el vehículo crítico, mantiene superficie y drenaje, controla velocidad y
+prioridad y gestiona visitantes. Las cámaras y alarmas ayudan, pero no eliminan un diseño deficiente.
+
+                      Elemento                           Criterio reglamentario o técnico                           Verificación
+
+                                                   Amplitud para maniobrar y mantener en
+                      Plataforma                   trabajo normal al menos cinco metros al         Medición, estado, obstáculos y trayectoria.
+                                                   borde.
+
+                                                   Al menos dos metros; ampliar y proteger si
+ Arcén frente a talud                                                                              Anchura útil, material caído y protección.
+                                                   hay desprendimiento.
+
+                                                   1,5 veces el ancho del mayor vehículo; dos
+ Pista de un carril                                                                                Vehículo crítico y puntos de cruce.
+                                                   veces con tráfico intenso y pesado.
+
+ Pista de dos carriles                             Tres veces el ancho del vehículo más ancho.     Anchura libre y obstáculos.
+
+                                                   Media no superior al 10 %, con máximos
+ Pendiente de pista                                                                                Perfil, frenado y carga.
+                                                   puntuales del 15 %.
+
+                                                   Puede superar límites ordinarios, sin rebasar   Justificación, máquina, procedimiento y
+                 Acceso especial
+                                                   20 %, con medidas específicas.                  supervisión.
+
+                                                   Radio sin maniobras; sin peralte inverso;
+                Curvas y rasantes                                                                  Barrido, sobreancho, visibilidad y señales.
+                                                   control si falta visibilidad.
+
+                                                   Balizamiento y, cuando proceda, tope o
+                 Borde con caída                                                                   Material, geometría, continuidad y deterioro.
+                                                   barrera o control previsto por ITC.
+
+
+
+Fuente: BOE. ITC 07.1.03, trabajos a cielo abierto
+
+Reglas de interacción vehículo persona
+  Prohibir presencia en la zona de acción de maquinaria y definir exclusiones visibles.
+  Limitar tránsito peatonal, usar accesos seguros y, en pista, arcén o lado opuesto al tráfico de modo
+   visible.
+  No aproximarse a un volquete cargado en operación normal a menos de cinco metros; si es
+   imprescindible, hacerlo por delante, con comunicación y detención aseguradas.
+  Establecer contacto positivo antes de entrar en una maniobra: el operador confirma que ha visto,
+   detiene y autoriza.
+  Separar vehículos ligeros y pesados; prohibir estacionar en puntos ciegos y definir espera segura.
+  Adaptar operación a polvo, niebla, lluvia, oscuridad o deslumbramiento. Sin visibilidad suficiente se
+   detiene o aplica un sistema autorizado.
+
+2.5 Perforación, corte y voladura
+La perforación parte de un área reconocida, estable y preparada. El equipo se emplaza evitando
+pendientes o superficies deslizantes, se frena o bloquea y se controla la proximidad a bordes, barrenos
+anteriores, servicios y otras máquinas. La captación o supresión de polvo forma parte del método. Durante
+cambios de barras o útiles se controlan giro, caída, presión y posturas.
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                         Página 11
+                                                                    FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+En voladuras, el técnico coordina el entorno: información, exclusión, cortes, señales, evacuación, recuento,
+control de accesos y reanudación. La carga, conexión, disparo y tratamiento de barrenos fallidos
+corresponden a personal autorizado conforme al Reglamento de Explosivos y a las DIS. Nunca se perfora,
+manipula o excava en zona con posible barreno fallido sin identificación y autorización específicas.
+
+                              Momento                                       Comprobaciones de coordinación
+
+                                                               Plan autorizado, área, horario, interferencias, meteorología,
+ Antes
+                                                               accesos, refugios, recuento y responsables.
+
+                                                               Barreras y vigilantes, canal de comunicación, personal
+ Exclusión
+                                                               contabilizado, equipos retirados y ausencia de terceros.
+
+                                                               Tiempo prescrito, inspección autorizada, humos, estabilidad,
+ Tras disparo
+                                                               proyecciones y comunicación de zona segura.
+
+                                                               Mantener exclusión, impedir improvisaciones y aplicar
+ Anomalía
+                                                               procedimiento de barreno fallido por personal autorizado.
+
+
+Fuente: BOE. Reglamento de Explosivos, Real Decreto 130/2017
+
+
+2.6 Mantenimiento y energías peligrosas
+La parada de un mando no elimina energía. Un equipo puede conservar presión hidráulica o neumática,
+tensión eléctrica, calor, partes suspendidas, tensión mecánica, material atascado o energía gravitatoria. La
+consignación transforma el equipo en una condición controlada y verificable antes de intervenir.
+1. Preparar: identificar alcance, fuentes, aislamiento, personas afectadas y estado seguro.
+2. Parar de forma normal y comunicar la intervención.
+3. Separar o aislar todas las fuentes de energía.
+4. Bloquear los órganos de aislamiento e identificar al titular según procedimiento.
+5. Disipar, descargar, purgar, enfriar, calzar o soportar energías acumuladas.
+6. Verificar ausencia de energía con método adecuado, incluida prueba de intento cuando proceda.
+7. Ejecutar manteniendo control de herramientas, piezas y cambios de alcance.
+8. Reponer protecciones, retirar personas y materiales y retirar bloqueos con control.
+9. Comunicar y reenergizar; comprobar funcionamiento seguro.
+Principio clave. Una etiqueta informa; un bloqueo eficaz impide la maniobra. La verificación demuestra
+que el aislamiento funciona. No deben confundirse.
+Fuente: INSST. NTP 1117 Consignación de máquinas
+
+
+2.7 Polvo y sílice cristalina respirable
+El polvo visible indica emisión, pero la fracción respirable no se valora a simple vista. La SCR puede
+generarse en perforación, arranque, trituración, transferencia, limpieza, circulación y mantenimiento. Los
+trabajos con exposición a polvo de sílice respirable generado por un proceso de trabajo están incluidos en
+el marco de agentes cancerígenos; la estrategia debe reducir la exposición al nivel más bajo técnicamente
+posible.
+
+                                 Nivel                                              Medidas preferentes
+
+                                                               Método húmedo, captación localizada, cerramiento,
+ Fuente                                                        automatización, mantenimiento de filtros y reducción de caída
+                                                               libre.
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                       Página 12
+                                                                                 FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                                 Nivel                                                            Medidas preferentes
+
+                                                                           Cabinas cerradas y filtradas, ventilación, segregación,
+ Trayectoria
+                                                                           estabilización de viales y limpieza sin volver a dispersar.
+
+                                                                           Plan de medición, zonas, tiempos, mantenimiento, limpieza,
+ Organización
+                                                                           señalización, formación y vigilancia de salud.
+
+                                                                           Protección respiratoria seleccionada por evaluación, con
+ Persona
+                                                                           ajuste, compatibilidad, conservación y control de interferencias.
+
+
+Como referencia higiénica vigente, el INSST publica para la sílice cristalina respirable un VLA-ED de 0,05
+mg/m³. El cumplimiento no se presume por usar mascarilla o riego: requiere muestreo representativo,
+método reconocido, interpretación y acciones ante desviaciones.
+Fuente: BOE. ITC 02.0.02 Protección frente al polvo
+
+Fuente: INSST. Límite de exposición de la sílice cristalina respirable
+
+
+2.8 Ruido, vibraciones y estrés térmico
+               Agente                              Fuentes                 Control técnico y organizativo              Seguimiento
+
+                                                                           Equipos menos ruidosos,
+                                     Perforación, trituración, motores e   encapsulado, silenciadores,       Medición, mapa, señalización,
+               Ruido
+                                     impactos.                             mantenimiento, distancia y        ajuste y vigilancia.
+                                                                           tiempo; EPI como complemento.
+
+                                                                           Máquina/asiento adecuados,
+                                     Volquetes, cargadoras,                                                  Evaluar A(8) y revisar tras
+ Vibración cuerpo entero                                                   suspensión y pista mantenidas,
+                                     bulldóceres y firme.                                                    cambios.
+                                                                           velocidad y tiempo.
+
+                                                                           Herramienta y técnica
+                                     Martillos, herramientas percutoras                                      Evaluar A(8), síntomas y
+ Vibración mano brazo                                                      adecuadas, buen estado,
+                                     y amolado.                                                              mantenimiento.
+                                                                           reducción de fuerza y tiempo.
+
+                                                                           Sombra, climatización, agua,
+                                     Exterior, cabinas, EPI, esfuerzo y                                      WBGT cuando proceda y signos
+            Calor y sol                                                    aclimatación, pausas, horario y
+                                     ola de calor.                                                           precoces.
+                                                                           vigilancia mutua.
+
+
+
+Los valores de acción diarios publicados para vibraciones son 2,5 m/s² para mano-brazo y 0,5 m/s² para
+cuerpo entero; los límites son 5 m/s² y 1,15 m/s². Su aplicación exige calcular la exposición y no comparar
+una lectura instantánea sin contexto.
+Fuente: INSST. Guía técnica sobre ruido 2022
+
+Fuente: INSST. Guía técnica sobre vibraciones mecánicas 2025
+
+Fuente: INSST. Evaluación del estrés térmico con índice WBGT
+
+
+2.9 Electricidad, líneas aéreas e instalaciones
+Las líneas aéreas pueden alcanzarse con cajas elevadas, brazos, perforadoras, grúas, tuberías o cargas.
+El control preferente es eliminar la posibilidad mediante trazado, gálibo y pasos preparados. La ITC minera
+fija reglas para cruces y proximidades; el trabajo excepcional exige desconexión y puesta a tierra o una DIS
+específica con distancias y supervisión. No debe estimarse una distancia a ojo desde la cabina.
+  Inventariar líneas, tensión, gálibos, puntos de cruce y equipos desplegables.
+  Señalizar con anticipación y utilizar limitadores o barreras físicas cuando proceda.
+  Coordinar con el titular y confirmar el estado eléctrico antes de intervenir.
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                      Página 13
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+  Aplicar las reglas de trabajo sin tensión por personal autorizado: desconectar, impedir realimentación,
+   verificar ausencia, poner a tierra cuando proceda y proteger frente a proximidades.
+  Tratar cables dañados, cuadros abiertos, protecciones disparadas y tierras defectuosas como
+   condiciones de parada.
+Fuente: BOE. Real Decreto 614/2001 sobre riesgo eléctrico
+
+
+2.10 Incendio, combustibles y sustancias
+La prevención combina separación de fuentes de ignición, almacenamiento compatible, contención de
+derrames, ventilación, orden, mantenimiento y respuesta. El combustible pulverizado sobre una superficie
+caliente, una manguera hidráulica rota o una batería dañada pueden iniciar un incendio rápido. El extintor
+no compensa una fuga activa o una evacuación imposible.
+
+                    Antes                                            Durante                                       Después
+
+ Revisar zona, compatibilidad, extintores,                                                        Cerrar, limpiar con método previsto,
+                                                   Vigilar fugas, rebose, superficies calientes
+ absorbentes, puesta a tierra cuando                                                              gestionar residuo, informar defectos y
+                                                   y derrames; mantener control del surtidor.
+ proceda y escape.                                                                                reponer medios.
+
+
+
+
+2.11 Emergencias y primeros auxilios
+La primera obligación es no crear una segunda víctima. Quien detecta la emergencia para si puede hacerlo
+con seguridad, avisa por el canal previsto, da ubicación inequívoca, naturaleza, afectados y riesgos activos,
+y mantiene accesos libres. Solo interviene dentro de su competencia y con protección adecuada.
+1. Proteger: reconocer energía, tráfico, caída de rocas, electricidad, fuego, atmósfera y acceso. Aislar sin
+    exponerse.
+2. Avisar: activar el plan e indicar ubicación, tipo de incidente, afectados, riesgos y mejor acceso.
+3. Socorrer: valorar consciencia y respiración, seguir instrucciones y aplicar primeros auxilios dentro de la
+    formación.
+4. Recibir: designar guía para servicios externos y facilitar información de sustancias, energías y terreno.
+5. Preservar y aprender: controlar la zona, conservar evidencias cuando sea compatible y comunicar.
+Nunca. Entrar en una tolva, hueco, atmósfera sospechosa, zona eléctrica, frente inestable, balsa o equipo
+sin control de energía para un rescate improvisado.
+
+2.12 Cierre del trabajo y aprendizaje
+El cierre verifica que no quedan energías, materiales, bordes, huecos, derrames, barrenos, herramientas o
+defectos que expongan al siguiente turno. La entrega informa de cambios y restricciones. Los incidentes sin
+lesión y desviaciones repetidas son datos para mejorar diseño y organización.
+Caso 2A Lluvia después de la voladura
+Situación. Tras una voladura nocturna llueve intensamente. A primera hora se observa agua turbia en el pie, material suelto en una
+berma y una grieta nueva. Producción propone cargar desde abajo mientras se revisa desde un vehículo ligero.
+Trabajo del alumno. Decida si puede iniciarse la carga y defina zona, información y autoridad.
+Criterio de resolución. No se trabaja bajo la trayectoria potencial. Se establece exclusión, se documenta desde lugar seguro, se
+revisan drenajes y voladura y se solicita evaluación competente. Solo se reabre con criterio documentado y seguimiento.
+Caso 2B Atasco en una cinta
+Situación. Una cinta se detiene por atasco. El mando está en cero, pero la banda conserva tensión, hay material sobre ella y otro
+trabajador puede rearmar desde un cuadro remoto.
+Trabajo del alumno. Defina consignación y verificaciones.
+Criterio de resolución. Se aíslan todas las alimentaciones y movimientos asociados, se bloquean puntos identificados, se estabiliza
+la energía mecánica y el material y se verifica ausencia. El alcance incluye equipos aguas arriba y abajo.
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                    Página 14
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 3 · 7 horas
+
+
+Equipos de trabajo, equipos de protección individual y
+medios auxiliares
+El equipo seguro resulta de una elección adecuada, instalación correcta, uso dentro de
+límites, inspección, mantenimiento y retirada ante defectos. El técnico comprueba el sistema
+completo: máquina, terreno, tarea, operador, accesorios y entorno.
+
+Resultados de aprendizaje
+  Seleccionar equipos considerando tarea, terreno, visibilidad, estabilidad y compatibilidad.
+  Interpretar documentación, protecciones, avisos y limitaciones.
+  Estructurar inspecciones antes del uso y criterios de inmovilización.
+  Planificar mantenimiento con consignación y soportes seguros.
+  Seleccionar EPI por riesgo residual, compatibilidad y ajuste.
+  Controlar medios auxiliares, izado, acceso y trabajo en altura.
+
+3.1 Ciclo de vida del equipo
+                                Etapa                                                              Decisión técnica
+
+                                                                            Adecuación a material, producción, pendiente, firme, altura,
+ Selección
+                                                                            radio, clima, polvo, ruido y mantenimiento.
+
+                                                                            Conformidad, manual, declaración, identificación, protecciones,
+ Recepción
+                                                                            accesorios y documentación.
+
+                                                                            Evaluación en el lugar, instalación, pruebas, inspecciones,
+ Puesta en servicio
+                                                                            autorización y formación.
+
+                                                                            Límites, reglas, chequeo previo, supervisión, limpieza y
+ Uso
+                                                                            comunicación de defectos.
+
+                                                                            Plan preventivo, competencias, consignación, piezas, registros
+ Mantenimiento
+                                                                            y pruebas de retorno.
+
+                                                                            Evaluación del cambio, fabricante o ingeniería, conformidad,
+ Modificación
+                                                                            documentación y formación.
+
+                                                                            Inmovilización, descontaminación, energías, desmontaje y
+ Retirada
+                                                                            gestión segura.
+
+
+Fuente: BOE. Real Decreto 1215/1997 sobre equipos de trabajo
+
+
+3.2 Familias de equipos y riesgos dominantes
+                    Equipo                                     Riesgos dominantes                             Controles decisivos
+
+                                                   Vuelco, borde, polvo, ruido, atrapamiento,     Plataforma estable, captación, exclusión,
+                  Perforadora
+                                                   barras y mangueras.                            guardas y método de cambio.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                      Página 15
+                                                                                      FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                       Equipo                                   Riesgos dominantes                                   Controles decisivos
+
+                                                   Colapso de frente, alcance, vuelco, golpe,           Posición, plataforma, zona de giro, visibilidad
+                      Excavadora
+                                                   caída y líneas.                                      y límites.
+
+                                                   Atropello, vuelco, material, articulación y punto    Plan de carga, contacto positivo, cinturón y
+                      Cargadora
+                                                   ciego.                                               exclusión.
+
+                                                   Colisión, vuelco, borde, frenado, carga y caja       Ruta, descarga nivelada, cinturón, alarmas y
+                       Volquete
+                                                   elevada.                                             frenos.
+
+                                                                                                        Trabajo seguro respecto al borde, referencias,
+                       Bulldócer                   Vuelco, borde, material oculto y marcha atrás.
+                                                                                                        ROPS y apoyo firme.
+
+                                                                                                        Corte de zona, señales, comunicación, luces y
+                 Motoniveladora                    Colisión, vuelco, cuchilla, visibilidad y tráfico.
+                                                                                                        separación.
+
+                                                   Atrapamiento, proyección, caída, atasco,             Guardas, acceso, consignación, captación y
+ Triturador y criba
+                                                   polvo y ruido.                                       desatasco.
+
+                                                   Atrapamiento, arranque, caída de material y          Guardas, emergencia, consignación,
+                        Cinta
+                                                   altura.                                              pasarelas y limpieza segura.
+
+                                                   Aplastamiento por equipo pesado, vuelco y            Segregación, visibilidad, comunicación y
+                 Vehículo ligero
+                                                   acceso indebido.                                     estacionamiento.
+
+
+
+
+3.3 Documentación y conformidad
+El marcado CE y la declaración de conformidad no sustituyen la evaluación del lugar ni garantizan que la
+máquina sea apta para cualquier pendiente, material o accesorio. Se revisan manual, placa, capacidad,
+límites de inclinación, cargas, presión de neumáticos, mantenimiento y dispositivos. Una modificación
+sustancial o un accesorio no previsto puede alterar estabilidad, visibilidad y conformidad.
+  Identificación inequívoca: fabricante, modelo, número, año y capacidad.
+  Manual disponible en idioma comprensible y procedimientos coherentes.
+  Declaración de conformidad cuando sea exigible y registro de puesta en servicio.
+  Inspecciones reglamentarias y adicionales por instalación, deterioro o condiciones severas.
+  Historial de defectos, reparaciones, pruebas, cambios y campañas.
+  Autorización del operador específica y formación práctica documentada.
+
+3.4 Protecciones y dispositivos
+                  Dispositivo                                          Función                                         Comprobación
+
+                                                   Proteger frente a vuelco y caída según               Integridad, anclajes, corrosión,
+                  ROPS/FOPS
+                                                   diseño.                                              reparaciones y cinturón.
+
+                                                   Mantener al ocupante en el volumen
+                       Cinturón                                                                         Anclaje, hebilla, cinta, enrollado y uso.
+                                                   protegido.
+
+                       Frenos                      Servicio, emergencia y estacionamiento.              Prueba prescrita, alarmas, fugas y registro.
+
+                      Dirección                    Control de trayectoria.                              Holguras, respuesta, fugas y prueba.
+
+                                                   Detectar personas, vehículos, bordes y               Cristales, espejos, cámaras, radar, luces y
+                      Visibilidad
+                                                   obstáculos.                                          limpieza.
+
+                                                                                                        Acústicos, luminosos y comprensión; no
+                        Avisos                     Comunicar movimiento o estado peligroso.
+                                                                                                        sustituyen separación.
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                              Página 16
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                 Dispositivo                                         Función                                      Comprobación
+
+                                                   Impedir acceso a partes móviles o                Presencia, fijación, abertura, enclavamiento
+                   Guardas
+                                                   proyecciones.                                    y ausencia de puentes.
+
+                                                                                                    Acceso, identificación, prueba, rearme y
+ Parada de emergencia                              Detener con rapidez ante peligro.
+                                                                                                    alcance.
+
+
+
+
+3.5 Inspección antes del uso
+La inspección sigue un recorrido estable, con el equipo inmovilizado y sin entrar bajo elementos elevados.
+El operador registra defectos y conoce qué impide usar la máquina. La supervisión revisa tendencias, no
+solo casillas.
+
+                     Zona                                           Elementos                                    Criterio de parada
+
+                                                   Suelo, borde, personas, obstáculos, líneas,      Inestabilidad, invasión, gálibo insuficiente o
+                   Entorno
+                                                   iluminación y ruta.                              visibilidad no controlada.
+
+                                                   Fugas, daños, neumáticos/orugas, ruedas,         Fuga relevante, daño estructural, elemento
+                    Exterior
+                                                   chasis, peldaños y barandillas.                  suelto o acceso inseguro.
+
+                                                   Pasadores, bloqueos, latiguillos, dientes,       Retención incompleta, desgaste o daño
+                 Implemento
+                                                   cables y acoplamiento.                           con posible fallo.
+
+                                                   Cinturón, asiento, cristales, espejos,           Cinturón o visibilidad deficientes, mandos
+                    Cabina
+                                                   cámara, extintor y objetos.                      dañados o salida bloqueada.
+
+                                                   Indicadores, dirección, frenos, luces, avisos    Alarma, fallo de frenado/dirección o
+                   Arranque
+                                                   y emergencia.                                    protección inoperativa.
+
+                                                   Chequeo, autorización, defectos previos y        Defecto crítico abierto o falta de
+                Documentación
+                                                   restricciones.                                   autorización.
+
+
+
+
+3.6 Clasificación de defectos
+                    Clase                                            Decisión                                         Ejemplos
+
+                                                                                                    Freno o dirección, cinturón con riesgo de
+                                                   Inmovilizar, señalizar, aislar y reparar antes
+                    Crítico                                                                         vuelco, daño estructural, fuga caliente o
+                                                   de usar.
+                                                                                                    guarda crítica.
+
+                                                   Operar solo con evaluación y autorización        Elemento secundario cuya pérdida no
+                   Limitante                       documentadas que establezcan restricción         afecta una función necesaria en la
+                                                   y plazo.                                         condición autorizada.
+
+                                                   Registrar y programar corrección sin             Daño cosmético sin efecto en
+                    Menor
+                                                   pérdida de función de seguridad.                 identificación, acceso, resistencia o control.
+
+
+
+Criterio conservador. Si no se conoce la función o consecuencia de un defecto, no se clasifica como
+menor por intuición. Se consulta el manual, mantenimiento o ingeniería y se mantiene fuera de servicio
+cuando pueda comprometer seguridad.
+
+3.7 Mantenimiento seguro
+  Planificar lugar, acceso, limpieza, iluminación, herramientas, repuestos, izado y fluidos.
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                         Página 17
+                                                                                   FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+  Bajar implementos; si deben elevarse, usar soportes mecánicos diseñados. Nunca confiar en la
+   hidráulica.
+  Liberar presión según manual; una manguera puede inyectar fluido bajo la piel sin herida aparente
+   importante.
+  No buscar fugas con la mano. Usar método seguro y tratar la inyección como urgencia médica.
+  Controlar neumáticos y ruedas con procedimiento específico; la energía almacenada exige exclusión y
+   medios adecuados.
+  Para soldar o cortar, retirar combustibles, limpiar, controlar atmósfera y fuego y mantener vigilancia
+   cuando proceda.
+  Tras reparar, reponer guardas, retirar bloqueos con control, probar en zona segura y comunicar retorno.
+
+3.8 Equipos de protección individual
+El EPI protege frente al riesgo residual y se selecciona a partir de la evaluación. La certificación no asegura
+compatibilidad: casco, gafas, orejeras, respirador y ropa pueden interferir. El ajuste real, estado y limpieza
+son parte de la protección.
+
+                    Riesgo                                          EPI posible                                 Selección y uso
+
+                                                                                                 Tipo, barboquejo cuando proceda, estado, sol
+                    Cabeza                         Casco adecuado.
+                                                                                                 y compatibilidad.
+
+                                                                                                 Impacto, polvo, salpicadura, empañamiento y
+                  Ojos y cara                      Gafas cerradas, pantalla o combinación.
+                                                                                                 cobertura.
+
+                                                                                                 Atenuación real, ajuste, comunicación, higiene
+                     Ruido                         Tapón, orejera o doble protección.
+                                                                                                 y casco.
+
+                                                   Protección respiratoria definida por          Factor, filtro, ajuste, barba, prueba, tiempo y
+                  Polvo/SCR
+                                                   evaluación.                                   mantenimiento.
+
+                                                                                                 Puntera, penetración, adherencia, tobillo,
+                      Pies                         Calzado de seguridad.
+                                                                                                 agua y conducción.
+
+                                                                                                 Clase, contraste, cierre y no quedar oculta; no
+                   Visibilidad                     Prenda certificada y limpia.
+                                                                                                 sustituye segregación.
+
+                                                                                                 Corte, químico, calor y destreza; evitar
+                    Manos                          Guante según agente.
+                                                                                                 arrastre por giro.
+
+                                                                                                 Priorizar colectiva; anclaje, compatibilidad,
+                     Caída                         Sistema completo contra caídas.
+                                                                                                 distancia y rescate.
+
+
+
+Fuente: BOE. Real Decreto 773/1997 sobre utilización de EPI
+
+Fuente: INSST. NTP 733 sobre EPI en minería a cielo abierto
+
+
+3.9 Medios auxiliares, acceso, altura e izado
+                    Medio                                             Riesgos                                Verificación esencial
+
+                                                   Caída, deslizamiento, electricidad y uso      Tipo, longitud, apoyo, sujeción, ángulo,
+                   Escalera
+                                                   como puesto.                                  estado y tarea compatible.
+
+                                                                                                 Montaje, inspección, nivel, barandilla,
+ Andamio o plataforma                              Caída, colapso y objetos.
+                                                                                                 acceso, carga y exclusión.
+
+                                                                                                 Terreno, estabilizadores, alcance, viento,
+ Plataforma elevadora                              Atrapamiento, vuelco, caída y energía.
+                                                                                                 rescate y operador.
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                        Página 18
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                    Medio                                            Riesgos                               Verificación esencial
+
+                                                                                                Identificación, capacidad, ángulo, aristas,
+ Eslinga y accesorio                               Rotura, caída y golpe.
+                                                                                                estado y compatibilidad.
+
+                                                                                                Diseño/cálculo, ubicación, inspección y
+               Punto de anclaje                    Fallo estructural o carga no prevista.
+                                                                                                trayectoria.
+
+                                                                                                Capacidad, apoyo, estabilidad y soporte
+                Gato y soporte                     Descenso o desplazamiento.
+                                                                                                mecánico; nunca solo el gato.
+
+
+
+Izado. El plan debe definir masa y centro de gravedad, equipo y accesorios, configuración, capacidad,
+terreno, exclusión, señalista, comunicaciones y respuesta ante fallo. Nadie se sitúa bajo carga suspendida.
+Caso 3A Cámara averiada en un volquete
+Situación. La cámara trasera falla. Hay alarma, pero la descarga exige marcha atrás junto a un borde y circulan contratas.
+Trabajo del alumno. Clasifique el defecto y decida si existe alternativa admisible.
+Criterio de resolución. La pérdida de visibilidad en una maniobra crítica no se compensa automáticamente con alarma. Se
+inmoviliza para reparar o se rediseña con control documentado que elimine exposición: ruta sin marcha atrás, zona cerrada,
+señalista competente y comunicación fiable, si evaluación y DIS lo permiten.
+Caso 3B Cambio de latiguillo
+Situación. Un latiguillo pierde aceite. La cuchara se deja elevada y el motor está parado. Se propone colocar un tablón bajo el
+brazo.
+Trabajo del alumno. Enumere energías y método seguro.
+Criterio de resolución. Hay energía gravitatoria e hidráulica y posible arranque. Se baja el implemento o instala soporte diseñado,
+se consigna, descarga presión y verifica. Un tablón no es un soporte calculado.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                    Página 19
+                                                                                 FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 4 · 2 horas
+
+
+Control y vigilancia sobre el lugar de trabajo y su
+entorno
+Controlar es comparar el estado real con un estándar, actuar ante desviaciones y comprobar
+el cierre. La vigilancia eficaz observa tendencias y eventos, no se limita a recorrer el centro.
+
+Resultados de aprendizaje
+  Diseñar un plan de inspección basado en riesgos y cambios.
+  Definir criterios de aceptación, responsables y registros.
+  Gestionar desviaciones, acciones correctoras y reapertura.
+  Vigilar entorno, terceros y evolución geotécnica y ambiental.
+
+4.1 Qué debe vigilarse
+                    Objeto                                   Frecuencia orientativa                  Disparadores extraordinarios
+
+                                                   Según riesgo, turno y programa              Lluvia, hielo, sismo, voladura, caída, grieta,
+ Frentes, bancos, bermas y escombreras
+                                                   geotécnico.                                 excavación o drenaje.
+
+                                                   Antes y durante operación; mantenimiento    Tormenta, derrame, daño, ruta, equipo
+ Pistas, accesos y bordes
+                                                   programado.                                 mayor o incidente.
+
+                                                                                               Cambio de frente, voladura, inestabilidad o
+ Plataformas y tajos                               Antes de ocupar y durante avance.
+                                                                                               mala iluminación.
+
+                                                                                               Atasco, protección activada, vibración,
+ Planta e instalaciones                            Rondas y mantenimiento definidos.
+                                                                                               fuga, reparación o cambio.
+
+                                                                                               Cambio de material, proceso, cabina, filtro,
+ Polvo, ruido y vibración                          Programa y comprobaciones operativas.
+                                                                                               turno o síntoma.
+
+                                                                                               Terceros, obra vecina, meteorología o
+               Entorno exterior                    Plan de vigilancia y autorización.
+                                                                                               afección fuera del centro.
+
+
+
+
+4.2 Inspección que produce decisiones
+1. Preparar estándar: plano, proyecto, DIS, elementos críticos, defectos abiertos y eventos.
+2. Observar desde zona segura antes de entrar: flujos, terreno, personas, energía, polvo, agua y cambios.
+3. Recorrer una secuencia fija, hablar con ejecutantes y contrastar lo prescrito con lo posible.
+4. Clasificar desviación y decidir control inmediato, parada, aislamiento o seguimiento.
+5. Asignar responsable, plazo y criterio de cierre. Una foto no siempre prueba función recuperada.
+6. Verificar cierre en campo y analizar repetición o tendencia.
+
+4.3 Umbrales y planes de acción
+Para riesgos que evolucionan conviene definir niveles. Normal describe criterios aceptables; alerta aumenta
+vigilancia y limita; alarma detiene, excluye y exige evaluación. Los valores concretos proceden del diseño,
+instrumentación, fabricante, evaluación o plan de emergencia; no se inventan durante una incidencia.
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                   Página 20
+                                                                          FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+               Nivel                               Estado                        Acción                              Reapertura
+
+              Normal                 Dentro de criterios.           Operar y registrar.                 No aplica.
+
+                                                                    Aumentar control, limitar,
+              Alerta                 Cambio o tendencia.                                                Vuelta a criterios y validación.
+                                                                    preparar medida y comunicar.
+
+                                                                    Parar, aislar, excluir, evaluar y   Autorización documentada y
+              Alarma                 Criterio superado o fallo.
+                                                                    corregir.                           seguimiento.
+
+
+
+
+4.4 Derecho y deber de parada
+La parada debe ser una capacidad operativa. El centro define cómo avisar, dejar el equipo seguro,
+controlar la zona, evaluar y autorizar la reanudación. Quien comunica recibe respuesta y cierre. Reanudar
+por presión, ausencia de daño previo o normalización de la desviación equivale a aceptar riesgo sin base.
+Caso 4A Defecto repetido
+Situación. Durante tres semanas se rellena el mismo bache en una pendiente. La reparación falla y los conductores invaden el carril
+contrario.
+Trabajo del alumno. Defina una acción que cierre la causa.
+Criterio de resolución. Se controla el tráfico y se analiza drenaje, base, carga, pendiente y método. La acción restaura estructura y
+evacuación, revisa circulación y verifica durante un periodo. Repetir relleno no cierra la causa.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                  Página 21
+                                                               FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 5 · 2 horas
+
+
+Interferencias con otras actividades
+Muchos accidentes aparecen entre tareas analizadas por separado. La coordinación controla
+el espacio, el tiempo, la energía, la información y la autoridad compartidos.
+
+Resultados de aprendizaje
+  Identificar interferencias entre empresas, equipos, fases y entorno.
+  Aplicar la coordinación de forma operativa.
+  Diseñar separaciones, permisos y comunicaciones verificables.
+  Gestionar cambios y desacuerdos antes de iniciar o continuar.
+
+5.1 Interferencia y riesgo emergente
+Hay interferencia cuando una actividad modifica las condiciones de otra o comparte su trayectoria. Dos
+procedimientos correctos pueden ser incompatibles si un equipo bloquea una salida, una contrata cruza
+una voladura, mantenimiento energiza una línea que producción considera aislada o una carretera pública
+queda expuesta a polvo o proyecciones.
+
+                             Dimensión                                     Pregunta de coordinación
+
+                                                          ¿Comparten zona, ruta, altura, banco, plataforma o área de
+ Espacio
+                                                          caída/proyección?
+
+ Tiempo                                                   ¿La simultaneidad crea exposición? ¿Puede secuenciarse?
+
+                                                          ¿Quién controla aislamiento, arranque, presión, carga,
+ Energía
+                                                          electricidad o explosivo?
+
+                                                          ¿Todos conocen cambios, restricciones, idioma, señales y
+ Información
+                                                          estado?
+
+ Autoridad                                                ¿Quién puede parar, modificar y autorizar reanudación?
+
+                                                          ¿Son compatibles alarma, evacuación, recuento, acceso y
+ Emergencia
+                                                          rescate?
+
+
+
+
+5.2 Coordinación de actividades empresariales
+La coordinación no se agota en intercambiar documentos. La empresa titular informa de riesgos y medidas
+del centro; las concurrentes de sus riesgos específicos que puedan afectar a otras; la principal vigila a
+contratistas y subcontratistas dentro del alcance legal. Los medios son proporcionales: reunión, recurso
+preventivo, coordinador, permiso, plan común, consignación, control de acceso o secuencia exclusiva.
+1. Antes de contratar: definir alcance, interfaces, competencia, equipos y controles críticos.
+2. Antes de entrar: comprobar documentación relevante, acogida, comunicación, emergencia y
+    autorización.
+3. Antes de cada trabajo: coordinar condiciones reales, simultaneidad, zona, energía, tráfico y cambios.
+4. Durante: supervisar barreras y mantener canal único para modificaciones.
+5. Al cerrar: entregar instalación, retirar aislamientos y materiales, informar defectos y verificar estado.
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                   Página 22
+                                                                         FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+Fuente: BOE. Real Decreto 171/2004 de coordinación de actividades empresariales
+
+Fuente: INSST. Directrices para una eficaz coordinación 2024
+
+
+5.3 Reunión previa efectiva
+                                Tema                                                     Acuerdo verificable
+
+ Alcance y límites                                                 Plano o referencia física y tareas excluidas.
+
+ Responsables                                                      Nombres, función, sustitución y contacto.
+
+ Secuencia                                                         Orden, hitos, incompatibilidades y ventanas.
+
+ Energía                                                           Puntos, bloqueos, custodios, prueba y entrega.
+
+ Tráfico                                                           Rutas, prioridad, estacionamiento, señalista y cortes.
+
+ Cambios                                                           Qué obliga a parar y quién aprueba.
+
+ Emergencia                                                        Alarma, reunión, recuento, rescate y acceso.
+
+ Cierre                                                            Estado final, retirada, pruebas y aceptación.
+
+
+
+
+5.4 Interferencias frecuentes
+  Voladura con mantenimiento, tráfico, perforación, drones o terceros.
+  Carga y transporte con peatones, topografía, muestreo, vehículos ligeros o limpieza.
+  Producción con mantenimiento en cintas, tolvas, trituradoras o cuadros.
+  Excavación con líneas aéreas, tuberías, cables, edificaciones o propiedad.
+  Vertido con equipos al pie, inestabilidad, agua o circulación por coronación.
+  Trabajo en caliente con combustibles, polvo o materiales inflamables.
+  Trabajo nocturno con iluminación, fatiga, relevo y menor apoyo externo.
+Caso 5A Mantenimiento y producción
+Situación. Una contrata cambia un rodamiento en un transportador. Producción quiere probar el triturador aguas arriba. La contrata
+ha bloqueado solo el motor local.
+Trabajo del alumno. Identifique control común y quién decide.
+Criterio de resolución. La prueba puede introducir energía o material. Se requiere consignación conjunta de equipos relacionados,
+custodia de bloqueos, comunicación y procedimiento de prueba. Ninguna parte modifica unilateralmente el aislamiento.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                            Página 23
+                                                                                FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+BLOQUE 6 · 1 hora
+
+
+Normativa y legislación
+El técnico necesita saber qué norma gobierna cada decisión y cómo se integran legislación
+minera y prevención laboral. Memorizar referencias no basta: hay que traducirlas a
+obligaciones, documentos y verificaciones.
+
+Resultados de aprendizaje
+  Situar el curso dentro de la ITC 02.1.02 y ET 2003-1-10.
+  Reconocer el marco minero, preventivo, de equipos, higiene y coordinación.
+  Distinguir norma obligatoria, guía y buena práctica.
+  Mantener una revisión normativa trazable.
+
+6.1 Estructura del marco aplicable
+                      Nivel                                    Normas principales                                  Aplicación
+
+                                                   Ley de Minas; RGNBSM; ITC VII; ITC 02.1.02;   Diseño, operación, organización, formación,
+                    Minería
+                                                   ET 2003-1-10; ITC 02.0.02.                    polvo y reglas específicas.
+
+                                                                                                 Principios, evaluación, planificación, formación
+                   Prevención                      Ley 31/1995 y Real Decreto 39/1997.
+                                                                                                 y organización.
+
+                                                                                                 Disposiciones mínimas para minería por
+                   Extractivas                     Real Decreto 1389/1997.
+                                                                                                 sondeos y explotaciones.
+
+                                                                                                 Adecuación, uso, comprobación y protección
+                 Equipos y EPI                     Reales Decretos 1215/1997 y 773/1997.
+                                                                                                 personal.
+
+                  Coordinación                     Real Decreto 171/2004.                        Concurrencia, titular, principal y medios.
+
+                                                                                                 Sílice/cancerígenos, ruido, vibraciones y
+                    Agentes                        RD 665/1997, RD 286/2006 y RD 1311/2005.
+                                                                                                 vigilancia.
+
+ Explosivos y electricidad                         RD 130/2017 y RD 614/2001.                    Habilitaciones, coordinación y riesgo eléctrico.
+
+
+
+
+6.2 Obligatoriedad de la formación
+La ITC 02.1.02 regula formación preventiva para puestos mineros. Para el grupo 5.2.a, la ET 2003-1-10 fija
+veinte horas con el reparto de este manual. La ITC establece modalidad presencial y reciclaje mínimo de
+cinco horas; para técnicos titulados de exterior, la ET fija periodicidad máxima de cuatro años. La empresa
+registra y certifica conforme al sistema aplicable.
+Implicación para InmínerCampus. Materiales digitales, pruebas, audios y tutorías mejoran preparación y
+repaso, pero no deben presentarse como sustitución de la asistencia presencial exigida.
+
+6.3 Norma, guía y buena práctica
+                      Tipo                                            Valor                                      Uso correcto
+
+                                                                                                 Comprobar texto consolidado, fecha,
+                Norma jurídica                     Obligatoria en su ámbito.
+                                                                                                 ámbito y transitorios.
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                       Página 24
+                                                                                  FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                     Tipo                                              Valor                                   Uso correcto
+
+                                                   Criterio interpretativo y técnico; puede no   Aplicar la norma sin convertir
+                  Guía oficial
+                                                   ser vinculante.                               recomendaciones en obligación literal.
+
+                                                   Buena práctica no vinculante salvo            Adaptar a riesgo, tecnología y norma
+               NTP/documento
+                                                   incorporación.                                actual.
+
+                                                                                                 Integrar con evaluación; no anular
+              Manual fabricante                    Instrucción esencial del equipo.
+                                                                                                 protecciones ni exceder límites.
+
+                                                   Obligatoria en el centro cuando se
+                 Regla interna                                                                   Mantener coherencia, formar y supervisar.
+                                                   establece válidamente.
+
+
+
+
+6.4 Revisión normativa
+1. Mantener registro con enlace oficial, versión consolidada, responsable y fecha.
+2. Vigilar BOE, autoridad autonómica, MITECO e INSST y valorar cambios.
+3. Analizar impacto en proyecto, DSS, DIS, formación, equipos y mediciones.
+4. Aprobar, comunicar, formar y conservar evidencia de implantación.
+5. Retirar versiones obsoletas del uso sin perder archivo necesario.
+
+6.5 Comprobación de aprendizaje
+  Explique por qué el curso es presencial y qué papel tienen los audios.
+  Localice en norma oficial la anchura de pista y compruebe el vehículo crítico.
+  Diferencie obligación legal y recomendación de una NTP.
+  Identifique quién actualiza el DSS cuando cambia proceso o evaluación.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                                      Página 25
+                                                                                   FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+ANEXOS
+
+
+Herramientas operativas y evaluación
+Los formatos siguientes son modelos docentes. Deben adaptarse, aprobarse y controlarse antes de
+implantarlos. Ninguna lista sustituye la observación competente ni la autoridad para detener.
+
+Anexo A Lista diaria del técnico
+                     Área                                         Comprobación                                    OK
+
+                                                   Secuencia, tajos, equipos, contratas,
+                 Plan del día                                                                    ☐
+                                                   voladura, mantenimiento y cambios.
+
+                                                   Previsión, lluvia reciente, viento, calor,
+                 Meteorología                                                                    ☐
+                                                   tormenta, visibilidad y medidas.
+
+                                                   Frentes, grietas, caídas, agua, bermas,
+                  Geotecnia                                                                      ☐
+                                                   drenajes, acopios y exclusiones.
+
+                                                   Firme, bordes, señales, cruces,
+                    Tráfico                                                                      ☐
+                                                   iluminación, polvo, rutas y visitantes.
+
+                                                   Chequeos, defectos, autorizaciones,
+                   Equipos                                                                       ☐
+                                                   protecciones y mantenimiento.
+
+                                                   Competencia, acogida, fatiga, EPI,
+                   Personas                                                                      ☐
+                                                   comunicación y necesidades.
+
+                                                   CAE, permisos, energía, simultaneidad,
+                 Interferencias                                                                  ☐
+                                                   zonas y responsables.
+
+                                                   Polvo/SCR, captación, cabinas, ruido,
+                    Higiene                                                                      ☐
+                                                   vibración, calor y mediciones.
+
+                                                   Accesos, comunicaciones, medios,
+                 Emergencia                                                                      ☐
+                                                   recuento y cambios.
+
+                                                   Desviaciones, responsables, plazos,
+                    Cierre                                                                       ☐
+                                                   verificación y relevo.
+
+
+
+
+Anexo B Tarjeta de parada y reevaluación
+                                  Campo                                                               Registro
+
+ Fecha, hora y ubicación
+
+ Trabajo y equipos
+
+ Condición observada
+
+ Riesgo y expuestos
+
+ Acción inmediata y zona aislada
+
+ Persona avisada
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                              Página 26
+                                                           FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                               Campo                                          Registro
+
+ Evaluación y medida
+
+ Prueba de eficacia
+
+ Autoridad y hora de reapertura
+
+ Seguimiento
+
+
+
+
+Anexo C Reunión previa de coordinación
+                               Campo                                          Registro
+
+ Empresas y responsables
+
+ Alcance y límite físico
+
+ Secuencia e incompatibilidades
+
+ Tráfico y accesos
+
+ Aislamiento y consignación
+
+ Riesgo geotécnico y exclusión
+
+ Polvo, ruido, vibración y sustancias
+
+ Comunicación y señales
+
+ Criterios de parada
+
+ Emergencia, recuento y rescate
+
+ Entrega y cierre
+
+
+
+
+Anexo D Inspección geotécnica visual
+                 Observación                       Sí/No                      Ubicación, evolución y acción
+
+ Grietas nuevas o abiertas
+
+ Caída de bloques o material
+
+ Abombamiento, escalón o asiento
+
+ Surgencia, humedad o agua turbia
+
+ Drenaje obstruido o erosión
+
+ Berma colmatada o dañada
+
+ Socavación o excavación no prevista
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                       Página 27
+                                                           FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                 Observación                       Sí/No                      Ubicación, evolución y acción
+
+ Carga/equipo próximo al borde
+
+ Cambio tras lluvia, hielo o voladura
+
+ Instrumentación alterada
+
+
+
+Si existe duda. Alejar personas y equipos, delimitar, comunicar y solicitar evaluación competente. No
+acercarse para medir si el acceso forma parte del área inestable.
+
+Anexo E Plan de tráfico mínimo
+                               Campo                                          Registro
+
+ Vehículo crítico por ruta
+
+ Sentido, carriles, apartaderos y prioridad
+
+ Velocidades por tramo
+
+ Pendientes, curvas, visibilidad y frenado
+
+ Bordes, barreras y descarga
+
+ Segregación peatonal y vehículos ligeros
+
+ Marcha atrás y señalistas
+
+ Cruces con líneas, cintas o servicios
+
+ Iluminación, polvo, niebla y lluvia
+
+ Visitantes y externos
+
+ Inspección y mantenimiento
+
+ Emergencia, avería y recuperación
+
+
+
+
+Anexo F Permiso de consignación
+                               Campo                                          Registro
+
+ Equipo y alcance
+
+ Trabajo y ejecutantes
+
+ Fuentes de energía
+
+ Puntos de aislamiento
+
+ Bloqueos y custodios
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                       Página 28
+                                                          FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                               Campo                                         Registro
+
+ Energía acumulada controlada
+
+ Método y resultado de verificación
+
+ Equipos relacionados
+
+ Cambio de turno
+
+ Guardas y herramientas
+
+ Retirada de bloqueos
+
+ Prueba y retorno
+
+
+
+
+Anexo G Guion de emergencia
+                               Campo                                         Registro
+
+ Número interno y 112
+
+ Ubicación y coordenadas
+
+ Punto de acceso y guía
+
+ Alarma y canales alternativos
+
+ Reunión y recuento
+
+ Riesgos que impiden acceso
+
+ Medios y primeros auxilios
+
+ Rescate específico
+
+ Sustancias y energías
+
+ Responsable
+
+
+
+
+Anexo H Taller de casos integrados
+H1 Nuevo volquete
+Situación. Llega un volquete más ancho y pesado. El proveedor afirma que puede circular por rutas
+existentes.
+Encargo. Calcule datos faltantes y documentos/inspecciones antes de autorizar.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                     Página 29
+                                                             FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+Condición de parada y autoridad:
+______________________________________________________________
+H2 Polvo en cabina
+Situación. El operador observa polvo en el salpicadero con ventanas cerradas.
+Encargo. Defina medida inmediata, diagnóstico y retorno.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+H3 Balsa tras tormenta
+Situación. El nivel se aproxima a coronación y aparece filtración lateral.
+Encargo. Defina exclusión, aviso, control y decisiones prohibidas.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+H4 Peatón en carga
+Situación. Un topógrafo necesita tomar un punto junto al frente mientras opera la cargadora.
+Encargo. Diseñe secuencia sin simultaneidad y contacto positivo.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+H5 Borde degradado
+Situación. La protección de una rampa pierde altura en varios tramos.
+Encargo. Clasifique ruta y proponga control temporal y reparación.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                        Página 30
+                                                              FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+H6 Trabajo nocturno
+Situación. Una luminaria averiada deja sombra en cruce con tráfico mixto.
+Encargo. Decida parar, restringir o alternativa y su verificación.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+H7 Barreno sospechoso
+Situación. Aparece un hueco con restos que podrían corresponder a un barreno anterior.
+Encargo. Defina actuación sin invadir competencia del artillero.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+H8 Alarma recurrente
+Situación. Una trituradora dispara protección varias veces por semana y se rearma sin investigar.
+Encargo. Plantee causa y condiciones de reanudación.
+Decisión:
+__________________________________________________________________________________
+Evidencias necesarias:
+______________________________________________________________________
+Condición de parada y autoridad:
+______________________________________________________________
+
+Anexo I Evaluación final
+Seleccione una respuesta. Umbral recomendado: 75 %, junto con participación satisfactoria en ejercicios.
+La entidad formadora adapta el sistema y conserva evidencia.
+1. Duración inicial del grupo 5.2.a:
+      A8h
+      B 20 h
+      C5h
+      D 40 h
+2. Modalidad prevista por la ITC:
+      A Audio
+      B Teleformación
+      C Presencial
+      D Autoestudio
+3. Periodicidad máxima de reciclaje 5.2.a:
+      A 1 año
+      B 2 años
+      C 4 años
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                         Página 31
+                                                   FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+      D 5 años
+4. Ante grieta nueva en coronación:
+      A Medir desde borde
+      B Aislar y comunicar
+      C Tapar
+      D Continuar
+5. Una berma definitiva responde a:
+      A Costumbre
+      B Estudio geotécnico
+      C Ancho pala
+      D Señal
+6. Distancia normal mínima al borde:
+      A1m
+      B2m
+      C5m
+      D 10 m
+7. Pista de dos carriles:
+      A 3 veces vehículo más ancho
+      B2m
+      C Según turno
+      D Sin criterio
+8. Una alarma de marcha atrás:
+      A Elimina punto ciego
+      B Sustituye segregación
+      C Es una ayuda
+      D Autoriza entrar
+9. Contacto positivo:
+      A Ver máquina
+      B Confirmación, detención y autorización
+      C Oír alarma
+      D Chaleco
+10. Cinturón con ROPS:
+      A Evita ruido
+      B Mantiene volumen protegido
+      C Mejora visión
+      D Sustituye freno
+11. Parar un mando antes de mantener:
+      A Siempre consigna
+      B Elimina presión
+      C No garantiza ausencia
+      D Sustituye bloqueo
+12. La verificación de consignación:
+      A Lee etiqueta
+      B Confirma aislamiento
+      C Cierra trabajo
+      D Confirma repuesto
+13. Implemento elevado se asegura con:
+      A Hidráulica
+      B Tablón
+      C Soporte diseñado
+      D Ralentí
+14. Polvo respirable:
+      A Siempre visible
+      B Se evalúa por olor
+      C Requiere control y medición
+      D Cualquier mascarilla
+15. VLA-ED de SCR publicado:
+      A5
+      B 0,5
+      C 0,05 mg/m³
+      D 50
+16. El EPI se selecciona:
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                              Página 32
+                                                      FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+      A Por color
+      B Para riesgo residual evaluado
+      C Por gusto
+      D Como único control
+17. CAE eficaz:
+      A Intercambia papeles
+      B Controla interferencias
+      C Firma al final
+      D Delega
+18. Una modificación de equipo:
+      A Solo anotar
+      B Evaluar seguridad y conformidad
+      C Nada
+      D Pintar
+19. Defecto de freno:
+      A Cosmético
+      B Menor
+      C Crítico
+      D Informativo
+20. Tras lluvia intensa:
+      A Solo producir
+      B Inspección extraordinaria
+      C Quitar señales
+      D Acelerar
+21. Barreno sospechoso:
+      A Reperforar
+      B Excluir y avisar autorizado
+      C Excavar
+      D Ignorar
+22. El curso convierte en artillero:
+      A Sí
+      B Con experiencia
+      C No
+      D En voladura pequeña
+23. Cámara averiada se compensa siempre con alarma:
+      A Sí
+      B No, reparar o rediseñar
+      C De noche
+      D En vacío
+24. Chequeo preuso:
+      A Mental
+      B Método y criterio de inmovilización
+      C Semanal
+      D Ignora defectos
+25. Fuga hidráulica se busca con:
+      A Mano
+      B Método seguro
+      C Mechero
+      D Aceleración
+26. Vibración se valora con:
+      A Lectura aislada
+      B Exposición diaria
+      C Opinión
+      D Antigüedad
+27. Medida frente al calor:
+      A Evitar pausas
+      B Agua, sombra y organización
+      C Trabajar solo
+      D Más carga
+28. Plan de tráfico se basa en:
+      A Vehículo pequeño
+      B Vehículo crítico y flujos
+      C Plano antiguo
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                 Página 33
+                                                     FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+      D Señales
+29. Desviación cerrada cuando:
+      A Se asigna
+      B Se verifica eficacia
+      C Pasa tiempo
+      D Hay foto
+30. Gestión del cambio se activa:
+      A Tras incidente
+      B Antes de continuar
+      C Solo ley nueva
+      D Anual
+31. Primera prioridad en emergencia:
+      A Entrar
+      B No crear otra víctima
+      C Fotografiar
+      D Mover evidencia
+32. Una NTP es generalmente:
+      A Ley
+      B Buena práctica no vinculante
+      C Permiso
+      D Convenio
+33. El marcado CE:
+      A Vale para todo terreno
+      B No sustituye evaluación del uso
+      C Elimina mantenimiento
+      D Autoriza modificar
+34. Presencia a pie en pistas:
+      A Aumentar
+      B Limitar y usar acceso seguro
+      C Libre
+      D Junto a tráfico
+35. Limpiar cinta en marcha:
+      A Con guante
+      B Evitar acceso o consignar
+      C Preferible
+      D Si rápido
+36. Barrera de borde se comprueba por:
+      A Color
+      B Geometría, material y estado
+      C Antigüedad
+      D Marca
+37. Agua al pie de talud:
+      A Inocua
+      B Puede afectar estabilidad
+      C Solo limpieza
+      D Se tapa
+38. Autoridad de reanudación:
+      A Se improvisa
+      B Está definida y documenta
+      C Primer operador
+      D Contrata
+39. Tarea no rutinaria exige:
+      A Copiar genérico
+      B Secuencia, energías e interfaces
+      C Menos supervisión
+      D No comunicar
+40. Objetivo del técnico:
+      A Producir a todo coste
+      B Convertir diseño en controles verificables
+      C Sustituir operador
+      D Archivar
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                Página 34
+                                                                   FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+Anexo J Soluciones razonadas
+                   Pregunta                            Respuesta                                     Razón
+
+                       1                           B                             La ET fija 20 horas.
+
+                       2                           C                             La ITC establece presencialidad.
+
+                       3                           C                             La ET fija cuatro años.
+
+                       4                           B                             Primero se retira exposición.
+
+                       5                           B                             La geometría deriva del estudio.
+
+                       6                           C                             La ITC fija cinco metros.
+
+                       7                           A                             Criterio de ITC 07.1.03.
+
+                       8                           C                             No elimina exposición.
+
+                       9                           B                             Exige acuerdo inequívoco.
+
+                      10                           B                             ROPS y cinturón son sistema.
+
+                      11                           C                             Puede quedar energía.
+
+                      12                           B                             Prueba la ausencia de energía.
+
+                      13                           C                             La gravedad exige soporte.
+
+                      14                           C                             No se juzga a simple vista.
+
+                      15                           C                             El valor es 0,05 mg/m³.
+
+                      16                           B                             Es la última barrera.
+
+                      17                           B                             Debe ser operativa.
+
+                      18                           B                             Puede alterar funciones.
+
+                      19                           C                             Compromete función primaria.
+
+                      20                           B                             Cambia terreno y vía.
+
+                      21                           B                             Exige personal habilitado.
+
+                      22                           C                             Habilitación independiente.
+
+                      23                           B                             Recuperar la función.
+
+                      24                           B                             Debe producir decisión.
+
+                      25                           B                             Evita inyección en piel.
+
+                      26                           B                             La comparación usa A(8).
+
+                      27                           B                             Control múltiple.
+
+                      28                           B                             Usa la realidad del centro.
+
+                      29                           B                             Cierre exige función.
+
+                      30                           B                             Precede a exposición.
+
+                      31                           B                             Autoprotección.
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                    Página 35
+                                                                   FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+                   Pregunta                            Respuesta                                          Razón
+
+                      32                           B                                Referencia técnica.
+
+                      33                           B                                El lugar condiciona aptitud.
+
+                      34                           B                                La ITC la limita.
+
+                      35                           B                                Controla atrapamiento.
+
+                      36                           B                                Su función depende del diseño.
+
+                      37                           B                                Puede elevar presión y erosionar.
+
+                      38                           B                                Forma parte del control.
+
+                      39                           B                                Requiere planificación específica.
+
+                      40                           B                                Integra y verifica.
+
+
+
+
+Anexo K Glosario
+                               Término                                             Definición de trabajo
+
+ Acceso                                                     Vía eventual para servicio a un frente, vehículos y/o personal.
+
+                                                            Control cuyo fallo permite un suceso de alta consecuencia y exige
+ Barrera crítica
+                                                            verificación.
+
+ Banco                                                      Nivel o escalón de trabajo de una explotación por banqueo.
+
+                                                            Franja entre taludes con función de estabilidad, retención, acceso
+ Berma
+                                                            o drenaje.
+
+ Consignación                                               Aislamiento, bloqueo, disipación y verificación de energías.
+
+ Criterio de parada                                         Condición predefinida que obliga a detener, aislar o reevaluar.
+
+                                                            Documento que integra organización, evaluación y medidas de
+ DSS
+                                                            seguridad y salud.
+
+ DIS                                                        Regla interna formal que concreta condiciones obligatorias.
+
+ Exposición                                                 Presencia dentro de la trayectoria de un peligro.
+
+ Frente                                                     Superficie de arranque o excavación activa o inactiva.
+
+ Peligro                                                    Fuente o situación con capacidad de causar daño.
+
+ Pista                                                      Vía destinada a circulación habitual de vehículos.
+
+                                                            Superficie de trabajo para operación, estabilidad, maniobra y
+ Plataforma
+                                                            drenaje.
+
+ Riesgo                                                     Probabilidad y consecuencia considerando exposición y controles.
+
+                                                            Fracción respirable de sílice cristalina capaz de alcanzar región
+ SCR
+                                                            alveolar.
+
+ Zona de exclusión                                          Área cuyo acceso se impide mientras existe un peligro definido.
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                         Página 36
+                                                             FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+
+Anexo L Fuentes normativas y técnicas
+Se han priorizado textos consolidados del BOE, páginas y guías de MITECO e INSST y, para contraste de
+buenas prácticas de canteras, organismos públicos europeos. Los enlaces se comprobaron durante la
+revisión de 23 de octubre de 2026. Debe verificarse su vigencia antes de cada edición.
+BOE. Ley 31/1995 de Prevención de Riesgos Laborales
+BOE. Real Decreto 863/1985, Reglamento General de Normas Básicas de Seguridad Minera
+BOE. ITC 02.1.02, formación preventiva para el desempeño del puesto de trabajo
+BOE. ET 2003-1-10, técnicos titulados de exterior
+BOE. ITC del capítulo VII para trabajos a cielo abierto
+BOE. Real Decreto 1389/1997, disposiciones mínimas en actividades mineras
+BOE. ITC 02.0.02, protección frente al polvo
+BOE. Real Decreto 1215/1997, equipos de trabajo
+BOE. Real Decreto 773/1997, equipos de protección individual
+BOE. Real Decreto 171/2004, coordinación de actividades empresariales
+BOE. Real Decreto 665/1997, agentes cancerígenos
+BOE. Real Decreto 286/2006, ruido
+BOE. Real Decreto 1311/2005, vibraciones
+BOE. Real Decreto 485/1997, señalización
+BOE. Real Decreto 614/2001, riesgo eléctrico
+BOE. Real Decreto 130/2017, Reglamento de Explosivos
+MITECO. Legislación de seguridad minera
+MITECO. Guías y documentos técnicos de seguridad minera
+MITECO. Guía sobre control geotécnico en minería a cielo abierto
+MITECO. Informe de siniestralidad minera 2024
+INSST. Manual de seguridad y salud en industrias extractivas
+INSST. Base de límites de exposición, sílice cristalina respirable
+INSST. FTA 04/A24, toma de muestra de sílice cristalina respirable
+INSST. Guía técnica para exposición al ruido 2022
+INSST. Guía técnica para vibraciones mecánicas 2025
+INSST. Directrices para una eficaz coordinación de actividades empresariales 2024
+INSST. NTP 1117, consignación de máquinas
+INSST. NTP 733, EPI en minería a cielo abierto
+INSST. Herramienta WBGT para estrés térmico
+HSE. Quarry design
+HSE. Vehicles and edge protection
+HSE. Tips and excavation
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                        Página 37
+                                                               FORMACIÓN PREVENTIVA · TÉCNICOS TITULADOS DE EXTERIOR
+
+
+
+EU-OSHA. Workplace transport safety
+Nota editorial sobre fuentes históricas
+Existe un Manual de formación preventiva para técnicos titulados en actividades extractivas de exterior,
+editado en 2011 por el Consejo General de Colegios Oficiales de Ingenieros Técnicos de Minas con
+financiación de la Dirección General de Política Energética y Minas. Se ha considerado únicamente como
+antecedente sectorial de estructura. La redacción de este manual es original y las referencias se han
+revisado contra fuentes oficiales actuales.
+
+Registro para la próxima edición
+                              Elemento                                          Revisión prevista
+
+ Textos consolidados BOE                                  Antes de publicar o impartir una nueva edición.
+
+ Valores límite INSST                                     Anualmente y ante nueva edición de límites.
+
+ Guías MITECO e INSST                                     Semestralmente o ante comunicación oficial.
+
+                                                          Tras cambio normativo, incidente, nueva tecnología o retorno
+ Contenido del curso
+                                                          docente.
+
+                                                          Tras validación en explotación y revisión por personal
+ Formatos
+                                                          competente.
+
+
+                                                   FIN DEL MANUAL
+
+
+
+
+Edición 1.1 · Revisión normativa 23 octubre 2026
+                                                                                                                   Página 38
+
