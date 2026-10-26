@@ -12,6 +12,7 @@ Contenido Cursos/
 Cursos Carricoche/
 .work/
 tmp/
+__pycache__/
 # Configuración local de herramientas y parches sueltos de trabajo.
 .mcp.json
 *.patch
