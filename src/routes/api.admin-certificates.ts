@@ -135,19 +135,16 @@ export const Route = createFileRoute('/api/admin-certificates')({
             const profile = profiles.get(enrollment.user_id)
             const certificate = certificates.get(enrollment.id) ?? null
             const documents = documentsByEnrollment.get(enrollment.id) ?? []
-            const hasIdentity = Boolean(profile?.dni?.trim())
             const hasDownload = Boolean(
               documents.length ||
                 certificate?.pdf_storage_path ||
                 certificate?.validated_by,
             )
-            const workflowStatus = !hasIdentity
-              ? 'pending_identity'
-              : hasDownload
-                ? 'available'
-                : enrollment.status === 'completed'
-                  ? 'pending_certificate'
-                  : 'course_processing'
+            const workflowStatus = hasDownload
+              ? 'available'
+              : enrollment.status === 'completed'
+                ? 'pending_certificate'
+                : 'course_processing'
 
             return {
               enrollment_id: enrollment.id,
@@ -261,13 +258,6 @@ export const Route = createFileRoute('/api/admin-certificates')({
         if (profileError || !profile) {
           return Response.json({ error: 'Perfil del alumno no encontrado.' }, { status: 404 })
         }
-        if (!profile.dni?.trim()) {
-          return Response.json(
-            { error: 'El alumno debe completar su DNI/NIE antes de emitir el certificado.' },
-            { status: 409 },
-          )
-        }
-
         const holderName = `${profile.first_name ?? ''} ${profile.last_name ?? ''}`.trim()
         const existingResult = await supabase
           .from('certificates')
@@ -298,7 +288,7 @@ export const Route = createFileRoute('/api/admin-certificates')({
               course_version_id: enrollment.course_version_id,
               certificate_code: certificateCode(enrollment.completed_at),
               holder_name: holderName || 'Alumno/a',
-              holder_dni: profile.dni.trim().toUpperCase(),
+              holder_dni: profile.dni?.trim().toUpperCase() || null,
               course_title: enrollment.course_versions.courses.title,
               duration_hours: enrollment.course_versions.duration_hours,
               modality: enrollment.course_versions.modality,

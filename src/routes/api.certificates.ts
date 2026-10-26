@@ -57,25 +57,22 @@ export const Route = createFileRoute('/api/certificates')({
           return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
         }
 
-        const [profileResult, enrollmentsResult] = await Promise.all([
-          supabase.from('profiles').select('dni').eq('id', user.id).maybeSingle(),
-          supabase
-            .from('enrollments')
-            .select(
-              'id, status, completed_at, course_versions!inner(courses!inner(title))',
-            )
-            .eq('user_id', user.id)
-            .eq('status', 'completed')
-            .order('completed_at', { ascending: false }),
-        ])
-        if (profileResult.error || enrollmentsResult.error) {
+        const { data: enrollmentData, error: enrollmentError } = await supabase
+          .from('enrollments')
+          .select(
+            'id, status, completed_at, course_versions!inner(courses!inner(title))',
+          )
+          .eq('user_id', user.id)
+          .eq('status', 'completed')
+          .order('completed_at', { ascending: false })
+        if (enrollmentError) {
           return Response.json(
             { error: 'No se han podido cargar tus certificados.' },
             { status: 500 },
           )
         }
 
-        const enrollments = (enrollmentsResult.data ?? []) as unknown as EnrollmentRow[]
+        const enrollments = (enrollmentData ?? []) as unknown as EnrollmentRow[]
         const enrollmentIds = enrollments.map((enrollment) => enrollment.id)
         const [certificatesResult, documentsResult] = enrollmentIds.length
           ? await Promise.all([
@@ -115,8 +112,6 @@ export const Route = createFileRoute('/api/certificates')({
           (documentsResult.data ?? []) as DocumentRow[],
           (document) => document.enrollment_id,
         )
-        const hasIdentity = Boolean(profileResult.data?.dni?.trim())
-
         const courses = enrollments.map((enrollment) => {
           const certificate = certificates.get(enrollment.id) ?? null
           const uploadedDocuments = documentsByEnrollment.get(enrollment.id) ?? []
@@ -146,11 +141,7 @@ export const Route = createFileRoute('/api/certificates')({
             enrollment_id: enrollment.id,
             course_title: enrollment.course_versions.courses.title,
             completed_at: enrollment.completed_at,
-            status: !hasIdentity
-              ? 'pending_identity'
-              : documents.length
-                ? 'available'
-                : 'pending_certificate',
+            status: documents.length ? 'available' : 'pending_certificate',
             documents,
           }
         })
