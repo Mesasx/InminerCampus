@@ -7,19 +7,20 @@ import { getSupabaseBrowserClient } from '../lib/supabase'
 import { seoHead } from '../lib/seo'
 
 export const Route = createFileRoute('/recuperar-contrasena')({
-  head: () => seoHead({
-    title: 'Recuperar contraseña',
-    description:
-      'Recupera el acceso a tu cuenta del Campus.',
-    path: '/recuperar-contrasena',
-    noindex: true,
-  }),
+  head: () =>
+    seoHead({
+      title: 'Recuperar contraseña',
+      description: 'Recupera el acceso a tu cuenta del Campus.',
+      path: '/recuperar-contrasena',
+      noindex: true,
+    }),
   component: RecoverPasswordPage,
 })
 
 function RecoverPasswordPage() {
   const [email, setEmail] = useState('')
   const [captchaToken, setCaptchaToken] = useState('')
+  const [captchaKey, setCaptchaKey] = useState(0)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
@@ -27,6 +28,7 @@ function RecoverPasswordPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
+    setMessage('')
     const supabase = getSupabaseBrowserClient()
 
     if (appConfig.turnstileSiteKey && !captchaToken) {
@@ -34,14 +36,33 @@ function RecoverPasswordPage() {
       return
     }
 
-    if (supabase) {
-      setLoading(true)
-      await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: `${appConfig.appUrl}/nueva-contrasena`,
+    if (!supabase) {
+      setError('La conexión segura no está configurada.')
+      return
+    }
+
+    setLoading(true)
+    const redirectOrigin =
+      typeof window === 'undefined' ? appConfig.appUrl : window.location.origin
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      email.trim().toLowerCase(),
+      {
+        redirectTo: `${redirectOrigin}/nueva-contrasena`,
         captchaToken: captchaToken || undefined,
-      })
-      setLoading(false)
-      setCaptchaToken('')
+      },
+    )
+    setLoading(false)
+    setCaptchaToken('')
+    setCaptchaKey((current) => current + 1)
+
+    if (resetError) {
+      const isRateLimited = /rate|l[ií]mite|too many/i.test(resetError.message)
+      setError(
+        isRateLimited
+          ? 'Se han solicitado demasiados enlaces. Espera unos minutos e inténtalo de nuevo.'
+          : 'No hemos podido enviar el enlace. Revisa la verificación de seguridad e inténtalo de nuevo.',
+      )
+      return
     }
 
     setMessage(
@@ -55,8 +76,16 @@ function RecoverPasswordPage() {
       description="Te enviaremos un enlace seguro para establecer una nueva contraseña."
     >
       <form className="form-grid" onSubmit={handleSubmit}>
-        {error ? <div className="alert alert--error">{error}</div> : null}
-        {message ? <div className="alert alert--success">{message}</div> : null}
+        {error ? (
+          <div className="alert alert--error" role="alert">
+            {error}
+          </div>
+        ) : null}
+        {message ? (
+          <div className="alert alert--success" aria-live="polite">
+            {message}
+          </div>
+        ) : null}
         <div className="field">
           <label htmlFor="recover-email">Correo electrónico</label>
           <input
@@ -70,6 +99,7 @@ function RecoverPasswordPage() {
         </div>
         {appConfig.turnstileSiteKey ? (
           <Turnstile
+            key={captchaKey}
             siteKey={appConfig.turnstileSiteKey}
             onSuccess={setCaptchaToken}
             onExpire={() => setCaptchaToken('')}

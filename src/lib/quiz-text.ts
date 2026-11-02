@@ -4,8 +4,8 @@
 // que algunos enunciados y opciones arrastran su procedencia: «(Diapositiva 8)»,
 // «Tema 2 ·», «Fuente: slide 14», «según la diapositiva»… Esa referencia sirve
 // al equipo para mantener y trazar el banco, pero durante el examen le dice al
-// alumno dónde está la respuesta. Por eso no se borra de Supabase: se deja de
-// mostrar.
+// alumno dónde está la respuesta. La base de datos se sanea mediante migración;
+// esta limpieza sigue actuando como defensa adicional ante futuras importaciones.
 //
 // La RPC `start_quiz_attempt` sólo entrega al navegador el enunciado y el texto
 // de las opciones (nunca `explanation`), y la RLS impide leer `questions`
@@ -48,7 +48,10 @@ const PATTERNS: Array<[RegExp, string]> = [
   ],
   // Referencia final suelta tras un separador: «… correcta? — Diapositiva 8».
   [
-    new RegExp(String.raw`\s*[-–—·|]\s*(?:${REFERENCE}\s*(?:[,;]\s*)?)+\.?\s*$`, 'i'),
+    new RegExp(
+      String.raw`\s*[-–—·|]\s*(?:${REFERENCE}\s*(?:[,;]\s*)?)+\.?\s*$`,
+      'i',
+    ),
     '',
   ],
   // Menciones dentro de la frase: «según la diapositiva (8)», «que aparece en
@@ -87,6 +90,10 @@ export function stripSourceReferences(text: string): string {
   if (!result) return text.trim()
   // Si el texto original empezaba en mayúscula, el limpio también.
   return /^[¿¡]?\p{Lu}/u.test(text.trim())
-    ? result.replace(/^([¿¡]?)(\p{Ll})/u, (_, mark: string, letter: string) => mark + letter.toLocaleUpperCase('es'))
+    ? result.replace(
+        /^([¿¡]?)(\p{Ll})/u,
+        (_, mark: string, letter: string) =>
+          mark + letter.toLocaleUpperCase('es'),
+      )
     : result
 }

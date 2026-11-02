@@ -28,8 +28,13 @@ type AuditSegment = {
 }
 
 type AuditModule = {
+  id: string
   position: number
+  title: string
   lessons: Array<{
+    id: string
+    position: number
+    title: string
     lesson_audio_segments: AuditSegment[]
   }>
 }
@@ -50,8 +55,10 @@ function assetKey(storagePath: string | null, externalUrl: string | null) {
 }
 
 function manualChapterMatches(code: string, manualChapter: string | null) {
-  const chapterCode = manualChapter?.match(/\b([1-9]\d*\.(?:10|[1-9]))\b/)?.[1]
-  return chapterCode === code
+  if (!manualChapter?.trim()) return false
+  const chapterCode = manualChapter.match(/\b([1-9]\d*\.[1-9]\d*)\b/)?.[1]
+  if (chapterCode) return chapterCode === code
+  return /\bbloque\s+\d+\s*[·:|\-–—]\s*diapositiva\s+\d+\b/i.test(manualChapter)
 }
 
 function csvCell(value: string | number) {
@@ -89,7 +96,7 @@ export function CourseContentValidationReport({
       supabase
         .from('course_modules')
         .select(
-          'position, lessons(lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, published, lesson_segment_slides(image_storage_path, image_external_url), lesson_segment_notes(summary, approved)))',
+          'id, position, title, lessons(id, position, title, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, published, lesson_segment_slides(image_storage_path, image_external_url), lesson_segment_notes(summary, approved)))',
         )
         .eq('course_version_id', versionId)
         .order('position'),
@@ -111,23 +118,24 @@ export function CourseContentValidationReport({
     void load()
   }, [load])
 
-  const segments = useMemo(
-    () =>
-      modules
-        .filter((module) => module.position >= 1 && module.position <= 5)
-        .flatMap((module) =>
-        (module.lessons ?? []).flatMap((lesson) =>
-          (lesson.lesson_audio_segments ?? [])
-            .filter((segment) => segment.position >= 1 && segment.position <= 10)
-            .map((segment) => ({
-              ...segment,
-              blockNumber: module.position,
-              expectedCode: `${module.position}.${segment.position}`,
-            })),
-        ),
-      ),
-    [modules],
-  )
+  const segments = useMemo(() => {
+    let lessonOrdinal = 0
+    return [...modules]
+      .sort((a, b) => a.position - b.position)
+      .flatMap((module) =>
+        [...(module.lessons ?? [])]
+          .sort((a, b) => a.position - b.position)
+          .flatMap((lesson) => {
+            lessonOrdinal += 1
+            return [...(lesson.lesson_audio_segments ?? [])]
+              .sort((a, b) => a.position - b.position)
+              .map((segment) => ({
+                ...segment,
+                expectedCode: `${lessonOrdinal}.${segment.position}`,
+              }))
+          }),
+      )
+  }, [modules])
 
   const duplicateAudio = useMemo(() => {
     const counts = new Map<string, number>()
@@ -255,7 +263,8 @@ export function CourseContentValidationReport({
     const counts = new Map<string, number>()
     for (const material of materials) {
       const source = assetKey(material.storage_path, material.external_url)
-      const key = source || `${material.kind}:${material.title.trim().toLowerCase()}`
+      const key =
+        source || `${material.kind}:${material.title.trim().toLowerCase()}`
       counts.set(key, (counts.get(key) ?? 0) + 1)
     }
     const repeated = new Set(
@@ -265,7 +274,8 @@ export function CourseContentValidationReport({
     )
     return materials.filter((material) => {
       const source = assetKey(material.storage_path, material.external_url)
-      const key = source || `${material.kind}:${material.title.trim().toLowerCase()}`
+      const key =
+        source || `${material.kind}:${material.title.trim().toLowerCase()}`
       return repeated.has(key)
     })
   }, [materials])
@@ -404,7 +414,8 @@ export function CourseContentValidationReport({
       {duplicateMaterials.length ? (
         <div className="alert alert--info">
           <AlertTriangle size={17} /> {duplicateMaterials.length} registros de
-          material duplicados: {duplicateMaterials.map((item) => item.title).join(', ')}.
+          material duplicados:{' '}
+          {duplicateMaterials.map((item) => item.title).join(', ')}.
         </div>
       ) : null}
 
