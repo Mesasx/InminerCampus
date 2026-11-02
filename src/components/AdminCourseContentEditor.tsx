@@ -18,6 +18,7 @@ type Slide = {
 }
 
 type SegmentNote = {
+  segment_id?: string
   summary: string
   key_points: string[]
   stop_criterion: string
@@ -76,36 +77,53 @@ export function AdminCourseContentEditor({
   const [busy, setBusy] = useState(false)
 
   const load = useCallback(async () => {
-    const { data, error } =
-      (await getSupabaseBrowserClient()
-        ?.from('course_modules')
+    const supabase = getSupabaseBrowserClient()
+    if (!supabase) return
+    const [contentResponse, notesResponse] = await Promise.all([
+      supabase
+        .from('course_modules')
         .select(
-          'id, position, title, description, lessons(id, position, title, summary, duration_minutes, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, published, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url), lesson_segment_notes(summary, key_points, stop_criterion, source_label, source_pages, approved)))',
+          'id, position, title, description, lessons(id, position, title, summary, duration_minutes, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, duration_seconds, published, lesson_segment_slides(id, position, title, body, image_storage_path, image_external_url)))',
         )
         .eq('course_version_id', versionId)
-        .order('position', { ascending: true })) ?? {}
+        .order('position', { ascending: true }),
+      supabase.rpc('admin_course_segment_notes', {
+        p_course_version_id: versionId,
+      }),
+    ])
 
-    if (error) {
+    if (contentResponse.error || notesResponse.error) {
       onNotice('No se ha podido cargar el contenido de la versión.')
       return
     }
 
-    const rows = ((data ?? []) as unknown as Module[]).map((module) => ({
-      ...module,
-      lessons: [...(module.lessons ?? [])]
-        .sort((a, b) => a.position - b.position)
-        .map((lesson) => ({
-          ...lesson,
-          lesson_audio_segments: [...(lesson.lesson_audio_segments ?? [])]
-            .sort((a, b) => a.position - b.position)
-            .map((segment) => ({
-              ...segment,
-              lesson_segment_slides: [
-                ...(segment.lesson_segment_slides ?? []),
-              ].sort((a, b) => a.position - b.position),
-            })),
-        })),
-    }))
+    const notesBySegment = new Map(
+      ((notesResponse.data ?? []) as SegmentNote[])
+        .filter((note) => note.segment_id)
+        .map((note) => [note.segment_id as string, note]),
+    )
+
+    const rows = ((contentResponse.data ?? []) as unknown as Module[]).map(
+      (module) => ({
+        ...module,
+        lessons: [...(module.lessons ?? [])]
+          .sort((a, b) => a.position - b.position)
+          .map((lesson) => ({
+            ...lesson,
+            lesson_audio_segments: [...(lesson.lesson_audio_segments ?? [])]
+              .sort((a, b) => a.position - b.position)
+              .map((segment) => ({
+                ...segment,
+                lesson_segment_notes: notesBySegment.has(segment.id)
+                  ? [notesBySegment.get(segment.id) as SegmentNote]
+                  : [],
+                lesson_segment_slides: [
+                  ...(segment.lesson_segment_slides ?? []),
+                ].sort((a, b) => a.position - b.position),
+              })),
+          })),
+      }),
+    )
 
     setModules(rows)
     setLessonModuleId((current) => current || rows[0]?.id || '')
