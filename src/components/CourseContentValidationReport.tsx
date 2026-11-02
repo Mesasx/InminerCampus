@@ -9,6 +9,7 @@ type AuditSlide = {
 }
 
 type AuditNote = {
+  segment_id?: string
   summary: string
   approved: boolean
 }
@@ -92,24 +93,53 @@ export function CourseContentValidationReport({
   const load = useCallback(async () => {
     const supabase = getSupabaseBrowserClient()
     if (!supabase) return
-    const [contentResponse, materialResponse] = await Promise.all([
-      supabase
-        .from('course_modules')
-        .select(
-          'id, position, title, lessons(id, position, title, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, published, lesson_segment_slides(image_storage_path, image_external_url), lesson_segment_notes(summary, approved)))',
-        )
-        .eq('course_version_id', versionId)
-        .order('position'),
-      supabase
-        .from('course_materials')
-        .select('id, kind, title, storage_path, external_url, is_published')
-        .eq('course_version_id', versionId),
-    ])
-    if (contentResponse.error || materialResponse.error) {
+    const [contentResponse, materialResponse, notesResponse] =
+      await Promise.all([
+        supabase
+          .from('course_modules')
+          .select(
+            'id, position, title, lessons(id, position, title, lesson_audio_segments(id, position, lesson_code, manual_chapter, title, narration_text, audio_storage_path, audio_external_url, published, lesson_segment_slides(image_storage_path, image_external_url)))',
+          )
+          .eq('course_version_id', versionId)
+          .order('position'),
+        supabase
+          .from('course_materials')
+          .select('id, kind, title, storage_path, external_url, is_published')
+          .eq('course_version_id', versionId),
+        supabase.rpc('admin_course_segment_notes', {
+          p_course_version_id: versionId,
+        }),
+      ])
+    if (
+      contentResponse.error ||
+      materialResponse.error ||
+      notesResponse.error
+    ) {
       onNotice('No se ha podido generar el informe de validación.')
       return
     }
-    setModules((contentResponse.data ?? []) as unknown as AuditModule[])
+    const notesBySegment = new Map(
+      ((notesResponse.data ?? []) as AuditNote[])
+        .filter((note) => note.segment_id)
+        .map((note) => [note.segment_id as string, note]),
+    )
+    const modules = (contentResponse.data ?? []) as unknown as AuditModule[]
+    setModules(
+      modules.map((module) => ({
+        ...module,
+        lessons: (module.lessons ?? []).map((lesson) => ({
+          ...lesson,
+          lesson_audio_segments: (lesson.lesson_audio_segments ?? []).map(
+            (segment) => ({
+              ...segment,
+              lesson_segment_notes: notesBySegment.has(segment.id)
+                ? [notesBySegment.get(segment.id) as AuditNote]
+                : [],
+            }),
+          ),
+        })),
+      })),
+    )
     setMaterials((materialResponse.data ?? []) as AuditMaterial[])
     setAssetStates({})
   }, [onNotice, versionId])
