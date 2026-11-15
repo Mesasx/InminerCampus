@@ -407,8 +407,8 @@ function CategoriesTeaser({ hasOtherCourses }: { hasOtherCourses: boolean }) {
               <div className="category-teaser__body">
                 <h3>Formación para empresas</h3>
                 <p>
-                  Plazas para toda la plantilla, una licencia por trabajador y
-                  descuento por volumen desde 6 plazas.
+                  Acceso coordinado para equipos, con validación de cada
+                  participante y seguimiento administrativo de la formación.
                 </p>
                 <span className="text-link">
                   Ver formación para empresas <ArrowRight aria-hidden="true" size={16} />
