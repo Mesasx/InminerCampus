@@ -311,14 +311,15 @@ function AboutPage() {
       </div>
 
       <div className="panel trust-panel">
-        <span className="eyebrow">Transparencia formativa</span>
-        <h2>Formación con alcance y requisitos claramente identificados.</h2>
+        <span className="eyebrow">Gobernanza y confianza</span>
+        <h2>Un entorno profesional, privado y supervisado por Inmíner.</h2>
         <p className="muted">
-          Cada ficha indica la ITC y la especificación técnica aplicables, la
-          duración, el precio de esa versión y si necesita prácticas,
-          asistencia o adaptación al centro. Superar la teoría online no
-          equivale por sí sola a completar una formación con requisitos
-          presenciales. Lo explicamos con detalle en la{' '}
+          Las fichas públicas ofrecen únicamente una introducción técnica. El
+          acceso al programa completo, los materiales y las evaluaciones se
+          reserva a personas vinculadas con Inmíner cuya identidad, empresa y
+          necesidad formativa hayan sido revisadas por un administrador. Este
+          control protege la documentación, la trazabilidad y el contexto en el
+          que debe utilizarse cada contenido. El marco general se explica en la{' '}
           <Link className="text-link" to={GUIDE_PATHS.hub}>
             guía de formación minera
           </Link>

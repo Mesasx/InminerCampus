@@ -239,7 +239,7 @@ test('todo el JSON-LD generado es JSON válido', () => {
   )
 })
 
-test('Course declara instancias y ofertas coherentes con las versiones', () => {
+test('Course declara instancias sin modalidad ni ofertas públicas', () => {
   const course = courseFixture()
   const schema = courseSchema({
     slug: course.slug,
@@ -259,18 +259,10 @@ test('Course declara instancias y ofertas coherentes con las versiones', () => {
     schema.hasCourseInstance.map((instance) => instance.courseWorkload),
     ['PT20H', 'PT5H'],
   )
-  // Modalidad híbrida: nunca debe declararse como formación en línea.
   for (const instance of schema.hasCourseInstance) {
-    assert.equal(instance.courseMode, 'blended')
+    assert.equal('courseMode' in instance, false)
   }
-  assert.deepEqual(
-    schema.offers.map((offer) => offer.price),
-    ['349', '149'],
-  )
-  for (const offer of schema.offers) {
-    assert.equal(offer.priceCurrency, 'EUR')
-    assert.equal(offer.valueAddedTaxIncluded, false)
-  }
+  assert.equal('offers' in schema, false)
 })
 
 test('un curso de acceso por invitación no publica oferta', () => {
@@ -323,7 +315,7 @@ test('Course cumple los campos que exige Google y no inventa acreditaciones', ()
 
   // El proveedor lleva nombre propio aunque la página no repita la organización.
   assert.equal(schema.provider.name, 'InmínerCampus')
-  assert.equal(schema.offers[0].category, 'Paid')
+  assert.equal('offers' in schema, false)
   assert.equal(
     schema.image,
     'https://inminercampus.com/images/curso-maquinaria-arranque-portada.png',
@@ -334,18 +326,13 @@ test('Course cumple los campos que exige Google y no inventa acreditaciones', ()
   assert.doesNotMatch(serialized, /aggregateRating|review|homologad|oficial/i)
 })
 
-test('la ficha de ITC 02.1.02 explica que la formación es presencial', () => {
+test('la ficha de ITC 02.1.02 limita la información pública al acceso supervisado', () => {
   const course = courseFixture()
   assert.equal(isItc020102(course), true)
 
   const faqs = courseFaqs(course)
-  const modality = faqs.find((faq) => /íntegramente online/.test(faq.question))
-  assert.ok(modality, 'falta la pregunta sobre modalidad online')
-  // Precisión legal: la respuesta debe negar el curso 100 % online y citar la
-  // orden del BOE que lo establece.
-  assert.match(modality.answer, /^No\./)
-  assert.match(modality.answer, /únicamente carácter presencial/)
-  assert.match(modality.answer, /ITC\/2699\/2011/)
+  assert.ok(faqs.some((faq) => /solicita acceso/.test(faq.question)))
+  assert.equal(faqs.some((faq) => /online|precio|comprar/i.test(`${faq.question} ${faq.answer}`)), false)
 })
 
 test('ninguna FAQ generada afirma que el curso sea homologado u oficial', () => {
@@ -469,7 +456,8 @@ test('todas las rutas públicas declaran metadatos propios', async () => {
   const missing: Array<string> = []
   for (const file of pages) {
     const source = await readFile(new URL(file, routesDir), 'utf8')
-    if (!source.includes('seoHead') && !hasLayoutAncestor(file)) {
+    const isRedirectOnly = source.includes('beforeLoad') && source.includes('throw redirect(')
+    if (!source.includes('seoHead') && !hasLayoutAncestor(file) && !isRedirectOnly) {
       missing.push(file)
     }
   }

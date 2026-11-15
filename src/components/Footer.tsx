@@ -45,7 +45,7 @@ export function Footer() {
               Cookies
             </Link>
             <Link to="/legal/$legalSlug" params={{ legalSlug: 'contratacion' }}>
-              Condiciones de contratación
+              Condiciones de acceso
             </Link>
           </div>
         </div>

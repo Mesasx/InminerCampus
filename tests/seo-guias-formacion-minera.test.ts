@@ -124,14 +124,11 @@ test('las guías son indexables, están en el sitemap y tienen metadatos y JSON-
     // Las FAQ marcadas son las mismas que se pintan.
     assert.match(source, /faqSchema\(faqs\)/)
     assert.match(source, /faqs\.map\(/)
-    // Precisión legal: ninguna guía promete formación ITC 02.1.02 en línea ni
-    // atribuye a un curso carácter «habilitante» u «homologado».
+    // Precisión legal: ninguna guía atribuye a un curso carácter
+    // «habilitante» u «homologado» ni lo comercializa públicamente.
     assert.doesNotMatch(source, /habilitante/i, file)
     assert.doesNotMatch(source, /curso (homologado|oficial)/i, file)
-    if (file !== 'itc-02-0-02.tsx') {
-      // Toda guía que trata la ITC 02.1.02 cita literalmente su presencialidad.
-      assert.match(source, /presencialQuote/, `${file}: falta la cita de presencialidad`)
-    }
+    assert.doesNotMatch(source, /comprar|precio|checkout/i, file)
   }
 })
 

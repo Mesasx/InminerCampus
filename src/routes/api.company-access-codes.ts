@@ -20,13 +20,7 @@ export const Route = createFileRoute('/api/company-access-codes')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const { getBearerToken, getSupabaseAdmin } = await import(
-          '../server/supabase-admin'
-        )
-        const token = getBearerToken(request)
-        if (!token) {
-          return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
-        }
+        const { requireApprovedUser } = await import('../server/user-auth')
 
         let body: z.infer<typeof requestSchema>
         try {
@@ -35,13 +29,11 @@ export const Route = createFileRoute('/api/company-access-codes')({
           return Response.json({ error: 'Solicitud no válida.' }, { status: 400 })
         }
 
-        const supabase = getSupabaseAdmin()
-        const {
-          data: { user },
-        } = await supabase.auth.getUser(token)
-        if (!user) {
+        const context = await requireApprovedUser(request)
+        if (!context) {
           return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
         }
+        const { supabase, user } = context
 
         const { data: item } = await supabase
           .from('purchase_items')

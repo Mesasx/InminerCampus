@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { CourseInquiryButton } from './CourseInquiryButton'
 import { courseImage } from '../lib/course-image'
 import { courseLinkSearch } from '../lib/course-url'
-import { modalityLabel } from '../lib/format'
 import type { PublicCourse } from '../lib/types'
 
 function prefersReducedMotion() {
@@ -185,19 +185,25 @@ export function CourseSlider({ courses }: { courses: PublicCourse[] }) {
                 </span>
                 <h3>{course.title}</h3>
                 <p className="course-slider__details">
-                  {course.duration_hours} horas · {modalityLabel(course.modality)}
+                  {course.duration_hours} horas · Acceso sujeto a validación
                 </p>
                 <p className="course-slider__copy">
                   {course.short_description ??
                     'Formación especializada para aplicar el conocimiento técnico con seguridad y criterio profesional.'}
                 </p>
-                <Link
+                <CourseInquiryButton
                   className="editorial-cta editorial-cta--solid"
+                  durationHours={course.duration_hours}
+                  reference={course.accreditation_reference}
+                  title={course.title}
+                />
+                <Link
+                  className="text-link"
                   params={{ courseSlug: course.slug }}
                   search={courseLinkSearch(course)}
                   to="/cursos/$courseSlug"
                 >
-                  Ver curso <ArrowRight aria-hidden="true" size={17} />
+                  Ver introducción <ArrowRight aria-hidden="true" size={16} />
                 </Link>
               </div>
             </article>

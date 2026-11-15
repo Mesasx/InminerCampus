@@ -86,6 +86,17 @@ function LoginPage() {
       ['administrador', 'superadministrador'].includes(role),
     )
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('status')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (profile?.status !== 'active') {
+      await navigate({ to: '/solicitud-en-revision', replace: true })
+      return
+    }
+
     await navigate({
       to: returnTo ?? (isAdministrator ? '/admin' : '/mis-cursos'),
       replace: true,
@@ -95,7 +106,7 @@ function LoginPage() {
   return (
     <AuthLayout
       title="Accede a tu campus"
-      description="Introduce tus datos para continuar con tu formación."
+      description="Introduce tus datos. El contenido privado sólo está disponible para cuentas validadas."
     >
       <form className="form-grid" onSubmit={handleSubmit}>
         {error ? <div className="alert alert--error">{error}</div> : null}

@@ -54,8 +54,9 @@ const faqs: Array<FaqItem> = [
       'Cada puesto tiene asignada una especificación técnica de la ITC 02.1.02 que fija su itinerario formativo. La tabla de esta página relaciona cada especificación con los puestos que cubre y con el curso disponible en InmínerCampus.',
   },
   {
-    question: '¿La formación minera de la ITC 02.1.02 se puede hacer online?',
-    answer: `No íntegramente. La ${ITC_02_1_02_AMENDMENT.instrument} establece que «${ITC_02_1_02_AMENDMENT.presencialQuote}» El Campus se usa como soporte teórico y de seguimiento, y la parte presencial se realiza con Inmíner Ingeniería.`,
+    question: '¿Cómo se confirma el alcance de la formación?',
+    answer:
+      'Inmíner revisa el puesto, la especificación técnica y las condiciones de la acción formativa antes de autorizar el acceso. La ficha pública es únicamente introductoria.',
   },
   {
     question: '¿Cada cuánto hay que renovar la formación minera?',
@@ -255,7 +256,7 @@ function MiningTrainingGuide() {
         </Link>
       </GuideSection>
 
-      <GuideSection id="modalidad" title="Modalidad: por qué no existe la ITC 02.1.02 «100 % online»">
+      <GuideSection id="modalidad" title="Alcance y requisitos de la acción formativa">
         <blockquote className="guide-quote">
           «{ITC_02_1_02_AMENDMENT.presencialQuote}»
           <cite>
@@ -267,11 +268,10 @@ function MiningTrainingGuide() {
           </cite>
         </blockquote>
         <p>
-          Por eso los cursos de la ITC 02.1.02 de InmínerCampus figuran con
-          modalidad híbrida: el Campus sirve de soporte teórico, de material y
-          de seguimiento del itinerario, y la parte presencial se realiza con
-          Inmíner Ingeniería. La formación frente al polvo y la sílice de la
-          ITC 02.0.02 es una instrucción distinta y se imparte en línea.
+          Inmíner verifica el puesto, la edición y los requisitos aplicables
+          antes de autorizar a una persona. La información pública no sustituye
+          esa revisión ni acredita por sí sola la realización de una acción
+          formativa.
         </p>
       </GuideSection>
 
@@ -287,16 +287,15 @@ function MiningTrainingGuide() {
         </div>
         <p>
           Preferimos describir cada formación por su norma, su especificación
-          técnica, su duración y su modalidad antes que con etiquetas como
+          técnica, su duración y su alcance antes que con etiquetas como
           «homologado», que la ITC 02.1.02 no define.
         </p>
       </GuideSection>
 
       <GuideSection id="empresas" title="Formación para la plantilla de una empresa minera">
         <p>
-          Una empresa puede contratar varias plazas, repartirlas entre sus
-          trabajadores mediante códigos de acceso y seguir su progreso, con la
-          facturación a nombre de la empresa.
+          Inmíner coordina con cada empresa las personas destinatarias, el
+          alcance de la acción y la autorización individual de las cuentas.
         </p>
         <div className="guide-links">
           <Link className="button button--primary" to="/empresas">Formación para empresas</Link>

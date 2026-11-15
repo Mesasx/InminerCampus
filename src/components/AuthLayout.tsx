@@ -17,12 +17,12 @@ export function AuthLayout({
         <Logo inverse />
         <div className="auth-side__content">
           <span className="label-industrial auth-side__eyebrow">
-            Formación con rigor
+            Entorno profesional
           </span>
-          <h1>Tu progreso, paso a paso.</h1>
+          <h1>Acceso privado y supervisado.</h1>
           <p>
-            Accede a tus cursos, continúa donde lo dejaste y mantén toda tu
-            formación técnica organizada.
+            Cada cuenta se identifica y revisa antes de habilitar cualquier
+            formación asignada por Inmíner.
           </p>
         </div>
         <small className="auth-side__credit">

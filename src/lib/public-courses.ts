@@ -3,8 +3,7 @@
 // A diferencia de `getSupabaseBrowserClient`, este cliente se ejecuta también
 // en el servidor durante el SSR, que es lo que permite que el HTML inicial ya
 // contenga el contenido del curso. Usa la clave *publishable* (anónima), nunca
-// `service_role`: las políticas RLS `courses_public_published` y
-// `course_versions_visible` ya exponen a `anon` exactamente las filas
+// `service_role`: las políticas RLS de catálogo ya exponen a `anon` exactamente las filas
 // publicadas, así que renderizar SEO no requiere elevar privilegios.
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { appConfig } from './config.ts'
@@ -60,7 +59,7 @@ function requireSupabasePublicClient(): SupabaseClient {
 }
 
 const VERSION_COLUMNS =
-  'id, version_number, duration_hours, modality, objectives, target_audience, requirements, syllabus_summary, practice_required, accreditation_reference, renewal_interval_months, price_net, tax_rate, currency'
+  'id, version_number, duration_hours, objectives, target_audience, requirements, syllabus_summary, practice_required, accreditation_reference, renewal_interval_months'
 
 const COURSE_COLUMNS = `id, slug, title, short_description, description, specialty, access_mode, listed, updated_at, course_versions!inner(${VERSION_COLUMNS})`
 
@@ -117,7 +116,8 @@ function normalizeVersion(raw: Record<string, unknown>): PublicCourseVersion {
     id: String(raw.id),
     version_number: Number(raw.version_number ?? 0),
     duration_hours: Number(raw.duration_hours ?? 0),
-    modality: (raw.modality as CourseModality) ?? 'online',
+    // La modalidad interna no forma parte del catálogo público.
+    modality: 'hybrid',
     objectives: toStringArray(raw.objectives),
     target_audience: toStringArray(raw.target_audience),
     requirements: toStringArray(raw.requirements),
@@ -129,9 +129,9 @@ function normalizeVersion(raw: Record<string, unknown>): PublicCourseVersion {
         ? raw.accreditation_reference
         : null,
     renewal_interval_months: toNumber(raw.renewal_interval_months),
-    price_net: toNumber(raw.price_net),
-    tax_rate: toNumber(raw.tax_rate) ?? 0,
-    currency: typeof raw.currency === 'string' ? raw.currency : 'EUR',
+    price_net: null,
+    tax_rate: 0,
+    currency: 'EUR',
   }
 }
 
@@ -257,4 +257,3 @@ export function toCourseCards(
     )
     .sort((a, b) => a.duration_hours - b.duration_hours)
 }
-

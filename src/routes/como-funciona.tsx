@@ -7,7 +7,7 @@ export const Route = createFileRoute('/como-funciona')({
   head: () => seoHead({
     title: 'Cómo funciona el Campus',
     description:
-      'Del alta a la certificación: bloques con audio y diapositivas, evaluación final y trazabilidad del progreso de cada trabajador.',
+      'Cómo se solicita, revisa y autoriza el acceso privado a la formación gestionada por Inmíner.',
     path: '/como-funciona',
   }),
   component: HowItWorksPage,
@@ -17,31 +17,31 @@ function HowItWorksPage() {
   const steps = [
     {
       icon: UserRoundCheck,
-      title: '1. Crea tu cuenta',
-      text: 'Confirma tu correo y accede a un entorno protegido con tus datos formativos.',
+      title: '1. Solicita una cuenta',
+      text: 'Identifícate, indica tu empresa y explica tu relación con Inmíner.',
+    },
+    {
+      icon: UserRoundCheck,
+      title: '2. Validación humana',
+      text: 'Un administrador comprueba la solicitud antes de habilitar el área privada.',
     },
     {
       icon: BookOpenCheck,
-      title: '2. Accede al curso',
-      text: 'Compra una matrícula individual o canjea el código que te facilite tu empresa.',
+      title: '3. Acceso autorizado',
+      text: 'La formación asignada aparece en tu cuenta cuando Inmíner confirma la autorización correspondiente.',
     },
     {
       icon: ClipboardList,
-      title: '3. Completa la formación',
-      text: 'Avanza por las lecciones, consulta los materiales y supera las evaluaciones configuradas.',
-    },
-    {
-      icon: BadgeCheck,
-      title: '4. Acredita el resultado',
-      text: 'Cuando se cumplan todos los requisitos, incluido el bloque presencial si procede, se habilitará el certificado.',
+      title: '4. Gestión individual',
+      text: 'Inmíner confirma de forma personal el alcance, los requisitos y el seguimiento aplicables a cada acción.',
     },
   ]
 
   return (
     <StaticPage
       eyebrow="Cómo funciona"
-      title="Un recorrido claro, desde la matrícula hasta la acreditación."
-      description="La plataforma organiza cada etapa de la formación y mantiene un registro coherente de las evidencias necesarias."
+      title="Un acceso controlado, desde la solicitud hasta la formación asignada."
+      description="La plataforma es un entorno privado para personas y empresas vinculadas con Inmíner. Cada alta se revisa antes de mostrar contenido formativo."
     >
       <div className="feature-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
         {steps.map(({ icon: Icon, title, text }) => (
@@ -57,11 +57,11 @@ function HowItWorksPage() {
         ))}
       </div>
       <div className="panel" style={{ marginTop: 28 }}>
-        <h2>La formación puede ser híbrida</h2>
+        <h2>¿Necesitas información sobre un curso?</h2>
         <p className="muted" style={{ lineHeight: 1.7 }}>
-          Algunos programas requieren prácticas o sesiones presenciales. En esos
-          casos, superar la teoría online no completa por sí sola el curso. La
-          ficha de cada formación indicará los requisitos aplicables.
+          Consulta la introducción pública y pulsa «Más información». El equipo
+          de Inmíner confirmará personalmente el alcance, los requisitos y el
+          procedimiento de acceso que corresponda.
         </p>
         <Link className="button button--primary" to="/catalogo">
           Consultar cursos

@@ -1,15 +1,9 @@
-import { getBearerToken, getSupabaseAdmin } from './supabase-admin'
+import { requireApprovedUser } from './user-auth.ts'
 
 export async function requireAdministrator(request: Request) {
-  const token = getBearerToken(request)
-  if (!token) return null
-
-  const supabase = getSupabaseAdmin()
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token)
-  if (error || !user) return null
+  const context = await requireApprovedUser(request)
+  if (!context) return null
+  const { supabase, user } = context
 
   const { data: role } = await supabase
     .from('user_roles')

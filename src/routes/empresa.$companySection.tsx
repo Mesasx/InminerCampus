@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
 
@@ -8,8 +8,8 @@ export const Route = createFileRoute('/empresa/$companySection')({
 
 const sections: Record<string, { title: string; description: string }> = {
   formacion: {
-    title: 'Formación contratada',
-    description: 'Pedidos, cursos y plazas adquiridas por la organización.',
+    title: 'Formación autorizada',
+    description: 'Cursos y plazas asignadas a la organización.',
   },
   trabajadores: {
     title: 'Trabajadores',
@@ -19,10 +19,6 @@ const sections: Record<string, { title: string; description: string }> = {
     title: 'Códigos',
     description:
       'Códigos únicos de un solo uso. El valor completo solo se muestra al generarlo.',
-  },
-  facturacion: {
-    title: 'Facturación',
-    description: 'Historial de pagos, importes, impuestos y facturas.',
   },
 }
 
@@ -48,14 +44,9 @@ function CompanySectionPage() {
             <div>
               <h2>Conectado al modelo empresarial</h2>
               <p>
-                El apartado utilizará los pedidos, miembros, matrículas y códigos
+                El apartado utiliza las asignaciones, miembros, matrículas y códigos
                 protegidos por la organización.
               </p>
-              {companySection === 'facturacion' ? (
-                <Link className="button button--primary" to="/facturas">
-                  Ver facturas de la organización
-                </Link>
-              ) : null}
             </div>
           </section>
         </AppShell>

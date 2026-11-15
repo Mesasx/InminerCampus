@@ -165,7 +165,8 @@ function CatalogPage() {
           <h1>{categoria ? categoryHeadings[categoria] : 'Cursos de minería y formación preventiva.'}</h1>
           <p>
             Consulta los programas disponibles. Cada ficha identifica la ITC,
-            la especificación técnica, la modalidad y las prácticas aplicables.
+            la especificación técnica, la duración y el perfil profesional al
+            que se dirige. El acceso se gestiona personalmente por Inmíner.
             ¿No sabes qué formación corresponde a tu puesto? Consulta la{' '}
             <Link className="text-link" to={GUIDE_PATHS.hub}>
               guía de formación minera

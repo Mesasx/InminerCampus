@@ -33,6 +33,7 @@ import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SobreNosotrosRouteImport } from './routes/sobre-nosotros'
+import { Route as SolicitudEnRevisionRouteImport } from './routes/solicitud-en-revision'
 import { Route as VerificarCertificadoRouteImport } from './routes/verificar-certificado'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAdminSectionRouteImport } from './routes/admin.$adminSection'
@@ -205,6 +206,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SobreNosotrosRoute = SobreNosotrosRouteImport.update({
   id: '/sobre-nosotros',
   path: '/sobre-nosotros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolicitudEnRevisionRoute = SolicitudEnRevisionRouteImport.update({
+  id: '/solicitud-en-revision',
+  path: '/solicitud-en-revision',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VerificarCertificadoRoute = VerificarCertificadoRouteImport.update({
@@ -500,6 +506,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/solicitud-en-revision': typeof SolicitudEnRevisionRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/certificados': typeof AdminCertificadosRoute
@@ -574,6 +581,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/solicitud-en-revision': typeof SolicitudEnRevisionRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/certificados': typeof AdminCertificadosRoute
@@ -650,6 +658,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre-nosotros': typeof SobreNosotrosRoute
+  '/solicitud-en-revision': typeof SolicitudEnRevisionRoute
   '/verificar-certificado': typeof VerificarCertificadoRoute
   '/admin/$adminSection': typeof AdminAdminSectionRoute
   '/admin/certificados': typeof AdminCertificadosRoute
@@ -729,6 +738,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/sobre-nosotros'
+    | '/solicitud-en-revision'
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/certificados'
@@ -803,6 +813,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/sobre-nosotros'
+    | '/solicitud-en-revision'
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/certificados'
@@ -878,6 +889,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/sobre-nosotros'
+    | '/solicitud-en-revision'
     | '/verificar-certificado'
     | '/admin/$adminSection'
     | '/admin/certificados'
@@ -956,6 +968,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreNosotrosRoute: typeof SobreNosotrosRoute
+  SolicitudEnRevisionRoute: typeof SolicitudEnRevisionRoute
   VerificarCertificadoRoute: typeof VerificarCertificadoRoute
   ApiAdminBillingRoute: typeof ApiAdminBillingRoute
   ApiAdminCertificatesRoute: typeof ApiAdminCertificatesRoute
@@ -1155,6 +1168,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre-nosotros'
       fullPath: '/sobre-nosotros'
       preLoaderRoute: typeof SobreNosotrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solicitud-en-revision': {
+      id: '/solicitud-en-revision'
+      path: '/solicitud-en-revision'
+      fullPath: '/solicitud-en-revision'
+      preLoaderRoute: typeof SolicitudEnRevisionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/verificar-certificado': {
@@ -1654,6 +1674,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreNosotrosRoute: SobreNosotrosRoute,
+  SolicitudEnRevisionRoute: SolicitudEnRevisionRoute,
   VerificarCertificadoRoute: VerificarCertificadoRoute,
   ApiAdminBillingRoute: ApiAdminBillingRoute,
   ApiAdminCertificatesRoute: ApiAdminCertificatesRoute,

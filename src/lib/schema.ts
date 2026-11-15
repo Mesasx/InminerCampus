@@ -153,33 +153,14 @@ export function breadcrumbSchema(items: Array<BreadcrumbItem>): JsonLd {
   }
 }
 
-/** Traduce la modalidad interna al vocabulario de Schema.org. */
-export function schemaCourseMode(modality: string): string | null {
-  switch (modality) {
-    case 'online':
-      return 'online'
-    case 'in_person':
-      return 'onsite'
-    case 'hybrid':
-      return 'blended'
-    default:
-      return null
-  }
-}
-
 export type CourseSchemaVersion = {
   durationHours: number
-  modality: string
-  priceNet: number | null
-  currency: string
 }
 
 export type CourseSchemaInput = {
   slug: string
   title: string
   description: string
-  /** `true` si el curso se comercializa; los de acceso por código no llevan oferta. */
-  purchasable: boolean
   versions: Array<CourseSchemaVersion>
   /** Ruta de la imagen del curso. */
   image?: string
@@ -201,34 +182,14 @@ export function courseSchema(input: CourseSchemaInput): JsonLd {
   const url = absoluteUrl(`/cursos/${input.slug}`)
 
   const instances = input.versions.map((version) => {
-    const mode = schemaCourseMode(version.modality)
     const instance: JsonLd = {
       '@type': 'CourseInstance',
       name: `${input.title} · ${version.durationHours} horas`,
       // ISO 8601: 20 horas lectivas -> PT20H.
       courseWorkload: `PT${version.durationHours}H`,
     }
-    if (mode) instance.courseMode = mode
     return instance
   })
-
-  const offers = input.purchasable
-    ? input.versions
-        .filter((version) => version.priceNet !== null)
-        .map((version) => ({
-          '@type': 'Offer',
-          price: String(version.priceNet),
-          priceCurrency: version.currency || 'EUR',
-          // Los precios del catálogo son netos: declararlo evita que el
-          // resultado enriquecido muestre un importe distinto al del checkout.
-          valueAddedTaxIncluded: false,
-          availability: 'https://schema.org/InStock',
-          // Vocabulario que exige Google para `Course`: Free, Partially Free,
-          // Subscription o Paid.
-          category: 'Paid',
-          url,
-        }))
-    : []
 
   const schema: JsonLd = {
     '@type': 'Course',
@@ -265,7 +226,6 @@ export function courseSchema(input: CourseSchemaInput): JsonLd {
     // afirmar ninguna acreditación ni homologación.
     schema.about = { '@type': 'Thing', name: input.normativeReference }
   }
-  if (offers.length) schema.offers = offers
   return schema
 }
 

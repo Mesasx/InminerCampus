@@ -9,7 +9,6 @@ import {
   LogOut,
   Menu,
   MessageSquareText,
-  ReceiptText,
   Settings,
   ShieldCheck,
   UsersRound,
@@ -33,11 +32,6 @@ const adminNav = [
   { href: '/admin/codigos', label: 'Códigos de acceso', icon: KeyRound },
   { href: '/admin/practicas', label: 'Prácticas', icon: ClipboardCheck },
   { href: '/admin/certificados', label: 'Certificados', icon: Award },
-  {
-    href: '/admin/facturacion',
-    label: 'Pagos y facturación',
-    icon: ReceiptText,
-  },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquareText },
 ] as const
 
@@ -49,7 +43,6 @@ const companyNav = [
 const companyDynamicNav = [
   { section: 'formacion', label: 'Formación', icon: BookOpen },
   { section: 'trabajadores', label: 'Trabajadores', icon: UsersRound },
-  { section: 'facturacion', label: 'Facturación', icon: ReceiptText },
 ] as const
 
 export function AppShell({

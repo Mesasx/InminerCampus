@@ -64,8 +64,8 @@ const legalPages: Record<string, LegalDocument> = {
       {
         title: 'Objeto y acceso',
         paragraphs: [
-          'InmínerCampus es la plataforma de formación de INMINER INGENIERÍA, S.L. y facilita información, contratación, acceso a contenidos, seguimiento, evaluación, soporte y certificación de acciones formativas.',
-          'El acceso a la información pública es libre. Las áreas de aprendizaje, empresa y administración requieren una cuenta y los permisos correspondientes.',
+          'InmínerCampus es el entorno privado de formación de INMINER INGENIERÍA, S.L. y facilita información introductoria, acceso autorizado a contenidos, seguimiento, evaluación, soporte y gestión de evidencias formativas.',
+          'El acceso a la información introductoria es libre. Las áreas de aprendizaje, empresa y administración requieren una cuenta, validación humana previa y los permisos correspondientes. Registrarse no genera un derecho automático de acceso.',
         ],
       },
       {
@@ -120,11 +120,11 @@ const legalPages: Record<string, LegalDocument> = {
       {
         title: 'Datos y finalidades',
         paragraphs: [
-          'Tratamos los datos que facilitas, los generados durante el uso de la plataforma y los necesarios para gestionar la relación formativa y contractual.',
+          'Tratamos los datos que facilitas, los generados durante el uso de la plataforma y los necesarios para comprobar la relación profesional y gestionar la actividad formativa autorizada.',
         ],
         bullets: [
           'Crear y proteger la cuenta, autenticar sesiones y gestionar perfiles y roles.',
-          'Gestionar matrículas, compras, plazas de empresa, progreso, evaluaciones y prácticas.',
+          'Revisar solicitudes, validar la relación con Inmíner y gestionar asignaciones, progreso, evaluaciones y demás evidencias.',
           'Emitir, custodiar y permitir la verificación de certificados.',
           'Atender soporte, consultas, incidencias y obligaciones administrativas.',
           'Prevenir fraude, mantener la seguridad y cumplir obligaciones legales.',
@@ -137,17 +137,17 @@ const legalPages: Record<string, LegalDocument> = {
         ],
       },
       {
-        title: 'Datos facilitados por empresas compradoras',
+        title: 'Datos facilitados por organizaciones vinculadas',
         paragraphs: [
-          'Una empresa compradora puede facilitar el nombre, apellidos y correo profesional de trabajadores u otras personas inscritas para asignar una plaza, crear y enviar una licencia, gestionar el acceso, prestar soporte, realizar el seguimiento permitido, atender la gestión administrativa y tramitar la certificación cuando proceda.',
-          'La empresa debe estar legitimada para facilitar esos datos y proporcionar a las personas afectadas la información pertinente. La declaración incluida en el checkout documenta esta comunicación, pero no sustituye el análisis ni las obligaciones de protección de datos que correspondan a cada parte.',
+          'Una empresa cliente o colaboradora puede facilitar los datos profesionales imprescindibles de las personas autorizadas para verificar su vinculación, asignar el acceso, prestar soporte y realizar el seguimiento permitido.',
+          'La organización debe estar legitimada para facilitar esos datos y proporcionar a las personas afectadas la información pertinente.',
         ],
       },
       {
         title: 'Destinatarios y proveedores',
         paragraphs: [
-          'No se prevén comunicaciones ajenas a la prestación del servicio, salvo obligación legal. Determinados proveedores tecnológicos pueden tratar datos por cuenta de INMÍNER para prestar alojamiento, autenticación, pagos, comunicaciones o seguridad.',
-          'Los pagos se procesan mediante Stripe. La plataforma utiliza Supabase para funciones de base de datos y autenticación. Cada proveedor actúa conforme a sus condiciones y garantías de protección de datos.',
+          'No se prevén comunicaciones ajenas a la prestación del servicio, salvo obligación legal. Determinados proveedores tecnológicos pueden tratar datos por cuenta de INMÍNER para prestar alojamiento, autenticación, comunicaciones o seguridad.',
+          'La plataforma utiliza Supabase para funciones de base de datos y autenticación. Cada proveedor actúa conforme a sus condiciones y garantías de protección de datos.',
         ],
       },
       {
@@ -190,7 +190,7 @@ const legalPages: Record<string, LegalDocument> = {
       {
         title: 'Servicios externos',
         paragraphs: [
-          'Al iniciar un pago o utilizar una función protegida frente a abuso pueden intervenir servicios externos como Stripe o Cloudflare Turnstile. Esos servicios pueden aplicar sus propias tecnologías técnicas y de seguridad.',
+          'Al utilizar una función protegida frente a abuso pueden intervenir servicios externos como Cloudflare Turnstile. Esos servicios pueden aplicar sus propias tecnologías técnicas y de seguridad.',
         ],
       },
       {
@@ -203,83 +203,67 @@ const legalPages: Record<string, LegalDocument> = {
       {
         title: 'Cómo controlarlas',
         paragraphs: [
-          'Puedes borrar o bloquear datos desde la configuración del navegador. Si desactivas tecnologías estrictamente necesarias, es posible que no puedas iniciar sesión, comprar o continuar una formación.',
+          'Puedes borrar o bloquear datos desde la configuración del navegador. Si desactivas tecnologías estrictamente necesarias, es posible que no puedas iniciar sesión o continuar una formación autorizada.',
         ],
       },
     ],
   },
   contratacion: {
-    title: 'Condiciones de contratación',
+    title: 'Condiciones de acceso',
     description:
-      'Reglas esenciales para compras individuales y plazas de formación para empresas.',
+      'Reglas de solicitud, validación y uso del área privada de InmínerCampus.',
     icon: FileCheck2,
     sections: [
       {
-        title: 'Prestador y alcance',
+        title: 'Titular y finalidad',
         paragraphs: [
           companyIdentity,
-          'Estas condiciones se aplican a la contratación de cursos y plazas empresariales ofrecidos en InmínerCampus. La ficha de cada oferta forma parte de la información contractual.',
+          'InmínerCampus es un entorno de acceso restringido destinado a personas y organizaciones vinculadas profesionalmente con Inmíner. La web pública presenta información introductoria y no constituye una oferta de contratación por internet.',
         ],
       },
       {
-        title: 'Oferta, modalidad y precio',
+        title: 'Solicitud y validación',
         paragraphs: [
-          'Cada ficha identifica el curso, versión, duración, modalidad, prácticas, requisitos, precio y moneda. Las versiones de 5 y 20 horas son ofertas distintas y pueden tener precios diferentes.',
-          'Los importes se muestran antes de confirmar el pedido. Stripe presenta el desglose fiscal y el total definitivo antes del pago.',
+          'La creación de una cuenta inicia una solicitud. La persona debe facilitar datos veraces sobre identidad, empresa, puesto, relación con Inmíner y motivo de acceso.',
+          'La confirmación del correo electrónico no activa el Campus. Un administrador revisa la solicitud y puede aprobarla, solicitar aclaraciones, suspenderla o denegarla.',
         ],
       },
       {
-        title: 'Pago y activación',
+        title: 'Asignación de formación',
         paragraphs: [
-          'El pago se realiza mediante la pasarela segura de Stripe. Una redirección del navegador no acredita por sí sola el pago.',
-          'La matrícula individual o las plazas de empresa se activan después de recibir y validar la confirmación segura del proveedor de pagos.',
+          'Una cuenta aprobada no obtiene acceso indiscriminado al catálogo. Inmíner asigna o autoriza únicamente las formaciones que correspondan a la relación profesional y a la necesidad previamente comprobada.',
+          'La introducción pública de un curso no sustituye la confirmación individual de su alcance, requisitos, calendario o condiciones aplicables.',
         ],
       },
       {
-        title: 'Compra de plazas para empresas',
+        title: 'Acceso personal e intransferible',
         paragraphs: [
-          'La empresa puede adquirir varias plazas de un mismo curso. Cada plaza corresponde a una persona y cada licencia o código es individual, no puede revenderse y debe utilizarse por la persona identificada en el pedido.',
-          'La empresa es responsable de facilitar datos correctos y de informar a las personas inscritas. La compra no implica por sí misma la emisión automática de un certificado: la finalización y certificación dependen del itinerario, evaluaciones, asistencia, prácticas y demás requisitos de la acción formativa contratada.',
+          'Las credenciales y autorizaciones son personales. No pueden compartirse, cederse, revenderse ni utilizarse para acceder en nombre de otra persona.',
+          'Inmíner puede suspender el acceso cuando detecte datos inexactos, una relación no acreditada, uso indebido, extracción de materiales o cualquier riesgo para la seguridad o confidencialidad del Campus.',
         ],
       },
       {
-        title: 'Descuentos por volumen para empresas',
+        title: 'Contenido y confidencialidad',
         paragraphs: [
-          'Para compras empresariales de un mismo curso se aplica el descuento que corresponda al número de plazas indicado en el resumen previo al pago.',
+          'Los materiales, evaluaciones y recursos del área privada se facilitan exclusivamente para la finalidad formativa autorizada. No se permite copiarlos, publicarlos, redistribuirlos ni emplearlos fuera de ese contexto.',
         ],
         bullets: [
-          'De 1 a 5 plazas: sin descuento.',
-          '6 o 7 plazas: 5 % de descuento.',
-          '8 o más plazas: 10 % de descuento.',
-          'Los descuentos por volumen no son acumulables. Al alcanzar ocho plazas se aplica exclusivamente el 10 %, no un 5 % adicional.',
+          'No compartir capturas, audios, diapositivas, manuales o preguntas de evaluación.',
+          'No facilitar credenciales ni códigos de acceso a terceros.',
+          'Comunicar inmediatamente cualquier acceso no autorizado.',
         ],
       },
       {
-        title: 'Modalidad y alcance de la formación',
+        title: 'Seguimiento y evidencias',
         paragraphs: [
-          'InmínerCampus incorpora recursos digitales de formación y seguimiento. Cuando el programa de la acción formativa, la normativa aplicable o las necesidades de la empresa lo requieran, INMÍNER puede complementar la formación con actuaciones presenciales.',
-          'La modalidad concreta, duración, requisitos prácticos y condiciones de certificación se detallan en la ficha de cada curso y versión. La compra no establece equivalencias jurídicas distintas de las expresamente documentadas para esa acción formativa.',
+          'La plataforma registra actividad, avance y resultados para gestionar el itinerario y conservar la trazabilidad exigible. La emisión de cualquier documento depende del cumplimiento de todos los requisitos definidos para la acción formativa.',
         ],
       },
       {
-        title: 'Acceso y realización',
-        paragraphs: [
-          'El acceso es personal, salvo los códigos de plaza adquiridos por una organización para sus trabajadores. La persona usuaria debe cumplir el itinerario, evaluaciones, asistencia y prácticas indicados en la ficha.',
-          'Superar contenido online no sustituye las prácticas o validaciones presenciales cuando sean obligatorias.',
-        ],
-      },
-      {
-        title: 'Desistimiento, cancelaciones y reembolsos',
-        paragraphs: [
-          'Los derechos de desistimiento y cancelación dependen de la condición del comprador, la naturaleza del contenido y el momento de inicio de la prestación. Cuando la ley lo exija, se solicitará el consentimiento correspondiente antes de comenzar contenido digital durante el plazo de desistimiento.',
-          'Para solicitar información, cancelar una edición o plantear una incidencia, escribe a administracion@inminer.es indicando el número de pedido.',
-        ],
-      },
-      {
-        title: 'Soporte y reclamaciones',
+        title: 'Consultas e incidencias',
         paragraphs: [
           'Puedes contactar en administracion@inminer.es, llamar al 926 21 94 17 o dirigirte a Calle La Solana, 60, 13005 Ciudad Real.',
-          'INMÍNER atenderá incidencias de acceso, facturación y formación procurando una solución proporcionada y conforme a la normativa de consumo aplicable.',
+          'INMÍNER atenderá las consultas sobre validación, acceso y formación y revisará cualquier incidencia comunicada por la persona interesada o su organización.',
         ],
       },
     ],
@@ -290,7 +274,7 @@ const legalNavigation = [
   ['aviso', 'Aviso legal'],
   ['privacidad', 'Privacidad'],
   ['cookies', 'Cookies'],
-  ['contratacion', 'Contratación'],
+  ['contratacion', 'Condiciones de acceso'],
 ] as const
 
 function LegalPage() {
@@ -332,7 +316,7 @@ function LegalPage() {
         </div>
         <div className="legal-overview__meta">
           <span>
-            <CalendarDays size={17} /> Actualizado el 24 de agosto de 2026
+            <CalendarDays size={17} /> Actualizado el 15 de noviembre de 2026
           </span>
           <span>
             <Building2 size={17} /> INMINER INGENIERÍA, S.L.

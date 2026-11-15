@@ -5,6 +5,8 @@ import {
   Clock3,
   Search,
   ShieldCheck,
+  UserCheck,
+  UserX,
   UserRound,
   UsersRound,
 } from 'lucide-react'
@@ -44,6 +46,11 @@ type AdminUser = {
   first_name: string
   last_name: string
   dni: string | null
+  company_name: string | null
+  job_title: string | null
+  relationship_type: string | null
+  access_reason: string | null
+  reviewed_at: string | null
   status: string
   profile_exists: boolean
   registered_at: string
@@ -123,6 +130,9 @@ function AdminUsers({ user }: { user: SessionUser }) {
         entry.dni,
         entry.first_name,
         entry.last_name,
+        entry.company_name,
+        entry.job_title,
+        relationshipLabel(entry.relationship_type),
         accountStatusLabel(entry.status),
         ...entry.roles,
         ...entry.enrollments.flatMap((enrollment) => [
@@ -150,6 +160,7 @@ function AdminUsers({ user }: { user: SessionUser }) {
       ).length,
     0,
   )
+  const pendingReviews = users.filter((entry) => entry.status === 'pending').length
 
   async function updateStatus(status: string) {
     if (!selected?.profile_exists) return
@@ -184,6 +195,11 @@ function AdminUsers({ user }: { user: SessionUser }) {
           icon={<UsersRound size={22} />}
           label="Usuarios registrados"
           value={users.length}
+        />
+        <SummaryCard
+          icon={<ShieldCheck size={22} />}
+          label="Solicitudes pendientes"
+          value={pendingReviews}
         />
         <SummaryCard
           icon={<BookOpenCheck size={22} />}
@@ -278,6 +294,19 @@ function AdminUsers({ user }: { user: SessionUser }) {
                 <Fact label="Teléfono" value={selected.phone ?? 'No informado'} />
                 <Fact label="DNI / NIE" value={selected.dni ?? 'No informado'} />
                 <Fact
+                  label="Empresa u organización"
+                  value={selected.company_name ?? 'No informada'}
+                />
+                <Fact label="Puesto" value={selected.job_title ?? 'No informado'} />
+                <Fact
+                  label="Relación con Inmíner"
+                  value={relationshipLabel(selected.relationship_type)}
+                />
+                <Fact
+                  label="Motivo de acceso"
+                  value={selected.access_reason ?? 'No informado'}
+                />
+                <Fact
                   label="Roles"
                   value={
                     selected.roles.map(roleLabel).join(', ') || 'Sin rol asignado'
@@ -301,6 +330,10 @@ function AdminUsers({ user }: { user: SessionUser }) {
                     selected.last_access_at ?? selected.last_sign_in_at,
                   )}
                 />
+                <Fact
+                  label="Última revisión"
+                  value={formatDateTime(selected.reviewed_at)}
+                />
                 <div>
                   <dt>Estado de la cuenta</dt>
                   <dd>
@@ -321,6 +354,25 @@ function AdminUsers({ user }: { user: SessionUser }) {
                   </dd>
                 </div>
               </dl>
+
+              {selected.profile_exists && selected.status === 'pending' ? (
+                <div className="admin-review-actions">
+                  <button
+                    className="button button--primary"
+                    onClick={() => updateStatus('active')}
+                    type="button"
+                  >
+                    <UserCheck size={17} /> Aprobar acceso
+                  </button>
+                  <button
+                    className="button button--outline"
+                    onClick={() => updateStatus('suspended')}
+                    type="button"
+                  >
+                    <UserX size={17} /> Denegar acceso
+                  </button>
+                </div>
+              ) : null}
 
               <div className="panel__header">
                 <h3>Cursos y progreso</h3>
@@ -457,6 +509,18 @@ function accountStatusLabel(status: string): string {
     profile_missing: 'Sin perfil',
   }
   return labels[status] ?? status
+}
+
+function relationshipLabel(value: string | null): string {
+  const labels: Record<string, string> = {
+    inminer_team: 'Equipo de Inmíner',
+    client_company: 'Empresa cliente',
+    collaborator: 'Empresa o profesional colaborador',
+    invited_person: 'Persona invitada por Inmíner',
+    other: 'Otra relación',
+  }
+  if (!value) return 'No informada'
+  return labels[value] ?? value
 }
 
 function enrollmentStatusLabel(status: string): string {

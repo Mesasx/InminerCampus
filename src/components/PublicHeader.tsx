@@ -98,7 +98,7 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
                 Iniciar sesión
               </Link>
               <Link className="button button--primary" to="/registro">
-                Crear cuenta
+                Solicitar acceso
               </Link>
             </>
           )}
@@ -162,7 +162,7 @@ export function PublicHeader({ heroFull = false }: { heroFull?: boolean }) {
                 Iniciar sesión
               </Link>
               <Link to="/registro" onClick={() => setMobileOpen(false)}>
-                Crear cuenta
+                Solicitar acceso
               </Link>
             </>
           )}

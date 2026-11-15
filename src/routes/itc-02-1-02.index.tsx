@@ -56,8 +56,9 @@ const faqs: Array<FaqItem> = [
       'Sí. La denominación oficial es ITC 02.1.02, pero es frecuente encontrarla escrita como ITC 02.01.02 o «ITC minera». Todas se refieren a la misma instrucción.',
   },
   {
-    question: '¿Se puede hacer la formación ITC 02.1.02 online?',
-    answer: `No íntegramente. La ${ITC_02_1_02_AMENDMENT.instrument} añadió a la instrucción que «${ITC_02_1_02_AMENDMENT.presencialQuote}» Una plataforma en línea puede servir de apoyo teórico y de seguimiento, pero no sustituir la formación presencial.`,
+    question: '¿Cómo se determina el alcance de una acción ITC 02.1.02?',
+    answer:
+      'Debe revisarse el puesto, la especificación técnica, la edición y los requisitos aplicables. Inmíner realiza esa comprobación antes de autorizar el acceso al contenido privado.',
   },
   {
     question: '¿Cuántas horas tiene el reciclaje de la ITC 02.1.02?',
@@ -273,11 +274,9 @@ function Itc020102Guide() {
           </cite>
         </blockquote>
         <p>
-          Desconfía de cualquier oferta que presente esta formación como un
-          curso íntegramente en línea. En InmínerCampus, los cursos de la ITC
-          02.1.02 son híbridos: la teoría, el material y el seguimiento se
-          apoyan en el Campus, y la parte presencial se realiza con Inmíner
-          Ingeniería.
+          Inmíner confirma individualmente el alcance, la edición y los
+          requisitos de cada acción formativa. El catálogo público sólo ofrece
+          una introducción y no habilita contenidos ni acredita formación.
         </p>
       </GuideSection>
 

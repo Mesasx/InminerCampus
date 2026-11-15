@@ -10,6 +10,11 @@ type ProfileRow = {
   last_name: string
   phone: string | null
   dni: string | null
+  company_name: string | null
+  job_title: string | null
+  relationship_type: string | null
+  access_reason: string | null
+  reviewed_at: string | null
   status: string
   first_access_at: string | null
   last_access_at: string | null
@@ -59,7 +64,7 @@ export const Route = createFileRoute('/api/admin-users')({
               administrator.supabase
                 .from('profiles')
                 .select(
-                  'id, email, first_name, last_name, phone, dni, status, first_access_at, last_access_at, created_at',
+                  'id, email, first_name, last_name, phone, dni, company_name, job_title, relationship_type, access_reason, reviewed_at, status, first_access_at, last_access_at, created_at',
                 )
                 .limit(10_000),
               administrator.supabase
@@ -108,6 +113,11 @@ export const Route = createFileRoute('/api/admin-users')({
                 first_name: profile?.first_name ?? '',
                 last_name: profile?.last_name ?? '',
                 dni: profile?.dni ?? null,
+                company_name: profile?.company_name ?? null,
+                job_title: profile?.job_title ?? null,
+                relationship_type: profile?.relationship_type ?? null,
+                access_reason: profile?.access_reason ?? null,
+                reviewed_at: profile?.reviewed_at ?? null,
                 status: profile?.status ?? 'profile_missing',
                 profile_exists: Boolean(profile),
                 registered_at: authUser.created_at,
@@ -140,10 +150,10 @@ export const Route = createFileRoute('/api/admin-users')({
                   })),
               }
             })
-            .sort(
-              (left, right) =>
-                Date.parse(right.registered_at) - Date.parse(left.registered_at),
-            )
+            .sort((left, right) => {
+              const pendingOrder = Number(right.status === 'pending') - Number(left.status === 'pending')
+              return pendingOrder || Date.parse(right.registered_at) - Date.parse(left.registered_at)
+            })
 
           return Response.json(
             { users: rows },

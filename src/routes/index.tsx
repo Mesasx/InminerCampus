@@ -4,8 +4,8 @@ import {
   Award,
   KeyRound,
   LogIn,
-  PlayCircle,
-  ShoppingCart,
+  MessageCircle,
+  ShieldCheck,
   UserPlus,
 } from 'lucide-react'
 import { CourseSlider } from '../components/CourseSlider'
@@ -97,66 +97,51 @@ const miningTopics = [
 const howItWorks = [
   {
     number: '01',
-    title: 'Elige tu formación',
-    text: 'Consulta el catálogo por categoría o accede con el código que te haya facilitado tu empresa.',
+    title: 'Consulta la formación',
+    text: 'Revisa las introducciones del catálogo y solicita información al equipo de Inmíner.',
   },
   {
     number: '02',
-    title: 'Accede a los contenidos',
-    text: 'Cada bloque combina audio explicado, diapositivas y documentación descargable cuando corresponde.',
+    title: 'Valida tu acceso',
+    text: 'Cada cuenta se revisa antes de habilitar el área privada y asignar cualquier formación.',
   },
   {
     number: '03',
-    title: 'Avanza por los bloques',
-    text: 'Tu progreso se guarda automáticamente. Puedes retomar la formación exactamente donde la dejaste.',
+    title: 'Recibe tu asignación',
+    text: 'Inmíner habilita únicamente la formación que corresponda a la persona y a la acción acordada.',
   },
   {
     number: '04',
-    title: 'Completa la evaluación',
-    text: 'Cada curso incluye un test final. Al superarlo se emite el certificado de la formación.',
+    title: 'Completa los requisitos',
+    text: 'La documentación y el seguimiento se gestionan dentro del entorno privado según cada caso.',
   },
 ]
 
 const campusGuideSteps = [
   {
     number: '01',
-    title: 'Crea tu cuenta',
-    text: 'Pulsa «Crear cuenta» y completa nombre, apellidos, DNI o NIE, correo y contraseña. El documento de identidad es imprescindible para emitir correctamente tus certificados. Acepta la política de privacidad y las condiciones de uso antes de continuar.',
+    title: 'Solicita una cuenta',
+    text: 'Completa tus datos personales y profesionales, indica tu empresa y explica tu relación con Inmíner. El registro inicia una solicitud, pero todavía no habilita el contenido privado.',
   },
   {
     number: '02',
-    title: 'Confirma tu correo e inicia sesión',
-    text: 'Abre el mensaje de confirmación que recibirás por correo y valida tu cuenta. Después, entra en «Iniciar sesión» con el correo y la contraseña que acabas de registrar.',
+    title: 'Confirma tu correo',
+    text: 'Valida la dirección de correo electrónico. Esta comprobación no sustituye la revisión administrativa de la solicitud.',
   },
   {
     number: '03',
     title: 'Localiza tu formación',
-    text: 'En «Mis cursos» verás todas las formaciones que hayas comprado o canjeado, incluidas las ya finalizadas. Desde allí puedes continuar exactamente donde lo dejaste.',
+    text: 'Después de la aprobación, en «Mis cursos» verás únicamente las formaciones que Inmíner haya asignado o autorizado para tu cuenta.',
   },
   {
     number: '04',
-    title: 'Canjea el código de tu empresa',
-    text: 'Entra en «Explorar cursos» y pulsa «Canjéalo aquí». Introduce el código de acceso facilitado por tu empresa y selecciona «Canjear código». El curso aparecerá automáticamente en «Mis cursos».',
+    title: 'Espera la validación humana',
+    text: 'Un administrador comprueba la empresa, la relación profesional y el motivo indicado antes de activar la cuenta.',
   },
   {
     number: '05',
-    title: 'Compra un curso',
-    text: 'Abre la ficha del curso, elige la modalidad disponible —formación inicial de 20 horas o reciclaje de 5 horas— y selecciona si la compra es para ti o para una empresa.',
-  },
-  {
-    number: '06',
-    title: 'Completa cada bloque',
-    text: 'Cada bloque combina diapositivas, explicación oral y una explicación detallada. Para avanzar debes escuchar el audio y leer la explicación detallada de cada apartado.',
-  },
-  {
-    number: '07',
-    title: 'Supera los test',
-    text: 'Cada pregunta ofrece cuatro respuestas. Para desbloquear el siguiente bloque debes completar el test sin fallos tres veces. Los resultados son acumulativos: no tienen que ser tres intentos consecutivos. Todas las respuestas están en las diapositivas y explicaciones del bloque.',
-  },
-  {
-    number: '08',
-    title: 'Descarga materiales y certificado',
-    text: 'Al final de la página del curso puedes descargar el manual y las diapositivas para repasar. Cuando completes la formación y se validen los requisitos, Inmíner tramita el certificado y lo publica de forma privada en «Certificados», junto al resto de títulos obtenidos.',
+    title: 'Solicita información',
+    text: 'Desde cualquier ficha puedes abrir una conversación con el equipo de Inmíner para confirmar el alcance, los requisitos y el procedimiento de acceso.',
   },
 ]
 
@@ -179,7 +164,7 @@ const whyReasons = [
   },
   {
     label: 'Contenidos',
-    text: 'Cada curso se estructura en bloques con audio, diapositivas y evaluación.',
+    text: 'Cada acción se organiza con criterios técnicos, trazabilidad y control de acceso.',
   },
 ]
 
@@ -190,24 +175,9 @@ const faqs = [
       'Desde "Mis cursos" en el menú superior, una vez has iniciado sesión con tu cuenta.',
   },
   {
-    question: '¿Dónde puedo ver mi progreso?',
+    question: '¿Qué puedo consultar sin una cuenta aprobada?',
     answer:
-      'En la cabecera de cada curso y en el resumen de "Mis cursos" verás el porcentaje completado.',
-  },
-  {
-    question: '¿Puedo continuar un curso más tarde?',
-    answer:
-      'Sí. El progreso se guarda automáticamente por bloque, así que puedes retomarlo cuando quieras.',
-  },
-  {
-    question: '¿Dónde aparecen las evaluaciones?',
-    answer:
-      'Al final del itinerario del curso, una vez completados los bloques de contenido correspondientes.',
-  },
-  {
-    question: '¿Qué recursos incluye cada formación?',
-    answer:
-      'Depende del curso: audio explicado, diapositivas, documentación descargable y evaluación final.',
+      'Puedes consultar las introducciones del catálogo y pedir información. El resto del contenido requiere validación administrativa y una asignación expresa.',
   },
   {
     question: '¿Cómo recupero mi contraseña?',
@@ -269,12 +239,10 @@ function WhatIsCampus() {
           Una plataforma, un mismo criterio técnico.
         </h2>
         <p className="campus-section__copy">
-          Cada curso se estructura en bloques de contenido con audio
-          explicado, diapositivas y documentación descargable cuando
-          corresponde, seguidos de una evaluación final. No es un curso
-          genérico de maquinaria: cada itinerario se adapta al puesto y al
-          centro de trabajo, con la normativa técnica aplicable como
-          referencia explícita.
+          No ofrecemos un catálogo genérico de maquinaria. Cada acción se
+          relaciona con el puesto, el centro de trabajo y la normativa técnica
+          aplicable. La introducción es pública; el alcance completo sólo se
+          facilita después de validar la relación profesional y la asignación.
         </p>
         <p className="campus-section__copy">
           El contenido no se redacta desde cero para la plataforma: parte de
@@ -302,9 +270,9 @@ function SafetySection() {
             Formarse para trabajar con seguridad.
           </h2>
           <p className="campus-section__copy">
-            El objetivo de la formación no es superar un test: es reducir el
-            riesgo real del puesto. Por eso cada curso insiste en lo mismo
-            que se exige en el trabajo diario.
+            El objetivo de la formación es reducir el riesgo real del puesto.
+            Por eso cada acción se conecta con lo que se exige en el trabajo
+            diario.
           </p>
         </div>
         <div className="campus-safety__grid">
@@ -473,41 +441,28 @@ function CampusGuide() {
             </h2>
           </div>
           <p className="campus-section__copy">
-            En tres minutos te enseñamos a crear tu cuenta, conseguir una
-            formación, avanzar por el contenido y descargar tus certificados.
+            Conoce el proceso de solicitud, revisión administrativa y acceso a
+            las formaciones que Inmíner te haya autorizado.
           </p>
         </div>
 
         <div className="campus-guide__media">
-          <div className="campus-guide__video-shell">
-            <video
-              aria-label="Guía en vídeo para usar Inmíner Campus"
-              controls
-              playsInline
-              poster="/images/guia-inminer-campus-poster.jpg"
-              preload="metadata"
-            >
-              <source src="/videos/guia-inminer-campus.mp4" type="video/mp4" />
-              <track
-                default
-                kind="captions"
-                label="Español"
-                src="/videos/guia-inminer-campus-es.vtt"
-                srcLang="es"
-              />
-              Tu navegador no puede reproducir este vídeo. Consulta la guía
-              escrita que aparece a continuación.
-            </video>
-            <span className="campus-guide__duration">
-              <PlayCircle aria-hidden="true" size={15} /> Guía completa · 3 min
-            </span>
+          <div className="campus-guide__video-shell campus-guide__access-control">
+            <ShieldCheck aria-hidden="true" size={42} />
+            <span className="eyebrow">Control de acceso</span>
+            <h3>Una cuenta no se activa automáticamente.</h3>
+            <p>
+              La confirmación del correo verifica la dirección. La entrada al
+              contenido privado requiere además la aprobación de un
+              administrador de Inmíner.
+            </p>
           </div>
 
           <aside className="campus-guide__shortcuts" aria-label="Accesos rápidos">
             <span className="campus-guide__shortcuts-label">Accesos rápidos</span>
             <Link to="/registro">
               <UserPlus aria-hidden="true" size={19} />
-              <span>Crear una cuenta</span>
+              <span>Solicitar una cuenta</span>
               <ArrowRight aria-hidden="true" size={16} />
             </Link>
             <Link to="/acceso">
@@ -520,9 +475,9 @@ function CampusGuide() {
               <span>Canjear un código</span>
               <ArrowRight aria-hidden="true" size={16} />
             </Link>
-            <Link to="/catalogo">
-              <ShoppingCart aria-hidden="true" size={19} />
-              <span>Comprar un curso</span>
+            <Link to="/contacto">
+              <MessageCircle aria-hidden="true" size={19} />
+              <span>Pedir información</span>
               <ArrowRight aria-hidden="true" size={16} />
             </Link>
             <Link to="/certificados">
@@ -649,9 +604,9 @@ function WhyCampus({ courseCount }: { courseCount: number }) {
         </div>
         {courseCount > 0 ? (
           <p className="campus-why__stat">
-            <strong>{courseCount}</strong> formaciones técnicas disponibles
-            ahora mismo en el catálogo, estructuradas en bloques con audio,
-            diapositivas y evaluación.
+            <strong>{courseCount}</strong> formaciones técnicas con
+            introducción disponible en el catálogo y acceso gestionado de
+            forma individual.
           </p>
         ) : null}
       </div>
@@ -705,7 +660,7 @@ function FinalCta() {
             Explorar cursos <ArrowRight aria-hidden="true" size={17} />
           </Link>
           <Link className="editorial-cta editorial-cta--quiet" to="/registro">
-            Crear cuenta <ArrowRight aria-hidden="true" size={17} />
+            Solicitar acceso <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </div>
       </div>
@@ -727,7 +682,7 @@ function HomePage() {
         ctaLabel="Explorar cursos"
         ctaTargetId="campus-formacion"
         eyebrow="Inmíner Campus · Cursos de minería y formación preventiva"
-        guideLabel="Ver guía de acceso · 3 min"
+        guideLabel="Ver cómo se controla el acceso"
         guideTargetId="guia-campus"
         machineImage={heroMachineImage}
         subtitle="Cursos para minería e industria"

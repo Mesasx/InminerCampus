@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router'
+import { CourseInquiryButton } from './CourseInquiryButton'
 import { CategoryBadge } from './CategoryBadge'
 import { categoryOf } from '../lib/course-category'
 import { courseImage } from '../lib/course-image'
-import { formatCurrency, modalityLabel } from '../lib/format'
 import { courseLinkSearch } from '../lib/course-url'
 import type { PublicCourse } from '../lib/types'
 
@@ -17,7 +17,7 @@ export function CourseCard({ course }: { course: PublicCourse }) {
       </div>
       <div className="course-card__body">
         <span className="course-card__modality label-industrial">
-          {modalityLabel(course.modality)}
+          Acceso supervisado
         </span>
         <h3>{course.title}</h3>
         <p>{course.short_description}</p>
@@ -25,18 +25,19 @@ export function CourseCard({ course }: { course: PublicCourse }) {
           <span className="course-card__specialty">{course.specialty}</span>
         ) : null}
         <div className="course-card__footer">
-          <span>
-            {course.access_mode === 'access_code'
-              ? 'Solo con invitación'
-              : formatCurrency(course.price_net, course.currency)}
-          </span>
+          <CourseInquiryButton
+            className="text-link"
+            durationHours={course.duration_hours}
+            reference={course.accreditation_reference}
+            title={course.title}
+          />
           <Link
             className="text-link"
             to="/cursos/$courseSlug"
             params={{ courseSlug: course.slug }}
             search={courseLinkSearch(course)}
           >
-            Ver curso →
+            Ver introducción →
           </Link>
         </div>
       </div>

@@ -53,13 +53,14 @@ const faqs: Array<FaqItem> = [
     answer: `Con la periodicidad que fije la especificación técnica del puesto, que nunca puede superar ${REFRESHER_RULES.generalMaxYears} años. Para operadores de camión y volquete (ET 2000-1-08) y de arranque, carga y viales (ET 2001-1-08) el plazo máximo es de dos años.`,
   },
   {
-    question: '¿El reciclaje de 5 horas se puede hacer online?',
-    answer: `No íntegramente. La ${ITC_02_1_02_AMENDMENT.instrument} establece que «${ITC_02_1_02_AMENDMENT.presencialQuote}», y eso incluye el reciclaje. En InmínerCampus el reciclaje es híbrido: la teoría se apoya en el Campus y la parte presencial se realiza con Inmíner Ingeniería.`,
+    question: '¿Cómo se confirma el alcance del reciclaje?',
+    answer:
+      'Inmíner revisa la formación previa, el puesto y la especificación técnica antes de confirmar la edición y autorizar el acceso.',
   },
   {
     question: '¿Qué curso necesito, el de 20 horas o el de 5 horas?',
     answer:
-      'El de 20 horas es la formación inicial del puesto. El de 5 horas es la actualización periódica pensada para quien ya recibió esa formación inicial. Si tienes dudas sobre tu caso, revisa tu cartilla de formación o consúltanos antes de comprar.',
+      'El de 20 horas es la formación inicial del puesto. El de 5 horas es la actualización periódica pensada para quien ya recibió esa formación inicial. Si tienes dudas sobre tu caso, revisa tu cartilla de formación y consúltanos antes de solicitar acceso.',
   },
 ]
 
@@ -223,8 +224,8 @@ function InitialAndRefresherGuide() {
             </table>
           </div>
           <p className="legal-note">
-            En cada ficha puedes elegir la duración antes de comprar, para ti o
-            para varios trabajadores de una empresa.
+            Cada ficha muestra las duraciones disponibles. Inmíner confirma
+            cuál corresponde antes de autorizar el acceso.
           </p>
         </GuideSection>
       ) : null}

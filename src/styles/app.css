@@ -7398,3 +7398,60 @@ button.admin-list__item {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+.access-review-card {
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+.access-review-card__icon {
+  align-items: center;
+  background: color-mix(in srgb, var(--orange) 12%, white);
+  border: 1px solid color-mix(in srgb, var(--orange) 28%, var(--line));
+  border-radius: 999px;
+  color: var(--orange);
+  display: inline-flex;
+  height: 56px;
+  justify-content: center;
+  width: 56px;
+}
+
+.access-review-card .muted {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.admin-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 28px;
+}
+
+.campus-guide__access-control {
+  align-content: center;
+  background:
+    linear-gradient(145deg, rgb(8 20 39 / 94%), rgb(22 47 73 / 92%)),
+    var(--blue-dark);
+  color: white;
+  display: grid;
+  gap: 14px;
+  min-height: 320px;
+  padding: clamp(28px, 5vw, 56px);
+}
+
+.campus-guide__access-control .eyebrow,
+.campus-guide__access-control svg {
+  color: var(--orange);
+}
+
+.campus-guide__access-control h3,
+.campus-guide__access-control p {
+  margin: 0;
+}
+
+.campus-guide__access-control p {
+  color: rgb(255 255 255 / 78%);
+  line-height: 1.75;
+}

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/contacto')({
   head: () => seoHead({
     title: 'Contacto',
     description:
-      'Contacta con Inmíner Ingeniería para resolver dudas sobre formación preventiva minera, modalidad presencial o contratación para empresas.',
+      'Contacta con Inmíner Ingeniería para resolver dudas sobre formación preventiva, requisitos y acceso para personas o empresas vinculadas.',
     path: '/contacto',
   }),
   component: ContactPage,
@@ -19,7 +19,7 @@ function ContactPage() {
     <StaticPage
       eyebrow="Contacto"
       title="Cuéntanos qué formación necesitas."
-      description="Nuestro equipo puede ayudarte con cursos individuales, compras para empresas y dudas sobre el funcionamiento de la plataforma."
+      description="Nuestro equipo revisa cada necesidad, confirma el alcance de la formación y orienta personalmente sobre el procedimiento de acceso."
     >
       <div
         className="feature-grid"

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { BookOpen, KeyRound, ReceiptText, UsersRound } from 'lucide-react'
+import { BookOpen, KeyRound, UsersRound } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { AppShell } from '../components/AppShell'
 import { ProtectedGate } from '../components/ProtectedGate'
@@ -161,7 +161,7 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
         <>
           <section className="stats-grid">
             <article className="stat-card">
-              <span className="stat-card__label">Plazas compradas</span>
+              <span className="stat-card__label">Plazas asignadas</span>
               <span className="stat-card__value">{company.seats}</span>
             </article>
             <article className="stat-card">
@@ -186,8 +186,8 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
               <span className="feature-card__icon">
                 <BookOpen size={22} />
               </span>
-              <h2 style={{ fontSize: '1.15rem' }}>Formación contratada</h2>
-              <p>Consulta cursos, pedidos y número de plazas.</p>
+              <h2 style={{ fontSize: '1.15rem' }}>Formación autorizada</h2>
+              <p>Consulta cursos y número de plazas asignadas.</p>
             </Link>
             <Link className="feature-card" to="/empresa/codigos">
               <span className="feature-card__icon">
@@ -196,23 +196,12 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
               <h2 style={{ fontSize: '1.15rem' }}>Licencias</h2>
               <p>Consulta personas, códigos, canjes y entrega de emails.</p>
             </Link>
-            <Link
-              className="feature-card"
-              to="/empresa/$companySection"
-              params={{ companySection: 'facturacion' }}
-            >
-              <span className="feature-card__icon">
-                <ReceiptText size={22} />
-              </span>
-              <h2 style={{ fontSize: '1.15rem' }}>Facturación</h2>
-              <p>Revisa pagos y enlaces de factura disponibles.</p>
-            </Link>
           </section>
           <section className="panel company-purchases">
             <div className="panel__header">
               <div>
                 <span className="eyebrow">Historial empresarial</span>
-                <h2>Mis compras</h2>
+                <h2>Asignaciones registradas</h2>
               </div>
               <Link className="text-link" to="/empresa/codigos">
                 Ver licencias
@@ -225,20 +214,18 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
                     <div>
                       <small>{new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium' }).format(new Date(batch.paidAt))}</small>
                       <h3>{batch.courseTitle}</h3>
-                      <p>Pedido {batch.orderNumber}</p>
+                      <p>Referencia {batch.orderNumber}</p>
                     </div>
                     <dl>
                       <div><dt>Plazas</dt><dd>{batch.quantity}</dd></div>
-                      <div><dt>Descuento</dt><dd>{batch.discountBasisPoints / 100} %</dd></div>
                       <div><dt>Asignadas</dt><dd>{batch.assigned}/{batch.quantity}</dd></div>
                       <div><dt>Canjeadas</dt><dd>{batch.redeemed}/{batch.quantity}</dd></div>
                     </dl>
-                    <strong>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: batch.currency }).format(batch.totalAmountCents / 100)}</strong>
                   </article>
                 ))}
               </div>
             ) : (
-              <p className="muted">Todavía no hay compras empresariales pagadas.</p>
+              <p className="muted">Todavía no hay formaciones asignadas.</p>
             )}
           </section>
         </>
@@ -248,7 +235,8 @@ function CompanyDashboard({ user }: { user: SessionUser }) {
             <UsersRound className="empty-state__icon" />
             <h2>No hay una organización asociada</h2>
             <p>
-              Puedes comprar para una empresa desde cualquier ficha de curso.
+              Contacta con Inmíner para revisar la necesidad y autorizar los
+              accesos de tu organización.
             </p>
           </div>
         </section>

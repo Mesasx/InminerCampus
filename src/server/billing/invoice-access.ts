@@ -1,18 +1,12 @@
-import { getBearerToken, getSupabaseAdmin } from '../supabase-admin.ts'
+import { requireApprovedUser } from '../user-auth.ts'
 
 export async function requireInvoiceAccess(
   request: Request,
   invoiceId: string,
 ) {
-  const token = getBearerToken(request)
-  if (!token) return null
-
-  const supabase = getSupabaseAdmin()
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser(token)
-  if (userError || !user) return null
+  const context = await requireApprovedUser(request)
+  if (!context) return null
+  const { supabase, user } = context
 
   const { data: invoice, error } = await supabase
     .from('invoices')

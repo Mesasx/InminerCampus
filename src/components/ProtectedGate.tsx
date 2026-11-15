@@ -65,6 +65,26 @@ export function ProtectedGate({
     )
   }
 
+  if (user.status !== 'active') {
+    const suspended = user.status === 'suspended' || user.status === 'archived'
+    return (
+      <main className="auth-main page-enter">
+        <div className="auth-card">
+          <span className="eyebrow">Acceso supervisado</span>
+          <h1>{suspended ? 'Acceso no disponible' : 'Solicitud en revisión'}</h1>
+          <p className="auth-card__intro">
+            {suspended
+              ? 'Tu cuenta no tiene autorización para acceder al área privada. Contacta con Inmíner si necesitas revisar esta situación.'
+              : 'Un administrador debe comprobar tu relación con Inmíner antes de habilitar el contenido formativo. Te avisaremos cuando la revisión haya terminado.'}
+          </p>
+          <Link className="button button--outline button--wide" to="/contacto">
+            Contactar con Inmíner
+          </Link>
+        </div>
+      </main>
+    )
+  }
+
   if (roles?.length && !roles.some((role) => user.roles.includes(role))) {
     return (
       <main className="auth-main page-enter">

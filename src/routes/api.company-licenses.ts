@@ -188,16 +188,12 @@ export const Route = createFileRoute('/api/company-licenses')({
 })
 
 async function authorizedContext(request: Request) {
-  const { getBearerToken, getSupabaseAdmin } = await import(
-    '../server/supabase-admin'
-  )
-  const token = getBearerToken(request)
-  if (!token) return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
-  const supabase = getSupabaseAdmin()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser(token)
-  if (!user) return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
+  const { requireApprovedUser } = await import('../server/user-auth')
+  const context = await requireApprovedUser(request)
+  if (!context) {
+    return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
+  }
+  const { supabase, user } = context
 
   const [{ data: memberships }, { data: superadmin }] = await Promise.all([
     supabase

@@ -6,28 +6,25 @@ async function source(relativePath: string) {
   return readFile(new URL(`../${relativePath}`, import.meta.url), 'utf8')
 }
 
-test('Checkout conserva métodos dinámicos e idempotencia de Stripe', async () => {
+test('Checkout queda deshabilitado y no inicia ningún pago', async () => {
   const checkout = await source('src/routes/api.checkout.ts')
-  assert.doesNotMatch(checkout, /payment_method_types/)
-  assert.match(checkout, /idempotencyKey/)
-  assert.match(checkout, /integration_identifier/)
-  assert.match(checkout, /STRIPE_INVOICE_CREATION_ENABLED/)
-  assert.match(checkout, /course_code_snapshot/)
-  assert.match(checkout, /description_snapshot/)
-  assert.match(checkout, /coupons\.create/)
-  assert.match(checkout, /discounts:/)
-  assert.doesNotMatch(checkout, /allow_promotion_codes/)
+  assert.match(checkout, /status: 410/)
+  assert.match(checkout, /contratación por internet no está disponible/)
+  assert.doesNotMatch(checkout, /stripe\.checkout|sessions\.create|coupons\.create/)
 })
 
-test('la compra empresarial muestra y enfoca los errores antes de Stripe', async () => {
-  const page = await source('src/routes/comprar-empresa.$courseSlug.tsx')
-  const checkout = await source('src/routes/api.checkout.ts')
-  assert.match(page, /<form className="company-checkout-form" noValidate/)
-  assert.match(page, /focusCheckoutIssue\(issue\?\.path \?\? \[\]\)/)
-  assert.match(page, /scrollIntoView\(\{ behavior: 'smooth', block: 'center' \}\)/)
-  assert.match(page, /className="alert alert--error" role="alert"/)
-  assert.match(checkout, /\[api\/checkout\] request received/)
-  assert.match(checkout, /\[api\/checkout\] Stripe session failed/)
+test('las antiguas rutas de compra redirigen a páginas informativas', async () => {
+  const [individual, company, confirmation] = await Promise.all([
+    source('src/routes/comprar.$courseSlug.tsx'),
+    source('src/routes/comprar-empresa.$courseSlug.tsx'),
+    source('src/routes/pago.confirmado.tsx'),
+  ])
+  assert.match(individual, /beforeLoad/)
+  assert.match(individual, /to: '\/catalogo'/)
+  assert.match(company, /beforeLoad/)
+  assert.match(company, /to: '\/empresas'/)
+  assert.match(confirmation, /beforeLoad/)
+  assert.match(confirmation, /to: '\/catalogo'/)
 })
 
 test('el webhook reconcilia bruto, descuento, base e impuestos de Stripe', async () => {

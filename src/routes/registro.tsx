@@ -21,7 +21,7 @@ export const Route = createFileRoute('/registro')({
   component: RegisterPage,
 })
 
-const legalVersion = '2026-08-24'
+const legalVersion = '2026-11-15'
 
 function RegisterPage() {
   const navigate = useNavigate()
@@ -29,6 +29,11 @@ function RegisterPage() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [dni, setDni] = useState('')
+  const [phone, setPhone] = useState('')
+  const [companyName, setCompanyName] = useState('')
+  const [jobTitle, setJobTitle] = useState('')
+  const [relationshipType, setRelationshipType] = useState('')
+  const [accessReason, setAccessReason] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [acceptedLegal, setAcceptedLegal] = useState(false)
@@ -50,6 +55,18 @@ function RegisterPage() {
     }
     if (password.length < 10) {
       setError('La contraseña debe tener al menos 10 caracteres.')
+      return
+    }
+    if (!phone.trim() || !companyName.trim() || !jobTitle.trim()) {
+      setError('Indica tu teléfono, empresa u organización y puesto de trabajo.')
+      return
+    }
+    if (!relationshipType) {
+      setError('Indica cuál es tu relación con Inmíner.')
+      return
+    }
+    if (accessReason.trim().length < 20) {
+      setError('Explica brevemente por qué necesitas acceder al Campus.')
       return
     }
     if (!acceptedLegal) {
@@ -80,6 +97,11 @@ function RegisterPage() {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
           dni: normalizeDni(dni),
+          phone: phone.trim(),
+          company_name: companyName.trim(),
+          job_title: jobTitle.trim(),
+          relationship_type: relationshipType,
+          access_reason: accessReason.trim(),
           accepted_legal: true,
           legal_version: legalVersion,
         },
@@ -99,18 +121,18 @@ function RegisterPage() {
 
     setSuccess(
       data.session
-        ? 'Tu cuenta está creada. Ya puedes acceder al campus.'
-        : 'Revisa tu correo y confirma la cuenta para poder acceder.',
+        ? 'Solicitud enviada. Un administrador debe validarla antes de habilitar el acceso.'
+        : 'Revisa tu correo para confirmar la dirección. Después, un administrador revisará tu solicitud.',
     )
     if (data.session) {
-      await navigate({ to: returnTo ?? '/mis-cursos', replace: true })
+      await navigate({ to: '/solicitud-en-revision', replace: true })
     }
   }
 
   return (
     <AuthLayout
       title="Crea tu cuenta"
-      description="Tus datos se utilizarán para gestionar la formación y sus evidencias."
+      description="El alta está reservada a personas vinculadas con Inmíner y requiere validación administrativa."
     >
       <form className="form-grid" onSubmit={handleSubmit}>
         {error ? <div className="alert alert--error">{error}</div> : null}
@@ -150,6 +172,74 @@ function RegisterPage() {
           <span className="muted">
             Necesario para emitir certificados con tus datos personales. No
             podrás cambiarlo una vez lo guardes.
+          </span>
+        </div>
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="register-phone">Teléfono</label>
+            <input
+              id="register-phone"
+              type="tel"
+              autoComplete="tel"
+              required
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="register-company">Empresa u organización</label>
+            <input
+              id="register-company"
+              autoComplete="organization"
+              maxLength={200}
+              required
+              value={companyName}
+              onChange={(event) => setCompanyName(event.target.value)}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label htmlFor="register-job-title">Puesto o función</label>
+          <input
+            id="register-job-title"
+            autoComplete="organization-title"
+            maxLength={160}
+            required
+            value={jobTitle}
+            onChange={(event) => setJobTitle(event.target.value)}
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="register-relationship">Relación con Inmíner</label>
+          <select
+            id="register-relationship"
+            required
+            value={relationshipType}
+            onChange={(event) => setRelationshipType(event.target.value)}
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="inminer_team">Equipo de Inmíner</option>
+            <option value="client_company">Empresa cliente</option>
+            <option value="collaborator">Empresa o profesional colaborador</option>
+            <option value="invited_person">Persona invitada por Inmíner</option>
+            <option value="other">Otra relación</option>
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="register-reason">Motivo de acceso</label>
+          <textarea
+            id="register-reason"
+            maxLength={1200}
+            minLength={20}
+            placeholder="Indica quién te ha remitido al Campus o qué formación necesitas."
+            required
+            rows={4}
+            value={accessReason}
+            onChange={(event) => setAccessReason(event.target.value)}
+          />
+          <span className="muted">
+            Esta información permite comprobar manualmente cada solicitud antes
+            de habilitar el contenido privado.
           </span>
         </div>
         <div className="field">
@@ -197,7 +287,7 @@ function RegisterPage() {
               to="/legal/$legalSlug"
               params={{ legalSlug: 'contratacion' }}
             >
-              condiciones de uso
+              condiciones de acceso
             </Link>
             .
           </span>
@@ -215,7 +305,7 @@ function RegisterPage() {
           type="submit"
           disabled={loading}
         >
-          {loading ? 'Creando cuenta…' : 'Crear cuenta'}
+          {loading ? 'Enviando solicitud…' : 'Solicitar acceso'}
         </button>
         <p className="muted" style={{ textAlign: 'center', fontSize: '.9rem' }}>
           ¿Ya tienes cuenta?{' '}

@@ -37,7 +37,7 @@ export function useCurrentUser(): CurrentUserState {
       const [{ data: profile }, { data: roles }] = await Promise.all([
         client
           .from('profiles')
-          .select('first_name')
+          .select('first_name, status')
           .eq('id', user.id)
           .maybeSingle(),
         client.from('user_roles').select('role').eq('user_id', user.id),
@@ -50,6 +50,7 @@ export function useCurrentUser(): CurrentUserState {
           email: user.email,
           firstName: profile?.first_name || '',
           roles: (roles ?? []).map((item) => item.role as AppRole),
+          status: (profile?.status ?? 'profile_missing') as SessionUser['status'],
         },
         loading: false,
       })

@@ -53,4 +53,5 @@ export interface SessionUser {
   email: string
   firstName: string
   roles: AppRole[]
+  status: 'pending' | 'active' | 'suspended' | 'archived' | 'profile_missing'
 }

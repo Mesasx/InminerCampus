@@ -9,13 +9,7 @@ export const Route = createFileRoute('/api/internal-completion')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const { getBearerToken, getSupabaseAdmin } = await import(
-          '../server/supabase-admin'
-        )
-        const token = getBearerToken(request)
-        if (!token) {
-          return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
-        }
+        const { requireApprovedUser } = await import('../server/user-auth')
 
         const parsed = requestSchema.safeParse(
           await request.json().catch(() => null),
@@ -27,14 +21,11 @@ export const Route = createFileRoute('/api/internal-completion')({
           )
         }
 
-        const supabase = getSupabaseAdmin()
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser(token)
-        if (userError || !user) {
+        const context = await requireApprovedUser(request)
+        if (!context) {
           return Response.json({ error: 'Sesión no válida.' }, { status: 401 })
         }
+        const { supabase, user } = context
 
         const { data: enrollment, error: enrollmentError } = await supabase
           .from('enrollments')

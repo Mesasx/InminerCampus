@@ -2,27 +2,21 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router'
 import {
   BadgeCheck,
   CalendarClock,
-  CheckCircle2,
-  MapPin,
+  ShieldCheck,
 } from 'lucide-react'
 import { Breadcrumbs } from '../components/Breadcrumbs'
 import { CourseCard } from '../components/CourseCard'
+import { CourseInquiryButton } from '../components/CourseInquiryButton'
 import { JsonLd } from '../components/JsonLd'
 import { PublicLayout } from '../components/PublicLayout'
 import { categoryLabels, categoryOf } from '../lib/course-category'
 import { courseSocialImage } from '../lib/course-image'
 import {
-  ITC_02_1_02_PRESENCIAL,
-  courseFaqs,
   courseMetaDescription,
   courseMetaTitle,
-  isItc020002,
-  isItc020102,
   normativeReference,
   versionLabel,
 } from '../lib/course-seo'
-import { getCompanyVolumeDiscountBasisPoints } from '../lib/billing'
-import { formatCurrency, modalityLabel } from '../lib/format'
 import { refresherRuleFor, specificationsIn } from '../lib/mining-regulation'
 import {
   fetchPublicCourse,
@@ -33,7 +27,6 @@ import {
 import {
   breadcrumbSchema,
   courseSchema,
-  faqSchema,
   type BreadcrumbItem,
 } from '../lib/schema'
 import { GUIDE_PATHS } from '../lib/public-routes'
@@ -98,7 +91,6 @@ function CourseDetailPage() {
 
   const label = versionLabel(course, version)
   const reference = normativeReference(course)
-  const faqs = courseFaqs(course)
   const category = categoryOf(course)
 
   const breadcrumbs: Array<BreadcrumbItem> = [
@@ -116,22 +108,13 @@ function CourseDetailPage() {
             slug: course.slug,
             title: course.title,
             description: course.short_description || course.description,
-            purchasable: course.access_mode === 'purchase',
             versions: course.versions.map((item) => ({
               durationHours: item.duration_hours,
-              modality: item.modality,
-              priceNet: item.price_net,
-              currency: item.currency,
             })),
-            // Mismos datos que la ficha muestra para la versión seleccionada.
             image: courseSocialImage({ slug: course.slug, cover_storage_path: null }),
-            teaches: version.objectives,
-            audience: version.target_audience,
-            prerequisites: version.requirements,
             normativeReference: reference,
           }),
           breadcrumbSchema(breadcrumbs),
-          ...(faqs.length ? [faqSchema(faqs)] : []),
         ]}
       />
       <header className="page-hero">
@@ -149,34 +132,6 @@ function CourseDetailPage() {
             <p className="muted" style={{ lineHeight: 1.8 }}>
               {course.description}
             </p>
-            {version.objectives.length ? (
-              <>
-                <h2 style={{ marginTop: 42 }}>Objetivos</h2>
-                <div className="form-grid">
-                  {version.objectives.map((objective) => (
-                    <div key={objective} style={{ display: 'flex', gap: 11 }}>
-                      <CheckCircle2
-                        size={19}
-                        color="var(--orange)"
-                        style={{ flexShrink: 0, marginTop: 2 }}
-                      />
-                      <span>{objective}</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : null}
-            {version.syllabus_summary ? (
-              <>
-                <h2 style={{ marginTop: 42 }}>Programa</h2>
-                <p
-                  className="muted"
-                  style={{ whiteSpace: 'pre-line', lineHeight: 1.8 }}
-                >
-                  {version.syllabus_summary}
-                </p>
-              </>
-            ) : null}
             {version.target_audience.length ? (
               <>
                 <h2 style={{ marginTop: 42 }}>A quién va dirigido</h2>
@@ -190,122 +145,28 @@ function CourseDetailPage() {
                 </ul>
               </>
             ) : null}
-            {version.requirements.length ? (
-              <>
-                <h2 style={{ marginTop: 42 }}>Requisitos</h2>
-                <ul
-                  className="muted"
-                  style={{ lineHeight: 1.8, paddingLeft: 20 }}
-                >
-                  {version.requirements.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
-            <h2 style={{ marginTop: 42 }}>Metodología</h2>
-            <p className="muted" style={{ lineHeight: 1.8 }}>
-              La formación se organiza en bloques dentro del Campus. Cada bloque
-              combina audio explicado, diapositivas y documentación descargable
-              cuando corresponde, y tu progreso se guarda automáticamente para
-              retomarlo cuando quieras. Al completar los bloques se habilita la
-              evaluación final del curso.
-            </p>
             <div className="modality-scope" style={{ marginTop: 36 }}>
-              <h2>Modalidad y alcance de la formación</h2>
+              <h2>Acceso y alcance</h2>
               <p>
-                {modalityLabel(version.modality)} · {version.duration_hours}{' '}
-                horas.
-                {version.practice_required
-                  ? ' Esta versión exige la práctica presencial indicada en el programa.'
-                  : ' La modalidad, los requisitos prácticos y las condiciones de certificación son los definidos para esta versión.'}
+                Esta ficha es una introducción pública. El programa completo,
+                los materiales, las evaluaciones y las condiciones concretas de
+                la acción formativa sólo están disponibles para personas cuya
+                cuenta haya sido validada por Inmíner y que cuenten con la
+                autorización correspondiente.
               </p>
               {version.accreditation_reference ? (
                 <p>{version.accreditation_reference}</p>
               ) : null}
-              {isItc020102(course) ? (
-                <p>
-                  La {ITC_02_1_02_PRESENCIAL.source} establece que «
-                  {ITC_02_1_02_PRESENCIAL.quote}»{' '}
-                  <a
-                    className="text-link"
-                    href={ITC_02_1_02_PRESENCIAL.url}
-                    rel="noreferrer noopener"
-                    target="_blank"
-                  >
-                    Consultar en el BOE
-                  </a>
-                </p>
-              ) : null}
-              <div className="guide-links" style={{ marginTop: 10 }}>
-                {isItc020102(course) ? (
-                  <>
-                    <Link className="text-link" to={GUIDE_PATHS.itc020102}>
-                      Qué exige la ITC 02.1.02
-                    </Link>
-                    {course.versions.length > 1 ? (
-                      <Link className="text-link" to={GUIDE_PATHS.initialAndRefresher}>
-                        Formación inicial y reciclaje
-                      </Link>
-                    ) : null}
-                  </>
-                ) : null}
-                {isItc020002(course) ? (
-                  <Link className="text-link" to={GUIDE_PATHS.itc020002}>
-                    Qué exige la ITC 02.0.02
-                  </Link>
-                ) : null}
-                <a
-                  className="text-link"
-                  href={`/contacto?curso=${encodeURIComponent(course.slug)}`}
-                >
-                  ¿Necesitáis modalidad o apoyo presencial?
-                </a>
-              </div>
+              <CourseInquiryButton
+                className="button button--primary"
+                durationHours={version.duration_hours}
+                reference={version.accreditation_reference}
+                title={course.title}
+              />
             </div>
             <CourseRegulationSection
               reference={reference ?? course.specialty}
             />
-            {course.access_mode === 'purchase' ? (
-              <div className="course-company" style={{ marginTop: 42 }}>
-                <h2>¿Formas a varios trabajadores?</h2>
-                <p className="muted" style={{ lineHeight: 1.8 }}>
-                  Con la compra para empresa adquieres varias plazas, las
-                  repartes entre tu plantilla con códigos de acceso
-                  individuales y recibes una única factura a nombre de la
-                  empresa. El descuento por volumen se aplica solo:{' '}
-                  {getCompanyVolumeDiscountBasisPoints(6) / 100} % desde 6
-                  plazas y {getCompanyVolumeDiscountBasisPoints(8) / 100} %
-                  desde 8.
-                </p>
-                <div className="guide-links">
-                  <Link
-                    className="button button--outline"
-                    params={{ courseSlug }}
-                    search={{ version: version.id }}
-                    to="/comprar-empresa/$courseSlug"
-                  >
-                    Comprar plazas para la empresa
-                  </Link>
-                  <Link className="text-link" to="/empresas">
-                    Cómo funciona la formación para empresas
-                  </Link>
-                </div>
-              </div>
-            ) : null}
-            {faqs.length ? (
-              <div style={{ marginTop: 42 }}>
-                <h2>Preguntas frecuentes</h2>
-                <dl className="course-faq">
-                  {faqs.map((faq) => (
-                    <div className="course-faq__item" key={faq.question}>
-                      <dt>{faq.question}</dt>
-                      <dd className="muted">{faq.answer}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            ) : null}
           </article>
           <aside className="panel course-detail-aside">
             <div className="form-grid">
@@ -342,30 +203,22 @@ function CourseDetailPage() {
                             ? ` · ${option.duration_hours <= 5 ? 'Reciclaje' : 'Formación inicial'}`
                             : ''}
                         </span>
-                        <strong>
-                          {formatCurrency(option.price_net, option.currency)}
-                        </strong>
+                        <strong>Consultar</strong>
                       </Link>
                     ))}
                   </div>
                 </div>
               ) : null}
               <span className="status status--orange">
-                {label
-                  ? `${label} · ${modalityLabel(version.modality)}`
-                  : modalityLabel(version.modality)}
+                {label || 'Programa formativo'}
               </span>
               <div style={{ display: 'flex', gap: 11 }}>
                 <CalendarClock size={20} color="var(--orange)" />
                 <span>{version.duration_hours} horas</span>
               </div>
               <div style={{ display: 'flex', gap: 11 }}>
-                <MapPin size={20} color="var(--orange)" />
-                <span>
-                  {version.practice_required
-                    ? 'Incluye práctica presencial obligatoria'
-                    : 'Consulta la modalidad en el programa'}
-                </span>
+                <ShieldCheck size={20} color="var(--orange)" />
+                <span>Acceso privado con validación administrativa</span>
               </div>
               <div style={{ display: 'flex', gap: 11 }}>
                 <BadgeCheck size={20} color="var(--orange)" />
@@ -390,54 +243,19 @@ function CourseDetailPage() {
                   borderTop: '1px solid var(--line)',
                 }}
               />
-              {course.access_mode === 'access_code' ? (
-                <>
-                  <strong style={{ fontSize: '1.25rem' }}>
-                    Acceso con invitación
-                  </strong>
-                  <p className="muted">
-                    Esta formación no se comercializa. El acceso se obtiene
-                    únicamente con la invitación personal que facilita
-                    administración, identificada mediante un código de acceso.
-                  </p>
-                  <Link
-                    className="button button--primary button--wide"
-                    to="/canjear-codigo"
-                  >
-                    Canjear invitación
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <strong style={{ fontSize: '1.5rem' }}>
-                    {formatCurrency(version.price_net, version.currency)}
-                    {version.price_net !== null ? (
-                      <small
-                        className="muted"
-                        style={{ fontSize: '.75rem', marginLeft: 6 }}
-                      >
-                        + IVA
-                      </small>
-                    ) : null}
-                  </strong>
-                  <Link
-                    className="button button--primary button--wide"
-                    to="/comprar/$courseSlug"
-                    params={{ courseSlug }}
-                    search={{ version: version.id }}
-                  >
-                    Comprar para mí
-                  </Link>
-                  <Link
-                    className="button button--outline button--wide"
-                    to="/comprar-empresa/$courseSlug"
-                    params={{ courseSlug }}
-                    search={{ version: version.id }}
-                  >
-                    Comprar para una empresa
-                  </Link>
-                </>
-              )}
+              <strong style={{ fontSize: '1.25rem' }}>
+                Información y acceso personal
+              </strong>
+              <p className="muted">
+                Inmíner revisa cada solicitud y confirma de forma individual
+                el alcance y los requisitos antes de habilitar una cuenta.
+              </p>
+              <CourseInquiryButton
+                className="button button--primary button--wide"
+                durationHours={version.duration_hours}
+                reference={version.accreditation_reference}
+                title={course.title}
+              />
             </div>
           </aside>
         </div>

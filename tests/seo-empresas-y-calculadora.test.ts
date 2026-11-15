@@ -74,17 +74,13 @@ test('la calculadora no guarda nada y calcula «hoy» en el navegador', async ()
   assert.match(source, /seoHead\(/)
 })
 
-test('empresas muestra los descuentos reales del checkout', async () => {
+test('empresas coordina el acceso sin publicar descuentos ni compra', async () => {
   assert.equal(getCompanyVolumeDiscountBasisPoints(6), 500)
   assert.equal(getCompanyVolumeDiscountBasisPoints(8), 1_000)
   const source = await read('src/routes/empresas.tsx')
-  // Los tramos se calculan con la función del checkout, no se escriben a mano.
-  assert.match(source, /getCompanyVolumeDiscountBasisPoints\(6\)/)
-  assert.match(source, /getCompanyVolumeDiscountBasisPoints\(8\)/)
-  assert.doesNotMatch(source, /\b(5|10) ?%/)
-  // Lenguaje comercial, sin detalles de infraestructura.
-  assert.doesNotMatch(source, /webhook/i)
-  assert.match(source, /faqSchema\(faqs\)/)
+  assert.doesNotMatch(source, /getCompanyVolumeDiscountBasisPoints|checkout|precio|pago/i)
+  assert.match(source, /Acceso validado/)
+  assert.match(source, /CourseInquiryButton/)
   assert.match(source, /breadcrumbSchema\(/)
 })
 
@@ -93,7 +89,8 @@ test('la ficha de curso explica el marco normativo de su puesto', async () => {
   assert.match(source, /<CourseRegulationSection/)
   assert.match(source, /refresherRuleFor\(reference\)/)
   assert.match(source, /GUIDE_PATHS\.refresherCalculator/)
-  assert.match(source, /getCompanyVolumeDiscountBasisPoints\(6\)/)
+  assert.match(source, /CourseInquiryButton/)
+  assert.doesNotMatch(source, /getCompanyVolumeDiscountBasisPoints|Comprar ahora|price-display/)
 })
 
 test('el menú principal no enlaza a una categoría vacía y sí a empresas y normativa', async () => {

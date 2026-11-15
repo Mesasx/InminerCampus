@@ -5,8 +5,7 @@
 // «habilitante». Los enunciados normativos se limitan a (a) reproducir el
 // campo `accreditation_reference` guardado en Supabase y (b) citar de forma
 // literal y atribuida el BOE. Todo lo demás sale de los datos de la versión
-// publicada (horas, modalidad, práctica, periodicidad de renovación).
-import { modalityLabel } from './format.ts'
+// publicada (horas, práctica y periodicidad de renovación).
 import type { PublicCourseDetail, PublicCourseVersion } from './public-courses.ts'
 import type { FaqItem } from './schema.ts'
 import { clampDescription } from './seo.ts'
@@ -15,7 +14,7 @@ import { clampDescription } from './seo.ts'
  * Referencia literal del BOE. La ITC 02.1.02 fue modificada por la Orden
  * ITC/2699/2011, de 4 de octubre, que añadió que la formación regulada en ella
  * «tendrá únicamente carácter presencial». Es el dato que impide describir
- * estos cursos como formación online y el que se explica al usuario.
+ * atribuir a estos cursos una modalidad distinta de la prevista en la norma.
  */
 export const ITC_02_1_02_PRESENCIAL = {
   quote:
@@ -121,9 +120,6 @@ export function courseFaqs(course: PublicCourseDetail): Array<FaqItem> {
   const faqs: Array<FaqItem> = []
   const hours = durationsLabel(course)
   const reference = normativeReference(course)
-  const requiresPractice = course.versions.some(
-    (version) => version.practice_required,
-  )
 
   if (hours) {
     const hoursList = durations(course)
@@ -136,32 +132,11 @@ export function courseFaqs(course: PublicCourseDetail): Array<FaqItem> {
     })
   }
 
-  if (isItc020102(course)) {
-    faqs.push({
-      question: '¿Esta formación se puede realizar íntegramente online?',
-      answer:
-        `No. ${ITC_02_1_02_PRESENCIAL.source} establece que «${ITC_02_1_02_PRESENCIAL.quote}» ` +
-        'Por eso esta formación figura con modalidad híbrida: el Campus se utiliza como soporte teórico, ' +
-        'de material y de seguimiento del itinerario, y la parte presencial se realiza con Inmíner Ingeniería. ' +
-        'Desconfía de cualquier oferta que presente esta formación como un curso íntegramente online.',
-    })
-  } else {
-    const modalities = [
-      ...new Set(course.versions.map((version) => version.modality)),
-    ]
-    if (modalities.length === 1) {
-      faqs.push({
-        question: '¿En qué modalidad se imparte?',
-        answer: `Modalidad ${modalityLabel(modalities[0]).toLocaleLowerCase('es')}.${
-          reference ? ` Esta formación se encuadra en ${reference}.` : ''
-        }${
-          requiresPractice
-            ? ' Incluye la práctica presencial indicada en el programa.'
-            : ''
-        }`,
-      })
-    }
-  }
+  faqs.push({
+    question: '¿Cómo se solicita acceso a esta formación?',
+    answer:
+      'La ficha pública es introductoria. Contacta con Inmíner para confirmar el alcance y, si procede, solicita una cuenta. Un administrador debe validar la relación profesional antes de habilitar contenido.',
+  })
 
   if (reference) {
     faqs.push({
@@ -183,13 +158,11 @@ export function courseFaqs(course: PublicCourseDetail): Array<FaqItem> {
     })
   }
 
-  if (course.access_mode === 'purchase') {
-    faqs.push({
-      question: '¿Se puede contratar para varios trabajadores de una empresa?',
-      answer:
-        'Sí. La contratación para empresa permite adquirir varias licencias y repartirlas entre los trabajadores mediante códigos de acceso, con la facturación a nombre de la empresa.',
-    })
-  }
+  faqs.push({
+    question: '¿Puede una empresa solicitar acceso para su personal?',
+    answer:
+      'Sí. Inmíner revisa la necesidad con la organización y autoriza individualmente a las personas que correspondan.',
+  })
 
   return faqs
 }

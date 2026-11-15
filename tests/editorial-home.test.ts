@@ -76,7 +76,7 @@ test('el header distingue estado autenticado, no autenticado y de carga', async 
 
   assert.match(header, /loading \? null :/)
   assert.match(header, /Iniciar sesión/)
-  assert.match(header, /Crear cuenta/)
+  assert.match(header, /Solicitar acceso/)
   assert.match(header, /user \? \(\s*<Link to="\/mis-cursos"/)
 })
 
