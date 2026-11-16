@@ -8,6 +8,10 @@ const migrationPath = path.join(
   root,
   'supabase/migrations/20261116125022_tecnicos_interior_20h.sql',
 )
+const presencialMigrationPath = path.join(
+  root,
+  'supabase/migrations/20261116175904_tecnicos_interior_presencial.sql',
+)
 
 async function migration() {
   return readFile(migrationPath, 'utf8')
@@ -97,4 +101,12 @@ test('el curso se prepara en borrador hasta que existan los ochenta audios', asy
   assert.match(sql, /'draft'/)
   assert.match(sql, /u\.duration_seconds, false/)
   assert.doesNotMatch(sql, /set status = 'published'/i)
+})
+
+test('la modalidad reglamentaria queda registrada como presencial', async () => {
+  const sql = await readFile(presencialMigrationPath, 'utf8')
+
+  assert.match(sql, /modality = 'in_person'/)
+  assert.match(sql, /formación reglamentaria.*presencial/is)
+  assert.match(sql, /contenido digital.*complementario/is)
 })
