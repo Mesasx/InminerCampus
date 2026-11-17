@@ -16,3 +16,6 @@ __pycache__/
 # Configuración local de herramientas y parches sueltos de trabajo.
 .mcp.json
 *.patch
+
+# Credenciales locales descargadas por herramientas de despliegue.
+.env*.local
