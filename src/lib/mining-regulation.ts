@@ -10,7 +10,7 @@
 // Fecha de la última revisión de estos datos frente a las fuentes oficiales.
 // Se muestra en las páginas («Última revisión») y alimenta `dateModified`: si
 // se cambia un dato, se actualiza la fecha.
-export const REGULATION_REVIEWED_AT = '2026-10-08'
+export const REGULATION_REVIEWED_AT = '2026-11-18'
 
 export function boeUrl(id: string): string {
   return `https://www.boe.es/buscar/doc.php?id=${id}`
@@ -171,6 +171,7 @@ export const REFRESHER_RULES = {
   bySpecification: {
     'ET 2000-1-08': 2,
     'ET 2001-1-08': 2,
+    'ET 2002-1-08': 2,
   } as Record<string, number>,
   minimumHours: 5,
 } as const

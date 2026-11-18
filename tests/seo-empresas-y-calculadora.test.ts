@@ -25,6 +25,11 @@ test('el plazo de reciclaje sale de la norma de cada puesto', () => {
     source: 'ET 2001-1-08',
   })
   assert.equal(refresherRuleFor('ITC 02.1.02 · ET 2000-1-08')?.years, 2)
+  assert.deepEqual(refresherRuleFor('ITC 02.1.02 · ET 2002-1-08'), {
+    years: 2,
+    basis: 'specification',
+    source: 'ET 2002-1-08',
+  })
   // Sin plazo propio de la ET se aplica el máximo general, y se dice así.
   assert.deepEqual(refresherRuleFor('ITC 02.1.02 · ET 2003-1-10'), {
     years: REFRESHER_RULES.generalMaxYears,
