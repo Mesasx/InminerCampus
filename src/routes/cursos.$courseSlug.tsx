@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { createFileRoute, Link, notFound, redirect } from '@tanstack/react-router'
 import {
   BadgeCheck,
   CalendarClock,
@@ -34,6 +34,17 @@ import { seoHead } from '../lib/seo'
 import type { PublicCourse } from '../lib/types'
 
 export const Route = createFileRoute('/cursos/$courseSlug')({
+  beforeLoad: ({ params }) => {
+    if (params.courseSlug === 'tecnicos-titulados-actividades-extractivas-interior') {
+      throw redirect({
+        to: '/cursos/$courseSlug',
+        params: {
+          courseSlug: 'operadores-interior-arranque-carga-perforacion-voladura',
+        },
+        replace: true,
+      })
+    }
+  },
   validateSearch: (search: Record<string, unknown>): { version?: string } => ({
     version:
       typeof search.version === 'string' && search.version.trim()

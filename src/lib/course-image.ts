@@ -23,8 +23,8 @@ const imagesBySlug: Record<string, string> = {
     '/images/curso-perforadora-portada.png',
   'tecnicos-titulados-actividades-extractivas-exterior':
     '/images/curso-tecnicos-exterior-portada.png',
-  'tecnicos-titulados-actividades-extractivas-interior':
-    '/images/curso-tecnicos-interior-portada.png',
+  'operadores-interior-arranque-carga-perforacion-voladura':
+    '/images/curso-operadores-interior-portada.png',
 }
 
 // Las portadas PNG pesan unos 2 MB cada una. Para pintarlas en pantalla
@@ -40,7 +40,7 @@ const webpCovers = new Set([
   '/images/curso-establecimientos-beneficio-portada.png',
   '/images/curso-perforadora-portada.png',
   '/images/curso-tecnicos-exterior-portada.png',
-  '/images/curso-tecnicos-interior-portada.png',
+  '/images/curso-operadores-interior-portada.png',
 ])
 
 /** Imagen original del curso, apta para Open Graph y datos estructurados. */
