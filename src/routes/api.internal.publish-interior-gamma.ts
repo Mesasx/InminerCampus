@@ -11,7 +11,7 @@ const SLIDE_PREFIX = `${BASE_PATH}/slides-gamma`
 
 type NestedRow = {
   id: string
-  position: number
+  position?: number
   lessons?: NestedRow[] | NestedRow | null
   lesson_audio_segments?: NestedRow[] | NestedRow | null
   lesson_segment_slides?: NestedRow[] | NestedRow | null
@@ -46,26 +46,28 @@ async function loadStructure(supabase: ReturnType<typeof getSupabaseAdmin>) {
   const { data, error } = await supabase
     .from('course_modules')
     .select(
-      'id,position,lessons(id,position,quizzes(id,position,required_perfect_streak,active),lesson_audio_segments(id,position,published,audio_storage_path,lesson_segment_slides(id,position,image_storage_path)))',
+      'id,position,lessons(id,position,quizzes(id,required_perfect_streak,active),lesson_audio_segments(id,position,published,audio_storage_path,lesson_segment_slides(id,position,image_storage_path)))',
     )
     .eq('course_version_id', VERSION_ID)
 
   if (error) throw new Error(error.message)
 
   const modules = rows((data || []) as NestedRow[]).sort(
-    (left, right) => left.position - right.position,
+    (left, right) => (left.position ?? 0) - (right.position ?? 0),
   )
   const lessons = modules.flatMap((module) =>
-    rows(module.lessons).sort((left, right) => left.position - right.position),
+    rows(module.lessons).sort(
+      (left, right) => (left.position ?? 0) - (right.position ?? 0),
+    ),
   )
   const segments = lessons.flatMap((lesson) =>
     rows(lesson.lesson_audio_segments).sort(
-      (left, right) => left.position - right.position,
+      (left, right) => (left.position ?? 0) - (right.position ?? 0),
     ),
   )
   const slides = segments.map((segment) => {
     const slide = rows(segment.lesson_segment_slides).sort(
-      (left, right) => left.position - right.position,
+      (left, right) => (left.position ?? 0) - (right.position ?? 0),
     )[0]
     if (!slide) throw new Error(`Segment ${segment.id} has no slide`)
     return { ...slide, segmentId: segment.id }
