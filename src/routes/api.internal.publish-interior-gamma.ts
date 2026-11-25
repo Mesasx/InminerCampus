@@ -213,7 +213,7 @@ export const Route = createFileRoute('/api/internal/publish-interior-gamma')({
                     file_name:
                       'presentacion-operadores-interior-20h-et-2002-1-08-gamma-v1.1.pdf',
                     mime_type: 'application/pdf',
-                    file_size: 1640813,
+                    size_bytes: 1640813,
                     page_count: 80,
                     is_published: true,
                     downloadable: false,
@@ -259,7 +259,7 @@ export const Route = createFileRoute('/api/internal/publish-interior-gamma')({
               supabase
                 .from('course_materials')
                 .select(
-                  'id,kind,title,storage_path,is_published,page_count,file_size',
+                  'id,kind,title,storage_path,is_published,page_count,size_bytes',
                 )
                 .eq('course_version_id', VERSION_ID),
             ])
