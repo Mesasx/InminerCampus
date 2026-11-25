@@ -74,7 +74,6 @@ import { Route as PagoConfirmadoRouteImport } from './routes/pago.confirmado'
 import { Route as AdminCursosIndexRouteImport } from './routes/admin.cursos.index'
 import { Route as AdminCursosCourseIdRouteImport } from './routes/admin.cursos.$courseId'
 import { Route as ApiCronBillingRouteImport } from './routes/api.cron.billing'
-import { Route as ApiInternalPublishInteriorGammaRouteImport } from './routes/api.internal.publish-interior-gamma'
 import { Route as CampusEnrollmentIdIndexRouteImport } from './routes/campus.$enrollmentId.index'
 import { Route as CampusEnrollmentIdConfidencialidadRouteImport } from './routes/campus.$enrollmentId.confidencialidad'
 import { Route as EvaluacionEnrollmentIdQuizIdRouteImport } from './routes/evaluacion.$enrollmentId.$quizId'
@@ -416,12 +415,6 @@ const ApiCronBillingRoute = ApiCronBillingRouteImport.update({
   path: '/api/cron/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiInternalPublishInteriorGammaRoute =
-  ApiInternalPublishInteriorGammaRouteImport.update({
-    id: '/api/internal/publish-interior-gamma',
-    path: '/api/internal/publish-interior-gamma',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const CampusEnrollmentIdIndexRoute = CampusEnrollmentIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -553,7 +546,6 @@ export interface FileRoutesByFullPath {
   '/itc-02-1-02/': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
-  '/api/internal/publish-interior-gamma': typeof ApiInternalPublishInteriorGammaRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
@@ -627,7 +619,6 @@ export interface FileRoutesByTo {
   '/itc-02-1-02': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
-  '/api/internal/publish-interior-gamma': typeof ApiInternalPublishInteriorGammaRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos': typeof AdminCursosIndexRoute
@@ -707,7 +698,6 @@ export interface FileRoutesById {
   '/itc-02-1-02/': typeof Itc02102IndexRoute
   '/admin/cursos/$courseId': typeof AdminCursosCourseIdRoute
   '/api/cron/billing': typeof ApiCronBillingRoute
-  '/api/internal/publish-interior-gamma': typeof ApiInternalPublishInteriorGammaRoute
   '/campus/$enrollmentId/confidencialidad': typeof CampusEnrollmentIdConfidencialidadRoute
   '/evaluacion/$enrollmentId/$quizId': typeof EvaluacionEnrollmentIdQuizIdRoute
   '/admin/cursos/': typeof AdminCursosIndexRoute
@@ -788,7 +778,6 @@ export interface FileRouteTypes {
     | '/itc-02-1-02/'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
-    | '/api/internal/publish-interior-gamma'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
@@ -862,7 +851,6 @@ export interface FileRouteTypes {
     | '/itc-02-1-02'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
-    | '/api/internal/publish-interior-gamma'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos'
@@ -941,7 +929,6 @@ export interface FileRouteTypes {
     | '/itc-02-1-02/'
     | '/admin/cursos/$courseId'
     | '/api/cron/billing'
-    | '/api/internal/publish-interior-gamma'
     | '/campus/$enrollmentId/confidencialidad'
     | '/evaluacion/$enrollmentId/$quizId'
     | '/admin/cursos/'
@@ -1005,7 +992,6 @@ export interface RootRouteChildren {
   PagoConfirmadoRoute: typeof PagoConfirmadoRoute
   Itc02102IndexRoute: typeof Itc02102IndexRoute
   ApiCronBillingRoute: typeof ApiCronBillingRoute
-  ApiInternalPublishInteriorGammaRoute: typeof ApiInternalPublishInteriorGammaRoute
   EvaluacionEnrollmentIdQuizIdRoute: typeof EvaluacionEnrollmentIdQuizIdRoute
   ApiInternalArchivePendingRoute: typeof ApiInternalArchivePendingRoute
   ApiAdminBillingRetryInvoiceIdRoute: typeof ApiAdminBillingRetryInvoiceIdRoute
@@ -1471,13 +1457,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCronBillingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/internal/publish-interior-gamma': {
-      id: '/api/internal/publish-interior-gamma'
-      path: '/api/internal/publish-interior-gamma'
-      fullPath: '/api/internal/publish-interior-gamma'
-      preLoaderRoute: typeof ApiInternalPublishInteriorGammaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/campus/$enrollmentId/': {
       id: '/campus/$enrollmentId/'
       path: '/'
@@ -1720,7 +1699,6 @@ const rootRouteChildren: RootRouteChildren = {
   PagoConfirmadoRoute: PagoConfirmadoRoute,
   Itc02102IndexRoute: Itc02102IndexRoute,
   ApiCronBillingRoute: ApiCronBillingRoute,
-  ApiInternalPublishInteriorGammaRoute: ApiInternalPublishInteriorGammaRoute,
   EvaluacionEnrollmentIdQuizIdRoute: EvaluacionEnrollmentIdQuizIdRoute,
   ApiInternalArchivePendingRoute: ApiInternalArchivePendingRoute,
   ApiAdminBillingRetryInvoiceIdRoute: ApiAdminBillingRetryInvoiceIdRoute,
